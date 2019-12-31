@@ -1,0 +1,11 @@
+
+table {
+  border-collapse: separate !important;
+  border-spacing: 5px !important;
+}
+
+td {
+  width: 50px;
+  height: 45px;
+  text-align: center;
+}
