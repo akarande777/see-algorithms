@@ -72,13 +72,15 @@ function sort() {
                 }, delay / 2);
             }
         }
-        if (k == 0) timer = setTimeout(fall, delay / 2, i);
+        if (k == 0) {
+            timer = setTimeout(fall, delay / 2, i);
+        }
     }
     else {
         setTimeout(function() {
             document.querySelector('#clear').click();
             document.querySelector('#tbl').innerHTML = "";
-        }, 1000);
+        }, 500);
     }
 }
 
