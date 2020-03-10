@@ -7,9 +7,15 @@ import SelectionSort from './sorting/SelectionSort';
 import RadixSort from './sorting/RadixSort';
 import HeapSort from './sorting/HeapSort';
 import MergeSort from './sorting/MergeSort';
+// import HuffmanCoding from './HuffmanCoding';
+import DFS from './graph/DFS';
+import BFS from './graph/BFS';
+import Prims from './graph/Prims';
+import Kruskals from './graph/Kruskals';
+import Dijkstras from './graph/Dijkstras';
+import TopSort from './graph/TopSort';
 
 function Content() {
-    
     return (
         <Switch>
             <Route exact path="/"><Home /></Route>
@@ -19,6 +25,13 @@ function Content() {
             <Route path="/RadixSort"><RadixSort /></Route>
             <Route path="/HeapSort"><HeapSort /></Route>
             <Route path="/MergeSort"><MergeSort /></Route>
+            {/* <Route path="/HuffmanCoding"><HuffmanCoding /></Route> */}
+            <Route path="/DFS"><DFS /></Route>
+            <Route path="/BFS"><BFS /></Route>
+            <Route path="/PrimsAlgorithm"><Prims /></Route>
+            <Route path="/KruskalsAlgorithm"><Kruskals /></Route>
+            <Route path="/DijkstrasAlgorithm"><Dijkstras /></Route>
+            <Route path="/TopologicalSorting"><TopSort /></Route>
         </Switch>
     );
 }

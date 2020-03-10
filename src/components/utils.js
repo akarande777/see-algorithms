@@ -120,28 +120,28 @@ function addEdge(p, q) {
     $('line:last').insertBefore($('g:first'));
 }
 
-// function cloneEdge(i, j) {
-//     let edge = '<line stroke-width="3" stroke="orange" />';
-//     document.querySelector('#plane').innerHTML += edge;
-//     $('line:last').insertBefore($('g:first'));
-//     let p, q;
-//     if (sgt[j].p.equals(pnt[i])) {
-//         p = sgt[j].p;
-//         q = sgt[j].q;
-//     }
-//     else {
-//         p = sgt[j].q;
-//         q = sgt[j].p;
-//     }
-//     $('line:last').attr('x1', p.x);
-//     $('line:last').attr('y1', p.y);
-//     $('line:last').attr('x2', p.x);
-//     $('line:last').attr('y2', p.y);
-//     let d = distance(p, q);
-//     return { p, q, d }
-// }
+function cloneEdge(i, j) {
+    let edge = '<line stroke-width="3" stroke="orange" />';
+    document.querySelector('#plane').innerHTML += edge;
+    $('line:last').insertBefore($('g:first'));
+    let p, q;
+    if (this.sgts[j].p.equals(this.pnts[i])) {
+        p = this.sgts[j].p;
+        q = this.sgts[j].q;
+    }
+    else {
+        p = this.sgts[j].q;
+        q = this.sgts[j].p;
+    }
+    $('line:last').attr('x1', p.x);
+    $('line:last').attr('y1', p.y);
+    $('line:last').attr('x2', p.x);
+    $('line:last').attr('y2', p.y);
+    let d = distance(p, q);
+    return { p, q, d }
+}
 
 export {
     Point, Segment, distance, fromEnd, offset,
-    addVertex, moveVertex, addEdge
+    addVertex, moveVertex, addEdge, cloneEdge
 };

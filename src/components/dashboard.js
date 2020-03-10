@@ -8,7 +8,6 @@ import ContentView from  './content';
 const { Sider, Content } = Layout;
 
 function Dashboard() {
-
     return (
         <div className="Dashboard">
             <PageHeader

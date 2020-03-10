@@ -2,7 +2,7 @@ import React from 'react';
 
 function Home() {
   return (
-    <div style={{ padding: 24 }}>
+    <div className="label" style={{ padding: 24 }}>
       Hello World!
     </div>
   );

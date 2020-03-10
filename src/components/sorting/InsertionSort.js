@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, message } from 'antd';
+import { message } from 'antd';
 import CommonView from './common';
 
 var a, n;

@@ -9,3 +9,20 @@ td {
   height: 45px;
   text-align: center;
 }
+
+.label {
+  font-size: 17px;
+}
+
+#plane {
+  width: 60%;
+  height: 50%;
+  border: thin solid;
+  margin: 12px 0;
+}
+
+.spaceBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}

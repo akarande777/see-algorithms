@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, message, Select } from 'antd';
+import { message, Select } from 'antd';
 import CommonView from './common';
 
 var n, a;
@@ -155,7 +155,7 @@ class RadixSort extends React.Component {
                 if (i == 1)
                     cell[k].setAttribute(
                         "style",
-                        "padding: 0; height: 70px; text-align: center; vertical-align: bottom"
+                        "padding: 0; height: 80px; text-align: center; vertical-align: bottom"
                     );
                 row.appendChild(cell[k++]);
             }
@@ -179,7 +179,7 @@ class RadixSort extends React.Component {
         return (
             <div>
                 <div style={{ padding: 24 }}>
-                    <span id="label">
+                    <span className="label">
                         Select number of elements:&nbsp;
                     </span>
                     <Select

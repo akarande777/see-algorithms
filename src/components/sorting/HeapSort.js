@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, message } from 'antd';
+import { message } from 'antd';
 import CommonView from './common';
 import heap from './heap';
 import { Point, moveVertex } from '../utils';
@@ -182,8 +182,8 @@ class HeapSort extends React.Component {
                     start={this.start}
                     stop={this.stop}
                 />
-                <div style={{ padding: 24 }}>
-                    <svg id="plane" width="650" height="300" />
+                <div style={{ padding: '0 24px' }}>
+                    <svg id="plane" style={{border: 0, width: 650, height: 300}} />
                     <table id="tbl" />
                 </div>
             </div>
