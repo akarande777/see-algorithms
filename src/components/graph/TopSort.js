@@ -23,7 +23,7 @@ function start() {
                 k++;
         }
         if (k == n && ind[i] == 0) {
-            alert("connect all vertices");
+            message.error("connect all vertices");
             return;
         }
     }
@@ -111,7 +111,7 @@ class TopSort extends React.Component {
 
     start = () => {
         if (this.sgts.length < 3) {
-            message.error("draw atleast 3 edges", 2);
+            message.error("add minimum 3 vertices", 2);
             return;
         }
         pnts = this.pnts;
