@@ -26,3 +26,7 @@ td {
   justify-content: space-between;
   align-items: baseline;
 }
+
+.ant-page-header-heading-extra {
+  margin-top: 6px;
+}
