@@ -110,7 +110,7 @@ class TopSort extends React.Component {
     }
 
     start = () => {
-        if (this.sgts.length < 3) {
+        if (this.pnts.length < 3) {
             message.error("add minimum 3 vertices", 2);
             return;
         }
