@@ -14,7 +14,6 @@ var timer;
 const delay = 1000;
 
 function start() {
-    $('#plane').off();
     n = pnts.length;
     for (let i = 0; i < n; i++) {
         let k = 0;
@@ -27,6 +26,7 @@ function start() {
             return;
         }
     }
+    $('#plane').off();
     let tbl = document.querySelector('#tbl');
     tbl.innerHTML = "";
     let row = document.createElement("tr");
