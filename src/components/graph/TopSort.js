@@ -141,7 +141,7 @@ class TopSort extends React.Component {
                         Draw Graph
                     </span>
                     <div>
-                        <Button type="primary" onClick={this.start}>
+                        <Button type="primary" onClick={this.start} disabled={this.state.started}>
                             Start
                         </Button>&nbsp;&nbsp;
                         <Button type="primary" onClick={this.stop} id="clear">
