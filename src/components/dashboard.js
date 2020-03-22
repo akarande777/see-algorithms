@@ -15,6 +15,7 @@ function Dashboard() {
                 onBack={() => null}
                 title="seeAlgorithms"
                 subTitle="Visualization of Algorithms"
+                backIcon={null}
                 extra={<Icon type="github"
                     style={{ fontSize: 22 }}
                     onClick={() => {
