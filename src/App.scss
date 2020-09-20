@@ -34,6 +34,11 @@ td {
   display: flex;
   align-items: center;
   padding: 24px;
+
+  input {
+    width: 40px;
+    margin-right: 6px;
+  }
 }
 
 @media only screen and (max-width: 767px) {
@@ -50,8 +55,6 @@ td {
     align-items: flex-start;
 
     input {
-      width: 40px;
-      margin-right: 5px;
       margin-bottom: 10px;
     }
   }
