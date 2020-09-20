@@ -49,8 +49,10 @@ td {
     flex-direction: column;
     align-items: flex-start;
 
-    .ant-btn {
-      margin-top: 10px;
+    input {
+      width: 40px;
+      margin-right: 5px;
+      margin-bottom: 10px;
     }
   }
 

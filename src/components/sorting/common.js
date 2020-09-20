@@ -32,7 +32,6 @@ function Common({ values, ...props }) {
                             <Input size="small"
                                 key={i} value={v}
                                 onChange={e => props.handleInput(e, i)}
-                                style={{ width: 40, marginRight: 5 }}
                             />
                         );
                     })}
