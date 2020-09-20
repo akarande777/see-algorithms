@@ -183,7 +183,7 @@ class HeapSort extends React.Component {
                     stop={this.stop}
                 />
                 <div style={{ padding: '0 24px' }}>
-                    <svg id="plane" style={{border: 0, width: 650, height: 300}} />
+                    <svg id="plane" style={{ border: 0, width: 650, height: 300 }} />
                     <table id="tbl" />
                 </div>
             </div>

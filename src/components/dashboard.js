@@ -54,7 +54,7 @@ function Dashboard() {
                     >
                         <SiderView onChange={() => null} />
                     </Sider>
-                    <Content style={{ overflow: 'hidden', backgroundColor: 'white' }}>
+                    <Content style={{ backgroundColor: 'white' }}>
                         <ContentView />
                     </Content>
                 </Layout>
