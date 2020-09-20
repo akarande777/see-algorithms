@@ -26,11 +26,11 @@ function Content() {
             <Route path="/HeapSort"><HeapSort /></Route>
             <Route path="/MergeSort"><MergeSort /></Route>
             {/* <Route path="/HuffmanCoding"><HuffmanCoding /></Route> */}
-            <Route path="/DFS"><DFS /></Route>
-            <Route path="/BFS"><BFS /></Route>
-            <Route path="/PrimsAlgorithm"><Prims /></Route>
-            <Route path="/KruskalsAlgorithm"><Kruskals /></Route>
-            <Route path="/DijkstrasAlgorithm"><Dijkstras /></Route>
+            <Route path="/DepthFirstSearch"><DFS /></Route>
+            <Route path="/BreadthFirstSearch"><BFS /></Route>
+            <Route path="/Prim'sAlgorithm"><Prims /></Route>
+            <Route path="/Kruskal'sAlgorithm"><Kruskals /></Route>
+            <Route path="/Dijkstra'sAlgorithm"><Dijkstras /></Route>
             <Route path="/TopologicalSorting"><TopSort /></Route>
         </Switch>
     );

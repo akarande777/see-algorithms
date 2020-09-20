@@ -1,0 +1,117 @@
+@import "~bootstrap/scss/bootstrap";
+
+table {
+  border-collapse: separate !important;
+  border-spacing: 5px !important;
+}
+
+td {
+  width: 50px;
+  height: 45px;
+  text-align: center;
+}
+
+.label {
+  font-size: 16px;
+}
+
+.draw {
+  width: 60%;
+
+  &:first-child {
+    font-size: 18px;
+  }
+}
+
+#plane {
+  width: 60%;
+  height: 50%;
+  border: thin solid;
+  margin: 12px 0;
+}
+
+#input {
+  display: flex;
+  align-items: center;
+  padding: 24px;
+}
+
+@media only screen and (max-width: 767px) {
+  .draw {
+    width: 100%;
+  }
+
+  #plane {
+    width: 100%;
+  }
+
+  #input {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .ant-btn {
+      margin-top: 10px;
+    }
+  }
+
+  .label {
+    margin-bottom: 6px;
+  }
+}
+
+.spaceBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.header-md {
+  height: 70px;
+  align-items: center;
+  padding: 0 24px;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e5e5;
+
+  h5 {
+    line-height: 1.5;
+    margin-bottom: 0;
+  }
+
+  .anticon-eye {
+    font-size: 20px;
+    line-height: 1.5;
+    margin-right: 15px;
+  }
+
+  .anticon-menu {
+    font-size: 20px;
+    line-height: 1.5;
+    margin-right: 15px;
+    color: #1890ff;
+  }
+}
+
+.ant-drawer-body {
+  padding: 0 !important;
+}
+
+.ant-drawer-left {
+  top: 70px !important;
+}
+
+.ant-layout {
+  height: calc(100% - 70px);
+  overflow: hidden;
+}
+
+.dashboard {
+  height: 100%;
+}
+
+.App {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}

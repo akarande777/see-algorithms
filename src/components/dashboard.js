@@ -1,31 +1,58 @@
-import React from 'react';
-import { Layout, PageHeader, Icon } from 'antd';
+import React, { useState } from 'react';
+import { Layout, Icon, Drawer } from 'antd';
 import { BrowserRouter } from 'react-router-dom';
 import 'antd/dist/antd.css';
-import SiderView from './menu';
+import SiderView from './sider';
 import ContentView from './content';
 
 const { Sider, Content } = Layout;
 
 function Dashboard() {
+    const [visible, setVisible] = useState(false);
+    
     return (
-        <div className="Dashboard">
-            <PageHeader
-                style={{ border: '1px solid rgb(235, 237, 240)' }}
-                onBack={() => null}
-                title="seeAlgorithms"
-                subTitle="Visualization of Algorithms"
-                extra={<Icon type="github"
-                    style={{ fontSize: 22 }}
+        <div className="dashboard">
+            <div className="header-md d-flex">
+                <div className="d-flex">
+                    <Icon
+                        type="eye"
+                        onClick={() => window.history.back()}
+                        className="d-none d-md-block"
+                    />
+                    <Icon
+                        type="menu"
+                        onClick={() => setVisible(true)}
+                        className="d-md-none d-sm-block"
+                    />
+                    <h5>see algorithms</h5>
+                </div>
+                <Icon
+                    type="github"
+                    style={{ fontSize: 20 }}
                     onClick={() => {
                         window.location.href = 'https://github.com/akarande777/see-algorithms';
                     }}
-                />}
-            />
+                />
+            </div>
             <BrowserRouter>
-                <Layout style={{ marginLeft: 26 }}>
-                    <Sider style={{ backgroundColor: 'white' }} width="auto">
-                        <SiderView />
+                <Drawer
+                    placement="left"
+                    onClose={() => setVisible(false)}
+                    visible={visible}
+                    closable={false}
+                >
+                    <Sider width="auto" style={{ backgroundColor: 'white' }}>
+                        <SiderView
+                            onChange={() => setVisible(false)}
+                        />
+                    </Sider>
+                </Drawer>
+                <Layout>
+                    <Sider width="auto"
+                        style={{ backgroundColor: 'white' }}
+                        className="d-none d-md-block"
+                    >
+                        <SiderView onChange={() => null} />
                     </Sider>
                     <Content style={{ overflow: 'hidden', backgroundColor: 'white' }}>
                         <ContentView />

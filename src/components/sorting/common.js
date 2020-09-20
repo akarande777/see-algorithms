@@ -1,14 +1,15 @@
 import React from 'react';
 import { Select, Input, Button } from 'antd';
 
-function Common(props) {
-    let values = props.values;
+function Common({ values, ...props }) {
+
     return (
-        <div style={{ padding: 24 }}>
+        <div id="input">
             <span className="label">
                 {!values.length ? 'Select number of elements: '
                     : 'Enter numbers: '
                 }
+                &nbsp;
             </span>
             {!values.length ?
                 <Select
@@ -25,26 +26,30 @@ function Common(props) {
                         })
                     }
                 </Select> :
-                values.map((v, i) => {
-                    return (
-                        <Input size="small"
-                            key={i} value={v}
-                            onChange={e => props.handleInput(e, i)}
-                            style={{ width: 40, marginRight: 5 }}
-                        />
-                    );
-                })
+                <div>
+                    {values.map((v, i) => {
+                        return (
+                            <Input size="small"
+                                key={i} value={v}
+                                onChange={e => props.handleInput(e, i)}
+                                style={{ width: 40, marginRight: 5 }}
+                            />
+                        );
+                    })}
+                </div>
             }
             {values.length > 0 &&
-                <Button
-                    type="primary"
-                    onClick={
-                        !props.started ? props.start
-                            : props.stop
-                    }
-                >
-                    {!props.started ? 'Start' : 'Stop'}
-                </Button>
+                <div>
+                    <Button
+                        type="primary"
+                        onClick={
+                            !props.started ? props.start
+                                : props.stop
+                        }
+                    >
+                        {!props.started ? 'Start' : 'Stop'}
+                    </Button>
+                </div>
             }
         </div>
     );

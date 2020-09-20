@@ -104,10 +104,8 @@ class DFS extends React.Component {
     render() {
         return (
             <div style={{ padding: 24 }}>
-                <div className="spaceBetween" style={{ width: 700 }}>
-                    <span style={{ fontSize: 18 }}>
-                        Draw Graph
-                    </span>
+                <div className="spaceBetween draw">
+                    <span>Draw Graph</span>
                     <div>
                         <Button type="primary" onClick={this.start} disabled={this.state.started}>
                             Start
