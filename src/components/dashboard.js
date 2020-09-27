@@ -24,11 +24,10 @@ function Dashboard() {
                         onClick={() => setVisible(true)}
                         className="d-md-none d-sm-block"
                     />
-                    <h5>see algorithms</h5>
+                    <h5>SEE ALGORITHMS</h5>
                 </div>
                 <Icon
                     type="github"
-                    style={{ fontSize: 20 }}
                     onClick={() => {
                         window.location.href = 'https://github.com/akarande777/see-algorithms';
                     }}
