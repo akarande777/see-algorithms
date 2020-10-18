@@ -144,7 +144,7 @@ function mergeSort(start, end) {
                         mid = Math.floor((p + s) / 2);
                         q = mid + 1;
                         r = p;
-                        t = [];
+                        t = new Array();
                         for (let i = 0; i < n; i++) {
                             if (i >= start && i <= end) {
                                 cell[i].setAttribute("bgcolor", "orange");
