@@ -29,23 +29,6 @@ function Wrapper(Component) {
             return true;
         }
 
-        const createTable = (tbl, cell) => {
-            const n = values.length;
-            const row = [];
-            for (let i = 0; i < 3; i++) {
-                row[i] = document.createElement("tr");
-                for (let j = 0; j < n; j++) {
-                    cell[i * n + j] = document.createElement("td");
-                    if (i === 1) {
-                        cell[i * n + j].innerHTML = values[j];
-                        cell[i * n + j].style.border = "2px solid";
-                    }
-                    row[i].appendChild(cell[i * n + j]);
-                }
-                tbl.appendChild(row[i]);
-            }
-        }
-
         return (
             <div>
                 <div id="input">
