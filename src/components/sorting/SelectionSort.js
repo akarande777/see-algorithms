@@ -1,6 +1,6 @@
-import React from 'react';
-import { message } from 'antd';
-import CommonView from './common';
+import React, { useEffect } from 'react';
+import Wrapper from './wrapper';
+import { setPrevious } from '../../utils';
 
 var a, n;
 var tbl, cell;
@@ -82,100 +82,60 @@ function jloop() {
     }
 }
 
+function SelectionSort(props) {
+    const prevStatus = setPrevious(props.status);
 
-class SelectionSort extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            values: [],
-            started: false
-        }
-    }
-
-    componentWillUnmount() {
-        clearTimeout(timer);
-        clearInterval(timer);
-    }
-
-    handleSelect = val => {
-        let values = [];
-        for (let i = 0; i < val; i++) {
-            values.push(Math.floor(Math.random() * 100));
-        }
-        n = val;
-        this.setState({
-            values
-        });
-    }
-
-    handleInput = (e, i) => {
-        let values = this.state.values.slice();
-        values[i] = e.target.value;
-        this.setState({
-            values
-        });
-    }
-
-    start = () => {
-        for (let i = 0; i < n; i++) {
-            let val = parseInt(this.state.values[i]);
-            if (isNaN(val)) {
-                message.error("not a number", 2);
-                return;
-            }
-        }
-        a = [...this.state.values];
-        tbl = document.getElementById("tbl");
-        cell = new Array();
-        let row = new Array();
+    const start = () => {
+        a = [...props.values];
+        n = a.length;
+        cell = [];
         for (let i = 0; i < 3; i++) {
-            row[i] = document.createElement("tr");
+            let row = document.createElement("tr");
             for (let j = 0; j < n; j++) {
                 cell[i * n + j] = document.createElement("td");
                 if (i === 1) {
                     cell[i * n + j].innerHTML = a[j];
-                    cell[i * n + j].style.border = "thin solid";
+                    cell[i * n + j].style.border = "2px solid";
                 }
-                row[i].appendChild(cell[i * n + j]);
+                row.appendChild(cell[i * n + j]);
             }
-            tbl.appendChild(row[i]);
+            tbl.appendChild(row);
         }
         i = 0;
-        this.setState({
-            started: true
-        }, () => {
-            timer = setTimeout(iloop, 1000)
-        });
+        timer = setTimeout(iloop, 1000);
     }
 
-    stop = () => {
+    const stop = () => {
         clearTimeout(timer);
         clearInterval(timer);
         tbl.innerHTML = '';
-        this.setState({
-            values: [],
-            started: false
-        });
+        props.setValues([]);
     }
 
-    render() {
-        return (
-            <div>
-                <CommonView
-                    values={this.state.values}
-                    started={this.state.started}
-                    handleSelect={this.handleSelect}
-                    handleInput={this.handleInput}
-                    start={this.start}
-                    stop={this.stop}
-                />
-                <div style={{ padding: 24 }}>
-                    <table id="tbl" />
-                </div>
-            </div>
-        );
-    }
+    useEffect(() => {
+        tbl = document.getElementById("tbl");
+        return () => stop();
+    }, []);
+
+    useEffect(() => {
+        if (props.status) {
+            if (!props.isInputValid()) {
+                setPrevious(undefined);
+                props.setStatus(false);
+                return;
+            }
+            start();
+        }
+        else if (prevStatus) {
+            stop();
+        }
+    }, [props.status]);
+    
+    return (
+        <div style={{ padding: 24 }}>
+            <table id="tbl" />
+        </div>
+    );
 }
 
 function swap() {
@@ -204,4 +164,4 @@ function swap() {
     k++;
 }
 
-export default SelectionSort;
+export default Wrapper(SelectionSort);

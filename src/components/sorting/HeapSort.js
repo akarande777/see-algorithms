@@ -1,9 +1,9 @@
-import React from 'react';
-import { message } from 'antd';
-import CommonView from './common';
+import React, { useEffect } from 'react';
 import heap from './heap';
 import { Point, moveVertex } from '../utils';
 import $ from 'jquery';
+import Wrapper from './wrapper';
+import { setPrevious } from '../../utils';
 
 var a, n;
 var tbl, cell;
@@ -87,108 +87,73 @@ function extractMax() {
     if (n > 1) {
         j = 0;
         timer = setTimeout(heapify, delay / 2, j);
-    }
-    else {
+    } else {
         timer = setTimeout(function () {
             timer = setInterval(fall, delay / 100);
         }, delay / 2);
     }
 }
 
+function HeapSort(props) {
+    const prevStatus = setPrevious(props.status);
 
-class HeapSort extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            values: [],
-            started: false
-        }
-    }
-
-    componentWillUnmount() {
-        clearTimeout(timer);
-        clearInterval(timer);
-    }
-
-    handleSelect = val => {
-        let values = [];
-        for (let i = 0; i < val; i++) {
-            values.push(Math.floor(Math.random() * 100));
-        }
-        v = heap(val);
-        n = val;
-        this.setState({
-            values
-        });
-    }
-
-    handleInput = (e, i) => {
-        let values = this.state.values.slice();
-        values[i] = e.target.value;
-        this.setState({
-            values
-        });
-    }
-
-    start = () => {
-        for (let i = 0; i < n; i++) {
-            let val = parseInt(this.state.values[i]);
-            if (isNaN(val)) {
-                message.error("not a number", 2);
-                return;
-            }
-        }
-        a = [...this.state.values];
-        tbl = document.getElementById("tbl");
-        cell = new Array();
+    const start = () => {
+        n = a.length;
+        cell = [];
         let row = document.createElement("tr");
         for (let j = 0; j < n; j++) {
             cell[j] = document.createElement("td");
-            cell[j].style.border = "thin solid";
+            cell[j].style.border = "2px solid";
             row.appendChild(cell[j]);
         }
         tbl.appendChild(row);
-        this.setState({
-            started: true
-        }, () => {
-            for (let i = 0; i < n; i++) {
-                $('.vlbl').eq(i).html(a[i]);
-            }
-            j = Math.floor(n / 2) - 1;
-            timer = setTimeout(heapSort, delay);
-        });
+        for (let i = 0; i < n; i++) {
+            $('.vlbl').eq(i).html(a[i]);
+        }
+        j = Math.floor(n / 2) - 1;
+        timer = setTimeout(heapSort, delay);
     }
 
-    stop = () => {
+    const stop = () => {
         clearTimeout(timer);
         clearInterval(timer);
         $('#plane').html('');
         tbl.innerHTML = '';
-        this.setState({
-            values: [],
-            started: false
-        });
+        props.setValues([]);
     }
 
-    render() {
-        return (
-            <div>
-                <CommonView
-                    values={this.state.values}
-                    started={this.state.started}
-                    handleSelect={this.handleSelect}
-                    handleInput={this.handleInput}
-                    start={this.start}
-                    stop={this.stop}
-                />
-                <div style={{ padding: '0 24px' }}>
-                    <svg id="plane" style={{ border: 0, width: 650, height: 300 }} />
-                    <table id="tbl" />
-                </div>
-            </div>
-        );
-    }
+    useEffect(() => {
+        tbl = document.getElementById("tbl");
+        return () => stop();
+    }, []);
+
+    useEffect(() => {
+        if (props.status) {
+            if (props.isInputValid()) {
+                start();
+                return;
+            }
+            setPrevious(undefined);
+            props.setStatus(false);
+        }
+        else if (prevStatus) {
+            stop();
+        }
+    }, [props.status]);
+
+    useEffect(() => {
+        a = [...props.values];
+        if (a.length) {
+            v = heap(a.length);
+        }
+    }, [props.values]);
+
+    return (
+        <div style={{ padding: '0 24px' }}>
+            <svg id="plane" style={{ border: 0, width: 650, height: 300 }} />
+            <table id="tbl" />
+        </div>
+    );
 }
 
 function swapMax(left, right) {
@@ -304,4 +269,4 @@ function yco(t, h, dy) {
     return dy + h * Math.cos(t * (Math.PI / 180));
 }
 
-export default HeapSort;
+export default Wrapper(HeapSort);

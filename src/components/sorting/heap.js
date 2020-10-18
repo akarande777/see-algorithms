@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import { Point, addVertex, addEdge } from '../utils';
 var flag;
 
@@ -40,9 +39,7 @@ function heap(n) {
                 dx = v[k++].x;
             }
         }
-        if (v.length == n) {
-            break;
-        }
+        if (v.length == n) break;
         t = i == 1 ? (t - 20) : (t - 25);
         h = i == 1 ? (h - 30) : (h - 50);
         dy = v[v.length - 1].y;

@@ -1,6 +1,5 @@
 import React from 'react';
-import { message, Select } from 'antd';
-import CommonView from './common';
+import { Select } from 'antd';
 
 var n, a;
 var out, b, k;
@@ -92,7 +91,7 @@ function combine(j) {
 }
 
 class RadixSort extends React.Component {
-
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -149,7 +148,7 @@ class RadixSort extends React.Component {
                     cell[k].setAttribute("align", "center");
                     cell[k].setAttribute(
                         "style",
-                        "font-weight: 600; border: thin solid; text-align: center"
+                        "font-weight: 600; border: 2px solid; text-align: center"
                     );
                 }
                 if (i == 1)

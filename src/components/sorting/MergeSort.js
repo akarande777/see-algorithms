@@ -1,6 +1,6 @@
-import React from 'react';
-import { message } from 'antd';
-import CommonView from './common';
+import React, { useEffect } from 'react';
+import Wrapper from './wrapper';
+import { setPrevious } from '../../utils';
 
 var n, a;
 var tbl, cell;
@@ -129,14 +129,12 @@ function mergeSort(start, end) {
         for (let i = 0; i < n; i++) {
             if (i >= start && i <= end) {
                 cell[i].setAttribute("bgcolor", "orange");
-            }
-            else {
+            } else {
                 cell[i].removeAttribute("bgcolor");
             }
         }
         if (start < end) {
             let m = Math.floor((start + end) / 2);
-            
             return mergeSort(start, m)
                 .then(() => mergeSort(m + 1, end))
                 .then(() => {
@@ -146,13 +144,12 @@ function mergeSort(start, end) {
                         mid = Math.floor((p + s) / 2);
                         q = mid + 1;
                         r = p;
-                        t = new Array();
+                        t = [];
                         for (let i = 0; i < n; i++) {
                             if (i >= start && i <= end) {
                                 cell[i].setAttribute("bgcolor", "orange");
-                                cell[i + n + n].style.border = "thin solid";
-                            }
-                            else {
+                                cell[i + n + n].style.border = "2px solid";
+                            } else {
                                 cell[i].removeAttribute("bgcolor");
                                 cell[i + n + n].style.border = 0;
                             }
@@ -173,94 +170,58 @@ function mergeSort(start, end) {
     });
 }
 
+function MergeSort(props) {
+    const prevStatus = setPrevious(props.status);
 
-class MergeSort extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            values: [],
-            started: false
-        }
-    }
-
-    componentWillUnmount() {
-        clearTimeout(timer);
-    }
-
-    handleSelect = val => {
-        let values = [];
-        for (let i = 0; i < val; i++) {
-            values.push(Math.floor(Math.random() * 100));
-        }
-        n = val;
-        this.setState({
-            values
-        });
-    }
-
-    handleInput = (e, i) => {
-        let values = this.state.values.slice();
-        values[i] = e.target.value;
-        this.setState({
-            values
-        });
-    }
-
-    start = () => {
-        for (let i = 0; i < n; i++) {
-            let val = parseInt(this.state.values[i]);
-            if (isNaN(val)) {
-                message.error("not a number", 2);
-                return;
-            }
-        }
-        a = [...this.state.values];
-        tbl = document.getElementById("tbl");
-        cell = new Array();
+    const start = () => {
+        a = [...props.values];
+        n = a.length;
+        cell = [];
         for (let i = 0; i < 3; i++) {
             let row = document.createElement("tr");
             for (let j = 0; j < n; j++) {
                 cell[i * n + j] = document.createElement("td");
                 if (i == 0) {
                     cell[i * n + j].innerHTML = a[j];
-                    cell[i * n + j].style.border = "thin solid";
+                    cell[i * n + j].style.border = "2px solid";
                 }
                 row.appendChild(cell[i * n + j]);
             }
             tbl.appendChild(row);
         }
-        this.setState({
-            started: true
-        }, () => mergeSort(0, n - 1));
+        mergeSort(0, n - 1);
     }
 
-    stop = () => {
+    const stop = () => {
         clearTimeout(timer);
         tbl.innerHTML = '';
-        this.setState({
-            values: [],
-            started: false
-        });
+        props.setValues([]);
     }
 
-    render() {
-        return (
-            <div>
-                <CommonView
-                    values={this.state.values}
-                    started={this.state.started}
-                    handleSelect={this.handleSelect}
-                    handleInput={this.handleInput}
-                    start={this.start}
-                    stop={this.stop}
-                />
-                <div style={{ padding: 24 }}>
-                    <table id="tbl" />
-                </div>
-            </div>
-        );
-    }
+    useEffect(() => {
+        tbl = document.getElementById("tbl");
+        return () => stop();
+    }, []);
+
+    useEffect(() => {
+        if (props.status) {
+            if (!props.isInputValid()) {
+                setPrevious(undefined);
+                props.setStatus(false);
+                return;
+            }
+            start();
+        }
+        else if (prevStatus) {
+            stop();
+        }
+    }, [props.status]);
+
+    return (
+        <div style={{ padding: 24 }}>
+            <table id="tbl" />
+        </div>
+    );
 }
 
-export default MergeSort;
+export default Wrapper(MergeSort);

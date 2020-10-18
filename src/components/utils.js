@@ -142,6 +142,7 @@ function cloneEdge(i, j) {
 }
 
 export {
-    Point, Segment, distance, fromEnd, offset,
+    Point, Segment,
+    distance, fromEnd, offset,
     addVertex, moveVertex, addEdge, cloneEdge
 };
