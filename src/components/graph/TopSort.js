@@ -4,7 +4,7 @@ import { Point, fromEnd, distance } from '../utils';
 import { directed } from './directed';
 import $ from 'jquery';
 
-var pnts, sgts;
+var pnts;
 var wt, mt;
 var cell, k;
 var n, stack;
@@ -74,7 +74,6 @@ function sort() {
 
 class TopSort extends React.Component {
     pnts = [];
-    sgts = [];
 
     constructor(props) {
         super(props);
@@ -103,7 +102,6 @@ class TopSort extends React.Component {
             message.error("add minimum 3 vertices", 2);
             return;
         }
-        sgts = this.sgts;
         wt = this.wt;
         mt = this.mt;
         ind = this.ind;

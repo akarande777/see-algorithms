@@ -7,7 +7,7 @@ var ind;
 
 function directed() {
     var pnts = this.pnts = [];
-    var sgts = this.sgts = [];
+    var sgts = [];
     wt = this.wt = new Array();
     mt = this.mt = new Array();
     ind = this.ind = [];
