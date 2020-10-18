@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { Select, Input, Button, message } from 'antd';
-import { create } from 'lodash';
 
 function Wrapper(Component) {
     return function Container() {
         const [values, setValues] = useState([]);
         const [status, setStatus] = useState(false);
-        const [startMethod, setStartMethod] = useState(null);
-        const [stopMethod, setStopMethod] = useState(null);
 
         const handleSelect = val => {
             const values = [];
@@ -48,8 +45,6 @@ function Wrapper(Component) {
                 tbl.appendChild(row[i]);
             }
         }
-
-        console.log('kkkkk', status)
 
         return (
             <div>
