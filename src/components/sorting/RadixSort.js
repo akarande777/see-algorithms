@@ -17,7 +17,7 @@ function shift() {
         while (t != 0) {
             let r = t % 10;
             if (j == exp) {
-                cell[i].innerHTML = '<span style="color:red">' + r + '</span>' + cell[i].innerHTML;
+                cell[i].innerHTML = '<span style="color:crimson">' + r + '</span>' + cell[i].innerHTML;
             }
             else {
                 cell[i].innerHTML = r + cell[i].innerHTML;
@@ -127,7 +127,7 @@ class RadixSort extends React.Component {
         for (let i = 0; i < n; i++) {
             cell[i] = document.createElement("td");
             cell[i].innerHTML = a[i];
-            cell[i].style.border = "thin solid";
+            cell[i].style.border = "2px solid";
             row.appendChild(cell[i]);
         }
         tbl.appendChild(row);

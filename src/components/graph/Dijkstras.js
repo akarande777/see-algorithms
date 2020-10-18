@@ -116,9 +116,10 @@ class Dijkstras extends React.Component {
         }
         pnts = this.pnts;
         sgts = this.sgts;
-        this.setState({
-            started: true
-        }, () => start());
+        this.setState(
+            { started: true },
+            () => start()
+        );
     }
 
     stop = () => {

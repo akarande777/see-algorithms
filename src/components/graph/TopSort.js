@@ -14,18 +14,6 @@ var timer;
 const delay = 1000;
 
 function start() {
-    n = pnts.length;
-    for (let i = 0; i < n; i++) {
-        let k = 0;
-        for (let j = 0; j < n; j++) {
-            if (wt[i][j] == undefined)
-                k++;
-        }
-        if (k == n && ind[i] == 0) {
-            message.error("connect all vertices");
-            return;
-        }
-    }
     $('#plane').off();
     let tbl = document.querySelector('#tbl');
     tbl.innerHTML = "";
@@ -33,7 +21,7 @@ function start() {
     cell = new Array();
     for (let j = 0; j < n; j++) {
         cell[j] = document.createElement("td");
-        cell[j].setAttribute("style", "border:thin solid;width:40px;height:40px;padding:5px");
+        cell[j].setAttribute("style", "border:2px solid;width:40px;height:40px;padding:5px");
         row.appendChild(cell[j]);
     }
     tbl.appendChild(row);
@@ -77,7 +65,7 @@ function sort() {
         }
     }
     else {
-        setTimeout(function() {
+        setTimeout(function () {
             document.querySelector('#clear').click();
             document.querySelector('#tbl').innerHTML = "";
         }, 500);
@@ -110,18 +98,31 @@ class TopSort extends React.Component {
     }
 
     start = () => {
-        if (this.pnts.length < 3) {
+        pnts = this.pnts;
+        if (pnts.length < 3) {
             message.error("add minimum 3 vertices", 2);
             return;
         }
-        pnts = this.pnts;
         sgts = this.sgts;
         wt = this.wt;
         mt = this.mt;
         ind = this.ind;
-        this.setState({
-            started: true
-        }, () => start());
+        n = pnts.length;
+        for (let i = 0; i < n; i++) {
+            let k = 0;
+            for (let j = 0; j < n; j++) {
+                if (wt[i][j] == undefined)
+                    k++;
+            }
+            if (k == n && ind[i] == 0) {
+                message.error("connect all vertices");
+                return;
+            }
+        }
+        this.setState(
+            { started: true },
+            () => start()
+        );
     }
 
     stop = () => {
