@@ -14,15 +14,15 @@ const wait = ms => new Promise(resolve => {
 
 function merge() {
     if (p <= mid && q <= s) {
-        // cell[p].setAttribute("bgcolor", "yellowgreen");
-        // cell[q].setAttribute("bgcolor", "yellowgreen");
+        // cell[p].setAttribute("bgcolor", "plum");
+        // cell[q].setAttribute("bgcolor", "plum");
         // return wait(1000).then(() => {
             if (a[p] <= a[q]) {
-                // cell[p].setAttribute("bgcolor", "yellowgreen");
+                // cell[p].setAttribute("bgcolor", "plum");
                 // return wait(200).then(() => {
                     t[r] = a[p];
                     cell[p + n].innerHTML = a[p];
-                    cell[p + n].setAttribute("bgcolor", "orange");
+                    cell[p + n].setAttribute("bgcolor", "pink");
                     cell[p].innerHTML = "";
                     cell[p].removeAttribute("bgcolor");
                     k = p++;
@@ -30,11 +30,11 @@ function merge() {
                 // });
             }
             else {
-                // cell[q].setAttribute("bgcolor", "yellowgreen");
+                // cell[q].setAttribute("bgcolor", "plum");
                 // return wait(200).then(() => {
                     t[r] = a[q];
                     cell[q + n].innerHTML = a[q];
-                    cell[q + n].setAttribute("bgcolor", "orange");
+                    cell[q + n].setAttribute("bgcolor", "pink");
                     cell[q].innerHTML = "";
                     cell[q].removeAttribute("bgcolor");
                     k = q++;
@@ -45,11 +45,11 @@ function merge() {
     }
     else {
         if (p <= mid) {
-            cell[p].setAttribute("bgcolor", "orange");
+            cell[p].setAttribute("bgcolor", "pink");
             return wait(200).then(() => {
                 t[r] = a[p];
                 cell[p + n].innerHTML = a[p];
-                cell[p + n].setAttribute("bgcolor", "orange");
+                cell[p + n].setAttribute("bgcolor", "pink");
                 cell[p].innerHTML = "";
                 cell[p].removeAttribute("bgcolor");
                 k = p++;
@@ -57,11 +57,11 @@ function merge() {
             });
         }
         if (q <= s) {
-            cell[q].setAttribute("bgcolor", "orange");
+            cell[q].setAttribute("bgcolor", "pink");
             return wait(200).then(() => {
                 t[r] = a[q];
                 cell[q + n].innerHTML = a[q];
-                cell[q + n].setAttribute("bgcolor", "orange");
+                cell[q + n].setAttribute("bgcolor", "pink");
                 cell[q].innerHTML = "";
                 cell[q].removeAttribute("bgcolor");
                 k = q++;
@@ -74,7 +74,7 @@ function merge() {
 function shift() {
     if (k < r) {
         cell[k + n + 1].innerHTML = t[r];
-        cell[k + n + 1].setAttribute("bgcolor", "orange");
+        cell[k + n + 1].setAttribute("bgcolor", "pink");
         cell[k + n].innerHTML = "";
         cell[k + n].removeAttribute("bgcolor");
         k++;
@@ -82,7 +82,7 @@ function shift() {
     }
     else if (k > r) {
         cell[k + n - 1].innerHTML = t[r];
-        cell[k + n - 1].setAttribute("bgcolor", "orange");
+        cell[k + n - 1].setAttribute("bgcolor", "pink");
         cell[k + n].innerHTML = "";
         cell[k + n].removeAttribute("bgcolor");
         k--;
@@ -92,7 +92,7 @@ function shift() {
         clearTimeout(timer);
         return wait(200).then(() => {
             cell[r + n + n].innerHTML = t[r];
-            cell[r + n + n].setAttribute("bgcolor", "yellowgreen");
+            cell[r + n + n].setAttribute("bgcolor", "plum");
             cell[r + n].innerHTML = "";
             cell[r + n].removeAttribute("bgcolor");
             r++;
@@ -106,7 +106,7 @@ function lift(u, v) {
         if (u - n > -1) {
             for (let i = u; i <= v; i++) {
                 cell[i - n].innerHTML = cell[i].innerHTML;
-                cell[i - n].setAttribute("bgcolor", "yellowgreen");
+                cell[i - n].setAttribute("bgcolor", "plum");
                 cell[i].removeAttribute("bgcolor");
                 cell[i].innerHTML = "";
             }
@@ -128,7 +128,7 @@ function mergeSort(start, end) {
     return wait(1000).then(() => {
         for (let i = 0; i < n; i++) {
             if (i >= start && i <= end) {
-                cell[i].setAttribute("bgcolor", "orange");
+                cell[i].setAttribute("bgcolor", "pink");
             } else {
                 cell[i].removeAttribute("bgcolor");
             }
@@ -147,7 +147,7 @@ function mergeSort(start, end) {
                         t = new Array();
                         for (let i = 0; i < n; i++) {
                             if (i >= start && i <= end) {
-                                cell[i].setAttribute("bgcolor", "orange");
+                                cell[i].setAttribute("bgcolor", "pink");
                                 cell[i + n + n].style.border = "2px solid";
                             } else {
                                 cell[i].removeAttribute("bgcolor");
@@ -163,7 +163,7 @@ function mergeSort(start, end) {
         }
         // else {
         //     return wait(500).then(() => {
-        //         cell[start].setAttribute("bgcolor", "yellowgreen");
+        //         cell[start].setAttribute("bgcolor", "plum");
         //         return '';
         //     });
         // }

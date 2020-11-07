@@ -37,13 +37,13 @@ function heapify(i) {
     let left = i * 2 + 1;
     let right = i * 2 + 2;
     if (left < n) {
-        $('line').eq(left - 1).attr("stroke", "orange");
+        // $('line').eq(left - 1).attr("stroke", "orange");
         if (a[left] > a[largest]) {
             largest = left;
         }
     }
     if (right < n) {
-        $('line').eq(right - 1).attr("stroke", "orange");
+        // $('line').eq(right - 1).attr("stroke", "orange");
         if (a[right] > a[largest]) {
             largest = right;
         }

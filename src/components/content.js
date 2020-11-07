@@ -15,7 +15,7 @@ import Kruskals from './graph/Kruskals';
 import Dijkstras from './graph/Dijkstras';
 import TopSort from './graph/TopSort';
 
-function Content() {
+function Content({ visible }) {
     return (
         <Switch>
             <Route exact path="/"><Home /></Route>
@@ -26,12 +26,12 @@ function Content() {
             <Route path="/HeapSort"><HeapSort /></Route>
             <Route path="/MergeSort"><MergeSort /></Route>
             {/* <Route path="/HuffmanCoding"><HuffmanCoding /></Route> */}
-            <Route path="/DepthFirstSearch"><DFS /></Route>
-            <Route path="/BreadthFirstSearch"><BFS /></Route>
-            <Route path="/Prim'sAlgorithm"><Prims /></Route>
-            <Route path="/Kruskal'sAlgorithm"><Kruskals /></Route>
-            <Route path="/Dijkstra'sAlgorithm"><Dijkstras /></Route>
-            <Route path="/TopologicalSorting"><TopSort /></Route>
+            <Route path="/DepthFirstSearch"><DFS visible={visible} /></Route>
+            <Route path="/BreadthFirstSearch"><BFS visible={visible} /></Route>
+            <Route path="/Prim'sAlgorithm"><Prims visible={visible} /></Route>
+            <Route path="/Kruskal'sAlgorithm"><Kruskals visible={visible} /></Route>
+            <Route path="/Dijkstra'sAlgorithm"><Dijkstras visible={visible} /></Route>
+            <Route path="/TopologicalSorting"><TopSort visible={visible} /></Route>
         </Switch>
     );
 }

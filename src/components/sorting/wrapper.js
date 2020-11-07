@@ -30,7 +30,7 @@ function Wrapper(Component) {
         }
 
         return (
-            <div>
+            <div className="container">
                 <div id="input">
                     <span className="label">
                         {!values.length ? 'Select number of elements: ' : 'Enter numbers: '}

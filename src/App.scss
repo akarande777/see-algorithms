@@ -1,5 +1,15 @@
 @import "~bootstrap/scss/bootstrap";
 
+.App {
+  height: 100%;
+}
+
+.spaceBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
 table {
   border-collapse: separate !important;
   border-spacing: 6px !important;
@@ -43,6 +53,13 @@ td {
   }
 }
 
+.container {
+  min-width: 100%;
+  width: max-content;
+  height: 100%;
+  padding: 0;
+}
+
 @media only screen and (max-width: 767px) {
   .draw {
     width: 100%;
@@ -51,87 +68,4 @@ td {
   #plane {
     width: 100%;
   }
-
-  #input {
-    flex-direction: column;
-    align-items: flex-start;
-
-    input {
-      margin-bottom: 10px;
-    }
-  }
-
-  .label {
-    margin-bottom: 6px;
-  }
-}
-
-.spaceBetween {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-}
-
-.header-md {
-  height: 70px;
-  align-items: center;
-  padding: 0 24px;
-  justify-content: space-between;
-  border-bottom: 1px solid #e5e5e5;
-
-  h5 {
-    line-height: 1.6;
-    margin-bottom: 0;
-  }
-
-  .anticon-eye {
-    font-size: 23px;
-    line-height: 1.2;
-    margin-right: 15px;
-  }
-
-  .anticon-menu {
-    font-size: 20px;
-    line-height: 1.5;
-    margin-right: 15px;
-    color: #1890ff;
-  }
-
-  .anticon-github {
-    font-size: 22px;
-    line-height: 1;
-  }
-}
-
-.ant-drawer-body {
-  padding: 0 !important;
-}
-
-.ant-drawer-left {
-  top: 70px !important;
-}
-
-.anticon-appstore {
-  vertical-align: 0 !important;
-}
-
-.ant-layout {
-  height: calc(100% - 70px);
-  overflow: auto;
-
-  .ant-layout-content {
-    overflow: auto;
-  }
-}
-
-.dashboard {
-  height: 100%;
-}
-
-.App {
-  height: 100%;
-}
-
-#root {
-  height: 100%;
 }

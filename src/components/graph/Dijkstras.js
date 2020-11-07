@@ -105,6 +105,12 @@ class Dijkstras extends React.Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.visible !== this.props.visible) {
+            this.stop();
+        }
+    }
+
     componentWillUnmount() {
         clearTimeout(timer);
     }

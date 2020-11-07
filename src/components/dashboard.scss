@@ -1,0 +1,56 @@
+
+.dashboard {
+  height: 100%;
+}
+
+.header-md {
+    height: 70px;
+    align-items: center;
+    padding: 0 24px;
+    justify-content: space-between;
+    border-bottom: 1px solid #e5e5e5;
+  
+    h5 {
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+  
+    .anticon-eye {
+      font-size: 23px;
+      line-height: 1.2;
+      margin-right: 15px;
+    }
+  
+    .anticon-menu {
+      font-size: 20px;
+      line-height: 1.5;
+      margin-right: 15px;
+      color: #1890ff;
+    }
+  
+    .anticon-github {
+      font-size: 22px;
+      line-height: 1;
+    }
+}
+
+.ant-layout {
+  height: calc(100% - 70px);
+
+  .ant-layout-content {
+    overflow-x: auto !important;
+    width: max-content;
+  }
+}
+
+.ant-drawer-body {
+  padding: 0 !important;
+}
+
+.ant-drawer-left {
+  top: 70px !important;
+}
+
+.anticon-appstore {
+  vertical-align: 0 !important;
+}

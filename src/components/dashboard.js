@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import SiderView from './sider';
 import ContentView from './content';
+import './dashboard.scss';
 
 const { Sider, Content } = Layout;
 
@@ -54,7 +55,7 @@ function Dashboard() {
                         <SiderView onChange={() => null} />
                     </Sider>
                     <Content style={{ backgroundColor: 'white' }}>
-                        <ContentView />
+                        <ContentView visible={visible} />
                     </Content>
                 </Layout>
             </BrowserRouter>

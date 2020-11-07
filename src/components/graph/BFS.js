@@ -74,6 +74,12 @@ class BFS extends React.Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.visible !== this.props.visible) {
+            this.stop();
+        }
+    }
+
     componentWillUnmount() {
         clearTimeout(timer);
     }
@@ -106,7 +112,7 @@ class BFS extends React.Component {
                 <div className="spaceBetween draw">
                     <span>Draw Graph</span>
                     <div>
-                        <Button type="primary" onClick={this.start} disabled={this.state.started}>
+                        <Button type="primary" onMouseDown={this.start} disabled={this.state.started}>
                             Start
                         </Button>&nbsp;&nbsp;
                         <Button type="primary" onClick={this.stop}>
