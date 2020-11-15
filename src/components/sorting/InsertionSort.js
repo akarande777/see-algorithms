@@ -77,7 +77,7 @@ function pick() {
             temp = a[i];
             j = i;
             timer = setTimeout(function () {
-                timer = setInterval(shift, 650);
+                timer = setInterval(shift, 700);
             }, 500);
         }, 500);
     }
