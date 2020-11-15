@@ -71,13 +71,13 @@ function pick() {
         cell[i + n].setAttribute("bgcolor", "pink");
         timer = setTimeout(function () {
             cell[i].innerHTML = cell[i + n].innerHTML;
-            cell[i + n].innerHTML = "";
+            cell[i+ n ].innerHTML = "";
             cell[i + n].removeAttribute("bgcolor");
             cell[i].setAttribute("bgcolor", "pink");
             temp = a[i];
             j = i;
             timer = setTimeout(function () {
-                timer = setInterval(shift, 750);
+                timer = setInterval(shift, 650);
             }, 500);
         }, 500);
     }
@@ -86,14 +86,25 @@ function pick() {
 function shift() {
     if (temp < a[j - 1]) {
         a[j] = a[j - 1];
-        cell[j - 1].innerHTML = cell[j].innerHTML;
-        cell[j - 1].setAttribute("bgcolor", "pink");
-        cell[j].innerHTML = "";
-        cell[j].removeAttribute("bgcolor");
         cell[j + n].innerHTML = a[j];
         cell[j + n].setAttribute("bgcolor", "plum");
         cell[j + n - 1].innerHTML = "";
         cell[j + n - 1].removeAttribute("bgcolor");
+        j--;
+    }
+    else {
+        clearInterval(timer);
+        j = i;
+        timer = setInterval(insert, 100);
+    }
+}
+
+function insert() {
+    if (temp < a[j - 1]) {
+        cell[j - 1].innerHTML = cell[j].innerHTML;
+        cell[j - 1].setAttribute("bgcolor", "pink");
+        cell[j].innerHTML = "";
+        cell[j].removeAttribute("bgcolor");
         j--;
     }
     else {
