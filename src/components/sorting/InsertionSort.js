@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import Wrapper from './wrapper';
-import { setPrevious } from '../../utils';
 
 var a, n;
 var i, j, temp;
@@ -8,19 +7,17 @@ var tbl, cell;
 var timer;
 
 function InsertionSort(props) {
-    const prevStatus = setPrevious(props.status);
-
     const start = () => {
         a = [...props.values];
         n = a.length;
         cell = [];
         for (let i = 0; i < 3; i++) {
-            let row = document.createElement("tr");
+            let row = document.createElement('tr');
             for (let j = 0; j < n; j++) {
-                cell[i * n + j] = document.createElement("td");
+                cell[i * n + j] = document.createElement('td');
                 if (i === 1) {
                     cell[i * n + j].innerHTML = a[j];
-                    cell[i * n + j].style.border = "2px solid";
+                    cell[i * n + j].style.border = '2px solid';
                 }
                 row.appendChild(cell[i * n + j]);
             }
@@ -28,33 +25,31 @@ function InsertionSort(props) {
         }
         i = 1;
         timer = setTimeout(function () {
-            cell[n].setAttribute("bgcolor", "plum");
+            cell[n].setAttribute('bgcolor', 'plum');
             timer = setTimeout(pick, 1000);
         }, 1000);
-    }
+    };
 
     const stop = () => {
         clearTimeout(timer);
         clearInterval(timer);
         tbl.innerHTML = '';
         props.setValues([]);
-    }
+    };
 
     useEffect(() => {
-        tbl = document.getElementById("tbl");
+        tbl = document.getElementById('tbl');
         return () => stop();
     }, []);
 
     useEffect(() => {
         if (props.status) {
-            if (!props.isInputValid()) {
-                setPrevious(undefined);
+            if (!props.validate()) {
                 props.setStatus(false);
                 return;
             }
             start();
-        }
-        else if (prevStatus) {
+        } else {
             stop();
         }
     }, [props.status]);
@@ -68,12 +63,12 @@ function InsertionSort(props) {
 
 function pick() {
     if (i < n) {
-        cell[i + n].setAttribute("bgcolor", "pink");
+        cell[i + n].setAttribute('bgcolor', 'pink');
         timer = setTimeout(function () {
             cell[i].innerHTML = cell[i + n].innerHTML;
-            cell[i+ n ].innerHTML = "";
-            cell[i + n].removeAttribute("bgcolor");
-            cell[i].setAttribute("bgcolor", "pink");
+            cell[i + n].innerHTML = '';
+            cell[i + n].removeAttribute('bgcolor');
+            cell[i].setAttribute('bgcolor', 'pink');
             temp = a[i];
             j = i;
             timer = setTimeout(function () {
@@ -87,12 +82,11 @@ function shift() {
     if (temp < a[j - 1]) {
         a[j] = a[j - 1];
         cell[j + n].innerHTML = a[j];
-        cell[j + n].setAttribute("bgcolor", "plum");
-        cell[j + n - 1].innerHTML = "";
-        cell[j + n - 1].removeAttribute("bgcolor");
+        cell[j + n].setAttribute('bgcolor', 'plum');
+        cell[j + n - 1].innerHTML = '';
+        cell[j + n - 1].removeAttribute('bgcolor');
         j--;
-    }
-    else {
+    } else {
         clearInterval(timer);
         j = i;
         timer = setInterval(insert, 100);
@@ -102,18 +96,17 @@ function shift() {
 function insert() {
     if (temp < a[j - 1]) {
         cell[j - 1].innerHTML = cell[j].innerHTML;
-        cell[j - 1].setAttribute("bgcolor", "pink");
-        cell[j].innerHTML = "";
-        cell[j].removeAttribute("bgcolor");
+        cell[j - 1].setAttribute('bgcolor', 'pink');
+        cell[j].innerHTML = '';
+        cell[j].removeAttribute('bgcolor');
         j--;
-    }
-    else {
+    } else {
         clearInterval(timer);
         a[j] = temp;
         cell[j + n].innerHTML = cell[j].innerHTML;
-        cell[j + n].setAttribute("bgcolor", "plum");
-        cell[j].innerHTML = "";
-        cell[j].removeAttribute("bgcolor");
+        cell[j + n].setAttribute('bgcolor', 'plum');
+        cell[j].innerHTML = '';
+        cell[j].removeAttribute('bgcolor');
         i++;
         timer = setTimeout(pick, 1000);
     }

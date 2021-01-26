@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import Wrapper from './wrapper';
-import { setPrevious } from '../../utils';
 
 var a, n;
 var tbl, cell;
@@ -19,12 +18,11 @@ function iloop() {
         timer = setTimeout(function () {
             cell[i].innerHTML = a[i];
             cell[i].setAttribute('bgcolor', 'plum');
-            cell[i + n].innerHTML = "";
-            cell[i + n].removeAttribute("bgcolor");
+            cell[i + n].innerHTML = '';
+            cell[i + n].removeAttribute('bgcolor');
             timer = setInterval(jloop, 500);
         }, 500);
-    }
-    else {
+    } else {
         cell[n + n - 1].setAttribute('bgcolor', 'plum');
     }
 }
@@ -36,41 +34,40 @@ function jloop() {
             pos = j;
             flag2 = true; // pos changed
         }
-        cell[j + n - 1].removeAttribute("bgcolor");
+        cell[j + n - 1].removeAttribute('bgcolor');
         cell[j + n].setAttribute('bgcolor', 'pink');
         j++;
     }
-    if (!flag1 && flag2) { 
+    if (!flag1 && flag2) {
         cell[prev + n].innerHTML = a[prev];
-        cell[prev].innerHTML = "";
-        cell[prev].removeAttribute("bgcolor");
+        cell[prev].innerHTML = '';
+        cell[prev].removeAttribute('bgcolor');
         cell[pos].innerHTML = a[pos];
         cell[pos].setAttribute('bgcolor', 'plum');
-        cell[pos + n].innerHTML = "";
-        cell[pos + n].removeAttribute("bgcolor");
+        cell[pos + n].innerHTML = '';
+        cell[pos + n].removeAttribute('bgcolor');
         flag1 = true; // continue loop
         flag2 = false;
     }
     if (j >= n && !flag2) {
         clearInterval(timer);
         timer = setTimeout(function () {
-            cell[n + n - 1].removeAttribute("bgcolor");
+            cell[n + n - 1].removeAttribute('bgcolor');
             if (pos != i) {
                 timer = setTimeout(function () {
                     cell[i + n + n].innerHTML = a[i];
-                    cell[i + n].innerHTML = "";
+                    cell[i + n].innerHTML = '';
                     k = 1;
                     timer = setTimeout(function () {
                         timer = setInterval(swap, 100);
                     }, 200);
                 }, 500);
-            }
-            else {
+            } else {
                 timer = setTimeout(function () {
                     cell[pos + n].innerHTML = a[pos];
                     cell[pos + n].setAttribute('bgcolor', 'plum');
-                    cell[pos].innerHTML = "";
-                    cell[pos].removeAttribute("bgcolor");
+                    cell[pos].innerHTML = '';
+                    cell[pos].removeAttribute('bgcolor');
                     i++;
                     timer = setTimeout(iloop, 1000);
                 }, 500);
@@ -83,19 +80,17 @@ function jloop() {
 }
 
 function SelectionSort(props) {
-    const prevStatus = setPrevious(props.status);
-
     const start = () => {
         a = [...props.values];
         n = a.length;
         cell = [];
         for (let i = 0; i < 3; i++) {
-            let row = document.createElement("tr");
+            let row = document.createElement('tr');
             for (let j = 0; j < n; j++) {
-                cell[i * n + j] = document.createElement("td");
+                cell[i * n + j] = document.createElement('td');
                 if (i === 1) {
                     cell[i * n + j].innerHTML = a[j];
-                    cell[i * n + j].style.border = "2px solid";
+                    cell[i * n + j].style.border = '2px solid';
                 }
                 row.appendChild(cell[i * n + j]);
             }
@@ -103,34 +98,32 @@ function SelectionSort(props) {
         }
         i = 0;
         timer = setTimeout(iloop, 1000);
-    }
+    };
 
     const stop = () => {
         clearTimeout(timer);
         clearInterval(timer);
         tbl.innerHTML = '';
         props.setValues([]);
-    }
+    };
 
     useEffect(() => {
-        tbl = document.getElementById("tbl");
+        tbl = document.getElementById('tbl');
         return () => stop();
     }, []);
 
     useEffect(() => {
         if (props.status) {
-            if (!props.isInputValid()) {
-                setPrevious(undefined);
+            if (!props.validate()) {
                 props.setStatus(false);
                 return;
             }
             start();
-        }
-        else if (prevStatus) {
+        } else {
             stop();
         }
     }, [props.status]);
-    
+
     return (
         <div style={{ padding: 24 }}>
             <table id="tbl" />
@@ -141,19 +134,19 @@ function SelectionSort(props) {
 function swap() {
     cell[pos - k].innerHTML = a[pos];
     cell[pos - k].setAttribute('bgcolor', 'plum');
-    cell[pos - k + 1].innerHTML = "";
-    cell[pos - k + 1].removeAttribute("bgcolor");
+    cell[pos - k + 1].innerHTML = '';
+    cell[pos - k + 1].removeAttribute('bgcolor');
     cell[i + n + n + k].innerHTML = a[i];
-    cell[i + n + n + k - 1].innerHTML = "";
+    cell[i + n + n + k - 1].innerHTML = '';
     if (i + k == pos) {
         clearInterval(timer);
         timer = setTimeout(function () {
             cell[pos + n].innerHTML = a[i];
-            cell[pos + n + n].innerHTML = "";
+            cell[pos + n + n].innerHTML = '';
             cell[i + n].innerHTML = a[pos];
             cell[i + n].setAttribute('bgcolor', 'plum');
-            cell[i].innerHTML = "";
-            cell[i].removeAttribute("bgcolor");
+            cell[i].innerHTML = '';
+            cell[i].removeAttribute('bgcolor');
             let t = a[i];
             a[i] = a[pos];
             a[pos] = t;

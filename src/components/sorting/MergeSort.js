@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import Wrapper from './wrapper';
-import { setPrevious } from '../../utils';
 
 var n, a;
 var tbl, cell;
@@ -8,62 +7,51 @@ var mid, p, q, s;
 var t, r, k;
 var timer;
 
-const wait = ms => new Promise(resolve => {
-    timer = setTimeout(resolve, ms);
-});
+const wait = (ms) =>
+    new Promise((resolve) => {
+        timer = setTimeout(resolve, ms);
+    });
 
 function merge() {
     if (p <= mid && q <= s) {
-        // cell[p].setAttribute("bgcolor", "plum");
-        // cell[q].setAttribute("bgcolor", "plum");
-        // return wait(1000).then(() => {
-            if (a[p] <= a[q]) {
-                // cell[p].setAttribute("bgcolor", "plum");
-                // return wait(200).then(() => {
-                    t[r] = a[p];
-                    cell[p + n].innerHTML = a[p];
-                    cell[p + n].setAttribute("bgcolor", "pink");
-                    cell[p].innerHTML = "";
-                    cell[p].removeAttribute("bgcolor");
-                    k = p++;
-                    return wait(100).then(shift);
-                // });
-            }
-            else {
-                // cell[q].setAttribute("bgcolor", "plum");
-                // return wait(200).then(() => {
-                    t[r] = a[q];
-                    cell[q + n].innerHTML = a[q];
-                    cell[q + n].setAttribute("bgcolor", "pink");
-                    cell[q].innerHTML = "";
-                    cell[q].removeAttribute("bgcolor");
-                    k = q++;
-                    return wait(100).then(shift);
-                // });
-            }
-        // });
-    }
-    else {
+        if (a[p] <= a[q]) {
+            t[r] = a[p];
+            cell[p + n].innerHTML = a[p];
+            cell[p + n].setAttribute('bgcolor', 'pink');
+            cell[p].innerHTML = '';
+            cell[p].removeAttribute('bgcolor');
+            k = p++;
+            return wait(100).then(shift);
+        } else {
+            t[r] = a[q];
+            cell[q + n].innerHTML = a[q];
+            cell[q + n].setAttribute('bgcolor', 'pink');
+            cell[q].innerHTML = '';
+            cell[q].removeAttribute('bgcolor');
+            k = q++;
+            return wait(100).then(shift);
+        }
+    } else {
         if (p <= mid) {
-            cell[p].setAttribute("bgcolor", "pink");
+            cell[p].setAttribute('bgcolor', 'pink');
             return wait(200).then(() => {
                 t[r] = a[p];
                 cell[p + n].innerHTML = a[p];
-                cell[p + n].setAttribute("bgcolor", "pink");
-                cell[p].innerHTML = "";
-                cell[p].removeAttribute("bgcolor");
+                cell[p + n].setAttribute('bgcolor', 'pink');
+                cell[p].innerHTML = '';
+                cell[p].removeAttribute('bgcolor');
                 k = p++;
                 return wait(100).then(shift);
             });
         }
         if (q <= s) {
-            cell[q].setAttribute("bgcolor", "pink");
+            cell[q].setAttribute('bgcolor', 'pink');
             return wait(200).then(() => {
                 t[r] = a[q];
                 cell[q + n].innerHTML = a[q];
-                cell[q + n].setAttribute("bgcolor", "pink");
-                cell[q].innerHTML = "";
-                cell[q].removeAttribute("bgcolor");
+                cell[q + n].setAttribute('bgcolor', 'pink');
+                cell[q].innerHTML = '';
+                cell[q].removeAttribute('bgcolor');
                 k = q++;
                 return wait(100).then(shift);
             });
@@ -74,27 +62,25 @@ function merge() {
 function shift() {
     if (k < r) {
         cell[k + n + 1].innerHTML = t[r];
-        cell[k + n + 1].setAttribute("bgcolor", "pink");
-        cell[k + n].innerHTML = "";
-        cell[k + n].removeAttribute("bgcolor");
+        cell[k + n + 1].setAttribute('bgcolor', 'pink');
+        cell[k + n].innerHTML = '';
+        cell[k + n].removeAttribute('bgcolor');
         k++;
         return wait(100).then(shift);
-    }
-    else if (k > r) {
+    } else if (k > r) {
         cell[k + n - 1].innerHTML = t[r];
-        cell[k + n - 1].setAttribute("bgcolor", "pink");
-        cell[k + n].innerHTML = "";
-        cell[k + n].removeAttribute("bgcolor");
+        cell[k + n - 1].setAttribute('bgcolor', 'pink');
+        cell[k + n].innerHTML = '';
+        cell[k + n].removeAttribute('bgcolor');
         k--;
         return wait(100).then(shift);
-    }
-    else {
+    } else {
         clearTimeout(timer);
         return wait(200).then(() => {
             cell[r + n + n].innerHTML = t[r];
-            cell[r + n + n].setAttribute("bgcolor", "plum");
-            cell[r + n].innerHTML = "";
-            cell[r + n].removeAttribute("bgcolor");
+            cell[r + n + n].setAttribute('bgcolor', 'plum');
+            cell[r + n].innerHTML = '';
+            cell[r + n].removeAttribute('bgcolor');
             r++;
             return wait(1000).then(merge);
         });
@@ -106,16 +92,15 @@ function lift(u, v) {
         if (u - n > -1) {
             for (let i = u; i <= v; i++) {
                 cell[i - n].innerHTML = cell[i].innerHTML;
-                cell[i - n].setAttribute("bgcolor", "plum");
-                cell[i].removeAttribute("bgcolor");
-                cell[i].innerHTML = "";
+                cell[i - n].setAttribute('bgcolor', 'plum');
+                cell[i].removeAttribute('bgcolor');
+                cell[i].innerHTML = '';
             }
             return lift(u - n, v - n);
-        }
-        else {
+        } else {
             return wait(500).then(() => {
                 for (let i = u; i <= v; i++) {
-                    cell[i].removeAttribute("bgcolor");
+                    cell[i].removeAttribute('bgcolor');
                     cell[i + n + n].style.border = 0;
                     a[i] = t[i];
                 }
@@ -128,9 +113,9 @@ function mergeSort(start, end) {
     return wait(1000).then(() => {
         for (let i = 0; i < n; i++) {
             if (i >= start && i <= end) {
-                cell[i].setAttribute("bgcolor", "pink");
+                cell[i].setAttribute('bgcolor', 'pink');
             } else {
-                cell[i].removeAttribute("bgcolor");
+                cell[i].removeAttribute('bgcolor');
             }
         }
         if (start < end) {
@@ -147,10 +132,10 @@ function mergeSort(start, end) {
                         t = new Array();
                         for (let i = 0; i < n; i++) {
                             if (i >= start && i <= end) {
-                                cell[i].setAttribute("bgcolor", "pink");
-                                cell[i + n + n].style.border = "2px solid";
+                                cell[i].setAttribute('bgcolor', 'pink');
+                                cell[i + n + n].style.border = '2px solid';
                             } else {
-                                cell[i].removeAttribute("bgcolor");
+                                cell[i].removeAttribute('bgcolor');
                                 cell[i + n + n].style.border = 0;
                             }
                         }
@@ -161,58 +146,48 @@ function mergeSort(start, end) {
                     return lift(start + n + n, end + n + n);
                 });
         }
-        // else {
-        //     return wait(500).then(() => {
-        //         cell[start].setAttribute("bgcolor", "plum");
-        //         return '';
-        //     });
-        // }
     });
 }
 
 function MergeSort(props) {
-    const prevStatus = setPrevious(props.status);
-
     const start = () => {
         a = [...props.values];
         n = a.length;
         cell = [];
         for (let i = 0; i < 3; i++) {
-            let row = document.createElement("tr");
+            let row = document.createElement('tr');
             for (let j = 0; j < n; j++) {
-                cell[i * n + j] = document.createElement("td");
+                cell[i * n + j] = document.createElement('td');
                 if (i == 0) {
                     cell[i * n + j].innerHTML = a[j];
-                    cell[i * n + j].style.border = "2px solid";
+                    cell[i * n + j].style.border = '2px solid';
                 }
                 row.appendChild(cell[i * n + j]);
             }
             tbl.appendChild(row);
         }
         mergeSort(0, n - 1);
-    }
+    };
 
     const stop = () => {
         clearTimeout(timer);
         tbl.innerHTML = '';
         props.setValues([]);
-    }
+    };
 
     useEffect(() => {
-        tbl = document.getElementById("tbl");
+        tbl = document.getElementById('tbl');
         return () => stop();
     }, []);
 
     useEffect(() => {
         if (props.status) {
-            if (!props.isInputValid()) {
-                setPrevious(undefined);
+            if (!props.validate()) {
                 props.setStatus(false);
                 return;
             }
             start();
-        }
-        else if (prevStatus) {
+        } else {
             stop();
         }
     }, [props.status]);

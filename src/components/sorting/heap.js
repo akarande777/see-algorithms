@@ -1,10 +1,9 @@
-import { Point, addVertex, addEdge } from '../utils';
+import { addVertex, addEdge } from '../graph/utils';
+import { Point } from '../graph/Graph';
 var flag;
 
 function xco(t, h, dx) {
-    return flag ?
-        dx - h * Math.sin(t * (Math.PI / 180))
-        : dx + h * Math.sin(t * (Math.PI / 180));
+    return flag ? dx - h * Math.sin(t * (Math.PI / 180)) : dx + h * Math.sin(t * (Math.PI / 180));
 }
 
 function yco(t, h, dy) {
@@ -16,8 +15,10 @@ function heap(n) {
     addVertex(p, '');
     let v = new Array();
     v.push(p);
-    let dx = 325, dy = 25;
-    let t = 70, h = 150;
+    let dx = 325,
+        dy = 25;
+    let t = 70,
+        h = 150;
     let size = 2;
     let k = 1;
     flag = true;
@@ -40,8 +41,8 @@ function heap(n) {
             }
         }
         if (v.length == n) break;
-        t = i == 1 ? (t - 20) : (t - 25);
-        h = i == 1 ? (h - 30) : (h - 50);
+        t = i == 1 ? t - 20 : t - 25;
+        h = i == 1 ? h - 30 : h - 50;
         dy = v[v.length - 1].y;
         size *= 2;
     }

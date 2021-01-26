@@ -1,143 +1,102 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, message } from 'antd';
-import { fromEnd, cloneEdge } from '../utils';
+import { fromEnd, cloneEdge } from './utils';
 import { undirected } from './undirected';
+import Graph from './Graph';
 import $ from 'jquery';
 
-var self;
-var pnts, sgts;
-var wt, mt;
+var n, w;
 var mst, i, j;
-var n, queue;
+var queue;
 var timer;
-
-const delay = 1000;
+var delay = 1000;
 
 function start() {
     $('#plane').off();
-    wt = new Array();
-    mt = new Array();
-    n = pnts.length;
+    w = [];
+    n = Graph.totalPoints();
     for (let i = 0; i < n; i++) {
-        wt[i] = new Array();
-        mt[i] = new Array();
-        for (let j = 0; j < n; j++)
-            wt[i][j] = Infinity;
-    }
-    for (let k = 0; k < sgts.length; k++) {
-        let i, j;
-        for (i = 0; i < pnts.length; i++) {
-            if (pnts[i].equals(sgts[k].p))
-                break;
+        w[i] = [];
+        for (let j = 0; j < n; j++) {
+            let ei = Graph.edgeIndex(i, j);
+            if (ei != undefined) {
+                let value = $('.cost').eq(ei).html();
+                w[i][j] = parseInt(value);
+            } else {
+                w[i][j] = Infinity;
+            }
         }
-        for (j = 0; j < pnts.length; j++) {
-            if (pnts[j].equals(sgts[k].q))
-                break;
-        }
-        let w = $('.cost').eq(k).html();
-        wt[i][j] = parseInt(w);
-        wt[j][i] = parseInt(w);
-        mt[i][j] = k;
-        mt[j][i] = k;
     }
-    queue = new Array();
-    mst = new Array();
+    queue = [];
+    mst = [];
     i = 0;
     timer = setTimeout(function () {
-        $('.vrtx').eq(i).attr("stroke", "orange");
-        $('.vrtx').eq(i).attr("fill", "orange");
+        $('.vrtx').eq(i).attr('stroke', 'orange');
+        $('.vrtx').eq(i).attr('fill', 'orange');
         timer = setTimeout(prim, delay / 2);
     }, delay);
 }
 
 function prim() {
-    queue = queue.concat(wt[i]);
-    console.log(wt[i])
+    queue = queue.concat(w[i]);
     mst.push(i);
     for (let k = 0; k < n; k++) {
-        if (mst.indexOf(k) == -1 && wt[i][k] != Infinity) {
-            $('.edge').eq(mt[i][k]).attr('stroke', '#6495ed');
-            $('.edge').eq(mt[i][k]).attr('stroke-dasharray', '8,5');
+        if (mst.indexOf(k) == -1 && w[i][k] != Infinity) {
+            let ei = Graph.edgeIndex(i, k);
+            $('.edge').eq(ei).attr('stroke', '#6495ed');
+            $('.edge').eq(ei).attr('stroke-dasharray', '8,5');
             $('.vrtx').eq(k).attr('stroke', '#6495ed');
         }
     }
     timer = setTimeout(extractMin, delay);
 }
 
-class Prims extends React.Component {
-    pnts = [];
-    sgts = [];
+function Prims(props) {
+    const [status, setStatus] = useState(false);
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            started: false
+    const validate = () => {
+        if (Graph.totalSegments() < 3) {
+            message.error('draw atleast 3 edges', 2);
+        } else {
+            setStatus(true);
         }
-        self = this;
-    }
+    };
 
-    componentDidMount() {
-        undirected.bind(this)(true);
-    }
-
-    componentDidUpdate() {
-        if (!this.state.started) {
-            undirected.bind(this)(true);
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.visible !== this.props.visible) {
-            this.stop();
-        }
-    }
-
-    componentWillUnmount() {
-        clearTimeout(timer);
-    }
-
-    start = () => {
-        if (this.sgts.length < 3) {
-            message.error("draw atleast 3 edges", 2);
-            return;
-        }
-        pnts = this.pnts;
-        sgts = this.sgts;
-        this.setState(
-            { started: true },
-            () => start()
-        );
-    }
-
-    stop = () => {
+    const stop = () => {
         clearTimeout(timer);
         $('#plane').html('');
         $('#plane').off();
-        this.setState({
-            started: false
-        });
-    }
+        status ? setStatus(false) : undirected(true);
+    };
 
-    render() {
-        return (
-            <div style={{ padding: 24 }}>
-                <div className="spaceBetween draw">
-                    <span>Draw Graph</span>
-                    <div>
-                        <Button type="primary" onClick={this.start} disabled={this.state.started}>
-                            Start
-                        </Button>&nbsp;&nbsp;
-                        <Button type="primary" onClick={this.stop}>
-                            Clear
-                        </Button>
-                    </div>
-                </div>
+    useEffect(() => {
+        status ? start() : undirected(true);
+        return () => clearTimeout(timer);
+    });
+
+    useEffect(() => {
+        if (props.visible) stop();
+    }, [props.visible]);
+
+    return (
+        <div style={{ padding: 24 }}>
+            <div className="spaceBetween draw">
+                <span>Draw Graph</span>
                 <div>
-                    <svg id="plane" width="700" height="450" />
+                    <Button type="primary" onClick={validate} disabled={status}>
+                        Start
+                    </Button>
+                    &nbsp;&nbsp;
+                    <Button type="primary" onClick={stop}>
+                        Clear
+                    </Button>
                 </div>
             </div>
-        );
-    }
+            <div>
+                <svg id="plane" width="700" height="450" />
+            </div>
+        </div>
+    );
 }
 
 function extractMin() {
@@ -147,12 +106,9 @@ function extractMin() {
     j = j % n;
     if (mst.indexOf(j) != -1) {
         extractMin();
-    }
-    else {
-        let newEdge = cloneEdge.bind(self)(i, mt[i][j]);
-        let p = newEdge.p;
-        let q = newEdge.q;
-        let d = newEdge.d;
+    } else {
+        let ei = Graph.edgeIndex(i, j);
+        let { p, q, d } = cloneEdge(i, ei);
         timer = setTimeout(span, delay / 100, p, q, d - 2);
     }
 }
@@ -163,18 +119,19 @@ function span(p, q, d) {
         $('line:last').attr('x2', r.x);
         $('line:last').attr('y2', r.y);
         timer = setTimeout(span, delay / 100, p, q, d - 2);
-    }
-    else {
+    } else {
         $('line:last').remove();
-        $('.edge').eq(mt[i][j]).attr('stroke', 'orange');
-        $('.edge').eq(mt[i][j]).removeAttr('stroke-dasharray');
+        let ei = Graph.edgeIndex(i, j);
+        $('.edge').eq(ei).attr('stroke', 'orange');
+        $('.edge').eq(ei).removeAttr('stroke-dasharray');
         $('.vrtx').eq(j).attr('stroke', 'orange');
         for (let k = 0; k < mst.length; k++) {
-            if ($('.edge').eq(mt[j][mst[k]]).attr('stroke') == '#6495ed')
-                $('.edge').eq(mt[j][mst[k]]).attr('stroke', '#ccc');
+            let ej = Graph.edgeIndex(j, mst[k]);
+            if ($('.edge').eq(ej).attr('stroke') == '#6495ed')
+                $('.edge').eq(ej).attr('stroke', '#ccc');
         }
-        wt[i][j] = Infinity;
-        wt[j][i] = Infinity;
+        w[i][j] = Infinity;
+        w[j][i] = Infinity;
         i = j;
         if (mst.length < n - 1) {
             timer = setTimeout(prim, delay / 2);
