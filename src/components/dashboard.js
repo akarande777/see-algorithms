@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Layout, Icon, Drawer } from 'antd';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import SiderView from './sider';
 import ContentView from './content';
@@ -10,7 +10,7 @@ const { Sider, Content } = Layout;
 
 function Dashboard() {
     const [visible, setVisible] = useState(false);
-    
+
     return (
         <div className="dashboard">
             <div className="header-md d-flex">
@@ -34,7 +34,7 @@ function Dashboard() {
                     }}
                 />
             </div>
-            <BrowserRouter>
+            <HashRouter>
                 <Drawer
                     placement="left"
                     onClose={() => setVisible(false)}
@@ -42,13 +42,12 @@ function Dashboard() {
                     closable={false}
                 >
                     <Sider width="auto" style={{ backgroundColor: 'white' }}>
-                        <SiderView
-                            onChange={() => setVisible(false)}
-                        />
+                        <SiderView onChange={() => setVisible(false)} />
                     </Sider>
                 </Drawer>
                 <Layout>
-                    <Sider width="auto"
+                    <Sider
+                        width="auto"
                         style={{ backgroundColor: 'white' }}
                         className="d-none d-md-block"
                     >
@@ -58,7 +57,7 @@ function Dashboard() {
                         <ContentView visible={visible} />
                     </Content>
                 </Layout>
-            </BrowserRouter>
+            </HashRouter>
         </div>
     );
 }
