@@ -11,13 +11,13 @@ var timer;
 var delay = 1000;
 
 function findParent(q) {
-    return parent[q] == q ? q : findParent(parent[q]);
+    return parent[q] === q ? q : findParent(parent[q]);
 }
 
 function start() {
     $('#plane').off();
     arr = [];
-    $('.cost').each(function () {
+    $('.cost').each(() => {
         let edge = {};
         edge.w = parseInt($(this).html());
         arr.push(edge);
@@ -29,7 +29,7 @@ function start() {
         parent[i] = i;
         for (let j = 0; j < n; j++) {
             let ei = Graph.edgeIndex(i, j);
-            if (ei != undefined) {
+            if (ei !== undefined) {
                 arr[ei].u = i;
                 arr[ei].v = j;
                 arr[ei].i = ei;
@@ -46,7 +46,7 @@ function find() {
     if (j < arr.length) {
         let p = findParent(arr[j].u);
         let q = findParent(arr[j].v);
-        if (p != q) {
+        if (p !== q) {
             parent[q] = p;
             $('.vrtx').eq(arr[j].u).attr('stroke', 'orange');
             $('.vrtx').eq(arr[j].u).attr('fill', 'orange');

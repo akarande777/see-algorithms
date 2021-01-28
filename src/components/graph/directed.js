@@ -1,36 +1,29 @@
 import $ from 'jquery';
 import { message } from 'antd';
-import { Point, Segment, distance, addVertex, addEdge, offset, fromEnd } from '../utils';
-
-var wt, mt;
-var ind;
+import { distance, addVertex, addEdge, offset, fromEnd } from '../utils';
+import { Point, Segment } from './Graph';
+import DAG from './DAG';
 
 function directed() {
-    var pnts = this.pnts = [];
-    var sgts = [];
-    wt = this.wt = new Array();
-    mt = this.mt = new Array();
-    ind = this.ind = [];
-    var src, lastp;
+    var lastp;
     var flag = false;
+    DAG.initialize();
 
-    $('#plane').mousedown(function (e) {
+    $('#plane').on('mousedown', function (e) {
         e.preventDefault();
         let p = new Point(offset(e).x, offset(e).y);
-        if (pnts.length == 0) {
+        let np = DAG.totalPoints();
+        if (np == 0) {
             addVertex(p, 'A');
-            pnts.push(p);
-            ind.push(0);
-            wt[0] = new Array();
-            mt[0] = new Array();
+            DAG.addPoint(p);
             return;
         }
-        for (let i = 0; i < pnts.length; i++) {
-            let d = distance(p, pnts[i]);
+        for (let i = 0; i < np; i++) {
+            let q = DAG.point(i);
+            let d = distance(p, q);
             if (d < 25) {
-                p.x = pnts[i].x;
-                p.y = pnts[i].y;
-                src = i;
+                p.x = q.x;
+                p.y = q.y;
                 flag = true;
                 addEdge(p, p);
                 $('line:last').attr('marker-end', 'url(#arrow)');
@@ -38,31 +31,30 @@ function directed() {
                 return;
             }
         }
-        if (pnts.length == 12) {
+        if (np == 12) {
             return;
         }
-        wt[pnts.length] = new Array();
-        mt[pnts.length] = new Array();
-        addVertex(p, String.fromCharCode(65 + pnts.length));
-        pnts.push(p);
-        ind.push(0);
+        addVertex(p, String.fromCharCode(65 + np));
+        DAG.addPoint(p);
     });
 
-    $('#plane').mouseup(function (e) {
+    $('#plane').on('mouseup', function (e) {
         e.preventDefault();
         if (flag) {
             flag = false;
             let p = new Point(offset(e).x, offset(e).y);
+            let np = DAG.totalPoints();
             let j;
-            for (j = 0; j < pnts.length; j++) {
-                let d = distance(p, pnts[j]);
+            for (j = 0; j < np; j++) {
+                let q = DAG.point(j);
+                let d = distance(p, q);
                 if (d < 25) {
-                    p.x = pnts[j].x;
-                    p.y = pnts[j].y;
+                    p.x = q.x;
+                    p.y = q.y;
                     break;
                 }
             }
-            if (j == pnts.length) {
+            if (j == np) {
                 $('line:last').remove();
                 return;
             }
@@ -71,30 +63,28 @@ function directed() {
                 return;
             }
             let s = new Segment(lastp, p);
-            for (let i = 0; i < sgts.length; i++) {
-                if (sgts[i].overlaps(s)) {
+            let ns = DAG.totalSegments();
+            for (let i = 0; i < ns; i++) {
+                if (DAG.segment(i).overlaps(s)) {
                     $('line:last').remove();
                     return;
                 }
             }
-            ind[j]++;
-            wt[src][j] = 1;
-            mt[src][j] = sgts.length;
-            if (hasCycle(pnts)) {
-                message.warning("draw acyclic graph");
+            DAG.addSegment(s, true);
+            if (DAG.hasCycle()) {
+                message.warning('draw acyclic graph');
                 $('line:last').remove();
-                --ind[j];
+                DAG.removeSegment(s);
                 return;
             }
             let q = fromEnd(lastp, p, 23);
             $('line:last').attr('x2', q.x);
             $('line:last').attr('y2', q.y);
-            sgts.push(s);
         }
         flag = false;
     });
 
-    $('#plane').mousemove(function (e) {
+    $('#plane').on('mousemove', function (e) {
         e.preventDefault();
         if (flag) {
             let p = new Point(offset(e).x, offset(e).y);
@@ -102,31 +92,6 @@ function directed() {
             $('line:last').attr('y2', p.y);
         }
     });
-}
-
-function hasCycle(pnts) {
-    let stack = new Array();
-    let t = ind.slice();
-    for (let i = 0; i < pnts.length; i++) {
-        if (t[i] == 0) {
-            stack.push(i);
-        }
-    }
-    if (stack.length == 0) {
-        return true;
-    }
-    let k = 0;
-    while (stack.length > 0) {
-        let i = stack.pop();
-        for (let j = 0; j < pnts.length; j++) {
-            if (wt[i][j] != undefined && t[j] != 0) {
-                --t[j];
-                if (t[j] == 0) stack.push(j);
-            }
-        }
-        k++;
-    }
-    return k != pnts.length ? true : false;
 }
 
 export { directed };

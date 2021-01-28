@@ -13,13 +13,13 @@ var delay = 1000;
 
 function start() {
     $('#plane').off();
-    w = [];
     n = Graph.totalPoints();
+    w = [];
     for (let i = 0; i < n; i++) {
         w[i] = [];
         for (let j = 0; j < n; j++) {
             let ei = Graph.edgeIndex(i, j);
-            if (ei != undefined) {
+            if (ei !== undefined) {
                 let value = $('.cost').eq(ei).html();
                 w[i][j] = parseInt(value);
             } else {
@@ -44,7 +44,7 @@ function start() {
 
 function dijkstra(i) {
     for (let j = 0; j < n; j++) {
-        if (v.indexOf(j) == -1) {
+        if (v.indexOf(j) === -1) {
             let ei = Graph.edgeIndex(i, j);
             $('.edge').eq(ei).attr('stroke-dasharray', '8,5');
             if (d[i] + w[i][j] < d[j]) {
@@ -52,7 +52,7 @@ function dijkstra(i) {
                 $('.edge').eq(ei).attr('stroke', '#6495ed');
                 $('.vrtx').eq(j).attr('stroke', '#6495ed');
                 $('.vlbl').eq(j).html(d[j]);
-                if (prev[j] != undefined) {
+                if (prev[j] !== undefined) {
                     let ej = Graph.edgeIndex(prev[j], j);
                     $('.edge').eq(ej).attr('stroke', '#ccc');
                 }
@@ -63,7 +63,7 @@ function dijkstra(i) {
         }
     }
     for (let j = 0; j < n; j++) {
-        queue[j] = v.indexOf(j) == -1 ? d[j] : Infinity;
+        queue[j] = v.indexOf(j) === -1 ? d[j] : Infinity;
     }
     timer = setTimeout(extractMin, delay);
 }

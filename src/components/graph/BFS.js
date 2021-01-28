@@ -23,11 +23,10 @@ function bfs() {
 }
 
 function visit(j) {
-    let n = Graph.totalPoints();
-    if (j < n) {
+    if (j < Graph.totalPoints()) {
         let ei = Graph.edgeIndex(i, j);
-        if (ei != undefined) {
-            if (v.indexOf(j) == -1) {
+        if (ei !== undefined) {
+            if (v.indexOf(j) === -1) {
                 $('.edge').eq(ei).attr('stroke', '#6495ed');
                 $('.edge').eq(ei).attr('stroke-dasharray', '8,4');
                 $('.vrtx').eq(j).attr('stroke', '#6495ed');
@@ -35,7 +34,7 @@ function visit(j) {
                 v.push(j);
                 prev[j] = i;
                 timer = setTimeout(visit, delay / 2, ++j);
-            } else if (queue.indexOf(j) != -1) {
+            } else if (queue.indexOf(j) !== -1) {
                 $('.edge').eq(ei).attr('stroke', '#ccc');
                 $('.edge').eq(ei).attr('stroke-dasharray', '8,4');
                 timer = setTimeout(visit, delay / 2, ++j);
@@ -123,14 +122,14 @@ function span(p, q, d) {
         let n = Graph.totalPoints();
         for (j = 1; j < n; j++) {
             let ei = Graph.edgeIndex(i, j);
-            if (ei != undefined) {
-                if (v.indexOf(j) == -1 || queue.indexOf(j) != -1) {
+            if (ei !== undefined) {
+                if (v.indexOf(j) === -1 || queue.indexOf(j) !== -1) {
                     timer = setTimeout(visit, delay / 2, 1);
                     break;
                 }
             }
         }
-        if (j == n) {
+        if (j === n) {
             timer = setTimeout(bfs, delay / 2, 1);
         }
     }

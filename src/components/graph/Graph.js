@@ -3,16 +3,27 @@ const segments = [];
 const matrix = [];
 
 export default {
+    data() {
+        return { points, segments, matrix };
+    },
+
     addPoint(point) {
         points.push(point);
         matrix.push([]);
     },
 
-    addSegment(segment) {
+    position(segment) {
         let i = points.findIndex((p) => p.equals(segment.p));
         let j = points.findIndex((p) => p.equals(segment.q));
+        return [i, j];
+    },
+
+    addSegment(segment, directed) {
+        let [i, j] = this.position(segment);
         matrix[i][j] = segments.length;
-        matrix[j][i] = segments.length;
+        if (!directed) {
+            matrix[j][i] = segments.length;
+        }
         segments.push(segment);
     },
 
@@ -31,6 +42,12 @@ export default {
         segments.length = 0;
         matrix.length = 0;
     },
+
+    removeSegment(segment) {
+        let [i, j] = this.position(segment);
+        segments.splice(matrix[i][j], 1);
+        matrix[i][j] = undefined;
+    },
 };
 
 function Point(x, y) {
@@ -39,7 +56,7 @@ function Point(x, y) {
 }
 
 Point.prototype.equals = function (q) {
-    if (this.x == q.x && this.y == q.y) {
+    if (this.x === q.x && this.y === q.y) {
         return true;
     }
     return false;
@@ -58,7 +75,7 @@ Segment.prototype.orientation = function (r) {
     let p = this.p;
     let q = this.q;
     let d = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
-    if (d == 0) return 0;
+    if (d === 0) return 0;
     return d > 0 ? 1 : 2;
 };
 

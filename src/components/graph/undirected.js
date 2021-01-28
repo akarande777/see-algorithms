@@ -10,19 +10,19 @@ function undirected(weighted) {
     $('#plane').on('click', function (e) {
         e.preventDefault();
         let p = new Point(offset(e).x, offset(e).y);
-        let pn = Graph.totalPoints();
-        if (pn == 0) {
+        let np = Graph.totalPoints();
+        if (np === 0) {
             addVertex(p, 'A');
             Graph.addPoint(p);
             return;
         }
         let j;
-        for (j = 0; j < pn; j++) {
-            let nth = Graph.point(j);
-            let d = distance(p, nth);
+        for (j = 0; j < np; j++) {
+            let q = Graph.point(j);
+            let d = distance(p, q);
             if (d < 25) {
-                p.x = nth.x;
-                p.y = nth.y;
+                p.x = q.x;
+                p.y = q.y;
                 break;
             }
         }
@@ -34,10 +34,10 @@ function undirected(weighted) {
                 return;
             }
             let s = new Segment(lastp, p);
-            let sn = Graph.totalSegments();
-            for (let i = 0; i < sn; i++) {
-                let nth = Graph.segment(i);
-                if (s.overlaps(nth)) {
+            let ns = Graph.totalSegments();
+            for (let i = 0; i < ns; i++) {
+                let r = Graph.segment(i);
+                if (s.overlaps(r)) {
                     $('line:last').remove();
                     flag = false;
                     return;
@@ -45,13 +45,13 @@ function undirected(weighted) {
             }
             $('line:last').attr('x2', p.x);
             $('line:last').attr('y2', p.y);
-            if (j == pn) {
-                if (sn >= 25) {
+            if (j === np) {
+                if (ns >= 25) {
                     $('line:last').remove();
                     flag = false;
                     return;
                 }
-                addVertex(p, String.fromCharCode(65 + pn));
+                addVertex(p, String.fromCharCode(65 + np));
                 Graph.addPoint(p);
             }
             Graph.addSegment(s);
@@ -60,7 +60,7 @@ function undirected(weighted) {
             }
             flag = false;
         } else {
-            if (j == pn) return;
+            if (j === np) return;
             $('.vrtx').eq(j).attr('stroke', 'orange');
             addEdge(p, p);
             lastp = p;

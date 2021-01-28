@@ -13,13 +13,13 @@ var delay = 1000;
 
 function start() {
     $('#plane').off();
-    w = [];
     n = Graph.totalPoints();
+    w = [];
     for (let i = 0; i < n; i++) {
         w[i] = [];
         for (let j = 0; j < n; j++) {
             let ei = Graph.edgeIndex(i, j);
-            if (ei != undefined) {
+            if (ei !== undefined) {
                 let value = $('.cost').eq(ei).html();
                 w[i][j] = parseInt(value);
             } else {
@@ -30,7 +30,7 @@ function start() {
     queue = [];
     mst = [];
     i = 0;
-    timer = setTimeout(function () {
+    timer = setTimeout(() => {
         $('.vrtx').eq(i).attr('stroke', 'orange');
         $('.vrtx').eq(i).attr('fill', 'orange');
         timer = setTimeout(prim, delay / 2);
@@ -41,7 +41,7 @@ function prim() {
     queue = queue.concat(w[i]);
     mst.push(i);
     for (let k = 0; k < n; k++) {
-        if (mst.indexOf(k) == -1 && w[i][k] != Infinity) {
+        if (mst.indexOf(k) === -1 && w[i][k] !== Infinity) {
             let ei = Graph.edgeIndex(i, k);
             $('.edge').eq(ei).attr('stroke', '#6495ed');
             $('.edge').eq(ei).attr('stroke-dasharray', '8,5');
@@ -104,7 +104,7 @@ function extractMin() {
     queue[j] = Infinity;
     i = mst[Math.floor(j / n)];
     j = j % n;
-    if (mst.indexOf(j) != -1) {
+    if (mst.indexOf(j) !== -1) {
         extractMin();
     } else {
         let ei = Graph.edgeIndex(i, j);
@@ -127,7 +127,7 @@ function span(p, q, d) {
         $('.vrtx').eq(j).attr('stroke', 'orange');
         for (let k = 0; k < mst.length; k++) {
             let ej = Graph.edgeIndex(j, mst[k]);
-            if ($('.edge').eq(ej).attr('stroke') == '#6495ed')
+            if ($('.edge').eq(ej).attr('stroke') === '#6495ed')
                 $('.edge').eq(ej).attr('stroke', '#ccc');
         }
         w[i][j] = Infinity;
