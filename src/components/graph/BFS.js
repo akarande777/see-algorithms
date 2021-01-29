@@ -56,7 +56,7 @@ function BFS(props) {
 
     const stop = () => {
         clearTimeout(timer);
-        $('#plane').html('');
+        $('#plane').text('');
         $('#plane').off();
         status ? setStatus(false) : undirected(false);
     };

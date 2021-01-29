@@ -20,8 +20,8 @@ function start() {
         for (let j = 0; j < n; j++) {
             let ei = Graph.edgeIndex(i, j);
             if (ei !== undefined) {
-                let value = $('.cost').eq(ei).html();
-                w[i][j] = parseInt(value);
+                let value = $('.cost').eq(ei).text();
+                w[i][j] = parseInt(value) || 0;
             } else {
                 w[i][j] = Infinity;
             }
@@ -31,7 +31,7 @@ function start() {
     d = [0];
     for (let i = 1; i < n; i++) {
         d[i] = Infinity;
-        $('.vlbl').eq(i).html('∞');
+        $('.vlbl').eq(i).text('∞');
     }
     queue = [0];
     prev = [];
@@ -51,7 +51,7 @@ function dijkstra(i) {
                 d[j] = d[i] + w[i][j];
                 $('.edge').eq(ei).attr('stroke', '#6495ed');
                 $('.vrtx').eq(j).attr('stroke', '#6495ed');
-                $('.vlbl').eq(j).html(d[j]);
+                $('.vlbl').eq(j).text(d[j]);
                 if (prev[j] !== undefined) {
                     let ej = Graph.edgeIndex(prev[j], j);
                     $('.edge').eq(ej).attr('stroke', '#ccc');
@@ -81,7 +81,7 @@ function Dijkstras(props) {
 
     const stop = () => {
         clearTimeout(timer);
-        $('#plane').html('');
+        $('#plane').text('');
         $('#plane').off();
         status ? setStatus(false) : undirected(true);
     };

@@ -107,7 +107,7 @@ function HeapSort(props) {
         }
         tbl.appendChild(row);
         for (let i = 0; i < n; i++) {
-            $('.vlbl').eq(i).html(a[i]);
+            $('.vlbl').eq(i).text(a[i]);
         }
         j = Math.floor(n / 2) - 1;
         timer = setTimeout(heapSort, delay);
@@ -116,7 +116,7 @@ function HeapSort(props) {
     const stop = () => {
         clearTimeout(timer);
         clearInterval(timer);
-        $('#plane').html('');
+        $('#plane').text('');
         tbl.innerHTML = '';
         props.setValues([]);
     };
@@ -197,9 +197,9 @@ function swapMax(left, right) {
             moveVertex(n - 1, v[n - 1]);
             $('.vlbl')
                 .eq(n - 1)
-                .html(a[n - 1]);
+                .text(a[n - 1]);
             moveVertex(0, v[0]);
-            $('.vlbl').eq(0).html(a[0]);
+            $('.vlbl').eq(0).text(a[0]);
             timer = setTimeout(() => {
                 timer = setInterval(fall, delay / 200);
             }, delay / 2);
@@ -246,9 +246,9 @@ function swap(i, largest, angle) {
     } else {
         clearInterval(timer);
         moveVertex(i, v[i]);
-        $('.vlbl').eq(i).html(a[i]);
+        $('.vlbl').eq(i).text(a[i]);
         moveVertex(largest, v[largest]);
-        $('.vlbl').eq(largest).html(a[largest]);
+        $('.vlbl').eq(largest).text(a[largest]);
         $('.vrtx').eq(i).attr('fill', 'pink');
         $('.vrtx').eq(largest).attr('fill', 'plum');
         timer = setTimeout(() => {

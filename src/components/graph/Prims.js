@@ -20,8 +20,8 @@ function start() {
         for (let j = 0; j < n; j++) {
             let ei = Graph.edgeIndex(i, j);
             if (ei !== undefined) {
-                let value = $('.cost').eq(ei).html();
-                w[i][j] = parseInt(value);
+                let value = $('.cost').eq(ei).text();
+                w[i][j] = parseInt(value) || 0;
             } else {
                 w[i][j] = Infinity;
             }
@@ -64,7 +64,7 @@ function Prims(props) {
 
     const stop = () => {
         clearTimeout(timer);
-        $('#plane').html('');
+        $('#plane').text('');
         $('#plane').off();
         status ? setStatus(false) : undirected(true);
     };

@@ -19,7 +19,7 @@ function start() {
     arr = [];
     $('.cost').each(() => {
         let edge = {};
-        edge.w = parseInt($(this).html());
+        edge.w = parseInt($(this).text()) || 0;
         arr.push(edge);
         $(this).attr('contenteditable', 'false');
     });
@@ -81,7 +81,7 @@ function Kruskals(props) {
 
     const stop = () => {
         clearTimeout(timer);
-        $('#plane').html('');
+        $('#plane').text('');
         $('#plane').off();
         status ? setStatus(false) : undirected(true);
     };
