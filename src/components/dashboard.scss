@@ -3,7 +3,7 @@
 }
 
 .header {
-    height: 70px;
+    height: 60px;
     align-items: center;
     padding: 0 24px;
     justify-content: space-between;
@@ -15,14 +15,14 @@
     }
 
     .anticon-eye {
-        font-size: 23px;
-        line-height: 1.2;
+        font-size: 24px;
+        line-height: 1.1;
         margin-right: 15px;
     }
 
     .anticon-menu {
         font-size: 20px;
-        line-height: 1.5;
+        line-height: 1.4;
         margin-right: 15px;
         color: #1890ff;
     }
@@ -34,7 +34,7 @@
 }
 
 .ant-layout {
-    height: calc(100% - 70px);
+    height: calc(100% - 60px);
 
     .ant-layout-content {
         overflow-x: auto !important;
@@ -47,23 +47,9 @@
 }
 
 .ant-drawer-left {
-    top: 70px !important;
+    top: 60px !important;
 }
 
 .anticon-appstore {
     vertical-align: 0 !important;
-}
-
-@media only screen and (max-width: 1024px) {
-    .header {
-        height: 60px;
-    }
-
-    .ant-layout {
-        height: calc(100% - 60px);
-    }
-
-    .ant-drawer-left {
-        top: 60px !important;
-    }
 }
