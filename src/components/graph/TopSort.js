@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Button, message } from 'antd';
-import { Point, fromEnd, distance } from '../utils';
+import { fromEnd, distance } from './utils';
 import { directed } from './directed';
 import DAG from './DAG';
+import { Point } from './Graph';
 import $ from 'jquery';
 
 var cell, k;
@@ -16,14 +17,14 @@ function start() {
     let tbl = document.querySelector('#tbl');
     tbl.innerHTML = '';
     let row = document.createElement('tr');
-    cell = new Array();
+    cell = [];
     for (let j = 0; j < n; j++) {
         cell[j] = document.createElement('td');
         cell[j].setAttribute('style', 'border:2px solid;width:40px;height:40px;padding:5px');
         row.appendChild(cell[j]);
     }
     tbl.appendChild(row);
-    stack = new Array();
+    stack = [];
     for (let i = 0; i < n; i++) {
         if (ind[i] === 0) {
             stack.push(i);
@@ -142,7 +143,7 @@ function TopSort(props) {
                     </defs>
                 </svg>
             </div>
-            <div style={{ width: 700, display: 'flex', justifyContent: 'space-around' }}>
+            <div style={{ width: '60%' }} className="spaceAround">
                 <table id="tbl" />
             </div>
         </div>

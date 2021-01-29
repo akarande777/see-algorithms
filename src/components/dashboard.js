@@ -13,7 +13,7 @@ function Dashboard() {
 
     return (
         <div className="dashboard">
-            <div className="header-md d-flex">
+            <div className="header d-flex">
                 <div className="d-flex">
                     <Icon
                         type="eye"

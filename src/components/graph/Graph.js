@@ -31,9 +31,9 @@ export default {
 
     totalSegments: () => segments.length,
 
-    point: (i) => points[i],
+    point: (index) => points[index],
 
-    segment: (i) => segments[i],
+    segment: (index) => segments[index],
 
     edgeIndex: (i, j) => matrix[i][j],
 
@@ -56,10 +56,7 @@ function Point(x, y) {
 }
 
 Point.prototype.equals = function (q) {
-    if (this.x === q.x && this.y === q.y) {
-        return true;
-    }
-    return false;
+    return this.x === q.x && this.y === q.y;
 };
 
 function Segment(p, q) {

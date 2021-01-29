@@ -93,10 +93,9 @@ function BFS(props) {
 
 function start() {
     $('#plane').off();
-    v = new Array();
-    v.push(0);
-    queue = new Array();
-    prev = new Array();
+    v = [0];
+    queue = [];
+    prev = [];
     i = 0;
     timer = setTimeout(() => {
         $('.vrtx').eq(i).attr('stroke', 'orange');

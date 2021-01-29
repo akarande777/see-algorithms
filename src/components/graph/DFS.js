@@ -95,10 +95,9 @@ function DFS(props) {
 
 function start() {
     $('#plane').off();
-    v = new Array();
-    v.push(0);
-    stack = new Array();
-    prev = new Array();
+    v = [0];
+    stack = [];
+    prev = [];
     i = 0;
     timer = setTimeout(() => {
         $('.vrtx').eq(i).attr('stroke', 'orange');

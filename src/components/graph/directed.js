@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import { message } from 'antd';
-import { distance, addVertex, addEdge, offset, fromEnd } from '../utils';
+import { distance, addVertex, addEdge, offset, fromEnd } from './utils';
 import { Point, Segment } from './Graph';
 import DAG from './DAG';
 

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import heap from './heap';
-import { Point, moveVertex } from '../utils';
+import { Point } from '../graph/Graph';
+import { moveVertex } from '../graph/utils';
 import $ from 'jquery';
 import Wrapper from './wrapper';
 
@@ -147,7 +148,9 @@ function HeapSort(props) {
     return (
         <div style={{ padding: '0 24px' }}>
             <svg id="plane" style={{ border: 0, width: 650, height: 300 }} />
-            <table id="tbl" />
+            <div style={{ width: 650 }} className="spaceAround">
+                <table id="tbl" />
+            </div>
         </div>
     );
 }
