@@ -33,12 +33,6 @@
     }
 }
 
-@media only screen and (max-width: 767px) {
-    .header {
-        height: 60px;
-    }
-}
-
 .ant-layout {
     height: calc(100% - 70px);
 
@@ -58,4 +52,18 @@
 
 .anticon-appstore {
     vertical-align: 0 !important;
+}
+
+@media only screen and (max-width: 1024px) {
+    .header {
+        height: 60px;
+    }
+
+    .ant-layout {
+        height: calc(100% - 60px);
+    }
+
+    .ant-drawer-left {
+        top: 60px !important;
+    }
 }
