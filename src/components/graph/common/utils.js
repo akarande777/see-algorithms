@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import Graph, { Point } from './common/Graph';
+import Graph, { Point } from './Graph';
 
 function distance(p, q) {
     let d = Math.sqrt((q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y));

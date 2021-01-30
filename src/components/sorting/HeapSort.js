@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import heap from './heap';
-import { Point } from '../graph/Graph';
-import { moveVertex } from '../graph/utils';
+import { Point } from '../graph/common/Graph';
+import { moveVertex } from '../graph/common/utils';
 import $ from 'jquery';
-import Wrapper from './wrapper';
+import Input from './input';
 
 var a, n;
 var tbl, cell;
@@ -95,8 +95,10 @@ function extractMax() {
     }
 }
 
-function HeapSort(props) {
-    const start = () => {
+function HeapSort() {
+    const start = (values) => {
+        a = [...values];
+        v = heap(a.length);
         n = a.length;
         cell = [];
         let row = document.createElement('tr');
@@ -118,7 +120,6 @@ function HeapSort(props) {
         clearInterval(timer);
         $('#plane').text('');
         tbl.innerHTML = '';
-        props.setValues([]);
     };
 
     useEffect(() => {
@@ -126,30 +127,14 @@ function HeapSort(props) {
         return () => stop();
     }, []);
 
-    useEffect(() => {
-        if (props.status) {
-            if (props.validate()) {
-                start();
-                return;
-            }
-            props.setStatus(false);
-        } else {
-            stop();
-        }
-    }, [props.status]);
-
-    useEffect(() => {
-        a = [...props.values];
-        if (a.length) {
-            v = heap(a.length);
-        }
-    }, [props.values]);
-
     return (
-        <div style={{ padding: '0 24px' }}>
-            <svg id="plane" style={{ border: 0, width: 650, height: 300 }} />
-            <div style={{ width: 650 }} className="spaceAround">
-                <table id="tbl" />
+        <div className="container">
+            <Input start={start} stop={stop} />
+            <div style={{ padding: '0 24px' }}>
+                <svg id="plane" style={{ border: 0, width: 650, height: 300 }} />
+                <div style={{ width: 650 }} className="spaceAround">
+                    <table id="tbl" />
+                </div>
             </div>
         </div>
     );
@@ -268,12 +253,14 @@ function swap(i, largest, angle) {
     }
 }
 
-function xco(t, h, dx) {
-    return flag ? dx - h * Math.sin(t * (Math.PI / 180)) : dx + h * Math.sin(t * (Math.PI / 180));
+function xco(theta, hypo, dx) {
+    return flag
+        ? dx - hypo * Math.sin(theta * (Math.PI / 180))
+        : dx + hypo * Math.sin(theta * (Math.PI / 180));
 }
 
-function yco(t, h, dy) {
-    return dy + h * Math.cos(t * (Math.PI / 180));
+function yco(theta, hypo, dy) {
+    return dy + hypo * Math.cos(theta * (Math.PI / 180));
 }
 
-export default Wrapper(HeapSort);
+export default HeapSort;

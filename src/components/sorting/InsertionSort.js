@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-import Wrapper from './wrapper';
+import Input from './input';
 
 var a, n;
 var i, j, temp;
 var tbl, cell;
 var timer;
 
-function InsertionSort(props) {
-    const start = () => {
-        a = [...props.values];
+function InsertionSort() {
+    const start = (values) => {
+        a = [...values];
         n = a.length;
         cell = [];
         for (let i = 0; i < 3; i++) {
@@ -34,7 +34,6 @@ function InsertionSort(props) {
         clearTimeout(timer);
         clearInterval(timer);
         tbl.innerHTML = '';
-        props.setValues([]);
     };
 
     useEffect(() => {
@@ -42,21 +41,12 @@ function InsertionSort(props) {
         return () => stop();
     }, []);
 
-    useEffect(() => {
-        if (props.status) {
-            if (!props.validate()) {
-                props.setStatus(false);
-                return;
-            }
-            start();
-        } else {
-            stop();
-        }
-    }, [props.status]);
-
     return (
-        <div style={{ padding: 24 }}>
-            <table id="tbl" />
+        <div className="container">
+            <Input start={start} stop={stop} />
+            <div style={{ padding: 24 }}>
+                <table id="tbl" />
+            </div>
         </div>
     );
 }
@@ -112,4 +102,4 @@ function insert() {
     }
 }
 
-export default Wrapper(InsertionSort);
+export default InsertionSort;

@@ -2,6 +2,7 @@
 
 .App {
     height: 100%;
+    overflow: hidden;
 }
 
 .spaceBetween {
@@ -16,62 +17,23 @@
     align-items: baseline;
 }
 
-table {
-    border-collapse: separate !important;
-    border-spacing: 6px !important;
-    font-weight: 600;
-    width: max-content;
-}
+.ant-layout {
+    height: calc(100% - 60px);
 
-td {
-    width: 50px;
-    height: 45px;
-    text-align: center;
-}
-
-.label {
-    font-size: 16px;
-}
-
-.draw {
-    width: 60%;
-
-    &:first-child {
-        font-size: 18px;
+    .ant-layout-content {
+        overflow-x: auto !important;
+        width: max-content;
     }
 }
 
-#plane {
-    width: 60%;
-    height: 50%;
-    border: thin solid;
-    margin: 12px 0;
+.ant-drawer-body {
+    padding: 0 !important;
 }
 
-#input {
-    display: flex;
-    align-items: center;
-    padding: 24px;
-
-    input {
-        width: 40px;
-        margin-right: 6px;
-    }
+.ant-drawer-left {
+    top: 60px !important;
 }
 
-.container {
-    min-width: 100%;
-    width: max-content;
-    height: 100%;
-    padding: 0;
-}
-
-@media only screen and (max-width: 1024px) {
-    .draw {
-        width: 100%;
-    }
-
-    #plane {
-        width: 100%;
-    }
+.anticon-appstore {
+    vertical-align: 0 !important;
 }

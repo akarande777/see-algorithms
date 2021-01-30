@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Wrapper from './wrapper';
+import Input from './input';
 
 var a, n;
 var i, j, swaps;
@@ -38,9 +38,9 @@ function jloop() {
     }
 }
 
-function BubbleSort(props) {
-    const start = () => {
-        a = [...props.values];
+function BubbleSort() {
+    const start = (values) => {
+        a = [...values];
         n = a.length;
         cell = [];
         for (let i = 0; i < 3; i++) {
@@ -64,7 +64,6 @@ function BubbleSort(props) {
     const stop = () => {
         clearTimeout(timer);
         tbl.innerHTML = '';
-        props.setValues([]);
     };
 
     useEffect(() => {
@@ -72,20 +71,9 @@ function BubbleSort(props) {
         return () => stop();
     }, []);
 
-    useEffect(() => {
-        if (props.status) {
-            if (!props.validate()) {
-                props.setStatus(false);
-                return;
-            }
-            start();
-        } else {
-            stop();
-        }
-    }, [props.status]);
-
     return (
-        <div style={{ padding: 24 }}>
+        <div className="container">
+            <Input start={start} stop={stop} />
             <table id="tbl" />
         </div>
     );
@@ -118,4 +106,4 @@ function shift(u, v) {
     cell[v].innerHTML = '';
 }
 
-export default Wrapper(BubbleSort);
+export default BubbleSort;

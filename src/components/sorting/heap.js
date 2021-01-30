@@ -1,5 +1,5 @@
-import { addVertex, addEdge } from '../graph/utils';
-import { Point } from '../graph/Graph';
+import { addVertex, addEdge } from '../graph/common/utils';
+import { Point } from '../graph/common/Graph';
 
 var flag;
 

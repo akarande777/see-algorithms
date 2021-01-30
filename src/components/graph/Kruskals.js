@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button, message } from 'antd';
-import { undirected } from './undirected';
+import { undirected } from './common/undirected';
 import $ from 'jquery';
-import Graph from './Graph';
+import Graph from './common/Graph';
 
 var parent;
 var arr;
@@ -96,7 +96,7 @@ function Kruskals(props) {
     }, [props.visible]);
 
     return (
-        <div style={{ padding: 24 }}>
+        <div>
             <div className="spaceBetween draw">
                 <span>Draw Graph</span>
                 <div>

@@ -5,14 +5,26 @@ import { Link, withRouter } from 'react-router-dom';
 const { SubMenu, Item } = Menu;
 
 const algorithms = {
-    sorting: ['Bubble Sort', 'Insertion Sort', 'Selection Sort', 'Radix Sort', 'Heap Sort', 'Merge Sort'],
-    graph: ['Depth First Search', 'Breadth First Search', 'Prim\'s Algorithm', 'Kruskal\'s Algorithm',
-        'Dijkstra\'s Algorithm', 'Topological Sorting']
+    sorting: [
+        'Bubble Sort',
+        'Insertion Sort',
+        'Selection Sort',
+        'Radix Sort',
+        'Heap Sort',
+        'Merge Sort',
+    ],
+    graph: [
+        'Depth First Search',
+        'Breadth First Search',
+        "Prim's Algorithm",
+        "Kruskal's Algorithm",
+        "Dijkstra's Algorithm",
+        'Topological Sorting',
+    ],
 };
 
-function Sider({ history, onChange }) {
-    const { pathname } = history.location;
-    
+function Sider(props) {
+    const { pathname } = props.location;
     return (
         <Menu
             style={{ width: 256 }}
@@ -20,7 +32,7 @@ function Sider({ history, onChange }) {
             selectedKeys={pathname ? [pathname.slice(1)] : []}
             mode="inline"
             theme="dark"
-            onSelect={() => onChange()}
+            onSelect={props.onChange}
         >
             <SubMenu
                 key="sorting"
@@ -33,9 +45,7 @@ function Sider({ history, onChange }) {
             >
                 {algorithms.sorting.map((algo, i) => (
                     <Item key={algo.split(' ').join('')}>
-                        <Link to={algo.split(' ').join('')}>
-                            {algo}
-                        </Link>
+                        <Link to={algo.split(' ').join('')}>{algo}</Link>
                     </Item>
                 ))}
             </SubMenu>
@@ -50,9 +60,7 @@ function Sider({ history, onChange }) {
             >
                 {algorithms.graph.map((algo, i) => (
                     <Item key={algo.split(' ').join('')}>
-                        <Link to={algo.split(' ').join('')}>
-                            {algo}
-                        </Link>
+                        <Link to={algo.split(' ').join('')}>{algo}</Link>
                     </Item>
                 ))}
             </SubMenu>

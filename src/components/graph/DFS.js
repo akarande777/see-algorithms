@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button, message } from 'antd';
-import { fromEnd, cloneEdge } from './utils';
-import { undirected } from './undirected';
-import Graph from './Graph';
+import { fromEnd, cloneEdge } from './common/utils';
+import { undirected } from './common/undirected';
+import Graph from './common/Graph';
 import $ from 'jquery';
 
 var stack;
@@ -73,7 +73,7 @@ function DFS(props) {
     }, [props.visible]);
 
     return (
-        <div style={{ padding: 24 }}>
+        <div>
             <div className="spaceBetween draw">
                 <span>Draw Graph</span>
                 <div>

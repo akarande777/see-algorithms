@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Button, message } from 'antd';
-import { fromEnd, distance } from './utils';
-import { directed } from './directed';
-import DAG from './DAG';
-import { Point } from './Graph';
+import { fromEnd, distance } from './common/utils';
+import { directed } from './common/directed';
+import DAG from './common/DAG';
+import { Point } from './common/Graph';
 import $ from 'jquery';
 
 var cell, k;
@@ -113,7 +113,7 @@ function TopSort(props) {
     }, [props.visible]);
 
     return (
-        <div style={{ padding: 24 }}>
+        <div>
             <div className="spaceBetween draw">
                 <span>Draw Graph</span>
                 <div>

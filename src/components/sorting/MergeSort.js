@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Wrapper from './wrapper';
+import Input from './input';
 
 var n, a;
 var tbl, cell;
@@ -149,9 +149,9 @@ function mergeSort(start, end) {
     });
 }
 
-function MergeSort(props) {
-    const start = () => {
-        a = [...props.values];
+function MergeSort() {
+    const start = (values) => {
+        a = [...values];
         n = a.length;
         cell = [];
         for (let i = 0; i < 3; i++) {
@@ -172,7 +172,6 @@ function MergeSort(props) {
     const stop = () => {
         clearTimeout(timer);
         tbl.innerHTML = '';
-        props.setValues([]);
     };
 
     useEffect(() => {
@@ -180,23 +179,14 @@ function MergeSort(props) {
         return () => stop();
     }, []);
 
-    useEffect(() => {
-        if (props.status) {
-            if (!props.validate()) {
-                props.setStatus(false);
-                return;
-            }
-            start();
-        } else {
-            stop();
-        }
-    }, [props.status]);
-
     return (
-        <div style={{ padding: 24 }}>
-            <table id="tbl" />
+        <div className="container">
+            <Input start={start} stop={stop} />
+            <div style={{ padding: 24 }}>
+                <table id="tbl" />
+            </div>
         </div>
     );
 }
 
-export default Wrapper(MergeSort);
+export default MergeSort;

@@ -1,11 +1,7 @@
 import React from 'react';
 
 function Home() {
-  return (
-    <div className="label" style={{ padding: 24 }}>
-      Hello World!
-    </div>
-  );
+    return <h5>Hello World!</h5>;
 }
 
 export default Home;

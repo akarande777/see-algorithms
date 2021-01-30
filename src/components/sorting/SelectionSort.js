@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Wrapper from './wrapper';
+import Input from './input';
 
 var a, n;
 var tbl, cell;
@@ -79,9 +79,9 @@ function jloop() {
     }
 }
 
-function SelectionSort(props) {
-    const start = () => {
-        a = [...props.values];
+function SelectionSort() {
+    const start = (values) => {
+        a = [...values];
         n = a.length;
         cell = [];
         for (let i = 0; i < 3; i++) {
@@ -104,7 +104,6 @@ function SelectionSort(props) {
         clearTimeout(timer);
         clearInterval(timer);
         tbl.innerHTML = '';
-        props.setValues([]);
     };
 
     useEffect(() => {
@@ -112,21 +111,12 @@ function SelectionSort(props) {
         return () => stop();
     }, []);
 
-    useEffect(() => {
-        if (props.status) {
-            if (!props.validate()) {
-                props.setStatus(false);
-                return;
-            }
-            start();
-        } else {
-            stop();
-        }
-    }, [props.status]);
-
     return (
-        <div style={{ padding: 24 }}>
-            <table id="tbl" />
+        <div className="container">
+            <Input start={start} stop={stop} />
+            <div style={{ padding: 24 }}>
+                <table id="tbl" />
+            </div>
         </div>
     );
 }
@@ -157,4 +147,4 @@ function swap() {
     k++;
 }
 
-export default Wrapper(SelectionSort);
+export default SelectionSort;
