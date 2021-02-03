@@ -44,9 +44,7 @@ function InsertionSort() {
     return (
         <div className="container">
             <Input start={start} stop={stop} />
-            <div style={{ padding: 24 }}>
-                <table id="tbl" />
-            </div>
+            <table id="tbl" />
         </div>
     );
 }

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Button, message } from 'antd';
+import React from 'react';
 import { fromEnd, cloneEdge } from './common/utils';
-import { undirected } from './common/undirected';
 import Graph from './common/Graph';
+import GraphView from './common/Graph.view';
 import $ from 'jquery';
+import DirectoryTree from 'antd/lib/tree/DirectoryTree';
 
 var n, w;
 var d, queue;
@@ -11,34 +11,40 @@ var v, prev;
 var timer;
 var delay = 1000;
 
-function start() {
+export default function (props) {
+    return <GraphView {...props} start={start} stop={() => clearTimeout(timer)} weighted={true} />;
+}
+
+function start(source) {
     $('#plane').off();
     n = Graph.totalPoints();
     w = [];
+    Graph.forEach((i, j) => {
+        w[i] = w[i] || [];
+        let ei = Graph.edgeIndex(i, j);
+        if (ei !== undefined) {
+            let value = $('.cost').eq(ei).text();
+            w[i][j] = parseInt(value) || 0;
+        } else {
+            w[i][j] = Infinity;
+        }
+    });
+    v = [source];
+    d = [];
     for (let i = 0; i < n; i++) {
-        w[i] = [];
-        for (let j = 0; j < n; j++) {
-            let ei = Graph.edgeIndex(i, j);
-            if (ei !== undefined) {
-                let value = $('.cost').eq(ei).text();
-                w[i][j] = parseInt(value) || 0;
-            } else {
-                w[i][j] = Infinity;
-            }
+        if (i === source) {
+            d.push(0);
+        } else {
+            d.push(Infinity);
+            $('.vlbl').eq(i).text('∞');
         }
     }
-    v = [0];
-    d = [0];
-    for (let i = 1; i < n; i++) {
-        d[i] = Infinity;
-        $('.vlbl').eq(i).text('∞');
-    }
-    queue = [0];
+    queue = [source];
     prev = [];
     timer = setTimeout(() => {
-        $('.vrtx').eq(0).attr('stroke', 'orange');
-        $('.vrtx').eq(0).attr('fill', 'orange');
-        timer = setTimeout(dijkstra, delay, 0);
+        $('.vrtx').eq(source).attr('stroke', 'orange');
+        $('.vrtx').eq(source).attr('fill', 'orange');
+        timer = setTimeout(dijkstra, delay, source);
     }, delay);
 }
 
@@ -68,54 +74,6 @@ function dijkstra(i) {
     timer = setTimeout(extractMin, delay);
 }
 
-function Dijkstras(props) {
-    const [status, setStatus] = useState(false);
-
-    const validate = () => {
-        if (Graph.totalSegments() < 3) {
-            message.error('draw atleast 3 edges', 2);
-        } else {
-            setStatus(true);
-        }
-    };
-
-    const stop = () => {
-        clearTimeout(timer);
-        $('#plane').text('');
-        $('#plane').off();
-        status ? setStatus(false) : undirected(true);
-    };
-
-    useEffect(() => {
-        status ? start() : undirected(true);
-        return () => clearTimeout(timer);
-    });
-
-    useEffect(() => {
-        if (props.visible) stop();
-    }, [props.visible]);
-
-    return (
-        <div>
-            <div className="spaceBetween draw">
-                <span>Draw Graph</span>
-                <div>
-                    <Button type="primary" onClick={validate} disabled={status}>
-                        Start
-                    </Button>
-                    &nbsp;&nbsp;
-                    <Button type="primary" onClick={stop}>
-                        Clear
-                    </Button>
-                </div>
-            </div>
-            <div>
-                <svg id="plane" width="700" height="450" />
-            </div>
-        </div>
-    );
-}
-
 function extractMin() {
     let j = queue.indexOf(Math.min(...queue));
     v.push(j);
@@ -141,5 +99,3 @@ function span(p, q, d, i, k) {
         }
     }
 }
-
-export default Dijkstras;

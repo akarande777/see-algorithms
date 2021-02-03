@@ -130,11 +130,9 @@ function HeapSort() {
     return (
         <div className="container">
             <Input start={start} stop={stop} />
-            <div style={{ padding: '0 24px' }}>
-                <svg id="plane" style={{ border: 0, width: 650, height: 300 }} />
-                <div style={{ width: 650 }} className="spaceAround">
-                    <table id="tbl" />
-                </div>
+            <svg id="plane" style={{ border: 0, width: 650, height: 300 }} />
+            <div style={{ width: 650 }} className="spaceAround">
+                <table id="tbl" />
             </div>
         </div>
     );

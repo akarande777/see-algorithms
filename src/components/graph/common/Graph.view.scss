@@ -1,0 +1,54 @@
+.drawGraph {
+    width: 700px;
+}
+
+.toolbar {
+    width: 100%;
+    button {
+        margin-left: 10px;
+    }
+}
+
+.options {
+    align-items: center;
+    .title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-right: 15px;
+    }
+    .source {
+        width: 40px;
+        margin-right: 12px;
+    }
+}
+
+#plane {
+    border: thin solid;
+    margin: 12px 0;
+    width: 100%;
+    height: 450px;
+}
+
+@media only screen and (max-width: 1024px) {
+    .drawGraph {
+        width: 100%;
+        #plane {
+            height: 300px;
+        }
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    .options {
+        .title {
+            margin-bottom: 8px;
+        }
+    }
+
+    .controls {
+        flex-direction: column-reverse;
+        button:last-child {
+            margin-bottom: 8px;
+        }
+    }
+}

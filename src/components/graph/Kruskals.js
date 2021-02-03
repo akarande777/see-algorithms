@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Button, message } from 'antd';
-import { undirected } from './common/undirected';
-import $ from 'jquery';
+import React from 'react';
 import Graph from './common/Graph';
+import GraphView from './common/Graph.view';
+import $ from 'jquery';
 
 var parent;
 var arr;
@@ -12,6 +11,10 @@ var delay = 1000;
 
 function findParent(q) {
     return parent[q] === q ? q : findParent(parent[q]);
+}
+
+export default function (props) {
+    return <GraphView {...props} start={start} stop={() => clearTimeout(timer)} isMST={true} />;
 }
 
 function start() {
@@ -68,54 +71,6 @@ function find() {
     }
 }
 
-function Kruskals(props) {
-    const [status, setStatus] = useState(false);
-
-    const validate = () => {
-        if (Graph.totalSegments() < 3) {
-            message.error('draw atleast 3 edges', 2);
-        } else {
-            setStatus(true);
-        }
-    };
-
-    const stop = () => {
-        clearTimeout(timer);
-        $('#plane').text('');
-        $('#plane').off();
-        status ? setStatus(false) : undirected(true);
-    };
-
-    useEffect(() => {
-        status ? start() : undirected(true);
-        return () => clearTimeout(timer);
-    });
-
-    useEffect(() => {
-        if (props.visible) stop();
-    }, [props.visible]);
-
-    return (
-        <div>
-            <div className="spaceBetween draw">
-                <span>Draw Graph</span>
-                <div>
-                    <Button type="primary" onClick={validate} disabled={status}>
-                        Start
-                    </Button>
-                    &nbsp;&nbsp;
-                    <Button type="primary" onClick={stop}>
-                        Clear
-                    </Button>
-                </div>
-            </div>
-            <div>
-                <svg id="plane" width="700" height="450" />
-            </div>
-        </div>
-    );
-}
-
 function skip() {
     $('.vrtx').eq(arr[j].u).attr('stroke', 'orange');
     $('.vrtx').eq(arr[j].v).attr('stroke', 'orange');
@@ -124,5 +79,3 @@ function skip() {
     j++;
     timer = setTimeout(find, delay);
 }
-
-export default Kruskals;

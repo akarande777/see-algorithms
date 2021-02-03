@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Button, message } from 'antd';
+import React from 'react';
 import { fromEnd, distance } from './common/utils';
-import { directed } from './common/directed';
-import DAG from './common/DAG';
-import { Point } from './common/Graph';
+import Graph, { Point } from './common/Graph';
+import GraphView from './common/Graph.view';
 import $ from 'jquery';
 
 var cell, k;
@@ -12,12 +10,17 @@ var stack;
 var timer;
 var delay = 1000;
 
+export default function (props) {
+    return <GraphView {...props} start={start} stop={() => clearTimeout(timer)} isDAG={true} />;
+}
+
 function start() {
     $('#plane').off();
     let tbl = document.querySelector('#tbl');
     tbl.innerHTML = '';
     let row = document.createElement('tr');
     cell = [];
+    n = Graph.totalPoints();
     for (let j = 0; j < n; j++) {
         cell[j] = document.createElement('td');
         cell[j].setAttribute('style', 'border:2px solid;width:40px;height:40px;padding:5px');
@@ -25,6 +28,7 @@ function start() {
     }
     tbl.appendChild(row);
     stack = [];
+    ind = Graph.indegree();
     for (let i = 0; i < n; i++) {
         if (ind[i] === 0) {
             stack.push(i);
@@ -39,18 +43,18 @@ function sort() {
     if (stack.length > 0) {
         let i = stack.pop();
         $(`.vrtx:eq(${i})`).attr('fill', 'orange');
-        for (let j = 0; j < DAG.totalPoints(); j++) {
-            let ei = DAG.edgeIndex(i, j);
+        for (let j = 0; j < Graph.totalPoints(); j++) {
+            let ei = Graph.edgeIndex(i, j);
             if (ei !== undefined && ind[j] !== 0) {
                 --ind[j];
                 k++;
-                let p = DAG.point(i);
+                let p = Graph.point(i);
                 let x2 = $(`line:eq(${ei})`).attr('x2');
                 let y2 = $(`line:eq(${ei})`).attr('y2');
                 let q = new Point(x2, y2);
                 $(`line:eq(${ei})`).attr('stroke', 'orange');
                 let d = distance(p, q);
-                timer = setTimeout(function () {
+                timer = setTimeout(() => {
                     if (ind[j] === 0) {
                         stack.push(j);
                         $(`.vrtx:eq(${j})`).attr('stroke', 'orange');
@@ -63,95 +67,14 @@ function sort() {
             timer = setTimeout(fall, delay / 2, i);
         }
     } else {
-        setTimeout(function () {
+        setTimeout(() => {
             document.querySelector('#clear').click();
-            document.querySelector('#tbl').innerHTML = '';
-        }, 500);
+        }, delay / 2);
     }
 }
 
-function TopSort(props) {
-    const [status, setStatus] = useState(false);
-
-    const validate = () => {
-        n = DAG.totalPoints();
-        if (n < 3) {
-            message.error('add minimum 3 vertices', 2);
-            return;
-        }
-        ind = DAG.indegree();
-        for (let i = 0; i < n; i++) {
-            let k = 0;
-            for (let j = 0; j < n; j++) {
-                let ei = DAG.edgeIndex(i, j);
-                if (ei === undefined) {
-                    k++;
-                }
-            }
-            if (k === n && ind[i] === 0) {
-                message.error('connect all vertices');
-                return;
-            }
-        }
-        setStatus(true);
-    };
-
-    const stop = () => {
-        clearTimeout(timer);
-        $('#plane').off();
-        $('#plane').children().not(':first').remove();
-        status ? setStatus(false) : directed();
-    };
-
-    useEffect(() => {
-        status ? start() : directed();
-        return () => clearTimeout(timer);
-    });
-
-    useEffect(() => {
-        if (props.visible) stop();
-    }, [props.visible]);
-
-    return (
-        <div>
-            <div className="spaceBetween draw">
-                <span>Draw Graph</span>
-                <div>
-                    <Button type="primary" onClick={validate} disabled={status}>
-                        Start
-                    </Button>
-                    &nbsp;&nbsp;
-                    <Button type="primary" onClick={stop} id="clear">
-                        Clear
-                    </Button>
-                </div>
-            </div>
-            <div>
-                <svg id="plane" width="700" height="450">
-                    <defs>
-                        <marker
-                            id="arrow"
-                            viewBox="0 0 10 10"
-                            refX="5"
-                            refY="5"
-                            markerWidth="4"
-                            markerHeight="6"
-                            orient="auto-start-reverse"
-                        >
-                            <path d="M 0 0 L 10 5 L 0 10 z" />
-                        </marker>
-                    </defs>
-                </svg>
-            </div>
-            <div style={{ width: '60%' }} className="spaceAround">
-                <table id="tbl" />
-            </div>
-        </div>
-    );
-}
-
 function extract(p, q, i, j, d) {
-    let ei = DAG.edgeIndex(i, j);
+    let ei = Graph.edgeIndex(i, j);
     if (d > 0) {
         let r = fromEnd(q, p, d);
         $(`line:eq(${ei})`).attr('x2', r.x);
@@ -173,12 +96,10 @@ function fall(i) {
         $(`.vlbl:eq(${i})`).attr('y', cy + 7);
         timer = setTimeout(fall, delay / 200, i);
     } else {
-        let np = DAG.totalPoints();
+        let np = Graph.totalPoints();
         cell[np - n].innerHTML = String.fromCharCode(65 + i);
         cell[np - n].setAttribute('bgcolor', 'orange');
         --n;
         timer = setTimeout(sort, delay / 2);
     }
 }
-
-export default TopSort;

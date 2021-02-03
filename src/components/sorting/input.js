@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Select, Input, Button, message } from 'antd';
+import './input.scss';
 
 function Container(props) {
     const [values, setValues] = useState([]);

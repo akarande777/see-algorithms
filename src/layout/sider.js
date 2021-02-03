@@ -44,8 +44,8 @@ function Sider(props) {
                 }
             >
                 {algorithms.sorting.map((algo, i) => (
-                    <Item key={algo.split(' ').join('')}>
-                        <Link to={algo.split(' ').join('')}>{algo}</Link>
+                    <Item key={algo.split(' ').join('-')}>
+                        <Link to={algo.split(' ').join('-')}>{algo}</Link>
                     </Item>
                 ))}
             </SubMenu>
@@ -59,23 +59,11 @@ function Sider(props) {
                 }
             >
                 {algorithms.graph.map((algo, i) => (
-                    <Item key={algo.split(' ').join('')}>
-                        <Link to={algo.split(' ').join('')}>{algo}</Link>
+                    <Item key={algo.split(' ').join('-')}>
+                        <Link to={algo.split(' ').join('-')}>{algo}</Link>
                     </Item>
                 ))}
             </SubMenu>
-            {/* <SubMenu
-                key="huffman"
-                title={
-                    <span>
-                        <Icon type="appstore" />
-                        <Link to="/HuffmanCoding">
-                            Huffman Coding
-                        </Link>
-                    </span>
-                }
-            >
-            </SubMenu> */}
         </Menu>
     );
 }

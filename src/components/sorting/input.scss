@@ -1,0 +1,19 @@
+.container {
+    min-width: 100%;
+    width: max-content;
+    padding: 0;
+}
+
+.input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+
+    .label {
+        font-size: 15px;
+    }
+    .number {
+        width: 40px;
+        margin-right: 6px;
+    }
+}

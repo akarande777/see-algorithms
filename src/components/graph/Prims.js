@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Button, message } from 'antd';
+import React from 'react';
 import { fromEnd, cloneEdge } from './common/utils';
-import { undirected } from './common/undirected';
 import Graph from './common/Graph';
+import GraphView from './common/Graph.view';
 import $ from 'jquery';
 
 var n, w;
@@ -11,25 +10,27 @@ var queue;
 var timer;
 var delay = 1000;
 
-function start() {
+export default function (props) {
+    return <GraphView {...props} start={start} stop={() => clearTimeout(timer)} isMST={true} />;
+}
+
+function start(source) {
     $('#plane').off();
     n = Graph.totalPoints();
     w = [];
-    for (let i = 0; i < n; i++) {
-        w[i] = [];
-        for (let j = 0; j < n; j++) {
-            let ei = Graph.edgeIndex(i, j);
-            if (ei !== undefined) {
-                let value = $('.cost').eq(ei).text();
-                w[i][j] = parseInt(value) || 0;
-            } else {
-                w[i][j] = Infinity;
-            }
+    Graph.forEach((i, j) => {
+        w[i] = w[i] || [];
+        let ei = Graph.edgeIndex(i, j);
+        if (ei !== undefined) {
+            let value = $('.cost').eq(ei).text();
+            w[i][j] = parseInt(value) || 0;
+        } else {
+            w[i][j] = Infinity;
         }
-    }
+    });
     queue = [];
     mst = [];
-    i = 0;
+    i = source;
     timer = setTimeout(() => {
         $('.vrtx').eq(i).attr('stroke', 'orange');
         $('.vrtx').eq(i).attr('fill', 'orange');
@@ -49,54 +50,6 @@ function prim() {
         }
     }
     timer = setTimeout(extractMin, delay);
-}
-
-function Prims(props) {
-    const [status, setStatus] = useState(false);
-
-    const validate = () => {
-        if (Graph.totalSegments() < 3) {
-            message.error('draw atleast 3 edges', 2);
-        } else {
-            setStatus(true);
-        }
-    };
-
-    const stop = () => {
-        clearTimeout(timer);
-        $('#plane').text('');
-        $('#plane').off();
-        status ? setStatus(false) : undirected(true);
-    };
-
-    useEffect(() => {
-        status ? start() : undirected(true);
-        return () => clearTimeout(timer);
-    });
-
-    useEffect(() => {
-        if (props.visible) stop();
-    }, [props.visible]);
-
-    return (
-        <div>
-            <div className="spaceBetween draw">
-                <span>Draw Graph</span>
-                <div>
-                    <Button type="primary" onClick={validate} disabled={status}>
-                        Start
-                    </Button>
-                    &nbsp;&nbsp;
-                    <Button type="primary" onClick={stop}>
-                        Clear
-                    </Button>
-                </div>
-            </div>
-            <div>
-                <svg id="plane" width="700" height="450" />
-            </div>
-        </div>
-    );
 }
 
 function extractMin() {
@@ -138,5 +91,3 @@ function span(p, q, d) {
         }
     }
 }
-
-export default Prims;

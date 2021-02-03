@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Button, message } from 'antd';
+import React from 'react';
 import { fromEnd, cloneEdge } from './common/utils';
-import { undirected } from './common/undirected';
 import Graph from './common/Graph';
+import GraphView from './common/Graph.view';
 import $ from 'jquery';
 
 var stack;
@@ -11,17 +10,21 @@ var prev, k;
 var timer;
 var delay = 1000;
 
-function dfs() {
-    if (stack.length) {
-        $('.vrtx').eq(i).attr('fill', '#eee');
-        i = stack.pop();
-        k = prev[i];
-        let ei = Graph.edgeIndex(k, i);
-        let { p, q, d } = cloneEdge(k, ei);
-        timer = setTimeout(span, delay, p, q, d - 2);
-    } else {
-        $('.vrtx').eq(i).attr('fill', '#eee');
-    }
+export default function (props) {
+    return <GraphView {...props} start={start} stop={() => clearTimeout(timer)} />;
+}
+
+function start(source) {
+    $('#plane').off();
+    v = [source];
+    stack = [];
+    prev = [];
+    i = source;
+    timer = setTimeout(() => {
+        $('.vrtx').eq(i).attr('stroke', 'orange');
+        $('.vrtx').eq(i).attr('fill', 'orange');
+        timer = setTimeout(visit, delay / 2, 0);
+    }, delay);
 }
 
 function visit(j) {
@@ -45,65 +48,17 @@ function visit(j) {
     } else dfs();
 }
 
-function DFS(props) {
-    const [status, setStatus] = useState(false);
-
-    const validate = () => {
-        if (Graph.totalSegments() < 3) {
-            message.error('draw atleast 3 edges', 2);
-        } else {
-            setStatus(true);
-        }
-    };
-
-    const stop = () => {
-        clearTimeout(timer);
-        $('#plane').text('');
-        $('#plane').off();
-        status ? setStatus(false) : undirected(false);
-    };
-
-    useEffect(() => {
-        status ? start() : undirected(false);
-        return () => clearTimeout(timer);
-    });
-
-    useEffect(() => {
-        if (props.visible) stop();
-    }, [props.visible]);
-
-    return (
-        <div>
-            <div className="spaceBetween draw">
-                <span>Draw Graph</span>
-                <div>
-                    <Button type="primary" onClick={validate} disabled={status}>
-                        Start
-                    </Button>
-                    &nbsp;&nbsp;
-                    <Button type="primary" onClick={stop}>
-                        Clear
-                    </Button>
-                </div>
-            </div>
-            <div>
-                <svg id="plane" width="700" height="450" />
-            </div>
-        </div>
-    );
-}
-
-function start() {
-    $('#plane').off();
-    v = [0];
-    stack = [];
-    prev = [];
-    i = 0;
-    timer = setTimeout(() => {
-        $('.vrtx').eq(i).attr('stroke', 'orange');
-        $('.vrtx').eq(i).attr('fill', 'orange');
-        timer = setTimeout(visit, delay / 2, 1);
-    }, delay);
+function dfs() {
+    if (stack.length) {
+        $('.vrtx').eq(i).attr('fill', '#eee');
+        i = stack.pop();
+        k = prev[i];
+        let ei = Graph.edgeIndex(k, i);
+        let { p, q, d } = cloneEdge(k, ei);
+        timer = setTimeout(span, delay, p, q, d - 2);
+    } else {
+        $('.vrtx').eq(i).attr('fill', '#eee');
+    }
 }
 
 function span(p, q, d) {
@@ -121,19 +76,17 @@ function span(p, q, d) {
         $('.vrtx').eq(i).attr('fill', 'orange');
         let j;
         let n = Graph.totalPoints();
-        for (j = 1; j < n; j++) {
+        for (j = 0; j < n; j++) {
             let ei = Graph.edgeIndex(i, j);
             if (ei !== undefined) {
                 if (v.indexOf(j) === -1 || stack.indexOf(j) !== -1) {
-                    timer = setTimeout(visit, delay / 2, 1);
+                    timer = setTimeout(visit, delay / 2, 0);
                     break;
                 }
             }
         }
         if (j === n) {
-            timer = setTimeout(dfs, delay / 2, 1);
+            timer = setTimeout(dfs, delay / 2);
         }
     }
 }
-
-export default DFS;

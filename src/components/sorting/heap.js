@@ -3,14 +3,14 @@ import { Point } from '../graph/common/Graph';
 
 var flag;
 
-function xco(theta, hypt, dx) {
+function xco(theta, hypo, dx) {
     return flag
-        ? dx - hypt * Math.sin(theta * (Math.PI / 180))
-        : dx + hypt * Math.sin(theta * (Math.PI / 180));
+        ? dx - hypo * Math.sin(theta * (Math.PI / 180))
+        : dx + hypo * Math.sin(theta * (Math.PI / 180));
 }
 
-function yco(theta, hypt, dy) {
-    return dy + hypt * Math.cos(theta * (Math.PI / 180));
+function yco(theta, hypo, dy) {
+    return dy + hypo * Math.cos(theta * (Math.PI / 180));
 }
 
 function heap(n) {
@@ -21,7 +21,7 @@ function heap(n) {
     let dx = 325,
         dy = 25;
     let theta = 70,
-        hypt = 150;
+        hypo = 150;
     let size = 2;
     let k = 1;
     flag = true;
@@ -29,8 +29,8 @@ function heap(n) {
         for (let j = 0; j < size; j++) {
             let x1 = xco(theta, 15, dx);
             let y1 = yco(theta, 15, dy);
-            let x2 = xco(theta, hypt, dx);
-            let y2 = yco(theta, hypt, dy);
+            let x2 = xco(theta, hypo, dx);
+            let y2 = yco(theta, hypo, dy);
             p = new Point(x2, y2);
             addEdge(new Point(x1, y1), p);
             addVertex(p, '');
@@ -45,7 +45,7 @@ function heap(n) {
         }
         if (v.length === n) break;
         theta = i === 1 ? theta - 20 : theta - 25;
-        hypt = i === 1 ? hypt - 30 : hypt - 50;
+        hypo = i === 1 ? hypo - 30 : hypo - 50;
         dy = v[v.length - 1].y;
         size *= 2;
     }

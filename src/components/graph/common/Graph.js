@@ -1,12 +1,11 @@
 const points = [];
 const segments = [];
 const matrix = [];
+const dir = [];
+
+let directed = false;
 
 export default {
-    data() {
-        return { points, segments, matrix };
-    },
-
     addPoint(point) {
         points.push(point);
         matrix.push([]);
@@ -18,13 +17,14 @@ export default {
         return [i, j];
     },
 
-    addSegment(segment, directed) {
+    addSegment(segment) {
         let [i, j] = this.position(segment);
         matrix[i][j] = segments.length;
         if (!directed) {
             matrix[j][i] = segments.length;
         }
         segments.push(segment);
+        dir.push([i, j]);
     },
 
     totalPoints: () => points.length,
@@ -37,16 +37,90 @@ export default {
 
     edgeIndex: (i, j) => matrix[i][j],
 
-    initialize() {
+    initialize(type) {
         points.length = 0;
         segments.length = 0;
         matrix.length = 0;
+        dir.length = 0;
+        directed = typeof type === 'boolean' ? type : false;
+    },
+
+    forEach(callback) {
+        let np = points.length;
+        for (let i = 0; i < np; i++) {
+            for (let j = 0; j < np; j++) {
+                callback(i, j);
+            }
+        }
+    },
+
+    isDirected() {
+        return directed;
+    },
+
+    switchType() {
+        directed = !directed;
+        let np = points.length;
+        if (np > 1) {
+            if (directed) {
+                dir.forEach(([i, j]) => {
+                    matrix[j][i] = undefined;
+                });
+            } else {
+                dir.forEach(([i, j]) => {
+                    matrix[j][i] = matrix[i][j];
+                });
+            }
+        }
     },
 
     removeSegment(segment) {
         let [i, j] = this.position(segment);
         segments.splice(matrix[i][j], 1);
         matrix[i][j] = undefined;
+        if (!directed) {
+            matrix[j][i] = undefined;
+        }
+        let k = dir.findIndex(([u, v]) => u === i && v === j);
+        dir.splice(k, 1);
+    },
+
+    indegree() {
+        let np = points.length;
+        let ind = new Array(np).fill(0);
+        dir.forEach(([i, j]) => {
+            ind[j]++;
+        });
+        return ind;
+    },
+
+    hasCycle() {
+        let np = points.length;
+        let ind = this.indegree();
+        let stack = [];
+        for (let i = 0; i < np; i++) {
+            if (ind[i] === 0) {
+                stack.push(i);
+            }
+        }
+        if (stack.length === 0) {
+            return true;
+        }
+        let k = 0;
+        while (stack.length > 0) {
+            let i = stack.pop();
+            for (let j = 0; j < np; j++) {
+                let ei = this.edgeIndex(i, j);
+                if (ei !== undefined && ind[j] !== 0) {
+                    --ind[j];
+                    if (ind[j] === 0) {
+                        stack.push(j);
+                    }
+                }
+            }
+            k++;
+        }
+        return k !== np;
     },
 };
 

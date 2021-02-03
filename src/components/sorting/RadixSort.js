@@ -137,11 +137,10 @@ class RadixSort extends React.Component {
                 cell[k] = document.createElement('td');
                 if (i == 2) {
                     cell[k].innerHTML = j;
-                    cell[k].setAttribute('bgcolor', 'pink');
                     cell[k].setAttribute('align', 'center');
                     cell[k].setAttribute(
                         'style',
-                        'font-weight: 600; border: 2px solid; text-align: center'
+                        'font-weight: 600; border-top: 1px solid; text-align: center'
                     );
                 }
                 if (i == 1)
@@ -170,7 +169,7 @@ class RadixSort extends React.Component {
     render() {
         return (
             <div>
-                <div style={{ padding: 24 }}>
+                <div className="input">
                     <span className="label">Select number of elements:&nbsp;</span>
                     <Select style={{ width: 60 }} onChange={this.handleSelect}>
                         {[7, 8, 9, 10, 11, 12].map((i) => {
@@ -182,12 +181,10 @@ class RadixSort extends React.Component {
                         })}
                     </Select>
                 </div>
-                <div style={{ padding: 24 }}>
-                    <table id="tbl" />
-                    <br />
-                    <br />
-                    <table id="tbl2" />
-                </div>
+                <table id="tbl" />
+                <br />
+                <br />
+                <table id="tbl2" />
             </div>
         );
     }

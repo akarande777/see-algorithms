@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.scss';
-import { Layout, Drawer, Breadcrumb } from 'antd';
-import { HashRouter, Link } from 'react-router-dom';
+import { Layout, Drawer } from 'antd';
+import { HashRouter } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import Header from './components/header/header';
 import SiderView from './layout/sider';
@@ -35,15 +35,6 @@ function App() {
                         <SiderView onChange={() => null} />
                     </Sider>
                     <Content style={{ backgroundColor: 'white', padding: 24 }}>
-                        {/* <Breadcrumb>
-                            <Breadcrumb.Item>
-                                <Link to="/">Home</Link>
-                            </Breadcrumb.Item>
-                            <Breadcrumb.Item>
-                            
-                            </Breadcrumb.Item>
-                        </Breadcrumb>
-                        <br /> */}
                         <ContentView visible={visible} />
                     </Content>
                 </Layout>

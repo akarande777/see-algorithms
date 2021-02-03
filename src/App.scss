@@ -8,13 +8,13 @@
 .spaceBetween {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
 }
 
 .spaceAround {
     display: flex;
     justify-content: space-around;
-    align-items: baseline;
+    align-items: center;
 }
 
 .ant-layout {

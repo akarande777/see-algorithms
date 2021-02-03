@@ -1,5 +1,6 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { Fragment } from 'react';
+import { Switch, Route, withRouter, Link } from 'react-router-dom';
+import { Breadcrumb } from 'antd';
 import Home from '../components/home';
 import NoRouteFound from '../components/404/404';
 import BubbleSort from '../components/sorting/BubbleSort';
@@ -16,53 +17,63 @@ import Kruskals from '../components/graph/Kruskals';
 import Dijkstras from '../components/graph/Dijkstras';
 import TopSort from '../components/graph/TopSort';
 
-function Content({ visible }) {
+function Content({ location, visible }) {
+    const { pathname } = location;
     return (
-        <Switch>
-            <Route exact path="/">
-                <Home />
-            </Route>
-            <Route path="/BubbleSort" exact>
-                <BubbleSort />
-            </Route>
-            <Route path="/InsertionSort" exact>
-                <InsertionSort />
-            </Route>
-            <Route path="/SelectionSort" exact>
-                <SelectionSort />
-            </Route>
-            <Route path="/RadixSort" exact>
-                <RadixSort />
-            </Route>
-            <Route path="/HeapSort" exact>
-                <HeapSort />
-            </Route>
-            <Route path="/MergeSort" exact>
-                <MergeSort />
-            </Route>
-            <Route path="/DepthFirstSearch" exact>
-                <DFS visible={visible} />
-            </Route>
-            <Route path="/BreadthFirstSearch" exact>
-                <BFS visible={visible} />
-            </Route>
-            <Route path="/Prim'sAlgorithm" exact>
-                <Prims visible={visible} />
-            </Route>
-            <Route path="/Kruskal'sAlgorithm" exact>
-                <Kruskals visible={visible} />
-            </Route>
-            <Route path="/Dijkstra'sAlgorithm" exact>
-                <Dijkstras visible={visible} />
-            </Route>
-            <Route path="/TopologicalSorting" exact>
-                <TopSort visible={visible} />
-            </Route>
-            <Route>
-                <NoRouteFound />
-            </Route>
-        </Switch>
+        <Fragment>
+            <Breadcrumb>
+                <Breadcrumb.Item>
+                    <Link to="/">Home</Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>{pathname.slice(1).split('-').join(' ')}</Breadcrumb.Item>
+            </Breadcrumb>
+            <br />
+            <Switch>
+                <Route exact path="/">
+                    <Home />
+                </Route>
+                <Route path="/Bubble-Sort" exact>
+                    <BubbleSort />
+                </Route>
+                <Route path="/Insertion-Sort" exact>
+                    <InsertionSort />
+                </Route>
+                <Route path="/Selection-Sort" exact>
+                    <SelectionSort />
+                </Route>
+                <Route path="/Radix-Sort" exact>
+                    <RadixSort />
+                </Route>
+                <Route path="/Heap-Sort" exact>
+                    <HeapSort />
+                </Route>
+                <Route path="/Merge-Sort" exact>
+                    <MergeSort />
+                </Route>
+                <Route path="/Depth-First-Search" exact>
+                    <DFS visible={visible} />
+                </Route>
+                <Route path="/Breadth-First-Search" exact>
+                    <BFS visible={visible} />
+                </Route>
+                <Route path="/Prim's-Algorithm" exact>
+                    <Prims visible={visible} />
+                </Route>
+                <Route path="/Kruskal's-Algorithm" exact>
+                    <Kruskals visible={visible} />
+                </Route>
+                <Route path="/Dijkstra's-Algorithm" exact>
+                    <Dijkstras visible={visible} />
+                </Route>
+                <Route path="/Topological-Sorting" exact>
+                    <TopSort visible={visible} />
+                </Route>
+                <Route>
+                    <NoRouteFound />
+                </Route>
+            </Switch>
+        </Fragment>
     );
 }
 
-export default Content;
+export default withRouter(Content);
