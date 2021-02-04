@@ -3,7 +3,6 @@ import { fromEnd, cloneEdge } from './common/utils';
 import Graph from './common/Graph';
 import GraphView from './common/Graph.view';
 import $ from 'jquery';
-import DirectoryTree from 'antd/lib/tree/DirectoryTree';
 
 var n, w;
 var d, queue;
