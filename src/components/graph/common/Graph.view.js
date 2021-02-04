@@ -125,7 +125,7 @@ function GraphView(props) {
                 </div>
                 <div
                     className="d-flex flex-wrap right"
-                    style={props.isDAG || props.isMST ? { flexDirection: 'row' } : {}}
+                    style={props.isDAG ? { flexDirection: 'row' } : {}}
                 >
                     <Button type="primary" onMouseDown={validate} disabled={status}>
                         Start
