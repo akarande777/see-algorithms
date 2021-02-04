@@ -4,18 +4,22 @@
 
 .toolbar {
     width: 100%;
-    button {
-        margin-left: 10px;
+    .left {
+        align-items: center;
+        .title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-right: 15px;
+        }
+    }
+    .right {
+        button {
+            margin-left: 10px;
+        }
     }
 }
 
 .options {
-    align-items: center;
-    .title {
-        font-size: 18px;
-        font-weight: 600;
-        margin-right: 15px;
-    }
     .source {
         width: 40px;
         margin-right: 12px;
@@ -39,16 +43,19 @@
 }
 
 @media only screen and (max-width: 575px) {
-    .options {
-        .title {
-            margin-bottom: 8px;
+    .toolbar {
+        .left {
+            .title,
+            .options {
+                margin-bottom: 8px;
+            }
         }
-    }
-
-    .controls {
-        flex-direction: column-reverse;
-        button:last-child {
-            margin-bottom: 8px;
+        .right {
+            width: auto;
+            flex-direction: column-reverse;
+            #clear {
+                margin-bottom: 8px;
+            }
         }
     }
 }

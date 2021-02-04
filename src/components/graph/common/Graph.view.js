@@ -99,10 +99,10 @@ function GraphView(props) {
     return (
         <div className="drawGraph">
             <div className="spaceBetween toolbar">
-                <div className="d-flex flex-wrap options">
+                <div className="d-flex flex-wrap left">
                     <span className="title">Draw Graph</span>
                     {!props.isDAG && (
-                        <div>
+                        <div className="options">
                             <span className="label">Source: &nbsp;</span>
                             <Input
                                 size="small"
@@ -124,8 +124,8 @@ function GraphView(props) {
                     )}
                 </div>
                 <div
-                    className="d-flex flex-wrap controls"
-                    style={props.isDAG ? { flexDirection: 'row' } : {}}
+                    className="d-flex flex-wrap right"
+                    style={props.isDAG || props.isMST ? { flexDirection: 'row' } : {}}
                 >
                     <Button type="primary" onMouseDown={validate} disabled={status}>
                         Start
