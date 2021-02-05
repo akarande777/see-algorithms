@@ -73,20 +73,20 @@ function GraphView(props) {
             Graph.switchType();
             create();
             if (directed) {
-                $('.edge').each((i) => {
+                $('.edge').each(function (i) {
                     let s = Graph.segment(i);
                     let r = fromEnd(s.p, s.q, 23);
-                    $('.edge').eq(i).attr('x2', r.x);
-                    $('.edge').eq(i).attr('y2', r.y);
-                    $('.edge').eq(i).attr('marker-end', 'url(#arrow)');
+                    $(this).attr('x2', r.x);
+                    $(this).attr('y2', r.y);
+                    $(this).attr('marker-end', 'url(#arrow)');
                 });
             } else {
-                $('.edge').each((i) => {
+                $('.edge').each(function (i) {
                     let s = Graph.segment(i);
                     let { x, y } = s.q;
-                    $('.edge').eq(i).attr('x2', x);
-                    $('.edge').eq(i).attr('y2', y);
-                    $('.edge').eq(i).removeAttr('marker-end');
+                    $(this).attr('x2', x);
+                    $(this).attr('y2', y);
+                    $(this).removeAttr('marker-end');
                 });
             }
         }

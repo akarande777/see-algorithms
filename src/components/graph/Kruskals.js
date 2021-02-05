@@ -20,7 +20,7 @@ export default function (props) {
 function start() {
     $('#plane').off();
     arr = [];
-    $('.cost').each(() => {
+    $('.cost').each(function () {
         let edge = {};
         edge.w = parseInt($(this).text()) || 0;
         arr.push(edge);
