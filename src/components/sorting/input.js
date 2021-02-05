@@ -22,7 +22,8 @@ function Container(props) {
     const validate = () => {
         for (let i = 0; i < values.length; i++) {
             if (isNaN(parseInt(values[i]))) {
-                message.error('not a number', 2);
+                message.error('Please enter valid number', 60);
+                setStatus(false);
                 return false;
             }
         }
@@ -31,8 +32,10 @@ function Container(props) {
 
     const handleSubmit = () => {
         if (!status) {
-            validate() && props.start(values);
-            setStatus(true);
+            if (validate()) {
+                setStatus(true);
+                props.start(values);
+            }
         } else {
             props.stop();
             setStatus(false);

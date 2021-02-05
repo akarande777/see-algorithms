@@ -5,21 +5,8 @@
     overflow: hidden;
 }
 
-.spaceBetween {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.spaceAround {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
 .ant-layout {
     height: calc(100% - 60px);
-
     .ant-layout-content {
         overflow-x: auto !important;
         width: max-content;

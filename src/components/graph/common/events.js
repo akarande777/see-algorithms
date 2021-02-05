@@ -61,7 +61,7 @@ function decorate({ weighted, directed, asyclic }) {
             weighted && addCost(p, lastp);
             if (directed) {
                 if (asyclic && Graph.hasCycle()) {
-                    message.warning('draw acyclic graph');
+                    message.warning('Please draw acyclic graph');
                     $('line:last').remove();
                     Graph.removeSegment(s);
                     flag = false;

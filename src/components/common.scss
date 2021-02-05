@@ -9,3 +9,22 @@ table {
         text-align: center;
     }
 }
+
+.spaceBetween {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.spaceAround {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.ant-message {
+    span {
+        position: relative;
+        top: 4px;
+    }
+}
