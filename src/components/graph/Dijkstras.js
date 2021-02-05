@@ -31,20 +31,18 @@ function start(source) {
     v = [source];
     d = [];
     for (let i = 0; i < n; i++) {
-        if (i === source) {
-            d.push(0);
-        } else {
-            d.push(Infinity);
-            $('.vlbl').eq(i).text('∞');
-        }
+        d.push(i === source ? 0 : Infinity);
     }
     queue = [source];
     prev = [];
     timer = setTimeout(() => {
+        d.forEach((x, i) => {
+            x > 0 && $('.vlbl').eq(i).text('∞');
+        });
         $('.vrtx').eq(source).attr('stroke', 'orange');
         $('.vrtx').eq(source).attr('fill', 'orange');
         timer = setTimeout(dijkstra, delay, source);
-    }, delay);
+    }, delay / 2);
 }
 
 function dijkstra(i) {
@@ -79,7 +77,7 @@ function extractMin() {
     let i = prev[j];
     let ei = Graph.edgeIndex(i, j);
     let { p, q, d } = cloneEdge(i, ei);
-    timer = setTimeout(span, delay / 50, p, q, d - 2, j, ei);
+    timer = setTimeout(span, delay / 100, p, q, d - 2, j, ei);
 }
 
 function span(p, q, d, i, k) {

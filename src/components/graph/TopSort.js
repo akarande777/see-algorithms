@@ -79,7 +79,7 @@ function extract(p, q, i, j, d) {
         let r = fromEnd(q, p, d);
         $(`line:eq(${ei})`).attr('x2', r.x);
         $(`line:eq(${ei})`).attr('y2', r.y);
-        timer = setTimeout(extract, delay / 150, p, q, i, j, d - 2);
+        timer = setTimeout(extract, delay / 200, p, q, i, j, d - 2);
     } else {
         $(`line:eq(${ei})`).removeAttr('stroke');
         $(`line:eq(${ei})`).removeAttr('marker-end');
