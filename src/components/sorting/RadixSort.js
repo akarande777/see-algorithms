@@ -170,7 +170,7 @@ class RadixSort extends React.Component {
         return (
             <div>
                 <div className="input">
-                    <span className="label">Select number of elements:&nbsp;</span>
+                    <span className="label">Select number of elements: &nbsp;</span>
                     <Select style={{ width: 60 }} onChange={this.handleSelect}>
                         {[7, 8, 9, 10, 11, 12].map((i) => {
                             return (
