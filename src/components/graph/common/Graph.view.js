@@ -103,7 +103,7 @@ function GraphView(props) {
                     <span className="title">Draw Graph</span>
                     {!props.isDAG && (
                         <div className="options">
-                            <span>Source: &nbsp;</span>
+                            <span className="label">Source: &nbsp;</span>
                             <Input
                                 size="small"
                                 value={source}
