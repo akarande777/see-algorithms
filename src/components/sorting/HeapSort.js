@@ -131,6 +131,8 @@ function HeapSort() {
         <div className="container">
             <Input start={start} stop={stop} />
             <svg id="plane" style={{ border: 0, width: 650, height: 300 }} />
+            <br />
+            <br />
             <div style={{ width: 650 }} className="spaceAround">
                 <table id="tbl" />
             </div>
