@@ -14,7 +14,15 @@ function findParent(q) {
 }
 
 export default function (props) {
-    return <GraphView {...props} start={start} stop={() => clearTimeout(timer)} isMST={true} />;
+    return (
+        <GraphView
+            {...props}
+            start={start}
+            stop={() => clearTimeout(timer)}
+            isMST={true}
+            customSource={false}
+        />
+    );
 }
 
 function start() {

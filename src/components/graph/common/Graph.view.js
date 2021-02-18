@@ -103,13 +103,17 @@ function GraphView(props) {
                     <span className="title">Draw Graph</span>
                     {!props.isDAG && (
                         <div className="options">
-                            <span className="label">Source: &nbsp;</span>
-                            <Input
-                                size="small"
-                                value={source}
-                                onChange={({ target }) => setSource(target.value)}
-                                className="source"
-                            />
+                            {props.customSource !== false && (
+                                <>
+                                    <span className="label">Source: &nbsp;</span>
+                                    <Input
+                                        size="small"
+                                        value={source}
+                                        onChange={({ target }) => setSource(target.value)}
+                                        className="source"
+                                    />
+                                </>
+                            )}
                             {!props.isMST && (
                                 <Checkbox
                                     checked={directed}
