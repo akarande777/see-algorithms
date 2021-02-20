@@ -112,7 +112,7 @@ function decorate({ weighted, directed, asyclic }) {
 
 function addCost(p, q) {
     let element = `
-        <foreignObject width="25" height="30" x="${(p.x + q.x) / 2}" y="${(p.y + q.y) / 2}">
+        <foreignObject width="30" height="30" x="${(p.x + q.x) / 2}" y="${(p.y + q.y) / 2}">
             <p class="cost" onclick="this.focus();event.stopPropagation();" contenteditable="true">
                 ${Math.round(distance(p, q) / 20)}
             </p>
