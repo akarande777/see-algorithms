@@ -128,7 +128,7 @@ function GraphView(props) {
                     )}
                 </div>
                 <div
-                    className="d-flex flex-wrap right"
+                    className="d-flex right"
                     style={
                         props.isDAG || props.customSource === false ? { flexDirection: 'row' } : {}
                     }
