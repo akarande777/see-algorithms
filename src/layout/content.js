@@ -17,15 +17,29 @@ import Kruskals from '../components/graph/Kruskals';
 import Dijkstras from '../components/graph/Dijkstras';
 import TopSort from '../components/graph/TopSort';
 
+const getDescription = (algo) => {
+    switch (algo) {
+        case "Prim's Algorithm":
+            return "Prim's Minimum Spanning Tree";
+        case "Kruskal's Algorithm":
+            return "Kruskal's Minimum Spanning Tree";
+        case "Dijkstra's Algorithm":
+            return "Dijkstra's Shortest Path";
+        default:
+            return algo;
+    }
+};
+
 function Content({ location, visible }) {
     const { pathname } = location;
+    const title = pathname.slice(1).split('-').join(' ');
     return (
         <Fragment>
             <Breadcrumb>
                 <Breadcrumb.Item>
                     <Link to="/">Home</Link>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item>{pathname.slice(1).split('-').join(' ')}</Breadcrumb.Item>
+                <Breadcrumb.Item>{getDescription(title)}</Breadcrumb.Item>
             </Breadcrumb>
             <br />
             <Switch>
