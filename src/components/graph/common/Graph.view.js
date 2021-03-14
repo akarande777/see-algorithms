@@ -115,32 +115,28 @@ function GraphView(props) {
     return (
         <div className="drawGraph">
             <div className="spaceBetween toolbar">
-                <div className="d-flex flex-wrap">
+                <div className="d-flex align-items-center left">
                     <span className="title">Draw Graph</span>
+                    {!props.isDAG && !props.isMST && (
+                        <Radio.Group
+                            value={directed}
+                            onChange={() => !status && setDirected(!directed)}
+                            optionType="button"
+                            buttonStyle="solid"
+                        >
+                            <Radio.Button value={false}>Undirected</Radio.Button>
+                            <Radio.Button value={true}>Directed</Radio.Button>
+                        </Radio.Group>
+                    )}
                 </div>
-                <div className="d-flex flex-wrap options">
-                    {!props.isDAG && (
-                        <>
-                            {!props.isMST && (
-                                <Radio.Group
-                                    value={directed}
-                                    onChange={() => !status && setDirected(!directed)}
-                                    optionType="button"
-                                    buttonStyle="solid"
-                                >
-                                    <Radio.Button value={false}>Undirected</Radio.Button>
-                                    <Radio.Button value={true}>Directed</Radio.Button>
-                                </Radio.Group>
-                            )}
-                            {props.customSource !== false && (
-                                <Input
-                                    addonBefore="Source"
-                                    value={source}
-                                    onChange={({ target }) => setSource(target.value)}
-                                    className="source"
-                                />
-                            )}
-                        </>
+                <div className="d-flex right">
+                    {!props.isDAG && props.customSource !== false && (
+                        <Input
+                            addonBefore="Source"
+                            value={source}
+                            onChange={({ target }) => setSource(target.value)}
+                            className="source"
+                        />
                     )}
                     <Button
                         type="primary"

@@ -10,13 +10,13 @@
 
 .toolbar {
     width: 100%;
+    flex-wrap: wrap;
     .title {
         font-size: 18px;
         font-weight: 600;
         margin-right: 15px;
     }
-    .options {
-        align-items: center;
+    .right {
         .source {
             width: 100px;
             margin-left: 10px;
@@ -45,7 +45,12 @@
 
 @media only screen and (max-width: 575px) {
     .toolbar {
-        .options {
+        .left {
+            width: 100%;
+            justify-content: space-between;
+        }
+        .right {
+            width: 100%;
             justify-content: flex-end;
             button,
             .source {
