@@ -9,21 +9,18 @@
 }
 
 .toolbar {
-    width: 100%;
-    flex-wrap: wrap;
+    align-items: center;
     .title {
         font-size: 18px;
         font-weight: 600;
         margin-right: 15px;
     }
-    .right {
-        .source {
-            width: 100px;
-            margin-left: 10px;
-        }
-        button {
-            margin-left: 10px;
-        }
+    .source {
+        width: 100px;
+        margin-left: 12px;
+    }
+    .ant-btn {
+        margin-left: 12px;
     }
 }
 
@@ -45,17 +42,15 @@
 
 @media only screen and (max-width: 575px) {
     .toolbar {
-        .left {
-            width: 100%;
-            justify-content: space-between;
+        justify-content: flex-end;
+        .title,
+        .ant-radio-group,
+        .source,
+        .ant-btn {
+            margin-bottom: 10px;
         }
-        .right {
-            width: 100%;
-            justify-content: flex-end;
-            button,
-            .source {
-                margin-top: 10px;
-            }
+        .source {
+            margin-left: 0;
         }
     }
 }
