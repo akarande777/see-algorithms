@@ -10,15 +10,16 @@
 
 .toolbar {
     align-items: center;
+    justify-content: flex-end;
     .title {
         font-size: 18px;
         font-weight: 600;
-        margin-right: 15px;
     }
     .source {
         width: 100px;
         margin-left: 12px;
     }
+    .ant-radio-group,
     .ant-btn {
         margin-left: 12px;
     }
@@ -38,19 +39,13 @@
             height: 300px;
         }
     }
-}
 
-@media only screen and (max-width: 575px) {
     .toolbar {
-        justify-content: flex-end;
         .title,
         .ant-radio-group,
         .source,
         .ant-btn {
             margin-top: 10px;
-        }
-        .source {
-            margin-left: 0;
         }
     }
 }
