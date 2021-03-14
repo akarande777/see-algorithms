@@ -3,15 +3,15 @@ import { fromEnd, distance } from './common/utils';
 import Graph, { Point } from './common/Graph';
 import GraphView from './common/Graph.view';
 import $ from 'jquery';
+import timer from './common/timer';
 
 var cell, k;
 var n, ind;
 var stack;
-var timer;
 var delay = 1000;
 
 export default function (props) {
-    return <GraphView {...props} start={start} stop={() => clearTimeout(timer)} isDAG={true} />;
+    return <GraphView {...props} start={start} isDAG={true} />;
 }
 
 function start() {
@@ -36,7 +36,7 @@ function start() {
         }
     }
     k = 0;
-    timer = setTimeout(sort, delay);
+    timer.timeout(sort, delay);
 }
 
 function sort() {
@@ -54,7 +54,7 @@ function sort() {
                 let q = new Point(x2, y2);
                 $(`line:eq(${ei})`).attr('stroke', 'orange');
                 let d = distance(p, q);
-                timer = setTimeout(() => {
+                timer.timeout(() => {
                     if (ind[j] === 0) {
                         stack.push(j);
                         $(`.vrtx:eq(${j})`).attr('stroke', 'orange');
@@ -64,7 +64,7 @@ function sort() {
             }
         }
         if (k === 0) {
-            timer = setTimeout(fall, delay / 2, i);
+            timer.timeout(fall, delay / 2, i);
         }
     } else {
         setTimeout(() => {
@@ -79,12 +79,12 @@ function extract(p, q, i, j, d) {
         let r = fromEnd(q, p, d);
         $(`line:eq(${ei})`).attr('x2', r.x);
         $(`line:eq(${ei})`).attr('y2', r.y);
-        timer = setTimeout(extract, delay / 200, p, q, i, j, d - 2);
+        timer.timeout(extract, delay / 200, p, q, i, j, d - 2);
     } else {
         $(`line:eq(${ei})`).removeAttr('stroke');
         $(`line:eq(${ei})`).removeAttr('marker-end');
         if (--k === 0) {
-            timer = setTimeout(fall, delay / 2, i);
+            timer.timeout(fall, delay / 2, i);
         }
     }
 }
@@ -94,12 +94,12 @@ function fall(i) {
     if (cy < 520) {
         $(`.vrtx:eq(${i})`).attr('cy', cy + 2);
         $(`.vlbl:eq(${i})`).attr('y', cy + 7);
-        timer = setTimeout(fall, delay / 200, i);
+        timer.timeout(fall, delay / 200, i);
     } else {
         let np = Graph.totalPoints();
         cell[np - n].innerHTML = String.fromCharCode(65 + i);
         cell[np - n].setAttribute('bgcolor', 'orange');
         --n;
-        timer = setTimeout(sort, delay / 2);
+        timer.timeout(sort, delay / 2);
     }
 }

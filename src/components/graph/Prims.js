@@ -3,15 +3,15 @@ import { fromEnd, cloneEdge } from './common/utils';
 import Graph from './common/Graph';
 import GraphView from './common/Graph.view';
 import $ from 'jquery';
+import timer from './common/timer';
 
 var n, w;
 var mst, i, j;
 var queue;
-var timer;
 var delay = 1000;
 
 export default function (props) {
-    return <GraphView {...props} start={start} stop={() => clearTimeout(timer)} isMST={true} />;
+    return <GraphView {...props} start={start} isMST={true} />;
 }
 
 function start(source) {
@@ -31,10 +31,10 @@ function start(source) {
     queue = [];
     mst = [];
     i = source;
-    timer = setTimeout(() => {
+    timer.timeout(() => {
         $('.vrtx').eq(i).attr('stroke', 'orange');
         $('.vrtx').eq(i).attr('fill', 'orange');
-        timer = setTimeout(prim, delay / 2);
+        timer.timeout(prim, delay / 2);
     }, delay);
 }
 
@@ -49,7 +49,7 @@ function prim() {
             $('.vrtx').eq(k).attr('stroke', '#6495ed');
         }
     }
-    timer = setTimeout(extractMin, delay);
+    timer.timeout(extractMin, delay);
 }
 
 function extractMin() {
@@ -62,7 +62,7 @@ function extractMin() {
     } else {
         let ei = Graph.edgeIndex(i, j);
         let { p, q, d } = cloneEdge(i, ei);
-        timer = setTimeout(span, delay / 100, p, q, d - 2);
+        timer.timeout(span, delay / 100, p, q, d - 2);
     }
 }
 
@@ -71,7 +71,7 @@ function span(p, q, d) {
         let r = fromEnd(p, q, d);
         $('line:last').attr('x2', r.x);
         $('line:last').attr('y2', r.y);
-        timer = setTimeout(span, delay / 100, p, q, d - 2);
+        timer.timeout(span, delay / 100, p, q, d - 2);
     } else {
         $('line:last').remove();
         let ei = Graph.edgeIndex(i, j);
@@ -87,7 +87,7 @@ function span(p, q, d) {
         w[j][i] = Infinity;
         i = j;
         if (mst.length < n - 1) {
-            timer = setTimeout(prim, delay / 2);
+            timer.timeout(prim, delay / 2);
         }
     }
 }

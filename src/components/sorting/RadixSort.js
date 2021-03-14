@@ -102,9 +102,9 @@ class RadixSort extends React.Component {
         clearTimeout(timer);
     }
 
-    handleSelect = (val) => {
+    handleSelect = (size) => {
         a = new Array();
-        n = val;
+        n = size;
         for (let i = 0; i < n; i++) {
             a[i] = Math.floor(Math.random() * 900 + 100);
         }

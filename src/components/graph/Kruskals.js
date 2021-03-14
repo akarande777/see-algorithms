@@ -2,11 +2,11 @@ import React from 'react';
 import Graph from './common/Graph';
 import GraphView from './common/Graph.view';
 import $ from 'jquery';
+import timer from './common/timer';
 
 var parent;
 var arr;
 var mst, j;
-var timer;
 var delay = 1000;
 
 function findParent(q) {
@@ -14,15 +14,7 @@ function findParent(q) {
 }
 
 export default function (props) {
-    return (
-        <GraphView
-            {...props}
-            start={start}
-            stop={() => clearTimeout(timer)}
-            isMST={true}
-            customSource={false}
-        />
-    );
+    return <GraphView {...props} start={start} isMST={true} customSource={false} />;
 }
 
 function start() {
@@ -50,7 +42,7 @@ function start() {
     arr.sort((a, b) => a.w - b.w);
     mst = [];
     j = 0;
-    timer = setTimeout(find, delay);
+    timer.timeout(find, delay);
 }
 
 function find() {
@@ -64,17 +56,17 @@ function find() {
             $('.vrtx').eq(arr[j].v).attr('stroke', 'orange');
             $('.vrtx').eq(arr[j].v).attr('fill', 'orange');
             $('.edge').eq(arr[j].i).attr('stroke', 'orange');
-            timer = setTimeout(() => {
+            timer.timeout(() => {
                 $('.vrtx').eq(arr[j].u).attr('fill', '#eee');
                 $('.vrtx').eq(arr[j].v).attr('fill', '#eee');
                 mst.push(arr[j++]);
-                timer = setTimeout(find, delay);
+                timer.timeout(find, delay);
             }, delay / 1.5);
         } else {
             $('.vrtx').eq(arr[j].u).attr('stroke', 'red');
             $('.vrtx').eq(arr[j].v).attr('stroke', 'red');
             $('.edge').eq(arr[j].i).attr('stroke', 'red');
-            timer = setTimeout(skip, delay / 1.5);
+            timer.timeout(skip, delay / 1.5);
         }
     }
 }
@@ -85,5 +77,5 @@ function skip() {
     $('.edge').eq(arr[j].i).attr('stroke', '#ccc');
     $('.edge').eq(arr[j].i).attr('stroke-dasharray', '8,5');
     j++;
-    timer = setTimeout(find, delay);
+    timer.timeout(find, delay);
 }

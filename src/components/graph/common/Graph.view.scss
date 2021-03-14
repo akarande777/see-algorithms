@@ -10,28 +10,27 @@
 
 .toolbar {
     width: 100%;
-    .left {
-        align-items: center;
-        .title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-right: 15px;
-        }
+    .title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-right: 15px;
     }
-    .right {
+    .options {
+        align-items: center;
+        .source {
+            width: 100px;
+            margin-left: 10px;
+        }
         button {
             margin-left: 10px;
         }
     }
 }
 
-.options {
-    .label {
-        font-size: 14px;
-    }
-    .source {
-        width: 40px;
-        margin-right: 12px;
+.playButton {
+    i {
+        position: relative;
+        top: -4px;
     }
 }
 
@@ -46,16 +45,11 @@
 
 @media only screen and (max-width: 575px) {
     .toolbar {
-        .left {
-            .title,
-            .options {
-                margin-bottom: 8px;
-            }
-        }
-        .right {
-            flex-direction: column-reverse;
-            #clear {
-                margin-bottom: 8px;
+        .options {
+            justify-content: flex-end;
+            button,
+            .source {
+                margin-top: 10px;
             }
         }
     }

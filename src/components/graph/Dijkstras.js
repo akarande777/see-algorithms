@@ -3,15 +3,15 @@ import { fromEnd, cloneEdge } from './common/utils';
 import Graph from './common/Graph';
 import GraphView from './common/Graph.view';
 import $ from 'jquery';
+import timer from './common/timer';
 
 var n, w;
 var d, queue;
 var v, prev;
-var timer;
 var delay = 1000;
 
 export default function (props) {
-    return <GraphView {...props} start={start} stop={() => clearTimeout(timer)} weighted={true} />;
+    return <GraphView {...props} start={start} weighted={true} />;
 }
 
 function start(source) {
@@ -35,13 +35,13 @@ function start(source) {
     }
     queue = [source];
     prev = [];
-    timer = setTimeout(() => {
+    timer.timeout(() => {
         d.forEach((x, i) => {
             x > 0 && $('.vlbl').eq(i).text('∞');
         });
         $('.vrtx').eq(source).attr('stroke', 'orange');
         $('.vrtx').eq(source).attr('fill', 'orange');
-        timer = setTimeout(dijkstra, delay, source);
+        timer.timeout(dijkstra, delay, source);
     }, delay / 2);
 }
 
@@ -68,7 +68,7 @@ function dijkstra(i) {
     for (let j = 0; j < n; j++) {
         queue[j] = v.indexOf(j) === -1 ? d[j] : Infinity;
     }
-    timer = setTimeout(extractMin, delay);
+    timer.timeout(extractMin, delay);
 }
 
 function extractMin() {
@@ -77,7 +77,7 @@ function extractMin() {
     let i = prev[j];
     let ei = Graph.edgeIndex(i, j);
     let { p, q, d } = cloneEdge(i, ei);
-    timer = setTimeout(span, delay / 100, p, q, d - 2, j, ei);
+    timer.timeout(span, delay / 100, p, q, d - 2, j, ei);
 }
 
 function span(p, q, d, i, k) {
@@ -85,14 +85,14 @@ function span(p, q, d, i, k) {
         let r = fromEnd(p, q, d);
         $('line:last').attr('x2', r.x);
         $('line:last').attr('y2', r.y);
-        timer = setTimeout(span, delay / 100, p, q, d - 2, i, k);
+        timer.timeout(span, delay / 100, p, q, d - 2, i, k);
     } else {
         $('line:last').remove();
         $('line').eq(k).attr('stroke', 'orange');
         $('line').eq(k).removeAttr('stroke-dasharray');
         $('.vrtx').eq(i).attr('stroke', 'orange');
         if (v.length < n) {
-            timer = setTimeout(dijkstra, delay / 2, i);
+            timer.timeout(dijkstra, delay / 2, i);
         }
     }
 }

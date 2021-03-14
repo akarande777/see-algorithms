@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Checkbox, Input, message } from 'antd';
+import { Button, Radio, Input, message } from 'antd';
 import './Graph.view.scss';
 import Graph from './Graph';
 import $ from 'jquery';
-import { decorate } from './events';
+import listen from './events';
 import { fromEnd } from '../utils';
+import timer from './timer';
 
 function GraphView(props) {
     const [directed, setDirected] = useState(props.isDAG || false);
-    const [status, setStatus] = useState(false);
+    const [status, setStatus] = useState(0);
     const [source, setSource] = useState('A');
 
     const validate = () => {
@@ -34,36 +35,35 @@ function GraphView(props) {
             message.error('Please enter valid source');
             return;
         }
-        setStatus(true);
+        setStatus(1);
     };
 
-    const create = () => {
-        decorate({
-            weighted: props.isMST || props.weighted || false,
-            directed: directed,
-            asyclic: props.isDAG || false,
-        });
-    };
+    const options = () => ({
+        weighted: props.isMST || props.weighted || false,
+        directed: directed,
+        asyclic: props.isDAG || false,
+    });
 
     const initialize = () => {
         Graph.initialize(directed);
-        create();
+        listen(options());
     };
 
     const clear = () => {
-        props.stop();
+        timer.clear();
         $('#plane').off();
         $('#plane').children().not(':first').remove();
         $('#tbl').html('');
-        status ? setStatus(false) : initialize();
+        status ? setStatus(0) : initialize();
     };
 
     useEffect(() => () => clear(), []);
 
     useEffect(() => {
-        if (status) {
+        if (status === 1) {
             props.start(source.charCodeAt(0) - 65);
-        } else {
+        }
+        if (status === 0) {
             initialize();
         }
     }, [status]);
@@ -71,7 +71,7 @@ function GraphView(props) {
     useEffect(() => {
         if (directed !== Graph.isDirected()) {
             Graph.switchType();
-            create();
+            listen(options());
             if (directed) {
                 $('.edge').each(function (i) {
                     let s = Graph.segment(i);
@@ -96,45 +96,60 @@ function GraphView(props) {
         if (props.visible) clear();
     }, [props.visible]);
 
+    const handlePlay = () => {
+        switch (status) {
+            case 0:
+                validate();
+                break;
+            case -1:
+                timer.resume();
+                setStatus(2);
+                break;
+            default:
+                timer.pause();
+                setStatus(-1);
+                break;
+        }
+    };
+
     return (
         <div className="drawGraph">
             <div className="spaceBetween toolbar">
-                <div className="d-flex flex-wrap left">
+                <div className="d-flex flex-wrap">
                     <span className="title">Draw Graph</span>
-                    {!props.isDAG && (
-                        <div className="options">
-                            {props.customSource !== false && (
-                                <>
-                                    <span className="label">Source: &nbsp;</span>
-                                    <Input
-                                        size="small"
-                                        value={source}
-                                        onChange={({ target }) => setSource(target.value)}
-                                        className="source"
-                                    />
-                                </>
-                            )}
-                            {!props.isMST && (
-                                <Checkbox
-                                    checked={directed}
-                                    onChange={({ target }) => {
-                                        !status && setDirected(target.checked);
-                                    }}
-                                >
-                                    Directed
-                                </Checkbox>
-                            )}
-                        </div>
-                    )}
                 </div>
-                <div
-                    className="d-flex right"
-                    style={
-                        props.isDAG || props.customSource === false ? { flexDirection: 'row' } : {}
-                    }
-                >
-                    <Button type="primary" onMouseDown={validate} disabled={status}>
-                        Start
+                <div className="d-flex flex-wrap options">
+                    {!props.isDAG && (
+                        <>
+                            {!props.isMST && (
+                                <Radio.Group
+                                    value={directed}
+                                    onChange={() => !status && setDirected(!directed)}
+                                    optionType="button"
+                                    buttonStyle="solid"
+                                >
+                                    <Radio.Button value={false}>Undirected</Radio.Button>
+                                    <Radio.Button value={true}>Directed</Radio.Button>
+                                </Radio.Group>
+                            )}
+                            {props.customSource !== false && (
+                                <Input
+                                    addonBefore="Source"
+                                    value={source}
+                                    onChange={({ target }) => setSource(target.value)}
+                                    className="source"
+                                />
+                            )}
+                        </>
+                    )}
+                    <Button
+                        type="primary"
+                        className="playButton"
+                        icon={status > 0 ? 'pause' : 'caret-right'}
+                        onMouseDown={handlePlay}
+                        disabled={props.isDAG && status}
+                    >
+                        {status > 0 ? 'Pause' : 'Play'}
                     </Button>
                     <Button type="primary" onMouseDown={clear} id="clear">
                         Clear

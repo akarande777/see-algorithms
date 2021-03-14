@@ -4,7 +4,7 @@ import Graph, { Point, Segment } from './Graph';
 import { message } from 'antd';
 import { fromEnd } from '../utils';
 
-function decorate({ weighted, directed, asyclic }) {
+function listen({ weighted, directed, asyclic }) {
     $('#plane').off();
     var lastp, prev;
     var flag = false;
@@ -120,4 +120,4 @@ function addCost(p, q) {
     document.querySelector('#plane').innerHTML += element;
 }
 
-export { decorate };
+export default listen;

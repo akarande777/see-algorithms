@@ -6,9 +6,9 @@ function Container(props) {
     const [values, setValues] = useState([]);
     const [status, setStatus] = useState(false);
 
-    const handleSelect = (val) => {
+    const handleSelect = (size) => {
         const values = [];
-        for (let i = 0; i < val; i++) {
+        for (let i = 0; i < size; i++) {
             values.push(Math.floor(Math.random() * 100));
         }
         setValues(values);
@@ -61,12 +61,12 @@ function Container(props) {
                 </Select>
             ) : (
                 <div>
-                    {values.map((v, i) => {
+                    {values.map((val, i) => {
                         return (
                             <Input
                                 size="small"
                                 key={i}
-                                value={v}
+                                value={val}
                                 onChange={(e) => handleInput(e, i)}
                                 className="number"
                             />
