@@ -120,6 +120,7 @@ function GraphView(props) {
                     <>
                         {!props.isMST && (
                             <Radio.Group
+                                size="small"
                                 value={directed}
                                 onChange={() => !status && setDirected(!directed)}
                                 optionType="button"
@@ -131,6 +132,7 @@ function GraphView(props) {
                         )}
                         {props.customSource !== false && (
                             <Input
+                                size="small"
                                 addonBefore="Source"
                                 value={source}
                                 onChange={({ target }) => setSource(target.value)}
