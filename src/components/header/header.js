@@ -1,11 +1,23 @@
-import React from 'react';
-import { Icon } from 'antd';
+import React, { useContext } from 'react';
+import { Icon, Avatar, Dropdown, Menu } from 'antd';
 import './header.scss';
+import { AuthContext } from '../../App';
+import { auth } from '../../services/firebase';
 
-function Dashboard(props) {
+function Header(props) {
+    const user = useContext(AuthContext);
+
+    const menu = (
+        <Menu>
+            <Menu.Item key="0" onClick={() => auth.signOut()}>
+                Logout
+            </Menu.Item>
+        </Menu>
+    );
+
     return (
         <div className="header d-flex">
-            <div className="d-flex">
+            <div className="d-flex align-items-center">
                 <Icon
                     type="eye"
                     onClick={() => window.history.back()}
@@ -16,16 +28,19 @@ function Dashboard(props) {
                     onClick={() => props.showSider(true)}
                     className="d-md-none d-sm-block"
                 />
-                <h5>SEE ALGORITHMS</h5>
+                <h5>see algorithms</h5>
             </div>
-            <Icon
+            {/* <Icon
                 type="github"
                 onClick={() => {
                     window.location.href = 'https://github.com/akarande777/see-algorithms';
                 }}
-            />
+            /> */}
+            <Dropdown overlay={menu} trigger={['click']}>
+                {user ? <Avatar icon="user" /> : <span />}
+            </Dropdown>
         </div>
     );
 }
 
-export default Dashboard;
+export default Header;
