@@ -8,7 +8,7 @@ const NoRouteFound = ({ history }) => {
             <div>
                 <h1 className="fourZeroFour">404</h1>
                 <hr />
-                <h3>Oops! page not found</h3>
+                <h4>Oops! page not found</h4>
                 <br />
                 <Button type="primary" onClick={() => history.goBack()}>
                     Go Back

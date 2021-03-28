@@ -1,70 +1,80 @@
-import React from 'react';
-import { Menu, Icon } from 'antd';
-import { Link, withRouter } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { showMenu } from '../components/menu/menu';
+import { Dashboard } from '@material-ui/icons';
+import { withRouter } from 'react-router-dom';
+import { auth } from '../services/firebase';
+import { AppContext } from '../App';
 
-const { SubMenu, Item } = Menu;
+const sortingAlgorithms = [
+    'Bubble Sort',
+    'Insertion Sort',
+    'Selection Sort',
+    'Radix Sort',
+    'Heap Sort',
+    'Merge Sort',
+];
+const graphAlgorithms = [
+    'Depth First Search',
+    'Breadth First Search',
+    "Prim's Algorithm",
+    "Kruskal's Algorithm",
+    "Dijkstra's Algorithm",
+    'Topological Sorting',
+];
 
-const algorithms = {
-    sorting: [
-        'Bubble Sort',
-        'Insertion Sort',
-        'Selection Sort',
-        'Radix Sort',
-        'Heap Sort',
-        'Merge Sort',
-    ],
-    graph: [
-        'Depth First Search',
-        'Breadth First Search',
-        "Prim's Algorithm",
-        "Kruskal's Algorithm",
-        "Dijkstra's Algorithm",
-        'Topological Sorting',
-    ],
-};
+function Sider({ history, ...props }) {
+    const { user } = useContext(AppContext);
 
-function Sider(props) {
-    const { pathname } = props.location;
+    const handleSelect = (algo) => {
+        history.push(algo.split(' ').join('-'));
+        props.close();
+    };
+
+    const getMenuOptions = (e) => ({
+        anchorEl: e.currentTarget,
+        anchorOrigin: { vertical: 'center', horizontal: 'center' },
+        onSelect: handleSelect,
+    });
+
     return (
-        <Menu
-            style={{ width: 256 }}
-            defaultOpenKeys={['sorting', 'graph']}
-            selectedKeys={pathname ? [pathname.slice(1)] : []}
-            mode="inline"
-            theme="dark"
-            onSelect={props.onChange}
-        >
-            <SubMenu
-                key="sorting"
-                title={
-                    <span>
-                        <Icon type="appstore" />
-                        <span>Sorting</span>
-                    </span>
-                }
+        <List className="list">
+            <ListItem
+                button
+                className="listItem"
+                onClick={(e) => {
+                    showMenu({
+                        ...getMenuOptions(e),
+                        menuItems: sortingAlgorithms,
+                    });
+                }}
             >
-                {algorithms.sorting.map((algo, i) => (
-                    <Item key={algo.split(' ').join('-')}>
-                        <Link to={algo.split(' ').join('-')}>{algo}</Link>
-                    </Item>
-                ))}
-            </SubMenu>
-            <SubMenu
-                key="graph"
-                title={
-                    <span>
-                        <Icon type="appstore" />
-                        <span>Graph</span>
-                    </span>
-                }
+                <ListItemIcon>
+                    <Dashboard className="listItemIcon" />
+                </ListItemIcon>
+                <ListItemText primary="Sorting" className="listItemText" />
+            </ListItem>
+            <ListItem
+                button
+                className="listItem"
+                onClick={(e) => {
+                    showMenu({
+                        ...getMenuOptions(e),
+                        menuItems: graphAlgorithms,
+                    });
+                }}
             >
-                {algorithms.graph.map((algo, i) => (
-                    <Item key={algo.split(' ').join('-')}>
-                        <Link to={algo.split(' ').join('-')}>{algo}</Link>
-                    </Item>
-                ))}
-            </SubMenu>
-        </Menu>
+                <ListItemIcon>
+                    <Dashboard className="listItemIcon" />
+                </ListItemIcon>
+                <ListItemText primary="Graph" className="listItemText" />
+            </ListItem>
+            {user && (
+                <ListItem button className="listItem logout" onClick={() => auth.signOut()}>
+                    <ListItemText primary="Logout" className="listItemText" />
+                </ListItem>
+            )}
+        </List>
     );
 }
 

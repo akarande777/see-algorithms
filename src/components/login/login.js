@@ -1,71 +1,54 @@
-import React from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import React, { useState } from 'react';
+import { TextField, Button, Link } from '@material-ui/core';
 import './login.scss';
 
 function LoginForm(props) {
-    const { getFieldDecorator } = props.form;
+    const [values, setValues] = useState({ email: '', password: '' });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-                props.login(values);
-            }
-        });
+        console.log('Received values of form: ', values);
+        props.login(values);
+    };
+
+    const handleChange = (key, value) => {
+        setValues({ ...values, [key]: value });
     };
 
     return (
-        <Form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleSubmit} className="login-form">
             <p>Login with your email and password</p>
-            <Form.Item>
-                {getFieldDecorator('email', {
-                    rules: [
-                        {
-                            type: 'email',
-                            message: 'The input is not valid E-mail!',
-                        },
-                        {
-                            required: true,
-                            message: 'Please input your E-mail!',
-                        },
-                    ],
-                })(
-                    <Input
-                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                        placeholder="E-mail"
-                    />
-                )}
-            </Form.Item>
-            <Form.Item>
-                {getFieldDecorator('password', {
-                    rules: [{ required: true, message: 'Please input your password!' }],
-                })(
-                    <Input
-                        prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                        type="password"
-                        placeholder="Password"
-                    />
-                )}
-            </Form.Item>
-            {/* <Form.Item>
-                {getFieldDecorator('remember', {
-                    valuePropName: 'checked',
-                    initialValue: true,
-                })(<Checkbox>Remember me</Checkbox>)}
-                <span className="customLink float-right">Forgot password</span>
-            </Form.Item> */}
-            <Form.Item>
-                <Button type="primary" htmlType="submit">
+            <TextField
+                type="email"
+                label="Email"
+                variant="outlined"
+                size="small"
+                className="formInput"
+                required
+                value={values.email}
+                onChange={(e) => handleChange('email', e.target.value)}
+            />
+            <TextField
+                type="password"
+                label="Password"
+                variant="outlined"
+                size="small"
+                className="formInput"
+                required
+                value={values.password}
+                onChange={(e) => handleChange('password', e.target.value)}
+            />
+            <div className="formFooter">
+                <Button type="submit" variant="contained" color="primary">
                     Log in
                 </Button>
                 &nbsp; Or&nbsp;
-                <span className="customLink" onClick={props.toRegister}>
+                <Link onClick={props.toRegister} variant="body1">
                     register now!
-                </span>
-            </Form.Item>
-        </Form>
+                </Link>
+            </div>
+        </form>
     );
 }
 
-export default Form.create({ name: 'login' })(LoginForm);
+export default LoginForm;

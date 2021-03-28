@@ -3,6 +3,9 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@material-ui/core": "^4.11.3",
+        "@material-ui/icons": "^4.11.2",
+        "@material-ui/lab": "^4.0.0-alpha.57",
         "antd": "^3.26.0",
         "bootstrap": "^4.5.2",
         "firebase": "^8.3.1",
@@ -16,7 +19,7 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build",
+        "build": "react-scripts build && robocopy .\\build ..\\www /MIR",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },

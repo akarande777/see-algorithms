@@ -1,7 +1,19 @@
 body {
-    font-family: 'Open Sans Condensed', sans-serif !important;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !important;
 }
 
 #root {
     height: 100%;
+}
+
+.spaceBetween {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.spaceAround {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }

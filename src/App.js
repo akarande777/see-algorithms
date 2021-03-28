@@ -1,18 +1,17 @@
 import React, { useState, useEffect, createContext } from 'react';
 import './App.scss';
-import { Layout, Drawer } from 'antd';
 import { HashRouter } from 'react-router-dom';
+import { Grid, Drawer } from '@material-ui/core';
 import 'antd/dist/antd.css';
 import Header from './components/header/header';
 import SiderView from './layout/sider';
 import ContentView from './layout/content';
-import './components/common.scss';
+import Toast from './components/toast/toast';
+import Menu from './components/menu/menu';
 import { auth } from './services/firebase';
 import { createUserProfileDoc } from './services/auth';
 
-const { Sider, Content } = Layout;
-
-export const AuthContext = createContext(null);
+export const AppContext = createContext({});
 
 function App() {
     const [visible, setVisible] = useState(false);
@@ -37,35 +36,32 @@ function App() {
     }, []);
 
     return (
-        <AuthContext.Provider value={user}>
+        <AppContext.Provider value={{ user }}>
             <div className="App">
-                <Header showSider={setVisible} />
+                <Toast />
+                <Menu />
+                <Header showSider={() => setVisible(true)} />
                 <HashRouter>
                     <Drawer
-                        placement="left"
+                        anchor="left"
+                        open={visible}
                         onClose={() => setVisible(false)}
-                        visible={visible}
-                        closable={false}
+                        className="drawer"
+                        PaperProps={{ className: 'drawerBody' }}
                     >
-                        <Sider width="auto" style={{ backgroundColor: 'white' }}>
-                            <SiderView onChange={() => setVisible(false)} />
-                        </Sider>
+                        <SiderView close={() => setVisible(false)} />
                     </Drawer>
-                    <Layout>
-                        <Sider
-                            width="auto"
-                            style={{ backgroundColor: 'white' }}
-                            className="d-none d-md-block"
-                        >
-                            <SiderView onChange={() => null} />
-                        </Sider>
-                        <Content style={{ backgroundColor: 'white', padding: 24 }}>
+                    <Grid container className="layout">
+                        <Grid item xs="auto" className="d-none d-md-block sider">
+                            <SiderView close={() => null} />
+                        </Grid>
+                        <Grid item className="content">
                             <ContentView visible={visible} />
-                        </Content>
-                    </Layout>
+                        </Grid>
+                    </Grid>
                 </HashRouter>
             </div>
-        </AuthContext.Provider>
+        </AppContext.Provider>
     );
 }
 

@@ -1,132 +1,87 @@
 import React, { useState } from 'react';
-import { Form, Input, Button } from 'antd';
+import { TextField, Button, Link } from '@material-ui/core';
 import './register.scss';
 
 function RegisterForm(props) {
-    const { getFieldDecorator } = props.form;
-    const [confirmBlur, setConfirmBlur] = useState(false);
+    const [values, setValues] = useState({
+        email: '',
+        password: '',
+        password2: '',
+        displayName: '',
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.form.validateFields(async (err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-                props.register(values);
-            }
-        });
+        console.log('Received values of form: ', values);
+        props.register(values);
     };
 
-    const compareToFirstPassword = (rule, value, callback) => {
-        const { form } = props;
-        if (value && value !== form.getFieldValue('password')) {
-            callback('Passwords do not match!');
-        } else {
-            callback();
+    const comparePassword = () => {
+        const { password2, password } = values;
+        if (password2 && password2 !== password) {
+            return 'Passwords do not match!';
         }
+        return '';
     };
 
-    const validateToNextPassword = (rule, value, callback) => {
-        const { form } = props;
-        if (value && confirmBlur) {
-            form.validateFields(['confirm'], { force: true });
-        }
-        callback();
-    };
-
-    const handleConfirmBlur = (e) => {
-        const { value } = e.target;
-        setConfirmBlur({ confirmDirty: confirmBlur || !!value });
-    };
-
-    const formItemLayout = {
-        labelCol: {
-            xs: { span: 24 },
-            sm: { span: 8 },
-        },
-        wrapperCol: {
-            xs: { span: 24 },
-            sm: { span: 16 },
-        },
-    };
-
-    const formFooterLayout = {
-        wrapperCol: {
-            xs: {
-                span: 24,
-                offset: 0,
-            },
-            sm: {
-                span: 16,
-                offset: 8,
-            },
-        },
+    const handleChange = (key, value) => {
+        setValues({ ...values, [key]: value });
     };
 
     return (
-        <Form {...formItemLayout} className="register-form" onSubmit={handleSubmit}>
+        <form className="register-form" onSubmit={handleSubmit}>
             <p>Register with your email and password</p>
-            <Form.Item label="E-mail">
-                {getFieldDecorator('email', {
-                    rules: [
-                        {
-                            type: 'email',
-                            message: 'The input is not valid E-mail!',
-                        },
-                        {
-                            required: true,
-                            message: 'Please input your E-mail!',
-                        },
-                    ],
-                })(<Input />)}
-            </Form.Item>
-            <Form.Item label="Password">
-                {getFieldDecorator('password', {
-                    rules: [
-                        {
-                            required: true,
-                            message: 'Please input your password!',
-                        },
-                        {
-                            validator: validateToNextPassword,
-                        },
-                    ],
-                })(<Input.Password />)}
-            </Form.Item>
-            <Form.Item label="Confirm Password">
-                {getFieldDecorator('confirm', {
-                    rules: [
-                        {
-                            required: true,
-                            message: 'Please confirm your password!',
-                        },
-                        {
-                            validator: compareToFirstPassword,
-                        },
-                    ],
-                })(<Input.Password onBlur={handleConfirmBlur} />)}
-            </Form.Item>
-            <Form.Item label="Display Name">
-                {getFieldDecorator('displayName', {
-                    rules: [
-                        {
-                            required: true,
-                            message: 'Please input your name!',
-                            whitespace: true,
-                        },
-                    ],
-                })(<Input />)}
-            </Form.Item>
-            <Form.Item {...formFooterLayout}>
-                <Button type="primary" htmlType="submit">
+            <TextField
+                type="email"
+                label="Email"
+                variant="outlined"
+                size="small"
+                className="formInput"
+                required
+                value={values.email}
+                onChange={(e) => handleChange('email', e.target.value)}
+            />
+            <TextField
+                type="password"
+                label="Password"
+                variant="outlined"
+                size="small"
+                className="formInput"
+                required
+                value={values.password}
+                onChange={(e) => handleChange('password', e.target.value)}
+            />
+            <TextField
+                type="password"
+                label="Confirm Password"
+                variant="outlined"
+                size="small"
+                className="formInput"
+                required
+                value={values.password2}
+                onChange={(e) => handleChange('password2', e.target.value)}
+                error={comparePassword().length > 0}
+            />
+            <TextField
+                label="Display Name"
+                variant="outlined"
+                size="small"
+                className="formInput"
+                required
+                value={values.displayName}
+                onChange={(e) => handleChange('displayName', e.target.value)}
+            />
+            <div className="formFooter">
+                <Button type="submit" variant="contained" color="primary">
                     Register
                 </Button>
                 &nbsp; Or&nbsp;
-                <span className="customLink" onClick={props.toLogin}>
+                <Link onClick={props.toLogin} variant="body1">
                     back to login
-                </span>
-            </Form.Item>
-        </Form>
+                </Link>
+            </div>
+        </form>
     );
 }
 
-export default Form.create({ name: 'login' })(RegisterForm);
+export default RegisterForm;
