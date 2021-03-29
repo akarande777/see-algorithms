@@ -4,6 +4,7 @@ import Graph, { Point } from './common/Graph';
 import GraphView from './common/Graph.view';
 import $ from 'jquery';
 import timer from './common/timer';
+import { colors } from '../common/constants';
 
 var cell, k;
 var n, ind;
@@ -32,7 +33,7 @@ function start() {
     for (let i = 0; i < n; i++) {
         if (ind[i] === 0) {
             stack.push(i);
-            $(`.vrtx:eq(${i})`).attr('stroke', 'orange');
+            $(`.vrtx:eq(${i})`).attr('stroke', colors.visited);
         }
     }
     k = 0;
@@ -42,7 +43,7 @@ function start() {
 function sort() {
     if (stack.length > 0) {
         let i = stack.pop();
-        $(`.vrtx:eq(${i})`).attr('fill', 'orange');
+        $(`.vrtx:eq(${i})`).attr('fill', colors.visited);
         for (let j = 0; j < Graph.totalPoints(); j++) {
             let ei = Graph.edgeIndex(i, j);
             if (ei !== undefined && ind[j] !== 0) {
@@ -52,12 +53,12 @@ function sort() {
                 let x2 = $(`line:eq(${ei})`).attr('x2');
                 let y2 = $(`line:eq(${ei})`).attr('y2');
                 let q = new Point(x2, y2);
-                $(`line:eq(${ei})`).attr('stroke', 'orange');
+                $(`line:eq(${ei})`).attr('stroke', colors.visited);
                 let d = distance(p, q);
                 timer.timeout(() => {
                     if (ind[j] === 0) {
                         stack.push(j);
-                        $(`.vrtx:eq(${j})`).attr('stroke', 'orange');
+                        $(`.vrtx:eq(${j})`).attr('stroke', colors.visited);
                     }
                     extract(p, q, i, j, d - 2);
                 }, delay / 2);
@@ -98,7 +99,7 @@ function fall(i) {
     } else {
         let np = Graph.totalPoints();
         cell[np - n].innerHTML = String.fromCharCode(65 + i);
-        cell[np - n].setAttribute('bgcolor', 'orange');
+        cell[np - n].setAttribute('bgcolor', colors.visited);
         --n;
         timer.timeout(sort, delay / 2);
     }

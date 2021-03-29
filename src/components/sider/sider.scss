@@ -1,0 +1,22 @@
+.list {
+    width: 16rem;
+    color: white;
+    background-color: #115293;
+    height: 100%;
+    position: relative;
+
+    .listItemIcon {
+        fill: white;
+    }
+    .listItemText {
+        margin-left: -0.5rem;
+    }
+    .listItem:hover {
+        background-color: #1976d2;
+    }
+    .logout {
+        padding-left: 2rem;
+        position: absolute;
+        bottom: 1rem;
+    }
+}

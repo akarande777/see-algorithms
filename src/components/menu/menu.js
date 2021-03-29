@@ -21,10 +21,10 @@ function List() {
             onClose={() => setOptions({})}
         >
             {Array.isArray(menuItems) &&
-                menuItems.map((item, i) => (
-                    <ListItem key={i} button>
+                menuItems.map((item) => (
+                    <ListItem key={item.value} button>
                         <ListItemText
-                            primary={item}
+                            primary={item.label}
                             className="listItemText"
                             onClick={() => {
                                 onSelect(item);

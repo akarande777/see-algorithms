@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Select, Input, Button, message } from 'antd';
+import { showToast } from '../components/toast/toast';
+import { Select, Input, Button } from '@material-ui/core';
 import './input.scss';
 
 function Container(props) {
     const [values, setValues] = useState([]);
     const [status, setStatus] = useState(false);
 
-    const handleSelect = (size) => {
+    const handleSelect = (e) => {
+        const size = parseInt(e.target.value);
         const values = [];
         for (let i = 0; i < size; i++) {
             values.push(Math.floor(Math.random() * 100));
@@ -15,14 +17,17 @@ function Container(props) {
     };
 
     const handleInput = (e, i) => {
-        values[i] = e.target.value;
+        values[i] = e.target.value.slice(0, 3);
         setValues([...values]);
     };
 
     const validate = () => {
         for (let i = 0; i < values.length; i++) {
             if (isNaN(parseInt(values[i]))) {
-                message.error('Please enter valid number', 60);
+                showToast({
+                    message: 'Please enter valid number',
+                    variant: 'error',
+                });
                 setStatus(false);
                 return false;
             }
@@ -50,12 +55,13 @@ function Container(props) {
                 &nbsp;
             </span>
             {!values.length ? (
-                <Select style={{ width: 60 }} onChange={handleSelect}>
+                <Select native onChange={handleSelect}>
+                    <option value="" />
                     {[6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((i) => {
                         return (
-                            <Select.Option key={i} value={i}>
+                            <option key={i} value={i}>
                                 {i}
-                            </Select.Option>
+                            </option>
                         );
                     })}
                 </Select>
@@ -64,7 +70,6 @@ function Container(props) {
                     {values.map((val, i) => {
                         return (
                             <Input
-                                size="small"
                                 key={i}
                                 value={val}
                                 onChange={(e) => handleInput(e, i)}
@@ -76,7 +81,7 @@ function Container(props) {
             )}
             {values.length > 0 && (
                 <div>
-                    <Button type="primary" onClick={handleSubmit}>
+                    <Button variant="contained" onClick={handleSubmit}>
                         {!status ? 'Start' : 'Stop'}
                     </Button>
                 </div>

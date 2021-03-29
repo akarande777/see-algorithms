@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select } from 'antd';
+import { Select } from '@material-ui/core';
 
 var n, a;
 var out, b, k;
@@ -102,9 +102,9 @@ class RadixSort extends React.Component {
         clearTimeout(timer);
     }
 
-    handleSelect = (size) => {
+    handleSelect = (e) => {
         a = new Array();
-        n = size;
+        n = parseInt(e.target.value);
         for (let i = 0; i < n; i++) {
             a[i] = Math.floor(Math.random() * 900 + 100);
         }
@@ -171,12 +171,13 @@ class RadixSort extends React.Component {
             <div>
                 <div className="input">
                     <span className="label">Select number of elements: &nbsp;</span>
-                    <Select style={{ width: 60 }} onChange={this.handleSelect}>
+                    <Select native onChange={this.handleSelect}>
+                        <option value="" />
                         {[7, 8, 9, 10, 11, 12].map((i) => {
                             return (
-                                <Select.Option key={i} value={i}>
+                                <option key={i} value={i}>
                                     {i}
-                                </Select.Option>
+                                </option>
                             );
                         })}
                     </Select>

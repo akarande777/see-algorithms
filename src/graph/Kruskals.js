@@ -3,6 +3,7 @@ import Graph from './common/Graph';
 import GraphView from './common/Graph.view';
 import $ from 'jquery';
 import timer from './common/timer';
+import { colors } from '../common/constants';
 
 var parent;
 var arr;
@@ -51,30 +52,30 @@ function find() {
         let q = findParent(arr[j].v);
         if (p !== q) {
             parent[q] = p;
-            $('.vrtx').eq(arr[j].u).attr('stroke', 'orange');
-            $('.vrtx').eq(arr[j].u).attr('fill', 'orange');
-            $('.vrtx').eq(arr[j].v).attr('stroke', 'orange');
-            $('.vrtx').eq(arr[j].v).attr('fill', 'orange');
-            $('.edge').eq(arr[j].i).attr('stroke', 'orange');
+            $('.vrtx').eq(arr[j].u).attr('stroke', colors.visited);
+            $('.vrtx').eq(arr[j].u).attr('fill', colors.visited);
+            $('.vrtx').eq(arr[j].v).attr('stroke', colors.visited);
+            $('.vrtx').eq(arr[j].v).attr('fill', colors.visited);
+            $('.edge').eq(arr[j].i).attr('stroke', colors.visited);
             timer.timeout(() => {
-                $('.vrtx').eq(arr[j].u).attr('fill', '#eee');
-                $('.vrtx').eq(arr[j].v).attr('fill', '#eee');
+                $('.vrtx').eq(arr[j].u).attr('fill', colors.vertex);
+                $('.vrtx').eq(arr[j].v).attr('fill', colors.vertex);
                 mst.push(arr[j++]);
                 timer.timeout(find, delay);
             }, delay / 1.5);
         } else {
-            $('.vrtx').eq(arr[j].u).attr('stroke', 'red');
-            $('.vrtx').eq(arr[j].v).attr('stroke', 'red');
-            $('.edge').eq(arr[j].i).attr('stroke', 'red');
+            $('.vrtx').eq(arr[j].u).attr('stroke', colors.danger);
+            $('.vrtx').eq(arr[j].v).attr('stroke', colors.danger);
+            $('.edge').eq(arr[j].i).attr('stroke', colors.danger);
             timer.timeout(skip, delay / 1.5);
         }
     }
 }
 
 function skip() {
-    $('.vrtx').eq(arr[j].u).attr('stroke', 'orange');
-    $('.vrtx').eq(arr[j].v).attr('stroke', 'orange');
-    $('.edge').eq(arr[j].i).attr('stroke', '#ccc');
+    $('.vrtx').eq(arr[j].u).attr('stroke', colors.visited);
+    $('.vrtx').eq(arr[j].v).attr('stroke', colors.visited);
+    $('.edge').eq(arr[j].i).attr('stroke', colors.rejected);
     $('.edge').eq(arr[j].i).attr('stroke-dasharray', '8,5');
     j++;
     timer.timeout(find, delay);

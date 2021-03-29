@@ -1,6 +1,5 @@
 import React from 'react';
-import './404.css';
-import { Button } from 'antd';
+import { Button } from '@material-ui/core';
 
 const NoRouteFound = ({ history }) => {
     return (
@@ -10,7 +9,7 @@ const NoRouteFound = ({ history }) => {
                 <hr />
                 <h4>Oops! page not found</h4>
                 <br />
-                <Button type="primary" onClick={() => history.goBack()}>
+                <Button variant="contained" color="primary" onClick={() => history.goBack()}>
                     Go Back
                 </Button>
             </div>

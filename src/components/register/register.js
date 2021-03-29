@@ -16,16 +16,16 @@ function RegisterForm(props) {
         props.register(values);
     };
 
+    const handleChange = (key, value) => {
+        setValues({ ...values, [key]: value });
+    };
+
     const comparePassword = () => {
         const { password2, password } = values;
         if (password2 && password2 !== password) {
             return 'Passwords do not match!';
         }
         return '';
-    };
-
-    const handleChange = (key, value) => {
-        setValues({ ...values, [key]: value });
     };
 
     return (

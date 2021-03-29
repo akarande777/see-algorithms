@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Input from './input';
+import { colors } from '../common/constants';
 
 var a, n;
 var tbl, cell;
@@ -10,20 +11,20 @@ var timer;
 
 function iloop() {
     if (i < n - 1) {
-        cell[i + n].setAttribute('bgcolor', 'pink');
+        cell[i + n].setAttribute('bgcolor', colors.compare);
         pos = i;
         j = i + 1;
         flag1 = true; // start loop
         flag2 = false;
         timer = setTimeout(function () {
             cell[i].innerHTML = a[i];
-            cell[i].setAttribute('bgcolor', 'plum');
+            cell[i].setAttribute('bgcolor', colors.sorted);
             cell[i + n].innerHTML = '';
             cell[i + n].removeAttribute('bgcolor');
             timer = setInterval(jloop, 500);
         }, 500);
     } else {
-        cell[n + n - 1].setAttribute('bgcolor', 'plum');
+        cell[n + n - 1].setAttribute('bgcolor', colors.sorted);
     }
 }
 
@@ -35,7 +36,7 @@ function jloop() {
             flag2 = true; // pos changed
         }
         cell[j + n - 1].removeAttribute('bgcolor');
-        cell[j + n].setAttribute('bgcolor', 'pink');
+        cell[j + n].setAttribute('bgcolor', colors.compare);
         j++;
     }
     if (!flag1 && flag2) {
@@ -43,7 +44,7 @@ function jloop() {
         cell[prev].innerHTML = '';
         cell[prev].removeAttribute('bgcolor');
         cell[pos].innerHTML = a[pos];
-        cell[pos].setAttribute('bgcolor', 'plum');
+        cell[pos].setAttribute('bgcolor', colors.sorted);
         cell[pos + n].innerHTML = '';
         cell[pos + n].removeAttribute('bgcolor');
         flag1 = true; // continue loop
@@ -65,7 +66,7 @@ function jloop() {
             } else {
                 timer = setTimeout(function () {
                     cell[pos + n].innerHTML = a[pos];
-                    cell[pos + n].setAttribute('bgcolor', 'plum');
+                    cell[pos + n].setAttribute('bgcolor', colors.sorted);
                     cell[pos].innerHTML = '';
                     cell[pos].removeAttribute('bgcolor');
                     i++;
@@ -121,7 +122,7 @@ function SelectionSort() {
 
 function swap() {
     cell[pos - k].innerHTML = a[pos];
-    cell[pos - k].setAttribute('bgcolor', 'plum');
+    cell[pos - k].setAttribute('bgcolor', colors.sorted);
     cell[pos - k + 1].innerHTML = '';
     cell[pos - k + 1].removeAttribute('bgcolor');
     cell[i + n + n + k].innerHTML = a[i];
@@ -132,7 +133,7 @@ function swap() {
             cell[pos + n].innerHTML = a[i];
             cell[pos + n + n].innerHTML = '';
             cell[i + n].innerHTML = a[pos];
-            cell[i + n].setAttribute('bgcolor', 'plum');
+            cell[i + n].setAttribute('bgcolor', colors.sorted);
             cell[i].innerHTML = '';
             cell[i].removeAttribute('bgcolor');
             let t = a[i];

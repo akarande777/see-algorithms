@@ -1,8 +1,9 @@
 import $ from 'jquery';
 import { distance, addVertex, addEdge, offset } from './utils';
 import Graph, { Point, Segment } from './Graph';
-import { message } from 'antd';
-import { fromEnd } from '../utils';
+import { showToast } from '../../components/toast/toast';
+import { fromEnd } from './utils';
+import { colors } from '../../common/constants';
 
 function listen({ weighted, directed, asyclic }) {
     $('#plane').off();
@@ -61,7 +62,10 @@ function listen({ weighted, directed, asyclic }) {
             weighted && addCost(p, lastp);
             if (directed) {
                 if (asyclic && Graph.hasCycle()) {
-                    message.warning('Please draw acyclic graph');
+                    showToast({
+                        message: 'Please draw acyclic graph',
+                        variant: 'error',
+                    });
                     $('line:last').remove();
                     Graph.removeSegment(s);
                     flag = false;
@@ -80,7 +84,7 @@ function listen({ weighted, directed, asyclic }) {
                 }
             } else {
                 addEdge(p, p);
-                $('.vrtx').eq(k).attr('stroke', 'orange');
+                $('.vrtx').eq(k).attr('stroke', colors.selected);
                 if (directed) {
                     $('line:last').attr('marker-end', 'url(#arrow)');
                 }

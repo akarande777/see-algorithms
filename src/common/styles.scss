@@ -1,0 +1,7 @@
+$header-height: 3.75rem;
+$layout-height: calc(100% - #{$header-height});
+
+@mixin sider {
+    top: $header-height !important;
+    height: $layout-height;
+}

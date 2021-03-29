@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import { Switch, Route, withRouter, Link } from 'react-router-dom';
-import { Breadcrumb } from 'antd';
+import { Breadcrumbs } from '@material-ui/core';
 import Home from '../home/home';
 import NoRouteFound from '../components/404/404';
+import { algorithms } from '../common/constants';
 import BubbleSort from '../sorting/BubbleSort';
 import InsertionSort from '../sorting/InsertionSort';
 import SelectionSort from '../sorting/SelectionSort';
@@ -18,68 +19,68 @@ import Dijkstras from '../graph/Dijkstras';
 import TopSort from '../graph/TopSort';
 
 const getDescription = (algo) => {
-    switch (algo) {
-        case "Prim's Algorithm":
+    switch (algo.value) {
+        case 'Prims':
             return "Prim's Minimum Spanning Tree";
-        case "Kruskal's Algorithm":
+        case 'Kruskals':
             return "Kruskal's Minimum Spanning Tree";
-        case "Dijkstra's Algorithm":
+        case 'Dijkstras':
             return "Dijkstra's Shortest Path";
         default:
-            return algo;
+            return algo.label;
     }
 };
 
 function Content({ location, visible }) {
     const { pathname } = location;
-    const title = pathname.slice(1).split('-').join(' ');
+    const { sorting, graph } = algorithms;
+    const all = [...sorting, ...graph];
+    const algo = all.find((x) => pathname.includes(x.value));
     return (
         <Fragment>
-            <Breadcrumb>
-                <Breadcrumb.Item>
-                    <Link to="/">Home</Link>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>{getDescription(title)}</Breadcrumb.Item>
-            </Breadcrumb>
+            <Breadcrumbs>
+                {algo ? <Link to="/">Home</Link> : <span>Home</span>}
+                {algo && <span>{getDescription(algo)}</span>}
+            </Breadcrumbs>
             <br />
             <Switch>
                 <Route exact path="/">
                     <Home />
                 </Route>
-                <Route path="/Bubble-Sort" exact>
+                <Route path="/BubbleSort" exact>
                     <BubbleSort />
                 </Route>
-                <Route path="/Insertion-Sort" exact>
+                <Route path="/InsertionSort" exact>
                     <InsertionSort />
                 </Route>
-                <Route path="/Selection-Sort" exact>
+                <Route path="/SelectionSort" exact>
                     <SelectionSort />
                 </Route>
-                <Route path="/Radix-Sort" exact>
+                <Route path="/RadixSort" exact>
                     <RadixSort />
                 </Route>
-                <Route path="/Heap-Sort" exact>
+                <Route path="/HeapSort" exact>
                     <HeapSort />
                 </Route>
-                <Route path="/Merge-Sort" exact>
+                <Route path="/MergeSort" exact>
                     <MergeSort />
                 </Route>
-                <Route path="/Depth-First-Search" exact>
+                <Route path="/DFS" exact>
                     <DFS visible={visible} />
                 </Route>
-                <Route path="/Breadth-First-Search" exact>
+                <Route path="/BFS" exact>
                     <BFS visible={visible} />
                 </Route>
-                <Route path="/Prim's-Algorithm" exact>
+                <Route path="/Prims" exact>
                     <Prims visible={visible} />
                 </Route>
-                <Route path="/Kruskal's-Algorithm" exact>
+                <Route path="/Kruskals" exact>
                     <Kruskals visible={visible} />
                 </Route>
-                <Route path="/Dijkstra's-Algorithm" exact>
+                <Route path="/Dijkstras" exact>
                     <Dijkstras visible={visible} />
                 </Route>
-                <Route path="/Topological-Sorting" exact>
+                <Route path="/TopSort" exact>
                     <TopSort visible={visible} />
                 </Route>
                 <Route>

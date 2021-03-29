@@ -6,6 +6,12 @@ body {
     height: 100%;
 }
 
+@media only screen and (min-width: 1920px) {
+    html {
+        font-size: 20px;
+    }
+}
+
 .spaceBetween {
     display: flex;
     justify-content: space-between;

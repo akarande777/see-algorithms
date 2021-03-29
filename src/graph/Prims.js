@@ -4,6 +4,7 @@ import Graph from './common/Graph';
 import GraphView from './common/Graph.view';
 import $ from 'jquery';
 import timer from './common/timer';
+import { colors } from '../common/constants';
 
 var n, w;
 var mst, i, j;
@@ -32,8 +33,8 @@ function start(source) {
     mst = [];
     i = source;
     timer.timeout(() => {
-        $('.vrtx').eq(i).attr('stroke', 'orange');
-        $('.vrtx').eq(i).attr('fill', 'orange');
+        $('.vrtx').eq(i).attr('stroke', colors.visited);
+        $('.vrtx').eq(i).attr('fill', colors.visited);
         timer.timeout(prim, delay / 2);
     }, delay);
 }
@@ -44,9 +45,9 @@ function prim() {
     for (let k = 0; k < n; k++) {
         if (mst.indexOf(k) === -1 && w[i][k] !== Infinity) {
             let ei = Graph.edgeIndex(i, k);
-            $('.edge').eq(ei).attr('stroke', '#6495ed');
+            $('.edge').eq(ei).attr('stroke', colors.enqueue);
             $('.edge').eq(ei).attr('stroke-dasharray', '8,5');
-            $('.vrtx').eq(k).attr('stroke', '#6495ed');
+            $('.vrtx').eq(k).attr('stroke', colors.enqueue);
         }
     }
     timer.timeout(extractMin, delay);
@@ -75,13 +76,13 @@ function span(p, q, d) {
     } else {
         $('line:last').remove();
         let ei = Graph.edgeIndex(i, j);
-        $('.edge').eq(ei).attr('stroke', 'orange');
+        $('.edge').eq(ei).attr('stroke', colors.visited);
         $('.edge').eq(ei).removeAttr('stroke-dasharray');
-        $('.vrtx').eq(j).attr('stroke', 'orange');
+        $('.vrtx').eq(j).attr('stroke', colors.visited);
         for (let k = 0; k < mst.length; k++) {
             let ej = Graph.edgeIndex(j, mst[k]);
-            if ($('.edge').eq(ej).attr('stroke') === '#6495ed')
-                $('.edge').eq(ej).attr('stroke', '#ccc');
+            if ($('.edge').eq(ej).attr('stroke') === colors.enqueue)
+                $('.edge').eq(ej).attr('stroke', colors.rejected);
         }
         w[i][j] = Infinity;
         w[j][i] = Infinity;

@@ -4,8 +4,8 @@ import { HashRouter } from 'react-router-dom';
 import { Grid, Drawer } from '@material-ui/core';
 import 'antd/dist/antd.css';
 import Header from './components/header/header';
-import SiderView from './layout/sider';
-import ContentView from './layout/content';
+import Sider from './components/sider/sider';
+import Content from './layout/content';
 import Toast from './components/toast/toast';
 import Menu from './components/menu/menu';
 import { auth } from './services/firebase';
@@ -40,23 +40,24 @@ function App() {
             <div className="App">
                 <Toast />
                 <Menu />
-                <Header showSider={() => setVisible(true)} />
+                <Header toggleMenu={() => setVisible(!visible)} />
                 <HashRouter>
                     <Drawer
                         anchor="left"
                         open={visible}
                         onClose={() => setVisible(false)}
                         className="drawer"
-                        PaperProps={{ className: 'drawerBody' }}
+                        PaperProps={{ className: 'paper' }}
+                        BackdropProps={{ className: 'backdrop' }}
                     >
-                        <SiderView close={() => setVisible(false)} />
+                        <Sider onClose={() => setVisible(false)} />
                     </Drawer>
                     <Grid container className="layout">
                         <Grid item xs="auto" className="d-none d-md-block sider">
-                            <SiderView close={() => null} />
+                            <Sider onClose={() => null} />
                         </Grid>
                         <Grid item className="content">
-                            <ContentView visible={visible} />
+                            <Content visible={visible} />
                         </Grid>
                     </Grid>
                 </HashRouter>

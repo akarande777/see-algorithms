@@ -1,34 +1,19 @@
 import React, { useContext } from 'react';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { showMenu } from '../components/menu/menu';
+import { showMenu } from '../menu/menu';
 import { Dashboard } from '@material-ui/icons';
 import { withRouter } from 'react-router-dom';
-import { auth } from '../services/firebase';
-import { AppContext } from '../App';
-
-const sortingAlgorithms = [
-    'Bubble Sort',
-    'Insertion Sort',
-    'Selection Sort',
-    'Radix Sort',
-    'Heap Sort',
-    'Merge Sort',
-];
-const graphAlgorithms = [
-    'Depth First Search',
-    'Breadth First Search',
-    "Prim's Algorithm",
-    "Kruskal's Algorithm",
-    "Dijkstra's Algorithm",
-    'Topological Sorting',
-];
+import { auth } from '../../services/firebase';
+import { AppContext } from '../../App';
+import './sider.scss';
+import { algorithms } from '../../common/constants';
 
 function Sider({ history, ...props }) {
     const { user } = useContext(AppContext);
 
-    const handleSelect = (algo) => {
-        history.push(algo.split(' ').join('-'));
-        props.close();
+    const handleSelect = (algo, i) => {
+        history.push(algo.value);
+        props.onClose();
     };
 
     const getMenuOptions = (e) => ({
@@ -45,7 +30,7 @@ function Sider({ history, ...props }) {
                 onClick={(e) => {
                     showMenu({
                         ...getMenuOptions(e),
-                        menuItems: sortingAlgorithms,
+                        menuItems: algorithms.sorting,
                     });
                 }}
             >
@@ -60,7 +45,7 @@ function Sider({ history, ...props }) {
                 onClick={(e) => {
                     showMenu({
                         ...getMenuOptions(e),
-                        menuItems: graphAlgorithms,
+                        menuItems: algorithms.graph,
                     });
                 }}
             >
@@ -70,7 +55,14 @@ function Sider({ history, ...props }) {
                 <ListItemText primary="Graph" className="listItemText" />
             </ListItem>
             {user && (
-                <ListItem button className="listItem logout" onClick={() => auth.signOut()}>
+                <ListItem
+                    button
+                    className="listItem logout"
+                    onClick={() => {
+                        auth.signOut();
+                        props.onClose();
+                    }}
+                >
                     <ListItemText primary="Logout" className="listItemText" />
                 </ListItem>
             )}

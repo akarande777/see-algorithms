@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Input from './input';
+import { colors } from '../common/constants';
 
 var a, n;
 var i, j, swaps;
@@ -13,7 +14,7 @@ function iloop() {
         timer = setTimeout(jloop, 1000);
     } else {
         for (let k = 0; k < n; k++) {
-            cell[k + n].setAttribute('bgcolor', 'plum');
+            cell[k + n].setAttribute('bgcolor', colors.sorted);
         }
     }
 }
@@ -21,8 +22,8 @@ function iloop() {
 function jloop() {
     if (j < n - i - 1) {
         cell[j + n - 1].removeAttribute('bgcolor');
-        cell[j + n].setAttribute('bgcolor', 'pink');
-        cell[j + n + 1].setAttribute('bgcolor', 'pink');
+        cell[j + n].setAttribute('bgcolor', colors.compare);
+        cell[j + n + 1].setAttribute('bgcolor', colors.compare);
         if (a[j + 1] < a[j]) {
             timer = setTimeout(swap, 800);
             swaps++;
@@ -32,7 +33,7 @@ function jloop() {
         }
     } else {
         cell[j + n - 1].removeAttribute('bgcolor');
-        cell[j + n].setAttribute('bgcolor', 'plum');
+        cell[j + n].setAttribute('bgcolor', colors.sorted);
         iloop();
         i++;
     }
@@ -101,7 +102,7 @@ function swap() {
 
 function shift(u, v) {
     cell[u].innerHTML = cell[v].innerHTML;
-    cell[u].setAttribute('bgcolor', 'pink');
+    cell[u].setAttribute('bgcolor', colors.compare);
     cell[v].removeAttribute('bgcolor');
     cell[v].innerHTML = '';
 }

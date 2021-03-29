@@ -7,7 +7,7 @@ function Header(props) {
         <div className="header d-flex">
             <div className="d-flex align-items-center">
                 <MenuOpen
-                    onClick={() => props.showSider()}
+                    onClick={() => props.toggleMenu()}
                     className="d-md-none d-sm-block menuIcon"
                     color="primary"
                 />

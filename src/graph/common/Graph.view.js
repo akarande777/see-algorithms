@@ -4,7 +4,7 @@ import './Graph.view.scss';
 import Graph from './Graph';
 import $ from 'jquery';
 import listen from './events';
-import { fromEnd } from '../utils';
+import { fromEnd } from './utils';
 import timer from './timer';
 
 function GraphView(props) {
