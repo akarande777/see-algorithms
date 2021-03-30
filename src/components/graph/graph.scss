@@ -11,10 +11,13 @@
 .toolbar {
     align-items: center;
     justify-content: flex-end;
+    position: relative;
 
     .title {
         font-size: 1.25rem;
         font-weight: 500;
+        position: absolute;
+        left: 0;
     }
     .source {
         width: 90px;
