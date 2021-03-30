@@ -4,21 +4,22 @@ import { Breadcrumbs } from '@material-ui/core';
 import Home from '../home/home';
 import NoRouteFound from '../components/404/404';
 import { algorithms } from '../common/constants';
-import BubbleSort from '../sorting/BubbleSort';
-import InsertionSort from '../sorting/InsertionSort';
-import SelectionSort from '../sorting/SelectionSort';
-import RadixSort from '../sorting/RadixSort';
-import HeapSort from '../sorting/HeapSort';
-import MergeSort from '../sorting/MergeSort';
-// import HuffmanCoding from '../HuffmanCoding';
-import DFS from '../graph/DFS';
-import BFS from '../graph/BFS';
-import Prims from '../graph/Prims';
-import Kruskals from '../graph/Kruskals';
-import Dijkstras from '../graph/Dijkstras';
-import TopSort from '../graph/TopSort';
 
-const getDescription = (algo) => {
+import BubbleSort from '../algorithms/sorting/BubbleSort';
+import InsertionSort from '../algorithms/sorting/InsertionSort';
+import SelectionSort from '../algorithms/sorting/SelectionSort';
+import RadixSort from '../algorithms/sorting/RadixSort';
+import HeapSort from '../algorithms/sorting/HeapSort';
+import MergeSort from '../algorithms/sorting/MergeSort';
+
+import DFS from '../algorithms/graph/DFS';
+import BFS from '../algorithms/graph/BFS';
+import Prims from '../algorithms/graph/Prims';
+import Kruskals from '../algorithms/graph/Kruskals';
+import Dijkstras from '../algorithms/graph/Dijkstras';
+import TopSort from '../algorithms/graph/TopSort';
+
+const getLabel = (algo) => {
     switch (algo.value) {
         case 'Prims':
             return "Prim's Minimum Spanning Tree";
@@ -31,7 +32,7 @@ const getDescription = (algo) => {
     }
 };
 
-function Content({ location, visible }) {
+function Content({ location }) {
     const { pathname } = location;
     const { sorting, graph } = algorithms;
     const all = [...sorting, ...graph];
@@ -40,7 +41,7 @@ function Content({ location, visible }) {
         <Fragment>
             <Breadcrumbs>
                 {algo ? <Link to="/">Home</Link> : <span>Home</span>}
-                {algo && <span>{getDescription(algo)}</span>}
+                {algo && <span>{getLabel(algo)}</span>}
             </Breadcrumbs>
             <br />
             <Switch>
@@ -66,22 +67,22 @@ function Content({ location, visible }) {
                     <MergeSort />
                 </Route>
                 <Route path="/DFS" exact>
-                    <DFS visible={visible} />
+                    <DFS />
                 </Route>
                 <Route path="/BFS" exact>
-                    <BFS visible={visible} />
+                    <BFS />
                 </Route>
                 <Route path="/Prims" exact>
-                    <Prims visible={visible} />
+                    <Prims />
                 </Route>
                 <Route path="/Kruskals" exact>
-                    <Kruskals visible={visible} />
+                    <Kruskals />
                 </Route>
                 <Route path="/Dijkstras" exact>
-                    <Dijkstras visible={visible} />
+                    <Dijkstras />
                 </Route>
                 <Route path="/TopSort" exact>
-                    <TopSort visible={visible} />
+                    <TopSort />
                 </Route>
                 <Route>
                     <NoRouteFound />

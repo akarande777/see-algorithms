@@ -1,10 +1,10 @@
 import React from 'react';
-import { fromEnd, distance } from './common/utils';
-import Graph, { Point } from './common/Graph';
-import GraphView from './common/Graph.view';
+import { fromEnd, distance } from '../../common/utils';
+import Graph, { Point } from '../../common/graph';
+import GraphView from '../../components/graph/graph';
 import $ from 'jquery';
-import timer from './common/timer';
-import { colors } from '../common/constants';
+import timer from '../../common/timer';
+import { colors } from '../../common/constants';
 
 var cell, k;
 var n, ind;
@@ -24,7 +24,7 @@ function start() {
     n = Graph.totalPoints();
     for (let j = 0; j < n; j++) {
         cell[j] = document.createElement('td');
-        cell[j].setAttribute('style', 'border:2px solid;width:40px;height:40px;padding:5px');
+        cell[j].setAttribute('style', 'border: 2px solid;width: 3rem');
         row.appendChild(cell[j]);
     }
     tbl.appendChild(row);

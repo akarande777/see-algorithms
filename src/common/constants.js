@@ -17,6 +17,8 @@ export const algorithms = {
     ],
 };
 
+export const baseUrl = 'https://see-algorithms.now.sh';
+
 export const colors = {
     compare: '#ffb74d',
     sorted: '#81c784',

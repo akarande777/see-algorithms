@@ -5,7 +5,7 @@ import { Grid, Drawer } from '@material-ui/core';
 import 'antd/dist/antd.css';
 import Header from './components/header/header';
 import Sider from './components/sider/sider';
-import Content from './layout/content';
+import Content from './content/content';
 import Toast from './components/toast/toast';
 import Menu from './components/menu/menu';
 import { auth } from './services/firebase';
@@ -56,7 +56,7 @@ function App() {
                         <Grid item xs="auto" className="d-none d-md-block sider">
                             <Sider onClose={() => null} />
                         </Grid>
-                        <Grid item className="content">
+                        <Grid item xs className="content">
                             <Content visible={visible} />
                         </Grid>
                     </Grid>

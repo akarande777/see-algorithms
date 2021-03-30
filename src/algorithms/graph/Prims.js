@@ -1,10 +1,10 @@
 import React from 'react';
-import { fromEnd, cloneEdge } from './common/utils';
-import Graph from './common/Graph';
-import GraphView from './common/Graph.view';
+import { fromEnd, cloneEdge } from '../../common/utils';
+import Graph from '../../common/graph';
+import GraphView from '../../components/graph/graph';
 import $ from 'jquery';
-import timer from './common/timer';
-import { colors } from '../common/constants';
+import timer from '../../common/timer';
+import { colors } from '../../common/constants';
 
 var n, w;
 var mst, i, j;

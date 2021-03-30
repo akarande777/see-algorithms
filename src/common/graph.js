@@ -86,6 +86,7 @@ export default {
     },
 
     indegree() {
+        this.forEach((i, j) => console.log(i, j, matrix[i][j]));
         let np = points.length;
         let ind = new Array(np).fill(0);
         dir.forEach(([i, j]) => {

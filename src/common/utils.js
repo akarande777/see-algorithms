@@ -1,6 +1,6 @@
 import $ from 'jquery';
-import Graph, { Point } from './Graph';
-import { colors } from '../../common/constants';
+import Graph, { Point } from './graph';
+import { colors } from './constants';
 
 function distance(p, q) {
     let d = Math.sqrt((q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y));

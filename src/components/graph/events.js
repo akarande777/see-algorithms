@@ -1,8 +1,7 @@
 import $ from 'jquery';
-import { distance, addVertex, addEdge, offset } from './utils';
-import Graph, { Point, Segment } from './Graph';
-import { showToast } from '../../components/toast/toast';
-import { fromEnd } from './utils';
+import { distance, addVertex, addEdge, offset, fromEnd } from '../../common/utils';
+import Graph, { Point, Segment } from '../../common/graph';
+import { showToast } from '../toast/toast';
 import { colors } from '../../common/constants';
 
 function listen({ weighted, directed, asyclic }) {

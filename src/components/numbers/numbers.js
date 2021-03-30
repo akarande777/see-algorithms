@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { showToast } from '../components/toast/toast';
+import { showToast } from '../toast/toast';
 import { Select, Input, Button } from '@material-ui/core';
-import './input.scss';
+import './numbers.scss';
 
-function Container(props) {
+function Numbers(props) {
     const [values, setValues] = useState([]);
     const [status, setStatus] = useState(false);
 
@@ -90,4 +90,4 @@ function Container(props) {
     );
 }
 
-export default Container;
+export default Numbers;

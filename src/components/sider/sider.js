@@ -61,6 +61,7 @@ function Sider({ history, ...props }) {
                     onClick={() => {
                         auth.signOut();
                         props.onClose();
+                        history.push('/');
                     }}
                 >
                     <ListItemText primary="Logout" className="listItemText" />

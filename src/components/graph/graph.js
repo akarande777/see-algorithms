@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Radio, Input, message } from 'antd';
-import './Graph.view.scss';
-import Graph from './Graph';
+import { Button, Checkbox, TextField, FormControlLabel } from '@material-ui/core';
+import { PlayArrow, Pause } from '@material-ui/icons';
+import { showToast } from '../toast/toast';
+import './graph.scss';
+import Graph from '../../common/graph';
 import $ from 'jquery';
 import listen from './events';
-import { fromEnd } from './utils';
-import timer from './timer';
+import { fromEnd } from '../../common/utils';
+import timer from '../../common/timer';
 
 function GraphView(props) {
     const [directed, setDirected] = useState(props.isDAG || false);
@@ -13,26 +15,21 @@ function GraphView(props) {
     const [source, setSource] = useState('A');
 
     const validate = () => {
-        let n = Graph.totalPoints();
-        if (n < 3) {
-            message.error('Draw at least 3 edges');
+        let ns = Graph.totalSegments();
+        if (ns < 3) {
+            showToast({
+                message: 'Draw at least 3 edges',
+                variant: 'error',
+            });
             return;
         }
-        let ind = Graph.indegree();
-        for (let i = 0; i < n; i++) {
-            let k = 0;
-            for (let j = 0; j < n; j++) {
-                let ei = Graph.edgeIndex(i, j);
-                ei === undefined && k++;
-            }
-            if (k === n && ind[i] === 0) {
-                message.error('Please connect all vertices');
-                return;
-            }
-        }
         let s = source.charCodeAt(0);
-        if (isNaN(s) || s < 65 || s >= 65 + n) {
-            message.error('Please enter valid source');
+        let np = Graph.totalPoints();
+        if (source < 65 || s >= 65 + np) {
+            showToast({
+                message: 'Please enter valid source',
+                variant: 'error',
+            });
             return;
         }
         setStatus(1);
@@ -92,10 +89,6 @@ function GraphView(props) {
         }
     }, [directed]);
 
-    useEffect(() => {
-        if (props.visible) clear();
-    }, [props.visible]);
-
     const handlePlay = () => {
         switch (status) {
             case 0:
@@ -119,38 +112,42 @@ function GraphView(props) {
                 {!props.isDAG && (
                     <>
                         {!props.isMST && (
-                            <Radio.Group
-                                size="small"
-                                value={directed}
-                                onChange={() => !status && setDirected(!directed)}
-                                optionType="button"
-                                buttonStyle="solid"
-                            >
-                                <Radio.Button value={false}>Undirected</Radio.Button>
-                                <Radio.Button value={true}>Directed</Radio.Button>
-                            </Radio.Group>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={directed}
+                                        onChange={() => !status && setDirected(!directed)}
+                                        name="directed"
+                                    />
+                                }
+                                label="Directed"
+                                className="checkbox"
+                            />
                         )}
                         {props.customSource !== false && (
-                            <Input
-                                size="small"
-                                addonBefore="Source"
+                            <TextField
                                 value={source}
-                                onChange={({ target }) => setSource(target.value)}
+                                onChange={(e) => {
+                                    let value = e.target.value;
+                                    setSource(value.charAt(0).toUpperCase());
+                                }}
                                 className="source"
+                                label="Source"
+                                variant="outlined"
+                                size="small"
                             />
                         )}
                     </>
                 )}
                 <Button
-                    type="primary"
-                    className="playButton"
-                    icon={status > 0 ? 'pause' : 'caret-right'}
-                    onMouseDown={handlePlay}
+                    variant="contained"
+                    startIcon={status > 0 ? <Pause /> : <PlayArrow />}
+                    onClick={handlePlay}
                     disabled={props.isDAG && status}
                 >
                     {status > 0 ? 'Pause' : 'Play'}
                 </Button>
-                <Button type="primary" onMouseDown={clear} id="clear">
+                <Button variant="contained" onClick={clear} id="clear">
                     Clear
                 </Button>
             </div>

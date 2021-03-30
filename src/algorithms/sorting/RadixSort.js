@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Select } from '@material-ui/core';
 
 var n, a;
@@ -17,7 +17,7 @@ function shift() {
             let r = t % 10;
             if (j == exp) {
                 cell[i].innerHTML =
-                    '<span style="color:crimson">' + r + '</span>' + cell[i].innerHTML;
+                    '<span style="color: crimson">' + r + '</span>' + cell[i].innerHTML;
             } else {
                 cell[i].innerHTML = r + cell[i].innerHTML;
             }
@@ -84,25 +84,16 @@ function combine(j) {
     }
 }
 
-class RadixSort extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            values: [],
-            started: false,
-        };
-    }
-
-    componentDidMount() {
+function RadixSort() {
+    useEffect(() => {
         tbl = document.getElementById('tbl');
         tbl2 = document.getElementById('tbl2');
-    }
+        return () => {
+            clearTimeout(timer);
+        };
+    }, []);
 
-    componentWillUnmount() {
-        clearTimeout(timer);
-    }
-
-    handleSelect = (e) => {
+    const handleSelect = (e) => {
         a = new Array();
         n = parseInt(e.target.value);
         for (let i = 0; i < n; i++) {
@@ -111,10 +102,10 @@ class RadixSort extends React.Component {
         clearTimeout(timer);
         tbl.innerHTML = '';
         tbl2.innerHTML = '';
-        this.start();
+        start();
     };
 
-    start = () => {
+    const start = () => {
         cell = new Array();
         let row = document.createElement('tr');
         for (let i = 0; i < n; i++) {
@@ -157,38 +148,27 @@ class RadixSort extends React.Component {
         timer = setTimeout(radixSort, delay);
     };
 
-    stop = () => {
-        clearTimeout(timer);
-        tbl.innerHTML = '';
-        this.setState({
-            values: [],
-            started: false,
-        });
-    };
-
-    render() {
-        return (
-            <div>
-                <div className="input">
-                    <span className="label">Select number of elements: &nbsp;</span>
-                    <Select native onChange={this.handleSelect}>
-                        <option value="" />
-                        {[7, 8, 9, 10, 11, 12].map((i) => {
-                            return (
-                                <option key={i} value={i}>
-                                    {i}
-                                </option>
-                            );
-                        })}
-                    </Select>
-                </div>
-                <table id="tbl" />
-                <br />
-                <br />
-                <table id="tbl2" />
+    return (
+        <div className="sortNumbers">
+            <div className="input">
+                <span className="label">Select number of elements: &nbsp;</span>
+                <Select native onChange={handleSelect}>
+                    <option value="" />
+                    {[7, 8, 9, 10, 11, 12].map((i) => {
+                        return (
+                            <option key={i} value={i}>
+                                {i}
+                            </option>
+                        );
+                    })}
+                </Select>
             </div>
-        );
-    }
+            <table id="tbl" />
+            <br />
+            <br />
+            <table id="tbl2" />
+        </div>
+    );
 }
 
 export default RadixSort;

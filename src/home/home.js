@@ -7,6 +7,7 @@ import './home.scss';
 import { auth } from '../services/firebase';
 import { createUserProfileDoc } from '../services/auth';
 import { AppContext } from '../App';
+import { baseUrl } from '../common/constants';
 
 function Home() {
     const { user } = useContext(AppContext);
@@ -23,7 +24,7 @@ function Home() {
         try {
             const { user } = await auth.createUserWithEmailAndPassword(email, password);
             await createUserProfileDoc(user, { displayName });
-            await user.sendEmailVerification({ url: 'https://see-algorithms.now.sh' });
+            await user.sendEmailVerification({ url: baseUrl });
             showToast({
                 message: 'Verification email sent!',
                 variant: 'success',

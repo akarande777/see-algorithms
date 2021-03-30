@@ -10,8 +10,8 @@
     height: $layout-height;
 
     .content {
-        overflow-x: auto;
-        width: max-content;
+        overflow: auto;
+        height: 100%;
         padding: 1.5rem;
     }
 }
@@ -24,14 +24,19 @@
     }
 }
 
-table {
-    border-collapse: separate !important;
-    border-spacing: 0.5rem;
-    font-weight: 600;
-    font-size: 1rem;
-    td {
-        width: 3.5rem;
-        height: 3rem;
-        text-align: center;
+.sortNumbers,
+.drawGraph {
+    min-width: max-content;
+
+    table {
+        border-collapse: separate;
+        border-spacing: 0.5rem;
+        font-weight: 600;
+        font-size: 1rem;
+        td {
+            width: 3.5rem;
+            height: 3rem;
+            text-align: center;
+        }
     }
 }
