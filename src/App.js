@@ -2,7 +2,6 @@ import React, { useState, useEffect, createContext } from 'react';
 import './App.scss';
 import { HashRouter } from 'react-router-dom';
 import { Grid, Drawer } from '@material-ui/core';
-import 'antd/dist/antd.css';
 import Header from './components/header/header';
 import Sider from './components/sider/sider';
 import Content from './content/content';
