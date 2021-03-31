@@ -42,7 +42,7 @@ export default {
         segments.length = 0;
         matrix.length = 0;
         dir.length = 0;
-        directed = typeof type === 'boolean' ? type : false;
+        directed = Boolean(type);
     },
 
     forEach(callback) {

@@ -1,23 +1,23 @@
 export const algorithms = {
     sorting: [
-        { value: 'BubbleSort', label: 'Bubble Sort' },
-        { value: 'InsertionSort', label: 'Insertion Sort' },
-        { value: 'SelectionSort', label: 'Selection Sort' },
-        { value: 'RadixSort', label: 'Radix Sort' },
-        { value: 'HeapSort', label: 'Heap Sort' },
-        { value: 'MergeSort', label: 'Merge Sort' },
+        { value: 'bubble-sort', label: 'Bubble Sort' },
+        { value: 'insertion-sort', label: 'Insertion Sort' },
+        { value: 'selection-sort', label: 'Selection Sort' },
+        { value: 'radix-sort', label: 'Radix Sort' },
+        { value: 'heap-sort', label: 'Heap Sort' },
+        { value: 'merge-sort', label: 'Merge Sort' },
     ],
     graph: [
-        { value: 'DFS', label: 'Depth First Search' },
-        { value: 'BFS', label: 'Bradth First Search' },
-        { value: 'Prims', label: "Prim's Algorithm" },
-        { value: 'Kruskals', label: "Kruskal's Algorithm" },
-        { value: 'Dijkstras', label: "Dijkstra's Algortihm" },
-        { value: 'TopSort', label: 'Topological Sorting' },
+        { value: 'dfs', label: 'Depth First Search' },
+        { value: 'bfs', label: 'Bradth First Search' },
+        { value: 'prims', label: "Prim's Algorithm" },
+        { value: 'kruskals', label: "Kruskal's Algorithm" },
+        { value: 'dijkstras', label: "Dijkstra's Algortihm" },
+        { value: 'topsort', label: 'Topological Sorting' },
     ],
 };
 
-export const baseUrl = 'https://see-algorithms.now.sh';
+export const domain = 'https://see-algorithms.now.sh';
 
 export const colors = {
     compare: '#ffb74d',

@@ -48,40 +48,40 @@ function Content({ location }) {
                 <Route exact path="/">
                     <Home />
                 </Route>
-                <Route path="/BubbleSort" exact>
+                <Route path="/bubble-sort" exact>
                     <BubbleSort />
                 </Route>
-                <Route path="/InsertionSort" exact>
+                <Route path="/insertion-sort" exact>
                     <InsertionSort />
                 </Route>
-                <Route path="/SelectionSort" exact>
+                <Route path="/selection-sort" exact>
                     <SelectionSort />
                 </Route>
-                <Route path="/RadixSort" exact>
+                <Route path="/radix-sort" exact>
                     <RadixSort />
                 </Route>
-                <Route path="/HeapSort" exact>
+                <Route path="/heap-sort" exact>
                     <HeapSort />
                 </Route>
-                <Route path="/MergeSort" exact>
+                <Route path="/merge-sort" exact>
                     <MergeSort />
                 </Route>
-                <Route path="/DFS" exact>
+                <Route path="/dfs" exact>
                     <DFS />
                 </Route>
-                <Route path="/BFS" exact>
+                <Route path="/bfs" exact>
                     <BFS />
                 </Route>
-                <Route path="/Prims" exact>
+                <Route path="/prims" exact>
                     <Prims />
                 </Route>
-                <Route path="/Kruskals" exact>
+                <Route path="/kruskals" exact>
                     <Kruskals />
                 </Route>
-                <Route path="/Dijkstras" exact>
+                <Route path="/dijkstras" exact>
                     <Dijkstras />
                 </Route>
-                <Route path="/TopSort" exact>
+                <Route path="/topsort" exact>
                     <TopSort />
                 </Route>
                 <Route>
