@@ -22,15 +22,15 @@ function List() {
         >
             {Array.isArray(menuItems) &&
                 menuItems.map((item) => (
-                    <ListItem key={item.value} button>
-                        <ListItemText
-                            primary={item.label}
-                            className="listItemText"
-                            onClick={() => {
-                                onSelect(item);
-                                setOptions({});
-                            }}
-                        />
+                    <ListItem
+                        key={item.value}
+                        button
+                        onClick={() => {
+                            onSelect(item);
+                            setOptions({});
+                        }}
+                    >
+                        <ListItemText primary={item.label} className="listItemText" />
                     </ListItem>
                 ))}
         </Menu>
