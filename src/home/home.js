@@ -55,14 +55,7 @@ function Home() {
     return (
         <div className={'formContainer ' + (loading ? 'loading' : '')}>
             {loading && <CircularProgress className="loader" />}
-            <h5>Hello {user ? user.displayName + '!' : 'World!'}</h5>
-            <br />
-            {formType === 'login' && (
-                <LoginForm toRegister={() => setFormType('register')} login={login} />
-            )}
-            {formType === 'register' && (
-                <RegisterForm toLogin={() => setFormType('login')} register={register} />
-            )}
+            <h5>Hello World!</h5>
         </div>
     );
 }
