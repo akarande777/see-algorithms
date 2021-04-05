@@ -26,7 +26,7 @@ function Numbers(props) {
 
     const validate = () => {
         for (let i = 0; i < values.length; i++) {
-            if (!values[i]) {
+            if (typeof values[i] !== 'number') {
                 showToast({
                     message: 'Please enter valid numbers',
                     variant: 'error',

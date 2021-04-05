@@ -18,7 +18,7 @@ function GraphView(props) {
         let np = Graph.totalPoints();
         if (np < 2) {
             showToast({
-                message: 'Please draw a valid graph',
+                message: 'Graph cannot be empty',
                 variant: 'error',
             });
             return;
@@ -26,14 +26,14 @@ function GraphView(props) {
         let s = source.charCodeAt(0);
         if (source < 65 || s >= 65 + np) {
             showToast({
-                message: 'Please enter a valid source',
+                message: 'Please enter valid source',
                 variant: 'error',
             });
             return;
         }
         if (!Graph.isConnected()) {
             showToast({
-                message: 'Please draw a connected graph',
+                message: 'Please connect vertices',
                 variant: 'error',
             });
             return;
