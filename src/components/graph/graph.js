@@ -15,26 +15,25 @@ function GraphView(props) {
     const [source, setSource] = useState('A');
 
     const validate = () => {
-        let ns = Graph.totalSegments();
-        if (ns < 1) {
+        let np = Graph.totalPoints();
+        if (np < 2) {
             showToast({
-                message: 'Please draw valid graph',
+                message: 'Please draw a valid graph',
                 variant: 'error',
             });
             return;
         }
         let s = source.charCodeAt(0);
-        let np = Graph.totalPoints();
         if (source < 65 || s >= 65 + np) {
             showToast({
-                message: 'Please enter valid source',
+                message: 'Please enter a valid source',
                 variant: 'error',
             });
             return;
         }
         if (!Graph.isConnected()) {
             showToast({
-                message: 'Please connect all vertices',
+                message: 'Graph is not connected',
                 variant: 'error',
             });
             return;
