@@ -17,7 +17,7 @@ function Numbers(props) {
     };
 
     const handleInput = (e, i) => {
-        let value = e.target.value.slice(0, 3);
+        let value = e.target.value.trim().slice(0, 3);
         if (!isNaN(value)) {
             values[i] = value ? parseInt(value) : value;
             setValues([...values]);
@@ -28,7 +28,7 @@ function Numbers(props) {
         for (let i = 0; i < values.length; i++) {
             if (typeof values[i] !== 'number') {
                 showToast({
-                    message: 'Please enter valid numbers',
+                    message: 'Please enter numbers',
                     variant: 'error',
                 });
                 setStatus(false);
