@@ -15,19 +15,25 @@ function GraphView(props) {
     const [source, setSource] = useState('A');
 
     const validate = () => {
-        let ns = Graph.totalSegments();
-        if (ns < 3) {
+        let np = Graph.totalPoints();
+        if (np <= 1) {
             showToast({
-                message: 'Draw at least 3 edges',
+                message: 'Please draw valid graph',
                 variant: 'error',
             });
             return;
         }
         let s = source.charCodeAt(0);
-        let np = Graph.totalPoints();
         if (source < 65 || s >= 65 + np) {
             showToast({
                 message: 'Please enter valid source',
+                variant: 'error',
+            });
+            return;
+        }
+        if (!Graph.isConnected()) {
+            showToast({
+                message: 'Please connect all vertices',
                 variant: 'error',
             });
             return;
@@ -116,8 +122,9 @@ function GraphView(props) {
                                 control={
                                     <Checkbox
                                         checked={directed}
-                                        onChange={() => !status && setDirected(!directed)}
+                                        onChange={() => setDirected(!directed)}
                                         name="directed"
+                                        disabled={status !== 0}
                                     />
                                 }
                                 label="Directed"
@@ -143,7 +150,7 @@ function GraphView(props) {
                     variant="contained"
                     startIcon={status > 0 ? <Pause /> : <PlayArrow />}
                     onClick={handlePlay}
-                    disabled={props.isDAG && status}
+                    disabled={Boolean(props.isDAG && status)}
                 >
                     {status > 0 ? 'Pause' : 'Play'}
                 </Button>

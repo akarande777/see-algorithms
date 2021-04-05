@@ -17,15 +17,18 @@ function Numbers(props) {
     };
 
     const handleInput = (e, i) => {
-        values[i] = e.target.value.slice(0, 3);
-        setValues([...values]);
+        let value = e.target.value.slice(0, 3);
+        if (!isNaN(value)) {
+            values[i] = value ? parseInt(value) : value;
+            setValues([...values]);
+        }
     };
 
     const validate = () => {
         for (let i = 0; i < values.length; i++) {
-            if (isNaN(parseInt(values[i]))) {
+            if (!values[i]) {
                 showToast({
-                    message: 'Please enter valid number',
+                    message: 'Please enter valid numbers',
                     variant: 'error',
                 });
                 setStatus(false);

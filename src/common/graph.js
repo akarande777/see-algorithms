@@ -58,6 +58,24 @@ export default {
         return directed;
     },
 
+    isConnected() {
+        let source = this.indegree().findIndex((d) => d === 0);
+        let visited = this.dfs(source, [source]);
+        return visited.length === this.totalPoints();
+    },
+
+    dfs(u, visited) {
+        matrix[u].forEach((cost, v) => {
+            if (cost !== undefined) {
+                if (visited.indexOf(v) === -1) {
+                    visited.push(v);
+                    this.dfs(v, visited);
+                }
+            }
+        });
+        return visited;
+    },
+
     switchType() {
         directed = !directed;
         let np = points.length;
@@ -86,7 +104,6 @@ export default {
     },
 
     indegree() {
-        this.forEach((i, j) => console.log(i, j, matrix[i][j]));
         let np = points.length;
         let ind = new Array(np).fill(0);
         dir.forEach(([i, j]) => {
