@@ -15,8 +15,8 @@ function GraphView(props) {
     const [source, setSource] = useState('A');
 
     const validate = () => {
-        let np = Graph.totalPoints();
-        if (np <= 1) {
+        let ns = Graph.totalSegments();
+        if (ns < 1) {
             showToast({
                 message: 'Please draw valid graph',
                 variant: 'error',
@@ -24,6 +24,7 @@ function GraphView(props) {
             return;
         }
         let s = source.charCodeAt(0);
+        let np = Graph.totalPoints();
         if (source < 65 || s >= 65 + np) {
             showToast({
                 message: 'Please enter valid source',

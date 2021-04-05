@@ -65,14 +65,17 @@ export default {
     },
 
     dfs(u, visited) {
-        matrix[u].forEach((cost, v) => {
-            if (cost !== undefined) {
-                if (visited.indexOf(v) === -1) {
+        let np = points.length;
+        for (let v = 0; v < np; v++) {
+            if (visited.indexOf(v) === -1) {
+                let cost = matrix[u][v];
+                let alt = matrix[v][u];
+                if (cost !== undefined || alt !== undefined) {
                     visited.push(v);
                     this.dfs(v, visited);
                 }
             }
-        });
+        }
         return visited;
     },
 
