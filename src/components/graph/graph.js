@@ -33,7 +33,7 @@ function GraphView(props) {
         }
         if (!Graph.isConnected()) {
             showToast({
-                message: 'Please connect vertices',
+                message: 'Please draw connected graph',
                 variant: 'error',
             });
             return;
