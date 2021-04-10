@@ -29,7 +29,7 @@ export const createUserAgentDoc = async () => {
     const query = visitors.where('userAgent', '==', userAgent);
     const result = await query.get();
 
-    if (!result.empty) {
+    if (result.empty) {
         const createdAt = new Date();
         try {
             await visitors.add({ userAgent, createdAt });
