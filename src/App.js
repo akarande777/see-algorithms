@@ -23,7 +23,7 @@ function App() {
             if (userAuth && userAuth.emailVerified) {
                 const userRef = await createUserProfileDoc(userAuth);
                 userRef.onSnapshot((snapshot) => {
-                    console.log('on snapshot', snapshot.data());
+                    console.log('snapshot', snapshot.data());
                     setUser({
                         id: snapshot.id,
                         ...snapshot.data(),
