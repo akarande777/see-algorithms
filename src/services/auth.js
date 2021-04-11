@@ -26,10 +26,9 @@ export const createUserProfileDoc = async (userAuth, additionalData) => {
 export const createUserAgentDoc = async () => {
     const { userAgent } = window.navigator;
     const visitors = firestore.collection('visitors');
-    const query = visitors.where('userAgent', '==', userAgent);
-    const result = await query.get();
+    const res = await visitors.where('userAgent', '==', userAgent).get();
 
-    if (result.empty) {
+    if (res.empty) {
         const createdAt = new Date();
         try {
             await visitors.add({ userAgent, createdAt });
