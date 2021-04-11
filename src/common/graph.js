@@ -59,8 +59,7 @@ export default {
     },
 
     isConnected() {
-        let source = this.indegree().findIndex((d) => d === 0);
-        let visited = this.dfs(source, [source]);
+        let visited = this.dfs(0, [0]);
         return visited.length === this.totalPoints();
     },
 
