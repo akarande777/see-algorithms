@@ -8,7 +8,7 @@ import Content from './content/content';
 import Toast from './components/toast/toast';
 import Menu from './components/menu/menu';
 import { auth } from './services/firebase';
-import { createUserProfileDoc, createUserAgentDoc } from './services/auth';
+import { createUserProfileDoc } from './services/auth';
 
 export const AppContext = createContext({});
 
@@ -17,7 +17,6 @@ function App() {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        createUserAgentDoc();
         const unsubscribe = auth.onAuthStateChanged(async (userAuth) => {
             console.log('user auth', userAuth);
             if (userAuth && userAuth.emailVerified) {

@@ -22,18 +22,3 @@ export const createUserProfileDoc = async (userAuth, additionalData) => {
 
     return userRef;
 };
-
-export const createUserAgentDoc = async () => {
-    const { userAgent } = window.navigator;
-    const visitors = firestore.collection('visitors');
-    const res = await visitors.where('userAgent', '==', userAgent).get();
-
-    if (res.empty) {
-        const createdAt = new Date();
-        try {
-            await visitors.add({ userAgent, createdAt });
-        } catch (error) {
-            console.log('error creating doc', error.message);
-        }
-    }
-};
