@@ -1,7 +1,7 @@
 import React from 'react';
 import { fromEnd, distance } from '../../common/utils';
 import Graph, { Point } from '../../common/graph';
-import GraphView from '../../components/graph/graph';
+import DrawGraph from '../../components/graph/graph';
 import $ from 'jquery';
 import timer from '../../common/timer';
 import { colors } from '../../common/constants';
@@ -12,7 +12,7 @@ var stack;
 var delay = 1000;
 
 export default function (props) {
-    return <GraphView {...props} start={start} isDAG={true} />;
+    return <DrawGraph {...props} start={start} isDAG={true} />;
 }
 
 function start() {

@@ -1,18 +1,6 @@
 import { addVertex, addEdge } from './utils';
 import { Point } from './graph';
 
-var flag;
-
-function xco(theta, hyp, dx) {
-    return flag
-        ? dx - hyp * Math.sin(theta * (Math.PI / 180))
-        : dx + hyp * Math.sin(theta * (Math.PI / 180));
-}
-
-function yco(theta, hyp, dy) {
-    return dy + hyp * Math.cos(theta * (Math.PI / 180));
-}
-
 function heap(n) {
     let p = new Point(325, 25);
     addVertex(p, '');
@@ -24,12 +12,12 @@ function heap(n) {
         hyp = 150;
     let size = 2;
     let k = 1;
-    flag = true;
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < size; j++) {
-            let x1 = xco(theta, 15, dx);
+            let flag = j % 2 === 0;
+            let x1 = xco(theta, 15, dx, flag);
             let y1 = yco(theta, 15, dy);
-            let x2 = xco(theta, hyp, dx);
+            let x2 = xco(theta, hyp, dx, flag);
             let y2 = yco(theta, hyp, dy);
             p = new Point(x2, y2);
             addEdge(new Point(x1, y1), p);
@@ -38,8 +26,7 @@ function heap(n) {
             if (v.length === n) {
                 break;
             }
-            flag = !flag;
-            if (flag) {
+            if (!flag) {
                 dx = v[k++].x;
             }
         }
@@ -54,4 +41,14 @@ function heap(n) {
     return v;
 }
 
-export default heap;
+function xco(theta, hyp, dx, flag) {
+    return flag
+        ? dx - hyp * Math.sin(theta * (Math.PI / 180))
+        : dx + hyp * Math.sin(theta * (Math.PI / 180));
+}
+
+function yco(theta, hyp, dy) {
+    return dy + hyp * Math.cos(theta * (Math.PI / 180));
+}
+
+export { heap, xco, yco };

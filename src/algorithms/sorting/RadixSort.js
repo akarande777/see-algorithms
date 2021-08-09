@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Select } from '@material-ui/core';
+import { Select, MenuItem } from '@material-ui/core';
 
 var n, a;
 var out, b, k;
@@ -152,13 +152,13 @@ function RadixSort() {
         <div className="sortNumbers">
             <div className="input">
                 <span className="label">Select number of elements: &nbsp;</span>
-                <Select native onChange={handleSelect}>
-                    <option value="" />
+                <Select onChange={handleSelect} className="select">
+                    <MenuItem></MenuItem>
                     {[7, 8, 9, 10, 11, 12].map((i) => {
                         return (
-                            <option key={i} value={i}>
+                            <MenuItem key={i} value={i}>
                                 {i}
-                            </option>
+                            </MenuItem>
                         );
                     })}
                 </Select>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { fromEnd, cloneEdge } from '../../common/utils';
 import Graph from '../../common/graph';
-import GraphView from '../../components/graph/graph';
+import DrawGraph from '../../components/graph/graph';
 import $ from 'jquery';
 import timer from '../../common/timer';
 import { colors } from '../../common/constants';
@@ -12,7 +12,7 @@ var v, prev;
 var delay = 1000;
 
 export default function (props) {
-    return <GraphView {...props} start={start} weighted={true} />;
+    return <DrawGraph {...props} start={start} weighted={true} />;
 }
 
 function start(source) {
@@ -40,9 +40,11 @@ function start(source) {
         d.forEach((x, i) => {
             x > 0 && $('.vlbl').eq(i).text('∞');
         });
-        $('.vrtx').eq(source).attr('stroke', colors.visited);
-        $('.vrtx').eq(source).attr('fill', colors.visited);
-        timer.timeout(dijkstra, delay, source);
+        timer.timeout(() => {
+            $('.vrtx').eq(source).attr('stroke', colors.visited);
+            $('.vrtx').eq(source).attr('fill', colors.visited);
+            timer.timeout(dijkstra, delay, source);
+        }, delay);
     }, delay / 2);
 }
 

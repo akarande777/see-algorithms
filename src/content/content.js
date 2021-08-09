@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Switch, Route, withRouter, Link } from 'react-router-dom';
 import { Breadcrumbs } from '@material-ui/core';
 import Home from '../home/home';
-import NoRouteFound from '../components/404/404';
+import PageNotFound from '../components/404/404';
 import { algorithms } from '../common/constants';
 
 import BubbleSort from '../algorithms/sorting/BubbleSort';
@@ -85,7 +85,7 @@ function Content({ location }) {
                     <TopSort />
                 </Route>
                 <Route>
-                    <NoRouteFound />
+                    <PageNotFound />
                 </Route>
             </Switch>
         </Fragment>

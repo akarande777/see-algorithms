@@ -1,7 +1,9 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 
-const NoRouteFound = ({ history }) => {
+const PageNotFound = () => {
+    const history = useHistory();
     return (
         <div className="container404">
             <div>
@@ -17,4 +19,4 @@ const NoRouteFound = ({ history }) => {
     );
 };
 
-export default NoRouteFound;
+export default PageNotFound;

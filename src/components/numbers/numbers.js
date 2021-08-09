@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { showToast } from '../toast/toast';
-import { Select, Input, Button } from '@material-ui/core';
+import { Select, Input, Button, MenuItem } from '@material-ui/core';
 import './numbers.scss';
 
 function Numbers(props) {
@@ -58,28 +58,24 @@ function Numbers(props) {
                 &nbsp;
             </span>
             {!values.length ? (
-                <Select native onChange={handleSelect}>
-                    <option value="" />
-                    {[6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((i) => {
-                        return (
-                            <option key={i} value={i}>
-                                {i}
-                            </option>
-                        );
-                    })}
+                <Select onChange={handleSelect} className="select">
+                    <MenuItem></MenuItem>
+                    {[6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((i) => (
+                        <MenuItem key={i} value={i}>
+                            {i}
+                        </MenuItem>
+                    ))}
                 </Select>
             ) : (
                 <div>
-                    {values.map((val, i) => {
-                        return (
-                            <Input
-                                key={i}
-                                value={val}
-                                onChange={(e) => handleInput(e, i)}
-                                className="number"
-                            />
-                        );
-                    })}
+                    {values.map((val, i) => (
+                        <Input
+                            key={i}
+                            value={val}
+                            onChange={(e) => handleInput(e, i)}
+                            className="number"
+                        />
+                    ))}
                 </div>
             )}
             {values.length > 0 && (

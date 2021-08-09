@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import heap from '../../common/heap';
+import { heap, xco, yco } from '../../common/heap';
 import { Point } from '../../common/graph';
 import { moveVertex } from '../../common/utils';
 import $ from 'jquery';
@@ -51,7 +51,7 @@ function heapify(i) {
             $('.vrtx').eq(largest).attr('fill', 'pink');
             p = v[i];
             q = v[largest];
-            flag = p.x > q.x ? true : false;
+            flag = p.x > q.x;
             timer = setTimeout(() => {
                 timer =
                     i === 0
@@ -221,11 +221,11 @@ function fall() {
 
 function swap(i, largest, angle) {
     if (p.y < v[largest].y) {
-        let x1 = xco(angle, 1, p.x);
+        let x1 = xco(angle, 1, p.x, flag);
         let y1 = yco(angle, 1, p.y);
         p = new Point(x1, y1);
         moveVertex(i, p);
-        let x2 = xco(angle, -1, q.x);
+        let x2 = xco(angle, -1, q.x, flag);
         let y2 = yco(angle, -1, q.y);
         q = new Point(x2, y2);
         moveVertex(largest, q);
@@ -252,16 +252,6 @@ function swap(i, largest, angle) {
             }
         }, delay / 2);
     }
-}
-
-function xco(theta, hyp, dx) {
-    return flag
-        ? dx - hyp * Math.sin(theta * (Math.PI / 180))
-        : dx + hyp * Math.sin(theta * (Math.PI / 180));
-}
-
-function yco(theta, hyp, dy) {
-    return dy + hyp * Math.cos(theta * (Math.PI / 180));
 }
 
 export default HeapSort;

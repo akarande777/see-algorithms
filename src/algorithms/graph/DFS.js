@@ -1,7 +1,7 @@
 import React from 'react';
 import { fromEnd, cloneEdge } from '../../common/utils';
 import Graph from '../../common/graph';
-import GraphView from '../../components/graph/graph';
+import DrawGraph from '../../components/graph/graph';
 import $ from 'jquery';
 import timer from '../../common/timer';
 import { colors } from '../../common/constants';
@@ -12,7 +12,7 @@ var prev, k;
 var delay = 1000;
 
 export default function (props) {
-    return <GraphView {...props} start={start} />;
+    return <DrawGraph {...props} start={start} />;
 }
 
 function start(source) {

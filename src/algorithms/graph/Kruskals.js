@@ -1,6 +1,6 @@
 import React from 'react';
 import Graph from '../../common/graph';
-import GraphView from '../../components/graph/graph';
+import DrawGraph from '../../components/graph/graph';
 import $ from 'jquery';
 import timer from '../../common/timer';
 import { colors } from '../../common/constants';
@@ -15,7 +15,7 @@ function findParent(q) {
 }
 
 export default function (props) {
-    return <GraphView {...props} start={start} isMST={true} customSource={false} />;
+    return <DrawGraph {...props} start={start} isMST={true} customSource={false} />;
 }
 
 function start() {

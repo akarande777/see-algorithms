@@ -9,7 +9,7 @@ import listen from './events';
 import { fromEnd } from '../../common/utils';
 import timer from '../../common/timer';
 
-function GraphView(props) {
+function DrawGraph(props) {
     const [directed, setDirected] = useState(props.isDAG || false);
     const [status, setStatus] = useState(0);
     const [source, setSource] = useState('A');
@@ -128,7 +128,7 @@ function GraphView(props) {
                                     />
                                 }
                                 label="Directed"
-                                className="checkbox"
+                                style={{ margin: 0 }}
                             />
                         )}
                         {props.customSource !== false && (
@@ -180,4 +180,4 @@ function GraphView(props) {
     );
 }
 
-export default GraphView;
+export default DrawGraph;
