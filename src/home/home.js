@@ -7,7 +7,7 @@ import './home.scss';
 import { auth } from '../services/firebase';
 import { createUserProfileDoc } from '../services/auth';
 import { AppContext } from '../App';
-import { domain } from '../common/constants';
+import { AppDomain } from '../common/constants';
 
 function Home() {
     const { user } = useContext(AppContext);
@@ -24,7 +24,7 @@ function Home() {
         try {
             const { user } = await auth.createUserWithEmailAndPassword(email, password);
             await createUserProfileDoc(user, { displayName });
-            await user.sendEmailVerification({ url: domain });
+            await user.sendEmailVerification({ url: AppDomain });
             showToast({
                 message: 'Verification email sent!',
                 variant: 'success',

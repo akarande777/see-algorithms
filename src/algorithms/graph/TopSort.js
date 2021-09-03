@@ -1,10 +1,10 @@
 import React from 'react';
 import { fromEnd, distance } from '../../common/utils';
 import Graph, { Point } from '../../common/graph';
-import DrawGraph from '../../components/graph/graph';
+import DrawGraph from '../../components/draw-graph/draw-graph';
 import $ from 'jquery';
-import timer from '../../common/timer';
-import { colors } from '../../common/constants';
+import Timer from '../../common/timer';
+import { Colors } from '../../common/constants';
 
 var cell, k;
 var n, ind;
@@ -33,17 +33,17 @@ function start() {
     for (let i = 0; i < n; i++) {
         if (ind[i] === 0) {
             stack.push(i);
-            $(`.vrtx:eq(${i})`).attr('stroke', colors.visited);
+            $(`.vrtx:eq(${i})`).attr('stroke', Colors.visited);
         }
     }
     k = 0;
-    timer.timeout(sort, delay);
+    Timer.timeout(sort, delay);
 }
 
 function sort() {
     if (stack.length > 0) {
         let i = stack.pop();
-        $(`.vrtx:eq(${i})`).attr('fill', colors.visited);
+        $(`.vrtx:eq(${i})`).attr('fill', Colors.visited);
         for (let j = 0; j < Graph.totalPoints(); j++) {
             let ei = Graph.edgeIndex(i, j);
             if (ei !== undefined && ind[j] !== 0) {
@@ -53,19 +53,19 @@ function sort() {
                 let x2 = $(`line:eq(${ei})`).attr('x2');
                 let y2 = $(`line:eq(${ei})`).attr('y2');
                 let q = new Point(x2, y2);
-                $(`line:eq(${ei})`).attr('stroke', colors.visited);
+                $(`line:eq(${ei})`).attr('stroke', Colors.visited);
                 let d = distance(p, q);
-                timer.timeout(() => {
+                Timer.timeout(() => {
                     if (ind[j] === 0) {
                         stack.push(j);
-                        $(`.vrtx:eq(${j})`).attr('stroke', colors.visited);
+                        $(`.vrtx:eq(${j})`).attr('stroke', Colors.visited);
                     }
                     extract(p, q, i, j, d - 2);
                 }, delay / 2);
             }
         }
         if (k === 0) {
-            timer.timeout(fall, delay / 2, i);
+            Timer.timeout(fall, delay / 2, i);
         }
     } else {
         setTimeout(() => {
@@ -80,12 +80,12 @@ function extract(p, q, i, j, d) {
         let r = fromEnd(q, p, d);
         $(`line:eq(${ei})`).attr('x2', r.x);
         $(`line:eq(${ei})`).attr('y2', r.y);
-        timer.timeout(extract, delay / 200, p, q, i, j, d - 2);
+        Timer.timeout(extract, delay / 200, p, q, i, j, d - 2);
     } else {
         $(`line:eq(${ei})`).removeAttr('stroke');
         $(`line:eq(${ei})`).removeAttr('marker-end');
         if (--k === 0) {
-            timer.timeout(fall, delay / 2, i);
+            Timer.timeout(fall, delay / 2, i);
         }
     }
 }
@@ -95,12 +95,12 @@ function fall(i) {
     if (cy < 520) {
         $(`.vrtx:eq(${i})`).attr('cy', cy + 2);
         $(`.vlbl:eq(${i})`).attr('y', cy + 7);
-        timer.timeout(fall, delay / 200, i);
+        Timer.timeout(fall, delay / 200, i);
     } else {
         let np = Graph.totalPoints();
         cell[np - n].innerHTML = String.fromCharCode(65 + i);
-        cell[np - n].setAttribute('bgcolor', colors.visited);
+        cell[np - n].setAttribute('bgcolor', Colors.visited);
         --n;
-        timer.timeout(sort, delay / 2);
+        Timer.timeout(sort, delay / 2);
     }
 }

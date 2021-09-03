@@ -3,7 +3,7 @@ import { Switch, Route, withRouter, Link } from 'react-router-dom';
 import { Breadcrumbs } from '@material-ui/core';
 import Home from '../home/home';
 import PageNotFound from '../components/404/404';
-import { algorithms } from '../common/constants';
+import { Algorithms, DataStructures } from '../common/constants';
 
 import BubbleSort from '../algorithms/sorting/BubbleSort';
 import InsertionSort from '../algorithms/sorting/InsertionSort';
@@ -19,13 +19,13 @@ import Kruskals from '../algorithms/graph/Kruskals';
 import Dijkstras from '../algorithms/graph/Dijkstras';
 import TopSort from '../algorithms/graph/TopSort';
 
-const getLabel = (algo) => {
+const getTitle = (algo) => {
     switch (algo.value) {
-        case 'Prims':
+        case 'prims':
             return "Prim's Minimum Spanning Tree";
-        case 'Kruskals':
+        case 'kruskals':
             return "Kruskal's Minimum Spanning Tree";
-        case 'Dijkstras':
+        case 'dijkstras':
             return "Dijkstra's Shortest Path";
         default:
             return algo.label;
@@ -34,14 +34,14 @@ const getLabel = (algo) => {
 
 function Content({ location }) {
     const { pathname } = location;
-    const { sorting, graph } = algorithms;
-    const all = [...sorting, ...graph];
+    const { sorting, graph } = Algorithms;
+    const all = [...sorting, ...graph, ...DataStructures];
     const algo = all.find((x) => pathname.includes(x.value));
     return (
         <Fragment>
             <Breadcrumbs>
                 {algo ? <Link to="/">Home</Link> : <span>Home</span>}
-                {algo && <span>{getLabel(algo)}</span>}
+                {algo && <span>{getTitle(algo)}</span>}
             </Breadcrumbs>
             <br />
             <Switch>

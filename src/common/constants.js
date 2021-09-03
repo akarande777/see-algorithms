@@ -1,4 +1,4 @@
-export const algorithms = {
+export const Algorithms = {
     sorting: [
         { value: 'bubble-sort', label: 'Bubble Sort' },
         { value: 'insertion-sort', label: 'Insertion Sort' },
@@ -14,16 +14,22 @@ export const algorithms = {
         { value: 'kruskals', label: "Kruskal's Algorithm" },
         { value: 'dijkstras', label: "Dijkstra's Algortihm" },
         { value: 'topsort', label: 'Topological Sorting' },
-    ],
+        { value: 'convex-hull', label: 'Convex Hull' },
+    ]
 };
 
-export const domain = 'https://see-algorithms.now.sh';
+export const DataStructures = [
+    { value: 'heap', label: 'Heap' },
+    { value: 'circular-q', label: 'Circular queue' },
+    { value: 'bst', label: 'Binary Search Tree' },
+]
 
-export const colors = {
+export const AppDomain = 'https://see-algorithms.vercel.app';
+
+export const Colors = {
     compare: '#ffb74d',
     sorted: '#81c784',
     vertex: '#e5e5e5',
-    selected: '#ff9800',
     stroke: '#424242',
     enqueue: '#2196f3',
     rejected: '#c5c5c5',

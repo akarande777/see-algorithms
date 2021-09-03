@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import Graph, { Point } from './graph';
-import { colors } from './constants';
+import { Colors } from './constants';
 
 function distance(p, q) {
     let d = Math.sqrt((q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y));
@@ -44,8 +44,8 @@ function offset(e) {
 
 function addVertex(p, vlbl) {
     let vrtx = `<g><ellipse class="vrtx" cx="${p.x}" cy="${p.y}" rx="${18}" ry="15" stroke="${
-        colors.stroke
-    }" stroke-width="1.5" fill="${colors.vertex}" /><text class="vlbl" x="${p.x}" y="${
+        Colors.stroke
+    }" stroke-width="1.5" fill="${Colors.vertex}" /><text class="vlbl" x="${p.x}" y="${
         p.y + 5
     }" text-anchor="middle" style="cursor:pointer">${vlbl}</text></g>`;
     document.querySelector('#plane').innerHTML += vrtx;
@@ -61,7 +61,7 @@ function moveVertex(i, r) {
 }
 
 function addEdge(p, q) {
-    let edge = `<line class="edge" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke-width="2.5" stroke="${colors.stroke}" />`;
+    let edge = `<line class="edge" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke-width="2.5" stroke="${Colors.stroke}" />`;
     document.querySelector('#plane').innerHTML += edge;
     $('line:last').insertBefore($('g:first'));
 }

@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { auth } from '../../services/firebase';
 import { AppContext } from '../../App';
 import './sider.scss';
-import { algorithms } from '../../common/constants';
+import { Algorithms } from '../../common/constants';
 
 function Sider({ history, ...props }) {
     const { user } = useContext(AppContext);
@@ -30,7 +30,7 @@ function Sider({ history, ...props }) {
                 onClick={(e) => {
                     showMenu({
                         ...getMenuOptions(e),
-                        menuItems: algorithms.sorting,
+                        menuItems: Algorithms.sorting,
                     });
                 }}
             >
@@ -45,7 +45,7 @@ function Sider({ history, ...props }) {
                 onClick={(e) => {
                     showMenu({
                         ...getMenuOptions(e),
-                        menuItems: algorithms.graph,
+                        menuItems: Algorithms.graph,
                     });
                 }}
             >

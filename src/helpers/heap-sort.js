@@ -1,7 +1,7 @@
-import { addVertex, addEdge } from './utils';
-import { Point } from './graph';
+import { addVertex, addEdge } from '../common/utils';
+import { Point } from '../common/graph';
 
-function heap(n) {
+function createHeap(n) {
     let p = new Point(325, 25);
     addVertex(p, '');
     let v = new Array();
@@ -51,4 +51,4 @@ function yco(theta, hyp, dy) {
     return dy + hyp * Math.cos(theta * (Math.PI / 180));
 }
 
-export { heap, xco, yco };
+export { createHeap, xco, yco };

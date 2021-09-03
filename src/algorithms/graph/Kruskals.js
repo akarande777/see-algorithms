@@ -1,9 +1,9 @@
 import React from 'react';
 import Graph from '../../common/graph';
-import DrawGraph from '../../components/graph/graph';
+import DrawGraph from '../../components/draw-graph/draw-graph';
 import $ from 'jquery';
-import timer from '../../common/timer';
-import { colors } from '../../common/constants';
+import Timer from '../../common/timer';
+import { Colors } from '../../common/constants';
 
 var parent;
 var arr;
@@ -43,7 +43,7 @@ function start() {
     arr.sort((a, b) => a.w - b.w);
     mst = [];
     j = 0;
-    timer.timeout(find, delay);
+    Timer.timeout(find, delay);
 }
 
 function find() {
@@ -52,31 +52,31 @@ function find() {
         let q = findParent(arr[j].v);
         if (p !== q) {
             parent[q] = p;
-            $('.vrtx').eq(arr[j].u).attr('stroke', colors.visited);
-            $('.vrtx').eq(arr[j].u).attr('fill', colors.visited);
-            $('.vrtx').eq(arr[j].v).attr('stroke', colors.visited);
-            $('.vrtx').eq(arr[j].v).attr('fill', colors.visited);
-            $('.edge').eq(arr[j].i).attr('stroke', colors.visited);
-            timer.timeout(() => {
-                $('.vrtx').eq(arr[j].u).attr('fill', colors.vertex);
-                $('.vrtx').eq(arr[j].v).attr('fill', colors.vertex);
+            $('.vrtx').eq(arr[j].u).attr('stroke', Colors.visited);
+            $('.vrtx').eq(arr[j].u).attr('fill', Colors.visited);
+            $('.vrtx').eq(arr[j].v).attr('stroke', Colors.visited);
+            $('.vrtx').eq(arr[j].v).attr('fill', Colors.visited);
+            $('.edge').eq(arr[j].i).attr('stroke', Colors.visited);
+            Timer.timeout(() => {
+                $('.vrtx').eq(arr[j].u).attr('fill', Colors.vertex);
+                $('.vrtx').eq(arr[j].v).attr('fill', Colors.vertex);
                 mst.push(arr[j++]);
-                timer.timeout(find, delay);
+                Timer.timeout(find, delay);
             }, delay / 1.5);
         } else {
-            $('.vrtx').eq(arr[j].u).attr('stroke', colors.danger);
-            $('.vrtx').eq(arr[j].v).attr('stroke', colors.danger);
-            $('.edge').eq(arr[j].i).attr('stroke', colors.danger);
-            timer.timeout(skip, delay / 1.5);
+            $('.vrtx').eq(arr[j].u).attr('stroke', Colors.danger);
+            $('.vrtx').eq(arr[j].v).attr('stroke', Colors.danger);
+            $('.edge').eq(arr[j].i).attr('stroke', Colors.danger);
+            Timer.timeout(skip, delay / 1.5);
         }
     }
 }
 
 function skip() {
-    $('.vrtx').eq(arr[j].u).attr('stroke', colors.visited);
-    $('.vrtx').eq(arr[j].v).attr('stroke', colors.visited);
-    $('.edge').eq(arr[j].i).attr('stroke', colors.rejected);
+    $('.vrtx').eq(arr[j].u).attr('stroke', Colors.visited);
+    $('.vrtx').eq(arr[j].v).attr('stroke', Colors.visited);
+    $('.edge').eq(arr[j].i).attr('stroke', Colors.rejected);
     $('.edge').eq(arr[j].i).attr('stroke-dasharray', '8,5');
     j++;
-    timer.timeout(find, delay);
+    Timer.timeout(find, delay);
 }

@@ -1,10 +1,10 @@
 import React from 'react';
 import { fromEnd, cloneEdge } from '../../common/utils';
 import Graph from '../../common/graph';
-import DrawGraph from '../../components/graph/graph';
+import DrawGraph from '../../components/draw-graph/draw-graph';
 import $ from 'jquery';
-import timer from '../../common/timer';
-import { colors } from '../../common/constants';
+import Timer from '../../common/timer';
+import { Colors } from '../../common/constants';
 
 var n, w;
 var d, queue;
@@ -36,14 +36,14 @@ function start(source) {
     }
     queue = [source];
     prev = [];
-    timer.timeout(() => {
+    Timer.timeout(() => {
         d.forEach((x, i) => {
             x > 0 && $('.vlbl').eq(i).text('∞');
         });
-        timer.timeout(() => {
-            $('.vrtx').eq(source).attr('stroke', colors.visited);
-            $('.vrtx').eq(source).attr('fill', colors.visited);
-            timer.timeout(dijkstra, delay, source);
+        Timer.timeout(() => {
+            $('.vrtx').eq(source).attr('stroke', Colors.visited);
+            $('.vrtx').eq(source).attr('fill', Colors.visited);
+            Timer.timeout(dijkstra, delay, source);
         }, delay);
     }, delay / 2);
 }
@@ -55,23 +55,23 @@ function dijkstra(i) {
             $('.edge').eq(ei).attr('stroke-dasharray', '8,5');
             if (d[i] + w[i][j] < d[j]) {
                 d[j] = d[i] + w[i][j];
-                $('.edge').eq(ei).attr('stroke', colors.enqueue);
-                $('.vrtx').eq(j).attr('stroke', colors.enqueue);
+                $('.edge').eq(ei).attr('stroke', Colors.enqueue);
+                $('.vrtx').eq(j).attr('stroke', Colors.enqueue);
                 $('.vlbl').eq(j).text(d[j]);
                 if (prev[j] !== undefined) {
                     let ej = Graph.edgeIndex(prev[j], j);
-                    $('.edge').eq(ej).attr('stroke', colors.rejected);
+                    $('.edge').eq(ej).attr('stroke', Colors.rejected);
                 }
                 prev[j] = i;
             } else {
-                $('.edge').eq(ei).attr('stroke', colors.rejected);
+                $('.edge').eq(ei).attr('stroke', Colors.rejected);
             }
         }
     }
     for (let j = 0; j < n; j++) {
         queue[j] = v.indexOf(j) === -1 ? d[j] : Infinity;
     }
-    timer.timeout(extractMin, delay);
+    Timer.timeout(extractMin, delay);
 }
 
 function extractMin() {
@@ -80,7 +80,7 @@ function extractMin() {
     let i = prev[j];
     let ei = Graph.edgeIndex(i, j);
     let { p, q, d } = cloneEdge(i, ei);
-    timer.timeout(span, delay / 100, p, q, d - 2, j, ei);
+    Timer.timeout(span, delay / 100, p, q, d - 2, j, ei);
 }
 
 function span(p, q, d, i, k) {
@@ -88,14 +88,14 @@ function span(p, q, d, i, k) {
         let r = fromEnd(p, q, d);
         $('line:last').attr('x2', r.x);
         $('line:last').attr('y2', r.y);
-        timer.timeout(span, delay / 100, p, q, d - 2, i, k);
+        Timer.timeout(span, delay / 100, p, q, d - 2, i, k);
     } else {
         $('line:last').remove();
-        $('line').eq(k).attr('stroke', colors.visited);
+        $('line').eq(k).attr('stroke', Colors.visited);
         $('line').eq(k).removeAttr('stroke-dasharray');
-        $('.vrtx').eq(i).attr('stroke', colors.visited);
+        $('.vrtx').eq(i).attr('stroke', Colors.visited);
         if (v.length < n) {
-            timer.timeout(dijkstra, delay / 2, i);
+            Timer.timeout(dijkstra, delay / 2, i);
         }
     }
 }

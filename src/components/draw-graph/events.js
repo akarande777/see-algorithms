@@ -2,12 +2,11 @@ import $ from 'jquery';
 import { distance, addVertex, addEdge, offset, fromEnd } from '../../common/utils';
 import Graph, { Point, Segment } from '../../common/graph';
 import { showToast } from '../toast/toast';
-import { colors } from '../../common/constants';
+import { Colors } from '../../common/constants';
 
-function listen({ weighted, directed, asyclic }) {
+export function listen({ weighted, directed, asyclic }) {
     $('#plane').off();
-    var lastp, prev;
-    var flag = false;
+    var lastp, prev, flag = false;
 
     function isValid(p) {
         let s = new Segment(lastp, p);
@@ -83,7 +82,7 @@ function listen({ weighted, directed, asyclic }) {
                 }
             } else {
                 addEdge(p, p);
-                $('.vrtx').eq(k).attr('stroke', colors.selected);
+                $('.vrtx').eq(k).attr('stroke', Colors.visited);
                 if (directed) {
                     $('line:last').attr('marker-end', 'url(#arrow)');
                 }
@@ -122,5 +121,3 @@ function addCost(p, q) {
         </foreignObject>`;
     document.querySelector('#plane').innerHTML += element;
 }
-
-export default listen;

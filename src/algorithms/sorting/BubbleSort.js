@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Numbers from '../../components/numbers/numbers';
-import { colors } from '../../common/constants';
+import { Colors } from '../../common/constants';
 
 var a, n;
 var i, j, swaps;
@@ -14,7 +14,7 @@ function iloop() {
         timer = setTimeout(jloop, 1000);
     } else {
         for (let k = 0; k < n; k++) {
-            cell[k + n].setAttribute('bgcolor', colors.sorted);
+            cell[k + n].setAttribute('bgcolor', Colors.sorted);
         }
     }
 }
@@ -22,8 +22,8 @@ function iloop() {
 function jloop() {
     if (j < n - i - 1) {
         cell[j + n - 1].removeAttribute('bgcolor');
-        cell[j + n].setAttribute('bgcolor', colors.compare);
-        cell[j + n + 1].setAttribute('bgcolor', colors.compare);
+        cell[j + n].setAttribute('bgcolor', Colors.compare);
+        cell[j + n + 1].setAttribute('bgcolor', Colors.compare);
         if (a[j + 1] < a[j]) {
             timer = setTimeout(swap, 800);
             swaps++;
@@ -33,7 +33,7 @@ function jloop() {
         }
     } else {
         cell[j + n - 1].removeAttribute('bgcolor');
-        cell[j + n].setAttribute('bgcolor', colors.sorted);
+        cell[j + n].setAttribute('bgcolor', Colors.sorted);
         iloop();
         i++;
     }
@@ -102,7 +102,7 @@ function swap() {
 
 function shift(u, v) {
     cell[u].innerHTML = cell[v].innerHTML;
-    cell[u].setAttribute('bgcolor', colors.compare);
+    cell[u].setAttribute('bgcolor', Colors.compare);
     cell[v].removeAttribute('bgcolor');
     cell[v].innerHTML = '';
 }

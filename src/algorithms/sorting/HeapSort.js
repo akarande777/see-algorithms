@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react';
-import { heap, xco, yco } from '../../common/heap';
+import { createHeap, xco, yco } from '../../helpers/heap-sort';
 import { Point } from '../../common/graph';
 import { moveVertex } from '../../common/utils';
 import $ from 'jquery';
 import Numbers from '../../components/numbers/numbers';
-import { colors } from '../../common/constants';
+import { Colors } from '../../common/constants';
 
 var a, n;
 var tbl, cell;
-var v, j;
+var v, k;
 var p, q, flag;
 var timer;
 var delay = 1200;
 
 function heapSort() {
-    if (j >= 0) {
-        heapify(j);
+    if (k >= 0) {
+        heapify(k);
     } else {
         let t = a[0];
         a[0] = a[n - 1];
@@ -24,10 +24,11 @@ function heapSort() {
         q = new Point(v[n - 1].x, v[n - 1].y);
         let left = [7, 8, 3, 9, 10, 1, 4].indexOf(n - 1);
         let right = [14, 13, 6, 12, 11, 2, 5].indexOf(n - 1);
-        timer =
-            left > -1
-                ? setInterval(swapMax, left, left, right)
-                : setInterval(swapMax, right, left, right);
+        if (left > -1) {
+            timer = setInterval(swapLargest, left, true);
+        } else {
+            timer = setInterval(swapLargest, right, false);
+        }
     }
 }
 
@@ -53,28 +54,32 @@ function heapify(i) {
             q = v[largest];
             flag = p.x > q.x;
             timer = setTimeout(() => {
-                timer =
-                    i === 0
-                        ? setInterval(swap, 1, i, largest, 70)
-                        : i === 1 || i === 2
-                        ? setInterval(swap, 3, i, largest, 45)
-                        : setInterval(swap, 5, i, largest, 25);
+                switch (true) {
+                    case i === 0:
+                        timer = setInterval(swap, 1, i, largest, 70);
+                        break;
+                    case i === 1 || i === 2:
+                        timer = setInterval(swap, 3, i, largest, 45);
+                        break;
+                    default:
+                        timer = setInterval(swap, 5, i, largest, 25);
+                }
             }, delay / 2);
         }, delay / 2);
         let temp = a[i];
         a[i] = a[largest];
         a[largest] = temp;
     } else {
-        j--;
+        k--;
         timer = setTimeout(() => {
-            $('.vrtx').eq(i).attr('fill', colors.vertex);
+            $('.vrtx').eq(i).attr('fill', Colors.vertex);
             $('line')
                 .eq(left - 1)
-                .attr('stroke', colors.stroke);
+                .attr('stroke', Colors.stroke);
             if (right < n) {
                 $('line')
                     .eq(right - 1)
-                    .attr('stroke', colors.stroke);
+                    .attr('stroke', Colors.stroke);
             }
             timer = setTimeout(heapSort, delay / 2);
         }, delay / 2);
@@ -87,8 +92,8 @@ function extractMax() {
     --n;
     cell[n].innerHTML = a[n];
     if (n > 1) {
-        j = 0;
-        timer = setTimeout(heapify, delay / 2, j);
+        k = 0;
+        timer = setTimeout(heapify, delay / 2, k);
     } else {
         timer = setTimeout(() => {
             timer = setInterval(fall, delay / 100);
@@ -99,7 +104,7 @@ function extractMax() {
 function HeapSort() {
     const start = (values) => {
         a = [...values];
-        v = heap(a.length);
+        v = createHeap(a.length);
         n = a.length;
         cell = [];
         let row = document.createElement('tr');
@@ -112,7 +117,7 @@ function HeapSort() {
         for (let i = 0; i < n; i++) {
             $('.vlbl').eq(i).text(a[i]);
         }
-        j = Math.floor(n / 2) - 1;
+        k = Math.floor(n / 2) - 1;
         timer = setTimeout(heapSort, delay);
     };
 
@@ -141,55 +146,37 @@ function HeapSort() {
     );
 }
 
-function swapMax(left, right) {
+function swapLargest(flag) {
     if (p.y < v[n - 1].y) {
         p.y += 1;
-        $('.vrtx').eq(0).attr('cy', p.y);
-        $('.vlbl')
-            .eq(0)
-            .attr('y', p.y + 5);
+        moveVertex(0, p);
         q.y -= 1;
-        $('.vrtx')
-            .eq(n - 1)
-            .attr('cy', q.y);
+        moveVertex(n - 1, q);
+    } else {
+        if (flag && p.x > v[n - 1].x) {
+            p.x -= 1;
+            moveVertex(0, p);
+            q.x += 1;
+            moveVertex(n - 1, q);
+            return;
+        }
+        if (!flag && p.x < v[n - 1].x) {
+            p.x += 1;
+            moveVertex(0, p);
+            q.x -= 1;
+            moveVertex(n - 1, q);
+            return;
+        }
+        clearInterval(timer);
+        moveVertex(n - 1, v[n - 1]);
         $('.vlbl')
             .eq(n - 1)
-            .attr('y', q.y + 5);
-    } else {
-        if (left > -1 && p.x > v[n - 1].x) {
-            p.x -= 1;
-            $('.vrtx').eq(0).attr('cx', p.x);
-            $('.vlbl').eq(0).attr('x', p.x);
-            q.x += 1;
-            $('.vrtx')
-                .eq(n - 1)
-                .attr('cx', q.x);
-            $('.vlbl')
-                .eq(n - 1)
-                .attr('x', q.x);
-        } else if (right > -1 && p.x < v[n - 1].x) {
-            p.x += 1;
-            $('.vrtx').eq(0).attr('cx', p.x);
-            $('.vlbl').eq(0).attr('x', p.x);
-            q.x -= 1;
-            $('.vrtx')
-                .eq(n - 1)
-                .attr('cx', q.x);
-            $('.vlbl')
-                .eq(n - 1)
-                .attr('x', q.x);
-        } else {
-            clearInterval(timer);
-            moveVertex(n - 1, v[n - 1]);
-            $('.vlbl')
-                .eq(n - 1)
-                .text(a[n - 1]);
-            moveVertex(0, v[0]);
-            $('.vlbl').eq(0).text(a[0]);
-            timer = setTimeout(() => {
-                timer = setInterval(fall, delay / 200);
-            }, delay / 2);
-        }
+            .text(a[n - 1]);
+        moveVertex(0, v[0]);
+        $('.vlbl').eq(0).text(a[0]);
+        timer = setTimeout(() => {
+            timer = setInterval(fall, delay / 200);
+        }, delay / 2);
     }
 }
 
@@ -238,14 +225,14 @@ function swap(i, largest, angle) {
         $('.vrtx').eq(i).attr('fill', 'pink');
         $('.vrtx').eq(largest).attr('fill', 'plum');
         timer = setTimeout(() => {
-            $('.vrtx').eq(i).attr('fill', colors.vertex);
+            $('.vrtx').eq(i).attr('fill', Colors.vertex);
             $('line')
                 .eq(i * 2)
-                .attr('stroke', colors.stroke);
+                .attr('stroke', Colors.stroke);
             if (i * 2 + 2 < n) {
                 $('line')
                     .eq(i * 2 + 1)
-                    .attr('stroke', colors.stroke);
+                    .attr('stroke', Colors.stroke);
             }
             if (i < Math.floor(n / 2)) {
                 heapify(largest);

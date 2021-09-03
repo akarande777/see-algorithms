@@ -4,7 +4,7 @@ import { Point } from '../graph/common/Graph';
 import { moveVertex } from '../graph/common/utils';
 import $ from 'jquery';
 import Input from './input';
-import { colors } from '../common/constants';
+import { Colors } from '../common/constants';
 
 var a, n;
 var tbl, cell;
@@ -67,14 +67,14 @@ function heapify(i) {
     } else {
         j--;
         timer = setTimeout(() => {
-            $('.vrtx').eq(i).attr('fill', colors.vertex);
+            $('.vrtx').eq(i).attr('fill', Colors.vertex);
             $('line')
                 .eq(left - 1)
-                .attr('stroke', colors.stroke);
+                .attr('stroke', Colors.stroke);
             if (right < n) {
                 $('line')
                     .eq(right - 1)
-                    .attr('stroke', colors.stroke);
+                    .attr('stroke', Colors.stroke);
             }
             timer = setTimeout(heapSort, delay / 2);
         }, delay / 2);
@@ -238,14 +238,14 @@ function swap(i, largest, angle) {
         $('.vrtx').eq(i).attr('fill', 'pink');
         $('.vrtx').eq(largest).attr('fill', 'plum');
         timer = setTimeout(() => {
-            $('.vrtx').eq(i).attr('fill', colors.vertex);
+            $('.vrtx').eq(i).attr('fill', Colors.vertex);
             $('line')
                 .eq(i * 2)
-                .attr('stroke', colors.stroke);
+                .attr('stroke', Colors.stroke);
             if (i * 2 + 2 < n) {
                 $('line')
                     .eq(i * 2 + 1)
-                    .attr('stroke', colors.stroke);
+                    .attr('stroke', Colors.stroke);
             }
             if (i < Math.floor(n / 2)) {
                 heapify(largest);

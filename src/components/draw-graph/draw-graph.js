@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Button, Checkbox, TextField, FormControlLabel } from '@material-ui/core';
 import { PlayArrow, Pause } from '@material-ui/icons';
 import { showToast } from '../toast/toast';
-import './graph.scss';
+import './draw-graph.scss';
 import Graph from '../../common/graph';
 import $ from 'jquery';
-import listen from './events';
+import { listen } from './events';
 import { fromEnd } from '../../common/utils';
-import timer from '../../common/timer';
+import Timer from '../../common/timer';
 
 function DrawGraph(props) {
     const [directed, setDirected] = useState(props.isDAG || false);
@@ -53,7 +53,7 @@ function DrawGraph(props) {
     };
 
     const clear = () => {
-        timer.clear();
+        Timer.clear();
         $('#plane').off();
         $('#plane').children().not(':first').remove();
         $('#tbl').html('');
@@ -101,11 +101,11 @@ function DrawGraph(props) {
                 validate();
                 break;
             case -1:
-                timer.resume();
+                Timer.resume();
                 setStatus(2);
                 break;
             default:
-                timer.pause();
+                Timer.pause();
                 setStatus(-1);
                 break;
         }
