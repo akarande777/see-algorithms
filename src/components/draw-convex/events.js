@@ -15,8 +15,8 @@ export function addPoints() {
     var k;
 
     for (let i = 0; i < 30; i++) {
-        let x = Math.floor(Math.random() * 450 + 100);
-        let y = Math.floor(Math.random() * 250 + 100);
+        let x = Math.floor(Math.random() * 600 + 50);
+        let y = Math.floor(Math.random() * 350 + 50);
         let p = new Point(x, y);
         let np = Graph.totalPoints();
         let j;
