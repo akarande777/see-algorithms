@@ -18,6 +18,7 @@ import Prims from '../algorithms/graph/Prims';
 import Kruskals from '../algorithms/graph/Kruskals';
 import Dijkstras from '../algorithms/graph/Dijkstras';
 import TopSort from '../algorithms/graph/TopSort';
+import ConvexHull from '../algorithms/graph/ConvexHull';
 
 const getTitle = (algo) => {
     switch (algo.value) {
@@ -83,6 +84,9 @@ function Content({ location }) {
                 </Route>
                 <Route path="/topsort" exact>
                     <TopSort />
+                </Route>
+                <Route path="/convex-hull" exact>
+                    <ConvexHull />
                 </Route>
                 <Route>
                     <PageNotFound />

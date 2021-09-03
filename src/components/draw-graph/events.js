@@ -4,7 +4,7 @@ import Graph, { Point, Segment } from '../../common/graph';
 import { showToast } from '../toast/toast';
 import { Colors } from '../../common/constants';
 
-export function listen({ weighted, directed, asyclic }) {
+export function drawGraph({ weighted, directed, asyclic }) {
     $('#plane').off();
     var lastp, prev, flag = false;
 

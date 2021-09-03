@@ -5,7 +5,7 @@ import { showToast } from '../toast/toast';
 import './draw-graph.scss';
 import Graph from '../../common/graph';
 import $ from 'jquery';
-import { listen } from './events';
+import { drawGraph } from './events';
 import { fromEnd } from '../../common/utils';
 import Timer from '../../common/timer';
 
@@ -49,7 +49,7 @@ function DrawGraph(props) {
 
     const initialize = () => {
         Graph.initialize(directed);
-        listen(options());
+        drawGraph(options());
     };
 
     const clear = () => {
@@ -74,7 +74,7 @@ function DrawGraph(props) {
     useEffect(() => {
         if (directed !== Graph.isDirected()) {
             Graph.switchType();
-            listen(options());
+            drawGraph(options());
             if (directed) {
                 $('.edge').each(function (i) {
                     let s = Graph.segment(i);
@@ -107,7 +107,6 @@ function DrawGraph(props) {
             default:
                 Timer.pause();
                 setStatus(-1);
-                break;
         }
     };
 

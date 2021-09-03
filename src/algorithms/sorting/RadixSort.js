@@ -13,9 +13,9 @@ function shift() {
         cell[i].innerHTML = '</div>';
         let t = a[i];
         let j = 1;
-        while (t != 0) {
+        while (t !== 0) {
             let r = t % 10;
-            if (j == exp) {
+            if (j === exp) {
                 cell[i].innerHTML =
                     '<span style="color: crimson">' + r + '</span>' + cell[i].innerHTML;
             } else {
@@ -126,7 +126,7 @@ function RadixSort() {
             row = document.createElement('tr');
             for (let j = 0; j < 10; j++) {
                 cell[k] = document.createElement('td');
-                if (i == 2) {
+                if (i === 2) {
                     cell[k].innerHTML = j;
                     cell[k].setAttribute('align', 'center');
                     cell[k].setAttribute(
@@ -134,7 +134,7 @@ function RadixSort() {
                         'font-weight: 600; border-top: 2px solid; text-align: center'
                     );
                 }
-                if (i == 1)
+                if (i === 1)
                     cell[k].setAttribute(
                         'style',
                         'padding: 0; height: 80px; text-align: center; vertical-align: bottom'

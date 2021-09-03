@@ -54,7 +54,7 @@ function jloop() {
         clearInterval(timer);
         timer = setTimeout(function () {
             cell[n + n - 1].removeAttribute('bgcolor');
-            if (pos != i) {
+            if (pos !== i) {
                 timer = setTimeout(function () {
                     cell[i + n + n].innerHTML = a[i];
                     cell[i + n].innerHTML = '';
@@ -127,7 +127,7 @@ function swap() {
     cell[pos - k + 1].removeAttribute('bgcolor');
     cell[i + n + n + k].innerHTML = a[i];
     cell[i + n + n + k - 1].innerHTML = '';
-    if (i + k == pos) {
+    if (i + k === pos) {
         clearInterval(timer);
         timer = setTimeout(function () {
             cell[pos + n].innerHTML = a[i];

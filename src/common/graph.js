@@ -1,15 +1,17 @@
-const points = [];
-const segments = [];
-const matrix = [];
-const dir = [];
+var points = [];
+var segments = [];
+var matrix = [];
+var dir = [];
 
-let directed = false;
+var directed = false;
 
 export default {
     addPoint(point) {
         points.push(point);
         matrix.push([]);
     },
+
+    setPoint: (i, p) => void (points[i] = p),
 
     position(segment) {
         let i = points.findIndex((p) => p.equals(segment.p));
@@ -54,9 +56,7 @@ export default {
         }
     },
 
-    isDirected() {
-        return directed;
-    },
+    isDirected: () => directed,
 
     isConnected() {
         let visited = this.dfs(0, [0]);
@@ -80,8 +80,7 @@ export default {
 
     switchType() {
         directed = !directed;
-        let np = points.length;
-        if (np > 1) {
+        if (points.length > 1) {
             if (directed) {
                 dir.forEach(([i, j]) => {
                     matrix[j][i] = undefined;

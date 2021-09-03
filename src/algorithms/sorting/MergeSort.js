@@ -159,7 +159,7 @@ function MergeSort() {
             let row = document.createElement('tr');
             for (let j = 0; j < n; j++) {
                 cell[i * n + j] = document.createElement('td');
-                if (i == 0) {
+                if (i === 0) {
                     cell[i * n + j].innerHTML = a[j];
                     cell[i * n + j].style.border = '2px solid';
                 }
