@@ -4,7 +4,7 @@ import ConvexHull from '../../components/convex-hull/convex-hull';
 import $ from 'jquery';
 import Timer from '../../common/timer';
 import { Colors } from '../../common/constants';
-import { addPoints } from '../convex-hull'
+import { addPoints } from '../../events/convex-hull'
 
 var cvx, left, p, q;
 var delay = 200;
