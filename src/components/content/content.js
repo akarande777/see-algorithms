@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import { Switch, Route, withRouter, Link } from 'react-router-dom';
 import { Breadcrumbs } from '@material-ui/core';
+import { Algorithms, DataStructures } from '../../common/constants';
 import Home from '../../home/home';
 import PageNotFound from '../404/404';
-import { Algorithms, DataStructures } from '../../common/constants';
 
 import BubbleSort from '../../algorithms/sorting/BubbleSort';
 import InsertionSort from '../../algorithms/sorting/InsertionSort';
