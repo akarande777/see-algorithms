@@ -4,7 +4,7 @@ import { HashRouter } from 'react-router-dom';
 import { Grid, Drawer } from '@material-ui/core';
 import Header from './components/header/header';
 import Sider from './components/sider/sider';
-import Content from './content/content';
+import Content from './components/content/content';
 import Toast from './components/toast/toast';
 import Menu from './components/menu/menu';
 import { auth } from './services/firebase';

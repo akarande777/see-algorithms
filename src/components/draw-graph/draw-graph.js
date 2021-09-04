@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Checkbox, TextField, FormControlLabel } from '@material-ui/core';
+import {
+    Button,
+    Checkbox,
+    TextField,
+    FormControlLabel,
+} from '@material-ui/core';
 import { PlayArrow, Pause } from '@material-ui/icons';
 import { showToast } from '../toast/toast';
 import './draw-graph.scss';
 import Graph from '../../common/graph';
 import $ from 'jquery';
-import { drawGraph } from './events';
+import { drawGraph } from '../../algorithms/draw-graph';
 import { fromEnd } from '../../common/utils';
 import Timer from '../../common/timer';
 
@@ -23,8 +28,7 @@ function DrawGraph(props) {
             });
             return;
         }
-        let s = source.charCodeAt(0);
-        if (source < 65 || s >= 65 + np) {
+        if (source < 'A' || source > 'Z') {
             showToast({
                 message: 'Please enter valid source',
                 variant: 'error',
@@ -63,11 +67,18 @@ function DrawGraph(props) {
     useEffect(() => () => clear(), []);
 
     useEffect(() => {
-        if (status === 1) {
-            props.start(source.charCodeAt(0) - 65);
-        }
-        if (status === 0) {
-            initialize();
+        switch (status) {
+            case 0:
+                initialize();
+                break;
+            case 1:
+                props.start(source.charCodeAt(0) - 65);
+                break;
+            case 2:
+                Timer.resume();
+                break;
+            default:
+                Timer.pause();
         }
     }, [status]);
 
@@ -101,11 +112,9 @@ function DrawGraph(props) {
                 validate();
                 break;
             case -1:
-                Timer.resume();
                 setStatus(2);
                 break;
             default:
-                Timer.pause();
                 setStatus(-1);
         }
     };

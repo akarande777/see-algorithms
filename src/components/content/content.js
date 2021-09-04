@@ -1,24 +1,24 @@
 import React, { Fragment } from 'react';
 import { Switch, Route, withRouter, Link } from 'react-router-dom';
 import { Breadcrumbs } from '@material-ui/core';
-import Home from '../home/home';
-import PageNotFound from '../components/404/404';
-import { Algorithms, DataStructures } from '../common/constants';
+import Home from '../../home/home';
+import PageNotFound from '../404/404';
+import { Algorithms, DataStructures } from '../../common/constants';
 
-import BubbleSort from '../algorithms/sorting/BubbleSort';
-import InsertionSort from '../algorithms/sorting/InsertionSort';
-import SelectionSort from '../algorithms/sorting/SelectionSort';
-import RadixSort from '../algorithms/sorting/RadixSort';
-import HeapSort from '../algorithms/sorting/HeapSort';
-import MergeSort from '../algorithms/sorting/MergeSort';
+import BubbleSort from '../../algorithms/sorting/BubbleSort';
+import InsertionSort from '../../algorithms/sorting/InsertionSort';
+import SelectionSort from '../../algorithms/sorting/SelectionSort';
+import RadixSort from '../../algorithms/sorting/RadixSort';
+import HeapSort from '../../algorithms/sorting/HeapSort';
+import MergeSort from '../../algorithms/sorting/MergeSort';
 
-import DFS from '../algorithms/graph/DFS';
-import BFS from '../algorithms/graph/BFS';
-import Prims from '../algorithms/graph/Prims';
-import Kruskals from '../algorithms/graph/Kruskals';
-import Dijkstras from '../algorithms/graph/Dijkstras';
-import TopSort from '../algorithms/graph/TopSort';
-import ConvexHull from '../algorithms/graph/ConvexHull';
+import DFS from '../../algorithms/graph/DFS';
+import BFS from '../../algorithms/graph/BFS';
+import Prims from '../../algorithms/graph/Prims';
+import Kruskals from '../../algorithms/graph/Kruskals';
+import Dijkstras from '../../algorithms/graph/Dijkstras';
+import TopSort from '../../algorithms/graph/TopSort';
+import ConvexHull from '../../algorithms/graph/ConvexHull';
 
 const getTitle = (algo) => {
     switch (algo.value) {

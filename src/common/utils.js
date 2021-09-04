@@ -17,25 +17,16 @@ function fromEnd(start, end, distance) {
     return new Point(end.x - deltaX, end.y - deltaY);
 }
 
+const mouseEvents = ['click', 'mousedown', 'mouseup', 'mousemove', 'mouseenter', 'mouseleave'];
+const touchEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
+
 function offset(e) {
-    var out = { x: 0, y: 0 };
-    if (
-        e.type == 'touchstart' ||
-        e.type == 'touchmove' ||
-        e.type == 'touchend' ||
-        e.type == 'touchcancel'
-    ) {
+    let out = { x: 0, y: 0 };
+    if (touchEvents.includes(e.type)) {
         let touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
         out.x = touch.pageX - $('#plane').offset().left;
         out.y = touch.pageY - $('#plane').offset().top;
-    } else if (
-        e.type == 'click' ||
-        e.type == 'mousedown' ||
-        e.type == 'mouseup' ||
-        e.type == 'mousemove' ||
-        e.type == 'mouseenter' ||
-        e.type == 'mouseleave'
-    ) {
+    } else if (mouseEvents.includes(e.type)) {
         out.x = e.pageX - $('#plane').offset().left;
         out.y = e.pageY - $('#plane').offset().top;
     }
@@ -61,13 +52,13 @@ function moveVertex(i, r) {
 }
 
 function addEdge(p, q) {
-    let edge = `<line class="edge" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke-width="2.5" stroke="${Colors.stroke}" />`;
+    let edge = `<line class="edge" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke-width="2" stroke="${Colors.stroke}" />`;
     document.querySelector('#plane').innerHTML += edge;
     $('line:last').insertBefore($('g:first'));
 }
 
 function cloneEdge(i, j) {
-    let edge = '<line stroke-width="3" stroke="orange" />';
+    let edge = `<line stroke-width="3" stroke="${Colors.visited}" />`;
     document.querySelector('#plane').innerHTML += edge;
     $('line:last').insertBefore($('g:first'));
     let p, q;

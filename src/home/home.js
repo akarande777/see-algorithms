@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
-import LoginForm from '../components/login/login';
-import RegisterForm from '../components/register/register';
+// import LoginForm from '../components/login/login';
+// import RegisterForm from '../components/register/register';
 import { showToast } from '../components/toast/toast';
 import { CircularProgress } from '@material-ui/core';
 import './home.scss';

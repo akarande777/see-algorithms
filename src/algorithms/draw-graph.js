@@ -1,8 +1,8 @@
 import $ from 'jquery';
-import { distance, addVertex, addEdge, offset, fromEnd } from '../../common/utils';
-import Graph, { Point, Segment } from '../../common/graph';
-import { showToast } from '../toast/toast';
-import { Colors } from '../../common/constants';
+import { distance, addVertex, addEdge, offset, fromEnd } from '../common/utils';
+import Graph, { Point, Segment } from '../common/graph';
+import { showToast } from '../components/toast/toast';
+import { Colors } from '../common/constants';
 
 export function drawGraph({ weighted, directed, asyclic }) {
     $('#plane').off();
@@ -10,12 +10,7 @@ export function drawGraph({ weighted, directed, asyclic }) {
 
     function isValid(p) {
         let s = new Segment(lastp, p);
-        for (let i = 0; i < Graph.totalSegments(); i++) {
-            if (s.overlaps(Graph.segment(i))) {
-                return false;
-            }
-        }
-        return true;
+        return !Graph.allSegments().some((si) => s.overlaps(si));
     }
 
     $('#plane').on('click', function (e) {
@@ -76,7 +71,7 @@ export function drawGraph({ weighted, directed, asyclic }) {
             flag = false;
         } else {
             if (k === np) {
-                if (Graph.totalPoints() < 26) {
+                if (np < 26) {
                     addVertex(p, String.fromCharCode(65 + np));
                     Graph.addPoint(p);
                 }

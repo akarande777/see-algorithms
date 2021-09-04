@@ -33,7 +33,7 @@ function jloop() {
         if (a[pos] > a[j]) {
             prev = pos;
             pos = j;
-            flag2 = true; // pos changed
+            flag2 = true;
         }
         cell[j + n - 1].removeAttribute('bgcolor');
         cell[j + n].setAttribute('bgcolor', Colors.compare);

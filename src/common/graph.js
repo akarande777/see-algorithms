@@ -13,6 +13,8 @@ export default {
 
     setPoint: (i, p) => void (points[i] = p),
 
+    allSegments: () => segments,
+
     position(segment) {
         let i = points.findIndex((p) => p.equals(segment.p));
         let j = points.findIndex((p) => p.equals(segment.q));
@@ -30,8 +32,6 @@ export default {
     },
 
     totalPoints: () => points.length,
-
-    totalSegments: () => segments.length,
 
     point: (index) => points[index],
 

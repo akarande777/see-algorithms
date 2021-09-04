@@ -1,19 +1,15 @@
 import $ from 'jquery';
-import { distance, offset } from '../../common/utils';
-import Graph, { Point, Segment } from '../../common/graph';
+import { distance, offset } from '../common/utils';
+import Graph, { Point, Segment } from '../common/graph';
+import { Colors } from '../common/constants';
 
-function addPoint(p) {
-    let vrtx = `<circle cx="${p.x}" cy="${p.y}" r="4" fill="#444" />`;
+function print(p) {
+    let vrtx = `<circle cx="${p.x}" cy="${p.y}" r="4" fill="${Colors.stroke}" />`;
     document.getElementById('plane').innerHTML += vrtx;
     Graph.addPoint(p);
 }
 
-var hull, left, p, q;
-
-export function addPoints() {
-    var flag = false;
-    var k;
-
+export function randomize() {
     for (let i = 0; i < 30; i++) {
         let x = Math.floor(Math.random() * 600 + 50);
         let y = Math.floor(Math.random() * 350 + 50);
@@ -25,10 +21,17 @@ export function addPoints() {
             if (d < 15) break;
         }
         if (j < np) continue;
-        addPoint(p);
+        print(p);
     }
+}
 
-    newConvex();
+var convex;
+var left, p, q;
+
+export function addPoints(cvx) {
+    convex = cvx;
+    var flag = false;
+    var k;
 
     $('#plane').on('mousedown', function (e) {
         e.preventDefault();
@@ -41,15 +44,17 @@ export function addPoints() {
                 return;
             }
         }
-        addPoint(p);
-        let hlen = hull.length;
-        for (let i = 0; i < hlen; i++) {
-            let u = Graph.point(hull[i]);
-            let v = Graph.point(hull[(i + 1) % hlen]);
-            let s = new Segment(u, v);
-            if (s.orientation(p) === 1) {
-                newConvex();
-                break;
+        print(p);
+        if (convex) {
+            let cl = convex.length;
+            for (let i = 0; i < cl; i++) {
+                let u = Graph.point(convex[i]);
+                let v = Graph.point(convex[(i + 1) % cl]);
+                let s = new Segment(u, v);
+                if (s.orientation(p) === 1) {
+                    newConvex();
+                    break;
+                }
             }
         }
     });
@@ -61,7 +66,7 @@ export function addPoints() {
             $('circle').eq(k).attr('cx', p.x);
             $('circle').eq(k).attr('cy', p.y);
             Graph.setPoint(k, p);
-            newConvex();
+            if (convex) newConvex();
         }
     });
 
@@ -73,7 +78,7 @@ export function addPoints() {
 
 function newConvex() {
     $('line').remove();
-    hull = new Array();
+    convex = [];
     left = 0;
     for (let i = 1; i < Graph.totalPoints(); i++) {
         let x1 = Graph.point(i).x;
@@ -81,16 +86,16 @@ function newConvex() {
         if (x1 < x2) left = i;
     }
     p = left;
-    $('circle').attr('fill', '#3a3a3a');
+    $('circle').attr('fill', Colors.stroke);
     $('circle').removeAttr('stroke');
     convexHull();
 }
 
 function convexHull() {
     do {
-        hull.push(p);
-        $('circle').eq(p).attr('fill', 'orange');
-        $('circle').eq(p).attr('stroke', 'orange');
+        convex.push(p);
+        $('circle').eq(p).attr('fill', Colors.visited);
+        $('circle').eq(p).attr('stroke', Colors.visited);
         let np = Graph.totalPoints();
         q = (p + 1) % np;
         for (let i = 0; i < np; i++) {
@@ -101,7 +106,7 @@ function convexHull() {
         }
         let u = Graph.point(p);
         let v = Graph.point(q);
-        let edge = `<line x1="${u.x}" y1="${u.y}" x2="${v.x}" y2="${v.y}" stroke-width="2" stroke="orange" />`;
+        let edge = `<line x1="${u.x}" y1="${u.y}" x2="${v.x}" y2="${v.y}" stroke-width="2" stroke="${Colors.visited}" />`;
         document.querySelector('#plane').innerHTML += edge;
         p = q;
     } while (p !== left);

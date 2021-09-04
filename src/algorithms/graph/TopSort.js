@@ -6,9 +6,8 @@ import $ from 'jquery';
 import Timer from '../../common/timer';
 import { Colors } from '../../common/constants';
 
-var cell, k;
-var n, ind;
-var stack;
+var cell, n, k;
+var ind, stack;
 var delay = 1000;
 
 export default function (props) {
