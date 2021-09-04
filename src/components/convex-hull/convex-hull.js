@@ -75,9 +75,6 @@ function ConvexHull(props) {
                 </Button>
             </div>
             <svg id="plane"></svg>
-            <div className="spaceAround ">
-                <table id="tbl" />
-            </div>
         </div>
     );
 }
