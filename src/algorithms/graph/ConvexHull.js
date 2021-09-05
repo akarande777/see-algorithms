@@ -7,7 +7,7 @@ import { Colors } from '../../common/constants';
 import { addPoints } from '../../events/convex-hull'
 
 var cvx, left, p, q;
-var delay = 200;
+var delay = 300;
 
 export default function (props) {
     return <ConvexHull {...props} start={start} />;

@@ -20,7 +20,7 @@ export const Algorithms = {
 
 export const DataStructures = [
     { value: 'heap', label: 'Heap' },
-    { value: 'circular-q', label: 'Circular queue' },
+    { value: 'circular-q', label: 'Circular Queue' },
     { value: 'bst', label: 'Binary Search Tree' },
 ]
 
