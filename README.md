@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Visit [see-algorithms.now.sh](https://see-algorithms.now.sh/)
+Visit https://see-algorithms.vercel.app
 
 ## Available Scripts
 
