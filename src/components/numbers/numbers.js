@@ -17,9 +17,9 @@ function Numbers(props) {
     };
 
     const handleInput = (e, i) => {
-        let value = e.target.value.trim().slice(0, 3);
-        if (!isNaN(value)) {
-            values[i] = value ? parseInt(value) : value;
+        let val = e.target.value.trim().slice(0, 3);
+        if (!isNaN(val)) {
+            values[i] = parseInt(val) || '';
             setValues([...values]);
         }
     };

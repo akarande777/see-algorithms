@@ -56,9 +56,12 @@ function bucket() {
             timer = setTimeout(bucket, delay / 1.5);
         }, delay / 1.5);
     } else {
-        for (let j = 1; j < 10; j++) b[j] += b[j - 1];
-        for (let i = n - 1; i >= 0; i--)
+        for (let j = 1; j < 10; j++) {
+            b[j] += b[j - 1];
+        }
+        for (let i = n - 1; i >= 0; i--) {
             out[--b[Math.floor(a[i] / exp) % 10]] = a[i];
+        }
         for (let i = 0; i < n; i++) a[i] = out[i];
         exp *= 10;
         --k;

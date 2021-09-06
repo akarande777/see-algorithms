@@ -25,7 +25,7 @@ function InsertionSort() {
             tbl.appendChild(row);
         }
         i = 1;
-        timer = setTimeout(function () {
+        timer = setTimeout(() => {
             cell[n].setAttribute('bgcolor', Colors.sorted);
             timer = setTimeout(pick, 1000);
         }, 1000);
