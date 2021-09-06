@@ -27,8 +27,8 @@ function start() {
 
 function convexHull() {
     cvx.push(p);
-    $('circle').eq(p).attr('fill', Colors.visited);
-    $('circle').eq(p).attr('stroke', Colors.visited);
+    $('.vrtx').eq(p).attr('fill', Colors.visited);
+    $('.vrtx').eq(p).attr('stroke', Colors.visited);
     q = (p + 1) % Graph.totalPoints();
     Timer.timeout(next, delay, 0);
 }

@@ -4,8 +4,8 @@ import Graph, { Point, Segment } from '../common/graph';
 import { Colors } from '../common/constants';
 
 function print(p) {
-    let vrtx = `<circle cx="${p.x}" cy="${p.y}" r="4" fill="${Colors.stroke}" />`;
-    document.getElementById('plane').innerHTML += vrtx;
+    let point = `<circle class="vrtx" cx="${p.x}" cy="${p.y}" r="4" fill="${Colors.stroke}" />`;
+    document.getElementById('plane').innerHTML += point;
     Graph.addPoint(p);
 }
 
@@ -63,8 +63,8 @@ export function addPoints(cvx) {
         e.preventDefault();
         if (flag) {
             let p = new Point(offset(e).x, offset(e).y);
-            $('circle').eq(k).attr('cx', p.x);
-            $('circle').eq(k).attr('cy', p.y);
+            $('.vrtx').eq(k).attr('cx', p.x);
+            $('.vrtx').eq(k).attr('cy', p.y);
             Graph.setPoint(k, p);
             if (convex) newConvex();
         }
@@ -86,16 +86,16 @@ function newConvex() {
         if (x1 < x2) left = i;
     }
     p = left;
-    $('circle').attr('fill', Colors.stroke);
-    $('circle').removeAttr('stroke');
+    $('.vrtx').attr('fill', Colors.stroke);
+    $('.vrtx').removeAttr('stroke');
     convexHull();
 }
 
 function convexHull() {
     do {
         convex.push(p);
-        $('circle').eq(p).attr('fill', Colors.visited);
-        $('circle').eq(p).attr('stroke', Colors.visited);
+        $('.vrtx').eq(p).attr('fill', Colors.visited);
+        $('.vrtx').eq(p).attr('stroke', Colors.visited);
         let np = Graph.totalPoints();
         q = (p + 1) % np;
         for (let i = 0; i < np; i++) {
