@@ -3,8 +3,7 @@ import Graph, { Point } from './graph';
 import { Colors } from './constants';
 
 function distance(p, q) {
-    let d = Math.sqrt((q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y));
-    return d;
+    return Math.sqrt((q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y));
 }
 
 function fromEnd(start, end, distance) {
@@ -36,7 +35,7 @@ function offset(e) {
 function addVertex(p, vlbl) {
     let vrtx = `<g><ellipse class="vrtx" cx="${p.x}" cy="${p.y}" rx="${18}" ry="15" stroke="${
         Colors.stroke
-    }" stroke-width="1.5" fill="${Colors.vertex}" /><text class="vlbl" x="${p.x}" y="${
+    }" stroke-width="2" fill="${Colors.vertex}" /><text class="vlbl" x="${p.x}" y="${
         p.y + 5
     }" text-anchor="middle" style="cursor:pointer">${vlbl}</text></g>`;
     document.querySelector('#plane').innerHTML += vrtx;

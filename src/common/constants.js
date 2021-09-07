@@ -34,5 +34,4 @@ export const Colors = {
     enqueue: '#2196f3',
     rejected: '#c5c5c5',
     visited: '#ff9800',
-    danger: '#f44336',
 };

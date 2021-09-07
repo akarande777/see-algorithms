@@ -64,9 +64,9 @@ function find() {
                 Timer.timeout(find, delay);
             }, delay / 1.5);
         } else {
-            $('.vrtx').eq(arr[j].u).attr('stroke', Colors.danger);
-            $('.vrtx').eq(arr[j].v).attr('stroke', Colors.danger);
-            $('.edge').eq(arr[j].i).attr('stroke', Colors.danger);
+            $('.vrtx').eq(arr[j].u).attr('stroke', '#f44336');
+            $('.vrtx').eq(arr[j].v).attr('stroke', '#f44336');
+            $('.edge').eq(arr[j].i).attr('stroke', '#f44336');
             Timer.timeout(skip, delay / 1.5);
         }
     }
