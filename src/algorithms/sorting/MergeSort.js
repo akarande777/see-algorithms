@@ -7,7 +7,7 @@ var n, a;
 var tbl, cell;
 var mid, p, q, s;
 var t, r, k;
-var delay = 500;
+var delay = 800;
 
 function merge() {
     if (p <= mid && q <= s) {
@@ -84,25 +84,23 @@ function shift() {
 }
 
 function lift(u, v) {
-    return wait(150).then(() => {
-        if (u - n > -1) {
-            for (let i = u; i <= v; i++) {
-                cell[i - n].innerHTML = cell[i].innerHTML;
-                cell[i - n].setAttribute('bgcolor', Colors.sorted);
-                cell[i].removeAttribute('bgcolor');
-                cell[i].innerHTML = '';
-            }
-            return lift(u - n, v - n);
-        } else {
-            return wait(delay).then(() => {
-                for (let i = u; i <= v; i++) {
-                    cell[i].removeAttribute('bgcolor');
-                    cell[i + n + n].style.border = 0;
-                    a[i] = t[i];
-                }
-            });
+    if (u - n > -1) {
+        for (let i = u; i <= v; i++) {
+            cell[i - n].innerHTML = cell[i].innerHTML;
+            cell[i - n].setAttribute('bgcolor', Colors.sorted);
+            cell[i].removeAttribute('bgcolor');
+            cell[i].innerHTML = '';
         }
-    });
+        return wait(200).then(() => lift(u - n, v - n));
+    } else {
+        return wait(delay / 2).then(() => {
+            for (let i = u; i <= v; i++) {
+                cell[i].removeAttribute('bgcolor');
+                cell[i + n + n].style.border = 0;
+                a[i] = t[i];
+            }
+        });
+    }
 }
 
 function mergeSort(start, end) {
@@ -136,10 +134,12 @@ function mergeSort(start, end) {
                         cell[i + n + n].style.border = 0;
                     }
                 }
-                return wait(delay * 2).then(() => merge());
+                return wait(delay).then(() => merge());
             })
             .then(() => {
-                return lift(start + n + n, end + n + n);
+                return wait(200).then(() => {
+                    return lift(start + n + n, end + n + n);
+                });
             });
     }
 }
