@@ -51,8 +51,8 @@ function DrawGraph(props) {
         asyclic: props.isDAG || false,
     });
 
-    const initialize = () => {
-        Graph.initialize(directed);
+    const reset = () => {
+        Graph.reset(directed);
         drawGraph(options());
     };
 
@@ -61,7 +61,7 @@ function DrawGraph(props) {
         $('#plane').off();
         $('#plane').children().not(':first').remove();
         $('#tbl').html('');
-        status ? setStatus(0) : initialize();
+        status ? setStatus(0) : reset();
     };
 
     useEffect(() => () => clear(), []);
@@ -69,7 +69,7 @@ function DrawGraph(props) {
     useEffect(() => {
         switch (status) {
             case 0:
-                initialize();
+                reset();
                 break;
             case 1:
                 props.start(source.charCodeAt(0) - 65);

@@ -1,17 +1,13 @@
 import React, { useEffect } from 'react';
 import Numbers from '../../components/numbers/numbers';
 import { Colors } from '../../common/constants';
+import Timer, { wait } from '../../common/timer';
 
 var n, a;
 var tbl, cell;
 var mid, p, q, s;
 var t, r, k;
-var timer;
-
-const wait = (ms) =>
-    new Promise((resolve) => {
-        timer = setTimeout(resolve, ms);
-    });
+var delay = 500;
 
 function merge() {
     if (p <= mid && q <= s) {
@@ -76,14 +72,13 @@ function shift() {
         k--;
         return wait(100).then(shift);
     } else {
-        clearTimeout(timer);
         return wait(200).then(() => {
             cell[r + n + n].innerHTML = t[r];
             cell[r + n + n].setAttribute('bgcolor', Colors.sorted);
             cell[r + n].innerHTML = '';
             cell[r + n].removeAttribute('bgcolor');
             r++;
-            return wait(1000).then(merge);
+            return wait(delay).then(merge);
         });
     }
 }
@@ -99,7 +94,7 @@ function lift(u, v) {
             }
             return lift(u - n, v - n);
         } else {
-            return wait(500).then(() => {
+            return wait(delay).then(() => {
                 for (let i = u; i <= v; i++) {
                     cell[i].removeAttribute('bgcolor');
                     cell[i + n + n].style.border = 0;
@@ -111,43 +106,42 @@ function lift(u, v) {
 }
 
 function mergeSort(start, end) {
-    return wait(1000).then(() => {
-        for (let i = 0; i < n; i++) {
-            if (i >= start && i <= end) {
-                cell[i].setAttribute('bgcolor', Colors.compare);
-            } else {
-                cell[i].removeAttribute('bgcolor');
-            }
+    for (let i = 0; i < n; i++) {
+        if (i >= start && i <= end) {
+            cell[i].setAttribute('bgcolor', Colors.compare);
+        } else {
+            cell[i].removeAttribute('bgcolor');
         }
-        if (start < end) {
-            let m = Math.floor((start + end) / 2);
-            return mergeSort(start, m)
-                .then(() => mergeSort(m + 1, end))
-                .then(() => {
-                    return wait(1000).then(() => {
-                        p = start;
-                        s = end;
-                        mid = Math.floor((p + s) / 2);
-                        q = mid + 1;
-                        r = p;
-                        t = new Array();
-                        for (let i = 0; i < n; i++) {
-                            if (i >= start && i <= end) {
-                                cell[i].setAttribute('bgcolor', Colors.compare);
-                                cell[i + n + n].style.border = '2px solid';
-                            } else {
-                                cell[i].removeAttribute('bgcolor');
-                                cell[i + n + n].style.border = 0;
-                            }
-                        }
-                        return wait(1000).then(() => merge());
-                    });
-                })
-                .then(() => {
-                    return lift(start + n + n, end + n + n);
-                });
-        }
-    });
+    }
+    if (start < end) {
+        let m = Math.floor((start + end) / 2);
+        return wait(delay)
+            .then(() => mergeSort(start, m))
+            .then(() => wait(delay))
+            .then(() => mergeSort(m + 1, end))
+            .then(() => wait(delay))
+            .then(() => {
+                p = start;
+                s = end;
+                mid = Math.floor((p + s) / 2);
+                q = mid + 1;
+                r = p;
+                t = new Array();
+                for (let i = 0; i < n; i++) {
+                    if (i >= start && i <= end) {
+                        cell[i].setAttribute('bgcolor', Colors.compare);
+                        cell[i + n + n].style.border = '2px solid';
+                    } else {
+                        cell[i].removeAttribute('bgcolor');
+                        cell[i + n + n].style.border = 0;
+                    }
+                }
+                return wait(delay * 2).then(() => merge());
+            })
+            .then(() => {
+                return lift(start + n + n, end + n + n);
+            });
+    }
 }
 
 function MergeSort() {
@@ -167,11 +161,11 @@ function MergeSort() {
             }
             tbl.appendChild(row);
         }
-        mergeSort(0, n - 1);
+        wait(delay).then(() => mergeSort(0, n - 1));
     };
 
     const stop = () => {
-        clearTimeout(timer);
+        Timer.clear();
         tbl.innerHTML = '';
     };
 

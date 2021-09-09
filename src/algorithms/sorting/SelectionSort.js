@@ -8,6 +8,7 @@ var i, j, pos;
 var prev, k;
 var flag1, flag2;
 var timer;
+var delay = 1000;
 
 function iloop() {
     if (i < n - 1) {
@@ -21,8 +22,8 @@ function iloop() {
             cell[i].setAttribute('bgcolor', Colors.sorted);
             cell[i + n].innerHTML = '';
             cell[i + n].removeAttribute('bgcolor');
-            timer = setInterval(jloop, 500);
-        }, 500);
+            timer = setInterval(jloop, delay / 2);
+        }, delay / 2);
     } else {
         cell[n + n - 1].setAttribute('bgcolor', Colors.sorted);
     }
@@ -62,7 +63,7 @@ function jloop() {
                     timer = setTimeout(function () {
                         timer = setInterval(swap, 100);
                     }, 200);
-                }, 500);
+                }, delay / 2);
             } else {
                 timer = setTimeout(function () {
                     cell[pos + n].innerHTML = a[pos];
@@ -70,14 +71,12 @@ function jloop() {
                     cell[pos].innerHTML = '';
                     cell[pos].removeAttribute('bgcolor');
                     i++;
-                    timer = setTimeout(iloop, 1000);
-                }, 500);
+                    timer = setTimeout(iloop, delay);
+                }, delay / 2);
             }
-        }, 500);
+        }, delay / 2);
     }
-    if (flag2) {
-        flag1 = false; // pause loop
-    }
+    if (flag2) flag1 = false; // pause loop
 }
 
 function SelectionSort() {
@@ -98,7 +97,7 @@ function SelectionSort() {
             tbl.appendChild(row);
         }
         i = 0;
-        timer = setTimeout(iloop, 1000);
+        timer = setTimeout(iloop, delay);
     };
 
     const stop = () => {
@@ -140,7 +139,7 @@ function swap() {
             a[i] = a[pos];
             a[pos] = t;
             i++;
-            timer = setTimeout(iloop, 1000);
+            timer = setTimeout(iloop, delay);
         }, 200);
     }
     k++;

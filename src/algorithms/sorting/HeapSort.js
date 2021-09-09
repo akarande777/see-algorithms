@@ -11,7 +11,7 @@ var tbl, cell;
 var v, k;
 var p, q, flag;
 var timer;
-var delay = 1200;
+var delay = 1000;
 
 function heapSort() {
     if (k >= 0) {
@@ -56,13 +56,13 @@ function heapify(i) {
             timer = setTimeout(() => {
                 switch (true) {
                     case i === 0:
-                        timer = setInterval(swap, 1, i, largest, 70);
+                        timer = setInterval(swap, 2, i, largest, 70);
                         break;
                     case i === 1 || i === 2:
-                        timer = setInterval(swap, 3, i, largest, 45);
+                        timer = setInterval(swap, 4, i, largest, 45);
                         break;
                     default:
-                        timer = setInterval(swap, 5, i, largest, 25);
+                        timer = setInterval(swap, 8, i, largest, 25);
                 }
             }, delay / 2);
         }, delay / 2);
@@ -96,7 +96,7 @@ function extractMax() {
         timer = setTimeout(heapify, delay / 2, k);
     } else {
         timer = setTimeout(() => {
-            timer = setInterval(fall, delay / 100);
+            timer = setInterval(fall, 10);
         }, delay / 2);
     }
 }
@@ -175,7 +175,7 @@ function swapLargest(flag) {
         moveVertex(0, v[0]);
         $('.vlbl').eq(0).text(a[0]);
         timer = setTimeout(() => {
-            timer = setInterval(fall, delay / 200);
+            timer = setInterval(fall, 5);
         }, delay / 2);
     }
 }

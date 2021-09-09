@@ -1,8 +1,7 @@
 var points = [];
 var segments = [];
 var matrix = [];
-var dir = [];
-
+var steps = [];
 var directed = false;
 
 export default {
@@ -28,7 +27,7 @@ export default {
             matrix[j][i] = segments.length;
         }
         segments.push(segment);
-        dir.push([i, j]);
+        steps.push([i, j]);
     },
 
     totalPoints: () => points.length,
@@ -39,11 +38,11 @@ export default {
 
     edgeIndex: (i, j) => matrix[i][j],
 
-    initialize(type) {
-        points.length = 0;
-        segments.length = 0;
-        matrix.length = 0;
-        dir.length = 0;
+    reset(type) {
+        points = [];
+        segments = [];
+        matrix = [];
+        steps = [];
         directed = Boolean(type);
     },
 
@@ -82,11 +81,11 @@ export default {
         directed = !directed;
         if (points.length > 1) {
             if (directed) {
-                dir.forEach(([i, j]) => {
+                steps.forEach(([i, j]) => {
                     matrix[j][i] = undefined;
                 });
             } else {
-                dir.forEach(([i, j]) => {
+                steps.forEach(([i, j]) => {
                     matrix[j][i] = matrix[i][j];
                 });
             }
@@ -100,16 +99,14 @@ export default {
         if (!directed) {
             matrix[j][i] = undefined;
         }
-        let k = dir.findIndex(([u, v]) => u === i && v === j);
-        dir.splice(k, 1);
+        let k = steps.findIndex(([u, v]) => u === i && v === j);
+        steps.splice(k, 1);
     },
 
     indegree() {
         let np = points.length;
         let ind = new Array(np).fill(0);
-        dir.forEach(([i, j]) => {
-            ind[j]++;
-        });
+        steps.forEach(([i, j]) => ind[j]++);
         return ind;
     },
 
@@ -118,9 +115,7 @@ export default {
         let ind = this.indegree();
         let stack = [];
         for (let i = 0; i < np; i++) {
-            if (ind[i] === 0) {
-                stack.push(i);
-            }
+            if (ind[i] === 0) stack.push(i);
         }
         if (stack.length === 0) {
             return true;
@@ -132,9 +127,7 @@ export default {
                 let ei = this.edgeIndex(i, j);
                 if (ei !== undefined && ind[j] !== 0) {
                     --ind[j];
-                    if (ind[j] === 0) {
-                        stack.push(j);
-                    }
+                    if (ind[j] === 0) stack.push(j);
                 }
             }
             k++;

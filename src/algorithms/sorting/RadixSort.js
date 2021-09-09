@@ -6,7 +6,7 @@ var out, b, k;
 var max, exp;
 var tbl, tbl2, cell;
 var timer;
-var delay = 1000;
+var delay = 700;
 
 function shift() {
     for (let i = 0; i < n; i++) {
@@ -34,7 +34,7 @@ function radixSort() {
         b = new Array();
         for (let j = 0; j < 10; j++) b[j] = 0;
         k = 0;
-        timer = setTimeout(bucket, delay / 1.5);
+        timer = setTimeout(bucket, delay);
     }
 }
 
@@ -53,8 +53,8 @@ function bucket() {
                 );
             cell[j + n].innerHTML = cell[k].innerHTML + cell[j + n].innerHTML;
             cell[k++].innerHTML = '&nbsp;&nbsp;&nbsp;';
-            timer = setTimeout(bucket, delay / 1.5);
-        }, delay / 1.5);
+            timer = setTimeout(bucket, delay);
+        }, delay);
     } else {
         for (let j = 1; j < 10; j++) {
             b[j] += b[j - 1];
@@ -76,7 +76,7 @@ function combine(j) {
             cell[k].innerHTML = cell[n + j - 1].firstChild.outerHTML;
             cell[k--].setAttribute('bgcolor', '#F9E79F');
             cell[n + j - 1].removeChild(cell[n + j - 1].firstChild);
-            timer = setTimeout(combine, delay / 1.5, j);
+            timer = setTimeout(combine, delay, j);
         } else {
             combine(--j);
         }
@@ -92,9 +92,7 @@ function RadixSort() {
     useEffect(() => {
         tbl = document.getElementById('tbl');
         tbl2 = document.getElementById('tbl2');
-        return () => {
-            clearTimeout(timer);
-        };
+        return () => clearTimeout(timer);
     }, []);
 
     const handleSelect = (e) => {
@@ -121,9 +119,7 @@ function RadixSort() {
         tbl.appendChild(row);
         max = a[0];
         for (let i = 1; i < n; i++) {
-            if (a[i] > max) {
-                max = a[i];
-            }
+            if (a[i] > max) max = a[i];
         }
         let k = n;
         for (let i = 1; i <= 2; i++) {
@@ -158,13 +154,11 @@ function RadixSort() {
                 <span className="label">Select number of elements: &nbsp;</span>
                 <Select onChange={handleSelect} className="select">
                     <MenuItem></MenuItem>
-                    {[7, 8, 9, 10, 11, 12].map((i) => {
-                        return (
-                            <MenuItem key={i} value={i}>
-                                {i}
-                            </MenuItem>
-                        );
-                    })}
+                    {[7, 8, 9, 10, 11, 12].map((i) => (
+                        <MenuItem key={i} value={i}>
+                            {i}
+                        </MenuItem>
+                    ))}
                 </Select>
             </div>
             <table id="tbl" />

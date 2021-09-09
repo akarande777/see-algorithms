@@ -35,3 +35,8 @@ export default {
         clearTimeout(timer);
     },
 };
+
+export const wait = (ms) =>
+    new Promise((resolve) => {
+        timer = setTimeout(resolve, ms);
+    });

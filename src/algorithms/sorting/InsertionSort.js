@@ -6,6 +6,7 @@ var a, n;
 var i, j, temp;
 var tbl, cell;
 var timer;
+var delay = 1000;
 
 function InsertionSort() {
     const start = (values) => {
@@ -27,8 +28,8 @@ function InsertionSort() {
         i = 1;
         timer = setTimeout(() => {
             cell[n].setAttribute('bgcolor', Colors.sorted);
-            timer = setTimeout(pick, 1000);
-        }, 1000);
+            timer = setTimeout(pick, delay);
+        }, delay);
     };
 
     const stop = () => {
@@ -61,9 +62,9 @@ function pick() {
             temp = a[i];
             j = i;
             timer = setTimeout(function () {
-                timer = setInterval(shift, 700);
-            }, 500);
-        }, 500);
+                timer = setInterval(shift, delay / 2);
+            }, delay / 2);
+        }, delay / 2);
     }
 }
 
@@ -97,7 +98,7 @@ function insert() {
         cell[j].innerHTML = '';
         cell[j].removeAttribute('bgcolor');
         i++;
-        timer = setTimeout(pick, 1000);
+        timer = setTimeout(pick, delay);
     }
 }
 
