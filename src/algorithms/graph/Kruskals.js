@@ -8,7 +8,7 @@ import { Colors } from '../../common/constants';
 var parent;
 var arr;
 var mst, j;
-var delay = 1000;
+var delay = 800;
 
 function findParent(q) {
     return parent[q] === q ? q : findParent(parent[q]);
@@ -19,7 +19,6 @@ export default function (props) {
 }
 
 function start() {
-    $('#plane').off();
     arr = [];
     $('.cost').each(function () {
         let edge = {};
@@ -62,12 +61,12 @@ function find() {
                 $('.vrtx').eq(arr[j].v).attr('fill', Colors.vertex);
                 mst.push(arr[j++]);
                 Timer.timeout(find, delay);
-            }, delay / 1.5);
+            }, delay);
         } else {
             $('.vrtx').eq(arr[j].u).attr('stroke', '#f44336');
             $('.vrtx').eq(arr[j].v).attr('stroke', '#f44336');
             $('.edge').eq(arr[j].i).attr('stroke', '#f44336');
-            Timer.timeout(skip, delay / 1.5);
+            Timer.timeout(skip, delay);
         }
     }
 }

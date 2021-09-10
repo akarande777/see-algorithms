@@ -6,7 +6,7 @@ var a, n;
 var i, j, temp;
 var tbl, cell;
 var timer;
-var delay = 1000;
+var delay = 800;
 
 function InsertionSort() {
     const start = (values) => {

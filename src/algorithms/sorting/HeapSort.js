@@ -11,7 +11,7 @@ var tbl, cell;
 var v, k;
 var p, q, flag;
 var timer;
-var delay = 1000;
+var delay = 500;
 
 function heapSort() {
     if (k >= 0) {
@@ -64,8 +64,8 @@ function heapify(i) {
                     default:
                         timer = setInterval(swap, 8, i, largest, 25);
                 }
-            }, delay / 2);
-        }, delay / 2);
+            }, delay);
+        }, delay);
         let temp = a[i];
         a[i] = a[largest];
         a[largest] = temp;
@@ -81,8 +81,8 @@ function heapify(i) {
                     .eq(right - 1)
                     .attr('stroke', Colors.stroke);
             }
-            timer = setTimeout(heapSort, delay / 2);
-        }, delay / 2);
+            timer = setTimeout(heapSort, delay);
+        }, delay);
     }
 }
 
@@ -93,11 +93,11 @@ function extractMax() {
     cell[n].innerHTML = a[n];
     if (n > 1) {
         k = 0;
-        timer = setTimeout(heapify, delay / 2, k);
+        timer = setTimeout(heapify, delay, k);
     } else {
         timer = setTimeout(() => {
             timer = setInterval(fall, 10);
-        }, delay / 2);
+        }, delay);
     }
 }
 
@@ -118,7 +118,7 @@ function HeapSort() {
             $('.vlbl').eq(i).text(a[i]);
         }
         k = Math.floor(n / 2) - 1;
-        timer = setTimeout(heapSort, delay);
+        timer = setTimeout(heapSort, delay * 2);
     };
 
     const stop = () => {
@@ -176,7 +176,7 @@ function swapLargest(flag) {
         $('.vlbl').eq(0).text(a[0]);
         timer = setTimeout(() => {
             timer = setInterval(fall, 5);
-        }, delay / 2);
+        }, delay);
     }
 }
 
@@ -237,7 +237,7 @@ function swap(i, largest, angle) {
             if (i < Math.floor(n / 2)) {
                 heapify(largest);
             }
-        }, delay / 2);
+        }, delay);
     }
 }
 

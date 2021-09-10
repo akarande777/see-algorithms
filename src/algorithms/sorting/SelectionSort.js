@@ -8,7 +8,7 @@ var i, j, pos;
 var prev, k;
 var flag1, flag2;
 var timer;
-var delay = 1000;
+var delay = 800;
 
 function iloop() {
     if (i < n - 1) {

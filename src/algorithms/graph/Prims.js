@@ -16,7 +16,6 @@ export default function (props) {
 }
 
 function start(source) {
-    $('#plane').off();
     n = Graph.totalPoints();
     w = [];
     Graph.forEach((i, j) => {
@@ -63,7 +62,7 @@ function extractMin() {
     } else {
         let ei = Graph.edgeIndex(i, j);
         let { p, q, d } = cloneEdge(i, ei);
-        Timer.timeout(span, delay / 100, p, q, d - 2);
+        Timer.timeout(span, 10, p, q, d - 2);
     }
 }
 
@@ -72,7 +71,7 @@ function span(p, q, d) {
         let r = fromEnd(p, q, d);
         $('line:last').attr('x2', r.x);
         $('line:last').attr('y2', r.y);
-        Timer.timeout(span, delay / 100, p, q, d - 2);
+        Timer.timeout(span, 10, p, q, d - 2);
     } else {
         $('line:last').remove();
         let ei = Graph.edgeIndex(i, j);

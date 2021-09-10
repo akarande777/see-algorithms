@@ -6,12 +6,13 @@ var a, n;
 var i, j, swaps;
 var tbl, cell;
 var timer;
+var delay = 800;
 
 function iloop() {
     if (i < n - 1 && swaps > 0) {
         swaps = 0;
         j = 0;
-        timer = setTimeout(jloop, 1000);
+        timer = setTimeout(jloop, delay);
     } else {
         for (let k = 0; k < n; k++) {
             cell[k + n].setAttribute('bgcolor', Colors.sorted);
@@ -25,10 +26,10 @@ function jloop() {
         cell[j + n].setAttribute('bgcolor', Colors.compare);
         cell[j + n + 1].setAttribute('bgcolor', Colors.compare);
         if (a[j + 1] < a[j]) {
-            timer = setTimeout(swap, 800);
+            timer = setTimeout(swap, delay);
             swaps++;
         } else {
-            timer = setTimeout(jloop, 800);
+            timer = setTimeout(jloop, delay);
             j++;
         }
     } else {
@@ -97,7 +98,7 @@ function swap() {
         shift(j + n + 1, j + n + n + 1);
         j++;
     }, 450);
-    timer = setTimeout(jloop, 1000);
+    timer = setTimeout(jloop, delay);
 }
 
 function shift(u, v) {

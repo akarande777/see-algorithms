@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Button,
-    Checkbox,
-    TextField,
-    FormControlLabel,
-} from '@material-ui/core';
+import { Button, Checkbox, TextField, FormControlLabel } from '@material-ui/core';
 import { PlayArrow, Pause } from '@material-ui/icons';
 import { showToast } from '../toast/toast';
 import './draw-graph.scss';
@@ -72,6 +67,7 @@ function DrawGraph(props) {
                 reset();
                 break;
             case 1:
+                $('#plane').off();
                 props.start(source.charCodeAt(0) - 65);
                 break;
             case 2:

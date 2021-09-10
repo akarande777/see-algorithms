@@ -8,14 +8,13 @@ import { Colors } from '../../common/constants';
 
 var cell, n, k;
 var ind, stack;
-var delay = 1000;
+var delay = 500;
 
 export default function (props) {
     return <DrawGraph {...props} start={start} isDAG={true} />;
 }
 
 function start() {
-    $('#plane').off();
     let tbl = document.querySelector('#tbl');
     tbl.innerHTML = '';
     let row = document.createElement('tr');
@@ -36,7 +35,7 @@ function start() {
         }
     }
     k = 0;
-    Timer.timeout(sort, delay);
+    Timer.timeout(sort, delay * 2);
 }
 
 function sort() {
@@ -60,16 +59,16 @@ function sort() {
                         $(`.vrtx:eq(${j})`).attr('stroke', Colors.visited);
                     }
                     extract(p, q, i, j, d - 2);
-                }, delay / 2);
+                }, delay);
             }
         }
         if (k === 0) {
-            Timer.timeout(fall, delay / 2, i);
+            Timer.timeout(fall, delay, i);
         }
     } else {
         setTimeout(() => {
             document.querySelector('#clear').click();
-        }, delay / 2);
+        }, delay);
     }
 }
 
@@ -79,12 +78,12 @@ function extract(p, q, i, j, d) {
         let r = fromEnd(q, p, d);
         $(`line:eq(${ei})`).attr('x2', r.x);
         $(`line:eq(${ei})`).attr('y2', r.y);
-        Timer.timeout(extract, delay / 200, p, q, i, j, d - 2);
+        Timer.timeout(extract, 5, p, q, i, j, d - 2);
     } else {
         $(`line:eq(${ei})`).removeAttr('stroke');
         $(`line:eq(${ei})`).removeAttr('marker-end');
         if (--k === 0) {
-            Timer.timeout(fall, delay / 2, i);
+            Timer.timeout(fall, delay, i);
         }
     }
 }
@@ -94,12 +93,12 @@ function fall(i) {
     if (cy < 520) {
         $(`.vrtx:eq(${i})`).attr('cy', cy + 2);
         $(`.vlbl:eq(${i})`).attr('y', cy + 7);
-        Timer.timeout(fall, delay / 200, i);
+        Timer.timeout(fall, 5, i);
     } else {
         let np = Graph.totalPoints();
         cell[np - n].innerHTML = String.fromCharCode(65 + i);
         cell[np - n].setAttribute('bgcolor', Colors.visited);
         --n;
-        Timer.timeout(sort, delay / 2);
+        Timer.timeout(sort, delay);
     }
 }

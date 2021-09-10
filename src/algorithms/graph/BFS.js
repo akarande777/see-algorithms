@@ -9,14 +9,13 @@ import { Colors } from '../../common/constants';
 var queue;
 var v, i;
 var prev, k;
-var delay = 1000;
+var delay = 500;
 
 export default function (props) {
     return <DrawGraph {...props} start={start} />;
 }
 
 function start(source) {
-    $('#plane').off();
     v = [source];
     queue = [];
     prev = [];
@@ -24,8 +23,8 @@ function start(source) {
     Timer.timeout(() => {
         $('.vrtx').eq(i).attr('stroke', Colors.visited);
         $('.vrtx').eq(i).attr('fill', Colors.visited);
-        Timer.timeout(visit, delay / 2, 0);
-    }, delay);
+        Timer.timeout(visit, delay, 0);
+    }, delay * 2);
 }
 
 function visit(j) {
@@ -39,11 +38,11 @@ function visit(j) {
                 queue.push(j);
                 v.push(j);
                 prev[j] = i;
-                Timer.timeout(visit, delay / 2, ++j);
+                Timer.timeout(visit, delay, ++j);
             } else if (queue.indexOf(j) !== -1) {
                 $('.edge').eq(ei).attr('stroke', Colors.rejected);
                 $('.edge').eq(ei).attr('stroke-dasharray', '8,4');
-                Timer.timeout(visit, delay / 2, ++j);
+                Timer.timeout(visit, delay, ++j);
             } else visit(++j);
         } else visit(++j);
     } else bfs();
@@ -56,7 +55,7 @@ function bfs() {
         k = prev[i];
         let ei = Graph.edgeIndex(k, i);
         let { p, q, d } = cloneEdge(k, ei);
-        Timer.timeout(span, delay, p, q, d - 2);
+        Timer.timeout(span, delay * 2, p, q, d - 2);
     } else {
         $('.vrtx').eq(i).attr('fill', Colors.vertex);
     }
@@ -67,7 +66,7 @@ function span(p, q, d) {
         let r = fromEnd(p, q, d);
         $('line:last').attr('x2', r.x);
         $('line:last').attr('y2', r.y);
-        Timer.timeout(span, delay / 200, p, q, d - 2);
+        Timer.timeout(span, 5, p, q, d - 2);
     } else {
         $('line:last').remove();
         let ei = Graph.edgeIndex(k, i);
@@ -81,13 +80,13 @@ function span(p, q, d) {
             let ei = Graph.edgeIndex(i, j);
             if (ei !== undefined) {
                 if (v.indexOf(j) === -1 || queue.indexOf(j) !== -1) {
-                    Timer.timeout(visit, delay / 2, 0);
+                    Timer.timeout(visit, delay, 0);
                     break;
                 }
             }
         }
         if (j === n) {
-            Timer.timeout(bfs, delay / 2);
+            Timer.timeout(bfs, delay);
         }
     }
 }
