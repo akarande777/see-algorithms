@@ -11,49 +11,28 @@ var delay = 800;
 
 function merge() {
     if (p <= mid && q <= s) {
-        if (a[p] <= a[q]) {
-            t[r] = a[p];
-            cell[p + n].innerHTML = a[p];
-            cell[p + n].setAttribute('bgcolor', Colors.compare);
-            cell[p].innerHTML = '';
-            cell[p].removeAttribute('bgcolor');
-            k = p++;
-            return wait(100).then(shift);
-        } else {
-            t[r] = a[q];
-            cell[q + n].innerHTML = a[q];
-            cell[q + n].setAttribute('bgcolor', Colors.compare);
-            cell[q].innerHTML = '';
-            cell[q].removeAttribute('bgcolor');
-            k = q++;
-            return wait(100).then(shift);
-        }
+        if (a[p] <= a[q]) return shiftInit(p++);
+        else return shiftInit(q++);
     } else {
         if (p <= mid) {
             cell[p].setAttribute('bgcolor', Colors.compare);
-            return wait(200).then(() => {
-                t[r] = a[p];
-                cell[p + n].innerHTML = a[p];
-                cell[p + n].setAttribute('bgcolor', Colors.compare);
-                cell[p].innerHTML = '';
-                cell[p].removeAttribute('bgcolor');
-                k = p++;
-                return wait(100).then(shift);
-            });
+            return wait(200).then(() => shiftInit(p++));
         }
         if (q <= s) {
             cell[q].setAttribute('bgcolor', Colors.compare);
-            return wait(200).then(() => {
-                t[r] = a[q];
-                cell[q + n].innerHTML = a[q];
-                cell[q + n].setAttribute('bgcolor', Colors.compare);
-                cell[q].innerHTML = '';
-                cell[q].removeAttribute('bgcolor');
-                k = q++;
-                return wait(100).then(shift);
-            });
+            return wait(200).then(() => shiftInit(q++));
         }
     }
+}
+
+function shiftInit(i) {
+    t[r] = a[i];
+    cell[i + n].innerHTML = a[i];
+    cell[i + n].setAttribute('bgcolor', Colors.compare);
+    cell[i].innerHTML = '';
+    cell[i].removeAttribute('bgcolor');
+    k = i;
+    return wait(100).then(shift);
 }
 
 function shift() {
@@ -91,7 +70,7 @@ function lift(u, v) {
             cell[i].removeAttribute('bgcolor');
             cell[i].innerHTML = '';
         }
-        return wait(200).then(() => lift(u - n, v - n));
+        return wait(100).then(() => lift(u - n, v - n));
     } else {
         return wait(delay / 2).then(() => {
             for (let i = u; i <= v; i++) {
@@ -137,9 +116,7 @@ function mergeSort(start, end) {
                 return wait(delay).then(() => merge());
             })
             .then(() => {
-                return wait(200).then(() => {
-                    return lift(start + n + n, end + n + n);
-                });
+                return lift(start + n + n, end + n + n);
             });
     }
 }
