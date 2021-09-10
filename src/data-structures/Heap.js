@@ -100,12 +100,12 @@ function compare(u, v) {
 
 function heapify(child, parent) {
     if (parent && compare(parent, child)) {
-        $('.vrtx').eq(child.index).attr('fill', Colors.visited);
+        $('.vrtx').eq(child.index).attr('fill', Colors.compare);
         let temp = parent.key;
         parent.key = child.key;
         child.key = temp;
         return wait(delay).then(() => {
-            $('.vrtx').eq(parent.index).attr('fill', Colors.visited);
+            $('.vrtx').eq(parent.index).attr('fill', Colors.compare);
             return wait(delay).then(() => {
                 let d = distance(parent.point, child.point);
                 return wait(5).then(() => swap(parent, child, d - 1));
