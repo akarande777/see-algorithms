@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { showMenu } from '../menu/menu';
-import { DeviceHub, Equalizer, Share } from '@material-ui/icons';
+import { DonutLarge, Equalizer, Share } from '@material-ui/icons';
 import { withRouter } from 'react-router-dom';
 import { auth } from '../../services/firebase';
 import { AppContext } from '../../App';
@@ -54,7 +54,7 @@ function Sider({ history, ...props }) {
                 </ListItemIcon>
                 <ListItemText primary="Graph" className="listItemText" />
             </ListItem>
-            {/* <ListItem
+            <ListItem
                 button
                 className="listItem"
                 onClick={(e) => {
@@ -65,10 +65,10 @@ function Sider({ history, ...props }) {
                 }}
             >
                 <ListItemIcon>
-                    <DeviceHub className="listItemIcon" />
+                    <DonutLarge className="listItemIcon" />
                 </ListItemIcon>
                 <ListItemText primary="Data Structures" className="listItemText" />
-            </ListItem> */}
+            </ListItem>
             {user && (
                 <ListItem
                     button

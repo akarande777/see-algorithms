@@ -10,8 +10,8 @@ import Timer from '../../common/timer';
 function ConvexHull(props) {
     const [status, setStatus] = useState(0);
 
-    const initialize = () => {
-        Graph.initialize();
+    const reset = () => {
+        Graph.reset();
         addPoints();
         randomize();
     };
@@ -22,9 +22,9 @@ function ConvexHull(props) {
         $('#plane').children().remove();
     };
 
-    const reset = () => {
+    const handleReset = () => {
         clear();
-        status ? setStatus(0) : initialize();
+        status ? setStatus(0) : reset();
     };
 
     useEffect(() => () => clear(), []);
@@ -32,7 +32,7 @@ function ConvexHull(props) {
     useEffect(() => {
         switch (status) {
             case 0:
-                initialize();
+                reset();
                 break;
             case 1:
                 props.start();
@@ -70,7 +70,7 @@ function ConvexHull(props) {
                 >
                     {status > 0 ? 'Pause' : 'Play'}
                 </Button>
-                <Button variant="contained" onClick={reset} id="clear">
+                <Button variant="contained" onClick={handleReset} id="clear">
                     Reset
                 </Button>
             </div>

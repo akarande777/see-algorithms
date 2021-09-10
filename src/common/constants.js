@@ -15,14 +15,14 @@ export const Algorithms = {
         { value: 'dijkstras', label: "Dijkstra's Algortihm" },
         { value: 'topsort', label: 'Topological Sorting' },
         { value: 'convex-hull', label: 'Convex Hull' },
-    ]
+    ],
 };
 
 export const DataStructures = [
-    { value: 'heap', label: 'Heap' },
+    { value: 'heap', label: 'Binary Heap' },
     { value: 'queue', label: 'Circular Queue' },
     { value: 'bst', label: 'Binary Search Tree' },
-]
+];
 
 export const AppDomain = 'https://see-algorithms.vercel.app';
 

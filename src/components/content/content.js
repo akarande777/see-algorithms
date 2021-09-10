@@ -20,6 +20,10 @@ import Dijkstras from '../../algorithms/graph/Dijkstras';
 import TopSort from '../../algorithms/graph/TopSort';
 import ConvexHull from '../../algorithms/graph/ConvexHull';
 
+import BST from '../../data-structures/BST';
+import Heap from '../../data-structures/Heap';
+import Queue from '../../data-structures/Queue';
+
 const getTitle = (algo) => {
     switch (algo.value) {
         case 'prims':
@@ -87,6 +91,15 @@ function Content({ location }) {
                 </Route>
                 <Route path="/convex-hull" exact>
                     <ConvexHull />
+                </Route>
+                <Route path="/bst" exact>
+                    <BST />
+                </Route>
+                <Route path="/heap" exact>
+                    <Heap />
+                </Route>
+                <Route path="/queue" exact>
+                    <Queue />
                 </Route>
                 <Route>
                     <PageNotFound />
