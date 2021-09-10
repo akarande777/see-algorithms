@@ -50,57 +50,23 @@ function Content({ location }) {
             </Breadcrumbs>
             <br />
             <Switch>
-                <Route exact path="/">
-                    <Home />
-                </Route>
-                <Route path="/bubble-sort" exact>
-                    <BubbleSort />
-                </Route>
-                <Route path="/insertion-sort" exact>
-                    <InsertionSort />
-                </Route>
-                <Route path="/selection-sort" exact>
-                    <SelectionSort />
-                </Route>
-                <Route path="/radix-sort" exact>
-                    <RadixSort />
-                </Route>
-                <Route path="/heap-sort" exact>
-                    <HeapSort />
-                </Route>
-                <Route path="/merge-sort" exact>
-                    <MergeSort />
-                </Route>
-                <Route path="/dfs" exact>
-                    <DFS />
-                </Route>
-                <Route path="/bfs" exact>
-                    <BFS />
-                </Route>
-                <Route path="/prims" exact>
-                    <Prims />
-                </Route>
-                <Route path="/kruskals" exact>
-                    <Kruskals />
-                </Route>
-                <Route path="/dijkstras" exact>
-                    <Dijkstras />
-                </Route>
-                <Route path="/topsort" exact>
-                    <TopSort />
-                </Route>
-                <Route path="/convex-hull" exact>
-                    <ConvexHull />
-                </Route>
-                <Route path="/bst" exact>
-                    <BST />
-                </Route>
-                <Route path="/heap" exact>
-                    <Heap />
-                </Route>
-                <Route path="/queue" exact>
-                    <Queue />
-                </Route>
+                <Route exact path="/" component={Home} />
+                <Route path="/bubble-sort" exact component={BubbleSort} />
+                <Route path="/insertion-sort" exact component={InsertionSort} />
+                <Route path="/selection-sort" exact component={SelectionSort} />
+                <Route path="/radix-sort" exact component={RadixSort} />
+                <Route path="/heap-sort" exact component={HeapSort} />
+                <Route path="/merge-sort" exact component={MergeSort} />
+                <Route path="/dfs" exact component={DFS} />
+                <Route path="/bfs" exact component={BFS} />
+                <Route path="/prims" exact component={Prims} />
+                <Route path="/kruskals" exact component={Kruskals} />
+                <Route path="/dijkstras" exact component={Dijkstras} />
+                <Route path="/topsort" exact component={TopSort} />
+                <Route path="/convex-hull" exact component={ConvexHull} />
+                <Route path="/bst" exact component={BST} />
+                <Route path="/heap" exact component={Heap} />
+                <Route path="/queue" exact component={Queue} />
                 <Route>
                     <PageNotFound />
                 </Route>
