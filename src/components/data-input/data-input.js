@@ -52,7 +52,6 @@ function DataInput(props) {
                         </Button>
                     ))}
                 </div>
-                {props.children}
             </div>
             <svg id="plane"></svg>
         </div>

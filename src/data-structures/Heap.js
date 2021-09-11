@@ -9,9 +9,9 @@ import { wait } from '../common/timer';
 
 const buttons = [{ text: 'Insert', onClick: input }];
 
-export default function () {
+export default function (props) {
     useEffect(() => Tree.reset(), []);
-    return <DataInput buttons={buttons} />;
+    return <DataInput {...props} buttons={buttons} />;
 }
 
 var rx = 350;
