@@ -36,7 +36,7 @@ function start(source) {
     queue = [source];
     prev = [];
     d.forEach((x, i) => {
-        x > 0 && $('.vlbl').eq(i).text('∞');
+        if (x > 0) $('.vlbl').eq(i).text('∞');
     });
     Timer.timeout(() => {
         $('.vrtx').eq(source).attr('stroke', Colors.visited);
