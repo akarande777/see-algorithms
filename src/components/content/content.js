@@ -32,6 +32,8 @@ const getTitle = (algo) => {
             return "Kruskal's Minimum Spanning Tree";
         case 'dijkstras':
             return "Dijkstra's Shortest Path";
+        case 'heap':
+            return 'Binary (Max) Heap';
         default:
             return algo.label;
     }

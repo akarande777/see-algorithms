@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
+import React, { useEffect } from 'react';
 import $ from 'jquery';
 import DataInput from '../components/data-input/data-input';
 import { addVertex, addEdge, fromEnd, moveVertex, distance } from '../common/utils';
@@ -12,26 +11,9 @@ const buttons = [{ text: 'Insert', onClick: input }];
 
 export default function () {
     useEffect(() => Tree.reset(), []);
-    const [heapType, setHeapType] = useState('max');
-
-    const resetHeap = (e) => {
-        setHeapType(e.target.value);
-        type = e.target.value;
-        Tree.reset();
-        $('#plane').children().remove();
-    };
-
-    return (
-        <DataInput buttons={buttons}>
-            <RadioGroup row value={heapType} onChange={resetHeap} style={{ marginTop: 8 }}>
-                <FormControlLabel value="min" control={<Radio />} label="Min Heap" />
-                <FormControlLabel value="max" control={<Radio />} label="Max Heap" />
-            </RadioGroup>
-        </DataInput>
-    );
+    return <DataInput buttons={buttons} />;
 }
 
-var type = 'max';
 var rx = 350;
 var dx = 30, dy = 60;
 var delay = 500;
@@ -94,12 +76,8 @@ function span(node, p, q, d) {
     }
 }
 
-function compare(u, v) {
-    return type === 'max' ? v.key > u.key : v.key < u.key;
-}
-
 function heapify(child, parent) {
-    if (parent && compare(parent, child)) {
+    if (parent && child.key > parent.key) {
         $('.vrtx').eq(child.index).attr('fill', Colors.compare);
         let temp = parent.key;
         parent.key = child.key;
