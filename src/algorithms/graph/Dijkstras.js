@@ -35,16 +35,14 @@ function start(source) {
     }
     queue = [source];
     prev = [];
+    d.forEach((x, i) => {
+        x > 0 && $('.vlbl').eq(i).text('∞');
+    });
     Timer.timeout(() => {
-        d.forEach((x, i) => {
-            x > 0 && $('.vlbl').eq(i).text('∞');
-        });
-        Timer.timeout(() => {
-            $('.vrtx').eq(source).attr('stroke', Colors.visited);
-            $('.vrtx').eq(source).attr('fill', Colors.visited);
-            Timer.timeout(dijkstra, delay, source);
-        }, delay);
-    }, delay / 2);
+        $('.vrtx').eq(source).attr('stroke', Colors.visited);
+        $('.vrtx').eq(source).attr('fill', Colors.visited);
+        Timer.timeout(dijkstra, delay, source);
+    }, delay);
 }
 
 function dijkstra(i) {
