@@ -10,12 +10,16 @@
     .heading {
         font-size: 1.5rem;
         height: 1.5rem;
+        font-family: 'Optima', sans-serif;
     }
 
     .logo,
     .menuIcon {
         font-size: 2rem;
         margin-right: 0.75rem;
+    }
+
+    .menuIcon {
         color: #1976d2;
     }
 }
