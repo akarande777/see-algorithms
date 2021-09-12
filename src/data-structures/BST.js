@@ -16,7 +16,7 @@ export default function (props) {
 
 var root;
 var rx = 350;
-var dx = 40, dy = 60;
+var dx = 50, dy = 60;
 var delay = 500;
 
 function input(key) {
