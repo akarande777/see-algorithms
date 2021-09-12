@@ -14,11 +14,12 @@ export default function (props) {
 }
 
 var n = 16;
-var front = 0;
-var rear = 6;
-var size = rear;
+var front, rear;
+var size;
 
 function createQueue() {
+    front = 0;
+    size = rear = 6;
     let r = 150;
     let circle = `<circle cx="200" cy="200" r="${r}" stroke="black" fill="#eee"></circle>`;
     document.querySelector('#plane').innerHTML += circle;
