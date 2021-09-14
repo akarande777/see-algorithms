@@ -1,10 +1,12 @@
 .dataInput {
-    button {
-        margin-right: 1rem;
-    }
+    min-width: max-content;
+    
     #plane {
         margin: 1rem 0;
         width: 700px;
         height: 450px;
+    }
+    button {
+        margin-right: 1rem;
     }
 }
