@@ -55,7 +55,8 @@ function Home() {
     return (
         <div className={'home ' + (loading ? 'loading' : '')}>
             {loading && <CircularProgress className="loader" />}
-            <p>Hello World!</p>
+            <h5>Hello World!</h5>
+            <br />
             {/* {formType === 'login' && (
                 <LoginForm toRegister={() => setFormType('register')} login={login} />
             )}
