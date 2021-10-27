@@ -4,7 +4,6 @@ import ConvexHull from '../../components/convex-hull/convex-hull';
 import $ from 'jquery';
 import Timer from '../../common/timer';
 import { Colors } from '../../common/constants';
-import { addPoints } from '../../events/convex-hull';
 
 var cvx, left, p, q;
 var delay = 400;
@@ -49,7 +48,7 @@ function next(i) {
     } else {
         connect(Colors.visited);
         p = q;
-        p !== left ? convexHull(q) : addPoints(cvx);
+        if (p !== left) convexHull(q);
     }
 }
 

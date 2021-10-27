@@ -59,17 +59,6 @@ export function addPoints(cvx) {
         }
     });
 
-    $('#plane').on('mousemove', function (e) {
-        e.preventDefault();
-        if (flag) {
-            let p = new Point(offset(e).x, offset(e).y);
-            $('.vrtx').eq(k).attr('cx', p.x);
-            $('.vrtx').eq(k).attr('cy', p.y);
-            Graph.setPoint(k, p);
-            if (convex) newConvex();
-        }
-    });
-
     $('#plane').on('mouseup', function (e) {
         e.preventDefault();
         flag = false;

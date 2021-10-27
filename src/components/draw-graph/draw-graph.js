@@ -6,7 +6,7 @@ import './draw-graph.scss';
 import Graph from '../../common/graph';
 import $ from 'jquery';
 import { drawGraph } from '../../events/draw-graph';
-import { fromEnd } from '../../common/utils';
+import { fromDistance } from '../../common/utils';
 import Timer from '../../common/timer';
 
 function DrawGraph(props) {
@@ -85,7 +85,7 @@ function DrawGraph(props) {
             if (directed) {
                 $('.edge').each(function (i) {
                     let s = Graph.segment(i);
-                    let r = fromEnd(s.p, s.q, 23);
+                    let r = fromDistance(s.p, s.q, 23);
                     $(this).attr('x2', r.x);
                     $(this).attr('y2', r.y);
                     $(this).attr('marker-end', 'url(#arrow)');

@@ -10,10 +10,6 @@ export default {
         matrix.push([]);
     },
 
-    setPoint: (i, p) => void (points[i] = p),
-
-    allSegments: () => segments,
-
     position(segment) {
         let i = points.findIndex((p) => p.equals(segment.p));
         let j = points.findIndex((p) => p.equals(segment.q));
@@ -31,6 +27,8 @@ export default {
     },
 
     totalPoints: () => points.length,
+
+    totalSegments: () => segments.length,
 
     point: (index) => points[index],
 
@@ -126,7 +124,7 @@ export default {
             for (let j = 0; j < np; j++) {
                 let ei = this.edgeIndex(i, j);
                 if (ei !== undefined && ind[j] !== 0) {
-                    --ind[j];
+                    ind[j]--;
                     if (ind[j] === 0) stack.push(j);
                 }
             }

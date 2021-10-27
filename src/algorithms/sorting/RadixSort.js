@@ -64,7 +64,7 @@ function bucket() {
         }
         for (let i = 0; i < n; i++) a[i] = out[i];
         exp *= 10;
-        --k;
+        k--;
         timer = setTimeout(combine, delay, 10);
     }
 }
@@ -74,7 +74,8 @@ function combine(j) {
         if (cell[n + j - 1].childNodes.length > 0) {
             cell[n + j - 1].firstChild.removeAttribute('style');
             cell[k].innerHTML = cell[n + j - 1].firstChild.outerHTML;
-            cell[k--].setAttribute('bgcolor', '#F9E79F');
+            cell[k].setAttribute('bgcolor', '#F9E79F');
+            k--;
             cell[n + j - 1].removeChild(cell[n + j - 1].firstChild);
             timer = setTimeout(combine, delay, j);
         } else {

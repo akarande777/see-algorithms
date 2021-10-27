@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import $ from 'jquery';
 import DataInput from '../components/data-input/data-input';
-import { addVertex, addEdge, fromEnd, moveVertex, distance } from '../common/utils';
+import { addVertex, addEdge, fromDistance, moveVertex, distance } from '../common/utils';
 import { Point } from '../common/graph';
 import Tree from '../common/tree';
 import { Colors } from '../common/constants';
@@ -15,7 +15,8 @@ export default function (props) {
 }
 
 var rx = 350;
-var dx = 30, dy = 60;
+var dx = 30,
+    dy = 60;
 var delay = 500;
 
 function input(key) {
@@ -66,9 +67,13 @@ function createNode(key, parent, index) {
 
 function span(node, p, q, d) {
     if (d > 0) {
-        let r = fromEnd(p, q, d);
-        $('line').eq(node.index - 1).attr('x2', r.x);
-        $('line').eq(node.index - 1).attr('y2', r.y);
+        let r = fromDistance(p, q, d);
+        $('line')
+            .eq(node.index - 1)
+            .attr('x2', r.x);
+        $('line')
+            .eq(node.index - 1)
+            .attr('y2', r.y);
         return wait(10).then(() => span(node, p, q, d - 2));
     } else {
         addVertex(q, node.key, 15);
@@ -97,9 +102,9 @@ function swap(parent, child, d) {
     let p = parent.point;
     let q = child.point;
     if (d > 0) {
-        let r = fromEnd(p, q, d);
+        let r = fromDistance(p, q, d);
         moveVertex(parent.index, r);
-        r = fromEnd(q, p, d);
+        r = fromDistance(q, p, d);
         moveVertex(child.index, r);
         return wait(5).then(() => swap(parent, child, d - 1));
     } else {

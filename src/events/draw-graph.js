@@ -1,16 +1,24 @@
 import $ from 'jquery';
-import { distance, addVertex, addEdge, offset, fromEnd } from '../common/utils';
+import { distance, addVertex, addEdge, offset, fromDistance } from '../common/utils';
 import Graph, { Point, Segment } from '../common/graph';
 import { showToast } from '../components/toast/toast';
 import { Colors } from '../common/constants';
 
 export function drawGraph({ weighted, directed, asyclic }) {
     $('#plane').off();
-    var lastp, prev, flag = false;
+    var lastp,
+        prev,
+        flag = false;
 
     function isValid(p) {
         let s = new Segment(lastp, p);
-        return !Graph.allSegments().some((si) => s.overlaps(si));
+        let ns = Graph.totalSegments();
+        for (let i = 0; i < ns; i++) {
+            if (s.overlaps(Graph.segment(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     $('#plane').on('click', function (e) {
@@ -64,7 +72,7 @@ export function drawGraph({ weighted, directed, asyclic }) {
                     flag = false;
                     return;
                 }
-                let q = fromEnd(lastp, p, 23);
+                let q = fromDistance(lastp, p, 23);
                 $('line:last').attr('x2', q.x);
                 $('line:last').attr('y2', q.y);
             }

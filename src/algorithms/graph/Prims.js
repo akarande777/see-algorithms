@@ -1,5 +1,5 @@
 import React from 'react';
-import { fromEnd, cloneEdge } from '../../common/utils';
+import { fromDistance, cloneEdge } from '../../common/utils';
 import Graph from '../../common/graph';
 import DrawGraph from '../../components/draw-graph/draw-graph';
 import $ from 'jquery';
@@ -68,7 +68,7 @@ function extractMin() {
 
 function span(p, q, d) {
     if (d > 0) {
-        let r = fromEnd(p, q, d);
+        let r = fromDistance(p, q, d);
         $('line:last').attr('x2', r.x);
         $('line:last').attr('y2', r.y);
         Timer.timeout(span, 10, p, q, d - 2);

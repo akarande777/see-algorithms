@@ -1,5 +1,5 @@
 import React from 'react';
-import { fromEnd, distance } from '../../common/utils';
+import { fromDistance, distance } from '../../common/utils';
 import Graph, { Point } from '../../common/graph';
 import DrawGraph from '../../components/draw-graph/draw-graph';
 import $ from 'jquery';
@@ -75,7 +75,7 @@ function sort() {
 function extract(p, q, i, j, d) {
     let ei = Graph.edgeIndex(i, j);
     if (d > 0) {
-        let r = fromEnd(q, p, d);
+        let r = fromDistance(q, p, d);
         $(`line:eq(${ei})`).attr('x2', r.x);
         $(`line:eq(${ei})`).attr('y2', r.y);
         Timer.timeout(extract, 5, p, q, i, j, d - 2);
@@ -98,7 +98,7 @@ function fall(i) {
         let np = Graph.totalPoints();
         cell[np - n].innerHTML = String.fromCharCode(65 + i);
         cell[np - n].setAttribute('bgcolor', Colors.visited);
-        --n;
+        n--;
         Timer.timeout(sort, delay);
     }
 }

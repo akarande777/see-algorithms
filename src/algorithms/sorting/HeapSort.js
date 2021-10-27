@@ -89,7 +89,7 @@ function heapify(i) {
 function extractMax() {
     $('line:last').remove();
     $('g:last').remove();
-    --n;
+    n--;
     cell[n].innerHTML = a[n];
     if (n > 1) {
         k = 0;

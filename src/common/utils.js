@@ -6,7 +6,7 @@ function distance(p, q) {
     return Math.sqrt((q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y));
 }
 
-function fromEnd(start, end, distance) {
+function fromDistance(start, end, distance) {
     let x = end.x - start.x;
     let y = end.y - start.y;
     let z = Math.sqrt(x * x + y * y);
@@ -77,4 +77,4 @@ function cloneEdge(i, j) {
     return { p, q, d };
 }
 
-export { distance, fromEnd, offset, addVertex, moveVertex, addEdge, cloneEdge };
+export { distance, fromDistance, offset, addVertex, moveVertex, addEdge, cloneEdge };
