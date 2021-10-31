@@ -85,17 +85,18 @@ function swap() {
     let t = a[j];
     a[j] = a[j + 1];
     a[j + 1] = t;
+    let npn = n + n;
     timer = setTimeout(function () {
         shift(j + 1, j + n + 1);
-        shift(j + n + n, j + n);
+        shift(j + npn, j + n);
     }, 150);
     timer = setTimeout(function () {
         shift(j, j + 1);
-        shift(j + n + n + 1, j + n + n);
+        shift(j + npn + 1, j + npn);
     }, 300);
     timer = setTimeout(function () {
         shift(j + n, j);
-        shift(j + n + 1, j + n + n + 1);
+        shift(j + n + 1, j + npn + 1);
         j++;
     }, 450);
     timer = setTimeout(jloop, delay);

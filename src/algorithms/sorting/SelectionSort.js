@@ -124,8 +124,9 @@ function swap() {
     cell[pos - k].setAttribute('bgcolor', Colors.sorted);
     cell[pos - k + 1].innerHTML = '';
     cell[pos - k + 1].removeAttribute('bgcolor');
-    cell[i + n + n + k].innerHTML = a[i];
-    cell[i + n + n + k - 1].innerHTML = '';
+    let npn = i + n + n;
+    cell[npn + k].innerHTML = a[i];
+    cell[npn + k - 1].innerHTML = '';
     if (i + k === pos) {
         clearInterval(timer);
         timer = setTimeout(function () {
