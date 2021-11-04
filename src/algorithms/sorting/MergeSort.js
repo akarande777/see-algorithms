@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import Numbers from '../../components/numbers/numbers';
 import { Colors } from '../../common/constants';
 import Timer, { wait } from '../../common/timer';
+import { createTable } from '../../common/utils';
 
-var n, a;
-var tbl, cell;
+var n, a, cells;
 var mid, p, q, s;
 var t, r, k;
 var delay = 800;
@@ -15,11 +15,11 @@ function merge() {
         else return shiftInit(q++);
     } else {
         if (p <= mid) {
-            cell[p].setAttribute('bgcolor', Colors.compare);
+            cells[p].setAttribute('bgcolor', Colors.compare);
             return wait(200).then(() => shiftInit(p++));
         }
         if (q <= s) {
-            cell[q].setAttribute('bgcolor', Colors.compare);
+            cells[q].setAttribute('bgcolor', Colors.compare);
             return wait(200).then(() => shiftInit(q++));
         }
     }
@@ -27,35 +27,35 @@ function merge() {
 
 function shiftInit(i) {
     t[r] = a[i];
-    cell[i + n].innerHTML = a[i];
-    cell[i + n].setAttribute('bgcolor', Colors.compare);
-    cell[i].innerHTML = '';
-    cell[i].removeAttribute('bgcolor');
+    cells[i + n].innerHTML = a[i];
+    cells[i + n].setAttribute('bgcolor', Colors.compare);
+    cells[i].innerHTML = '';
+    cells[i].removeAttribute('bgcolor');
     k = i;
     return wait(100).then(shift);
 }
 
 function shift() {
     if (k < r) {
-        cell[k + n + 1].innerHTML = t[r];
-        cell[k + n + 1].setAttribute('bgcolor', Colors.compare);
-        cell[k + n].innerHTML = '';
-        cell[k + n].removeAttribute('bgcolor');
+        cells[k + n + 1].innerHTML = t[r];
+        cells[k + n + 1].setAttribute('bgcolor', Colors.compare);
+        cells[k + n].innerHTML = '';
+        cells[k + n].removeAttribute('bgcolor');
         k++;
         return wait(100).then(shift);
     } else if (k > r) {
-        cell[k + n - 1].innerHTML = t[r];
-        cell[k + n - 1].setAttribute('bgcolor', Colors.compare);
-        cell[k + n].innerHTML = '';
-        cell[k + n].removeAttribute('bgcolor');
+        cells[k + n - 1].innerHTML = t[r];
+        cells[k + n - 1].setAttribute('bgcolor', Colors.compare);
+        cells[k + n].innerHTML = '';
+        cells[k + n].removeAttribute('bgcolor');
         k--;
         return wait(100).then(shift);
     } else {
         return wait(200).then(() => {
-            cell[r + n + n].innerHTML = t[r];
-            cell[r + n + n].setAttribute('bgcolor', Colors.sorted);
-            cell[r + n].innerHTML = '';
-            cell[r + n].removeAttribute('bgcolor');
+            cells[r + n + n].innerHTML = t[r];
+            cells[r + n + n].setAttribute('bgcolor', Colors.sorted);
+            cells[r + n].innerHTML = '';
+            cells[r + n].removeAttribute('bgcolor');
             r++;
             return wait(delay).then(merge);
         });
@@ -65,17 +65,17 @@ function shift() {
 function lift(u, v) {
     if (u - n > -1) {
         for (let i = u; i <= v; i++) {
-            cell[i - n].innerHTML = cell[i].innerHTML;
-            cell[i - n].setAttribute('bgcolor', Colors.sorted);
-            cell[i].removeAttribute('bgcolor');
-            cell[i].innerHTML = '';
+            cells[i - n].innerHTML = cells[i].innerHTML;
+            cells[i - n].setAttribute('bgcolor', Colors.sorted);
+            cells[i].removeAttribute('bgcolor');
+            cells[i].innerHTML = '';
         }
         return wait(100).then(() => lift(u - n, v - n));
     } else {
         return wait(delay / 2).then(() => {
             for (let i = u; i <= v; i++) {
-                cell[i].removeAttribute('bgcolor');
-                cell[i + n + n].style.border = 0;
+                cells[i].removeAttribute('bgcolor');
+                cells[i + n + n].style.border = 0;
                 a[i] = t[i];
             }
         });
@@ -85,9 +85,9 @@ function lift(u, v) {
 function mergeSort(start, end) {
     for (let i = 0; i < n; i++) {
         if (i >= start && i <= end) {
-            cell[i].setAttribute('bgcolor', Colors.compare);
+            cells[i].setAttribute('bgcolor', Colors.compare);
         } else {
-            cell[i].removeAttribute('bgcolor');
+            cells[i].removeAttribute('bgcolor');
         }
     }
     if (start < end) {
@@ -106,11 +106,11 @@ function mergeSort(start, end) {
                 t = new Array();
                 for (let i = 0; i < n; i++) {
                     if (i >= start && i <= end) {
-                        cell[i].setAttribute('bgcolor', Colors.compare);
-                        cell[i + n + n].style.border = '2px solid';
+                        cells[i].setAttribute('bgcolor', Colors.compare);
+                        cells[i + n + n].style.border = '2px solid';
                     } else {
-                        cell[i].removeAttribute('bgcolor');
-                        cell[i + n + n].style.border = 0;
+                        cells[i].removeAttribute('bgcolor');
+                        cells[i + n + n].style.border = 0;
                     }
                 }
                 return wait(delay).then(() => merge());
@@ -125,31 +125,21 @@ function MergeSort() {
     const start = (values) => {
         a = [...values];
         n = a.length;
-        cell = [];
-        for (let i = 0; i < 3; i++) {
-            let row = document.createElement('tr');
-            for (let j = 0; j < n; j++) {
-                cell[i * n + j] = document.createElement('td');
-                if (i === 0) {
-                    cell[i * n + j].innerHTML = a[j];
-                    cell[i * n + j].style.border = '2px solid';
-                }
-                row.appendChild(cell[i * n + j]);
-            }
-            tbl.appendChild(row);
+        createTable(3, n);
+        cells = document.querySelectorAll('.cell');
+        for (let i = 0; i < n; i++) {
+            cells[i].innerHTML = a[i];
+            cells[i].style.border = '2px solid';
         }
         wait(delay).then(() => mergeSort(0, n - 1));
     };
 
     const stop = () => {
         Timer.clear();
-        tbl.innerHTML = '';
+        document.getElementById('tbl').innerHTML = '';
     };
 
-    useEffect(() => {
-        tbl = document.getElementById('tbl');
-        return () => stop();
-    }, []);
+    useEffect(() => () => stop(), []);
 
     return (
         <div className="sortNumbers">

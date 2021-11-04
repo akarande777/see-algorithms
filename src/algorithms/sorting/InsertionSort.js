@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import Numbers from '../../components/numbers/numbers';
 import { Colors } from '../../common/constants';
+import { createTable } from '../../common/utils';
 
-var a, n;
+var a, n, cells;
 var i, j, temp;
-var tbl, cell;
 var timer;
 var delay = 800;
 
@@ -12,22 +12,15 @@ function InsertionSort() {
     const start = (values) => {
         a = [...values];
         n = a.length;
-        cell = [];
-        for (let i = 0; i < 3; i++) {
-            let row = document.createElement('tr');
-            for (let j = 0; j < n; j++) {
-                cell[i * n + j] = document.createElement('td');
-                if (i === 1) {
-                    cell[i * n + j].innerHTML = a[j];
-                    cell[i * n + j].style.border = '2px solid';
-                }
-                row.appendChild(cell[i * n + j]);
-            }
-            tbl.appendChild(row);
+        createTable(2, n);
+        cells = document.querySelectorAll('.cell');
+        for (let k = 0; k < n; k++) {
+            cells[k + n].innerHTML = a[k];
+            cells[k + n].style.border = '2px solid';
         }
         i = 1;
         timer = setTimeout(() => {
-            cell[n].setAttribute('bgcolor', Colors.sorted);
+            cells[n].setAttribute('bgcolor', Colors.sorted);
             timer = setTimeout(pick, delay);
         }, delay);
     };
@@ -35,13 +28,10 @@ function InsertionSort() {
     const stop = () => {
         clearTimeout(timer);
         clearInterval(timer);
-        tbl.innerHTML = '';
+        document.getElementById('tbl').innerHTML = '';
     };
 
-    useEffect(() => {
-        tbl = document.getElementById('tbl');
-        return () => stop();
-    }, []);
+    useEffect(() => () => stop(), []);
 
     return (
         <div className="sortNumbers">
@@ -53,12 +43,12 @@ function InsertionSort() {
 
 function pick() {
     if (i < n) {
-        cell[i + n].setAttribute('bgcolor', Colors.compare);
+        cells[i + n].setAttribute('bgcolor', Colors.compare);
         timer = setTimeout(function () {
-            cell[i].innerHTML = cell[i + n].innerHTML;
-            cell[i + n].innerHTML = '';
-            cell[i + n].removeAttribute('bgcolor');
-            cell[i].setAttribute('bgcolor', Colors.compare);
+            cells[i].innerHTML = cells[i + n].innerHTML;
+            cells[i + n].innerHTML = '';
+            cells[i + n].removeAttribute('bgcolor');
+            cells[i].setAttribute('bgcolor', Colors.compare);
             temp = a[i];
             j = i;
             timer = setTimeout(function () {
@@ -71,10 +61,10 @@ function pick() {
 function shift() {
     if (temp < a[j - 1]) {
         a[j] = a[j - 1];
-        cell[j + n].innerHTML = a[j];
-        cell[j + n].setAttribute('bgcolor', Colors.sorted);
-        cell[j + n - 1].innerHTML = '';
-        cell[j + n - 1].removeAttribute('bgcolor');
+        cells[j + n].innerHTML = a[j];
+        cells[j + n].setAttribute('bgcolor', Colors.sorted);
+        cells[j + n - 1].innerHTML = '';
+        cells[j + n - 1].removeAttribute('bgcolor');
         j--;
     } else {
         clearInterval(timer);
@@ -85,18 +75,18 @@ function shift() {
 
 function insert() {
     if (temp < a[j - 1]) {
-        cell[j - 1].innerHTML = cell[j].innerHTML;
-        cell[j - 1].setAttribute('bgcolor', Colors.compare);
-        cell[j].innerHTML = '';
-        cell[j].removeAttribute('bgcolor');
+        cells[j - 1].innerHTML = cells[j].innerHTML;
+        cells[j - 1].setAttribute('bgcolor', Colors.compare);
+        cells[j].innerHTML = '';
+        cells[j].removeAttribute('bgcolor');
         j--;
     } else {
         clearInterval(timer);
         a[j] = temp;
-        cell[j + n].innerHTML = cell[j].innerHTML;
-        cell[j + n].setAttribute('bgcolor', Colors.sorted);
-        cell[j].innerHTML = '';
-        cell[j].removeAttribute('bgcolor');
+        cells[j + n].innerHTML = cells[j].innerHTML;
+        cells[j + n].setAttribute('bgcolor', Colors.sorted);
+        cells[j].innerHTML = '';
+        cells[j].removeAttribute('bgcolor');
         i++;
         timer = setTimeout(pick, delay);
     }

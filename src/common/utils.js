@@ -33,7 +33,7 @@ function offset(e) {
 }
 
 function addVertex(p, vlbl) {
-    let vrtx = `<g><ellipse class="vrtx" cx="${p.x}" cy="${p.y}" rx="${18}" ry="15" stroke="${
+    let vrtx = `<g class="vgrp"><ellipse class="vrtx" cx="${p.x}" cy="${p.y}" rx="${18}" ry="15" stroke="${
         Colors.stroke
     }" stroke-width="2" fill="${Colors.vertex}" /><text class="vlbl" x="${p.x}" y="${
         p.y + 5
@@ -45,21 +45,19 @@ function moveVertex(i, r) {
     $('.vrtx').eq(i).attr('cx', r.x);
     $('.vrtx').eq(i).attr('cy', r.y);
     $('.vlbl').eq(i).attr('x', r.x);
-    $('.vlbl')
-        .eq(i)
-        .attr('y', r.y + 5);
+    $('.vlbl').eq(i).attr('y', r.y + 5);
 }
 
 function addEdge(p, q) {
     let edge = `<line class="edge" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke-width="2" stroke="${Colors.stroke}" />`;
     document.querySelector('#plane').innerHTML += edge;
-    $('line:last').insertBefore($('g:first'));
+    $('line:last').insertBefore($('.vgrp:first'));
 }
 
 function cloneEdge(i, j) {
     let edge = `<line stroke-width="3" stroke="${Colors.visited}" />`;
     document.querySelector('#plane').innerHTML += edge;
-    $('line:last').insertBefore($('g:first'));
+    $('line:last').insertBefore($('.vgrp:first'));
     let p, q;
     let segment = Graph.segment(j);
     if (segment.p.equals(Graph.point(i))) {
@@ -76,5 +74,17 @@ function cloneEdge(i, j) {
     let d = distance(p, q);
     return { p, q, d };
 }
+
+export const createTable = (m, n, id) => {
+    for (let i = 0; i < m; i++) {
+        let row = document.createElement('tr');
+        for (let j = 0; j < n; j++) {
+            let cell = document.createElement('td');
+            cell.setAttribute('class', 'cell');
+            row.appendChild(cell);
+        }
+        $(id || '#tbl').append(row);
+    }
+};
 
 export { distance, fromDistance, offset, addVertex, moveVertex, addEdge, cloneEdge };

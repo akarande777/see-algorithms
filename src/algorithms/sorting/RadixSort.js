@@ -1,30 +1,30 @@
 import React, { useEffect } from 'react';
 import { Select, MenuItem } from '@material-ui/core';
+import { createTable } from '../../common/utils';
 
-var n, a;
+var n, a, cells;
 var out, b, k;
 var max, exp;
-var tbl, tbl2, cell;
 var timer;
 var delay = 700;
 
 function shift() {
     for (let i = 0; i < n; i++) {
-        cell[i].innerHTML = '</div>';
+        cells[i].innerHTML = '</div>';
         let t = a[i];
         let j = 1;
         while (t !== 0) {
             let r = t % 10;
             if (j === exp) {
-                cell[i].innerHTML =
-                    '<span style="color: crimson">' + r + '</span>' + cell[i].innerHTML;
+                cells[i].innerHTML =
+                    '<span style="color: crimson">' + r + '</span>' + cells[i].innerHTML;
             } else {
-                cell[i].innerHTML = r + cell[i].innerHTML;
+                cells[i].innerHTML = r + cells[i].innerHTML;
             }
             t = Math.floor(t / 10);
             j = j * 10;
         }
-        cell[i].innerHTML = '<div class="mydiv">' + cell[i].innerHTML;
+        cells[i].innerHTML = '<div class="mydiv">' + cells[i].innerHTML;
     }
 }
 
@@ -42,17 +42,17 @@ function bucket() {
     if (k < n) {
         let j = Math.floor(a[k] / exp) % 10;
         b[j]++;
-        cell[k].setAttribute('bgcolor', '#F9E79F');
+        cells[k].setAttribute('bgcolor', '#F9E79F');
         timer = setTimeout(function () {
-            cell[k].removeAttribute('bgcolor');
+            cells[k].removeAttribute('bgcolor');
             document
                 .getElementsByClassName('mydiv')[0]
                 .setAttribute(
                     'style',
                     'background-color: #F9E79F; margin-top: 4px; border: thin solid'
                 );
-            cell[j + n].innerHTML = cell[k].innerHTML + cell[j + n].innerHTML;
-            cell[k++].innerHTML = '&nbsp;&nbsp;&nbsp;';
+            cells[j + n].innerHTML = cells[k].innerHTML + cells[j + n].innerHTML;
+            cells[k++].innerHTML = '';
             timer = setTimeout(bucket, delay);
         }, delay);
     } else {
@@ -71,19 +71,20 @@ function bucket() {
 
 function combine(j) {
     if (k >= 0) {
-        if (cell[n + j - 1].childNodes.length > 0) {
-            cell[n + j - 1].firstChild.removeAttribute('style');
-            cell[k].innerHTML = cell[n + j - 1].firstChild.outerHTML;
-            cell[k].setAttribute('bgcolor', '#F9E79F');
+        let bkt = cells[n + j - 1];
+        if (bkt.childNodes.length > 0) {
+            bkt.firstChild.removeAttribute('style');
+            cells[k].innerHTML = bkt.firstChild.outerHTML;
+            cells[k].setAttribute('bgcolor', '#F9E79F');
             k--;
-            cell[n + j - 1].removeChild(cell[n + j - 1].firstChild);
+            bkt.removeChild(bkt.firstChild);
             timer = setTimeout(combine, delay, j);
         } else {
             combine(--j);
         }
     } else {
         for (let i = 0; i < n; i++) {
-            cell[i].removeAttribute('bgcolor');
+            cells[i].removeAttribute('bgcolor');
         }
         timer = setTimeout(radixSort, delay);
     }
@@ -91,8 +92,6 @@ function combine(j) {
 
 function RadixSort() {
     useEffect(() => {
-        tbl = document.getElementById('tbl');
-        tbl2 = document.getElementById('tbl2');
         return () => clearTimeout(timer);
     }, []);
 
@@ -103,46 +102,35 @@ function RadixSort() {
             a[i] = Math.floor(Math.random() * 900 + 100);
         }
         clearTimeout(timer);
-        tbl.innerHTML = '';
-        tbl2.innerHTML = '';
+        document.getElementById('tbl').innerHTML = '';
+        document.getElementById('bkt').innerHTML = '';
         start();
     };
 
     const start = () => {
-        cell = new Array();
-        let row = document.createElement('tr');
+        createTable(1, n);
+        createTable(2, 10, '#bkt');
+        cells = document.querySelectorAll('.cell');
         for (let i = 0; i < n; i++) {
-            cell[i] = document.createElement('td');
-            cell[i].innerHTML = a[i];
-            cell[i].style.border = '2px solid';
-            row.appendChild(cell[i]);
+            cells[i].innerHTML = a[i];
+            cells[i].style.border = '2px solid';
         }
-        tbl.appendChild(row);
         max = a[0];
         for (let i = 1; i < n; i++) {
             if (a[i] > max) max = a[i];
         }
-        let k = n;
-        for (let i = 1; i <= 2; i++) {
-            row = document.createElement('tr');
-            for (let j = 0; j < 10; j++) {
-                cell[k] = document.createElement('td');
-                if (i === 2) {
-                    cell[k].innerHTML = j;
-                    cell[k].setAttribute('align', 'center');
-                    cell[k].setAttribute(
-                        'style',
-                        'font-weight: 600; border-top: 2px solid; text-align: center'
-                    );
-                }
-                if (i === 1)
-                    cell[k].setAttribute(
-                        'style',
-                        'padding: 0; height: 80px; text-align: center; vertical-align: bottom'
-                    );
-                row.appendChild(cell[k++]);
-            }
-            tbl2.appendChild(row);
+        for (let i = 0; i < 10; i++) {
+            let npn = i + 10 + n;
+            cells[npn].innerHTML = i;
+            cells[npn].setAttribute('align', 'center');
+            cells[npn].setAttribute(
+                'style',
+                'font-weight: 600; border-top: 2px solid; text-align: center'
+            );
+            cells[n + i].setAttribute(
+                'style',
+                'padding: 0; height: 80px; text-align: center; vertical-align: bottom'
+            );
         }
         exp = 1;
         out = new Array();
@@ -156,16 +144,14 @@ function RadixSort() {
                 <Select onChange={handleSelect} className="select">
                     <MenuItem></MenuItem>
                     {[7, 8, 9, 10, 11, 12].map((i) => (
-                        <MenuItem key={i} value={i}>
-                            {i}
-                        </MenuItem>
+                        <MenuItem key={i} value={i}>{i}</MenuItem>
                     ))}
                 </Select>
             </div>
             <table id="tbl" />
             <br />
             <br />
-            <table id="tbl2" />
+            <table id="bkt" />
         </div>
     );
 }

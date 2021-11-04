@@ -1,22 +1,19 @@
 import React, { useEffect } from 'react';
 import { createHeap, xco, yco } from '../../helpers/create-heap';
 import { Point } from '../../common/graph';
-import { moveVertex } from '../../common/utils';
+import { createTable, moveVertex } from '../../common/utils';
 import $ from 'jquery';
 import Numbers from '../../components/numbers/numbers';
 import { Colors } from '../../common/constants';
 
-var a, n;
-var tbl, cell;
-var v, k;
+var a, n, v, k;
 var p, q, flag;
 var timer;
 var delay = 500;
 
 function heapSort() {
-    if (k >= 0) {
-        heapify(k);
-    } else {
+    if (k >= 0) heapify(k);
+    else {
         let t = a[0];
         a[0] = a[n - 1];
         a[n - 1] = t;
@@ -33,23 +30,19 @@ function heapSort() {
 }
 
 function heapify(i) {
-    $('.vrtx').eq(i).attr('fill', 'plum');
+    $('.vrtx').eq(i).attr('fill', Colors.compare);
     let largest = i;
     let left = i * 2 + 1;
     let right = i * 2 + 2;
     if (left < n) {
-        if (a[left] > a[largest]) {
-            largest = left;
-        }
+        if (a[left] > a[largest]) largest = left;
     }
     if (right < n) {
-        if (a[right] > a[largest]) {
-            largest = right;
-        }
+        if (a[right] > a[largest]) largest = right;
     }
     if (largest !== i) {
         timer = setTimeout(() => {
-            $('.vrtx').eq(largest).attr('fill', 'pink');
+            $('.vrtx').eq(largest).attr('fill', Colors.compare);
             p = v[i];
             q = v[largest];
             flag = p.x > q.x;
@@ -73,13 +66,9 @@ function heapify(i) {
         k--;
         timer = setTimeout(() => {
             $('.vrtx').eq(i).attr('fill', Colors.vertex);
-            $('line')
-                .eq(left - 1)
-                .attr('stroke', Colors.stroke);
+            $('line').eq(left - 1).attr('stroke', Colors.stroke);
             if (right < n) {
-                $('line')
-                    .eq(right - 1)
-                    .attr('stroke', Colors.stroke);
+                $('line').eq(right - 1).attr('stroke', Colors.stroke);
             }
             timer = setTimeout(heapSort, delay);
         }, delay);
@@ -88,12 +77,12 @@ function heapify(i) {
 
 function extractMax() {
     $('line:last').remove();
-    $('g:last').remove();
+    $('.vgrp:last').remove();
     n--;
-    cell[n].innerHTML = a[n];
+    $('.cell').eq(n).text(a[n]);
     if (n > 1) {
+        timer = setTimeout(heapify, delay, 0);
         k = 0;
-        timer = setTimeout(heapify, delay, k);
     } else {
         timer = setTimeout(() => {
             timer = setInterval(fall, 10);
@@ -106,14 +95,10 @@ function HeapSort() {
         a = [...values];
         v = createHeap(a.length);
         n = a.length;
-        cell = [];
-        let row = document.createElement('tr');
-        for (let j = 0; j < n; j++) {
-            cell[j] = document.createElement('td');
-            cell[j].style.border = '2px solid';
-            row.appendChild(cell[j]);
+        createTable(1, n);
+        for (let i = 0; i < n; i++) {
+            $('.cell').eq(i).css('border', '2px solid');
         }
-        tbl.appendChild(row);
         for (let i = 0; i < n; i++) {
             $('.vlbl').eq(i).text(a[i]);
         }
@@ -124,14 +109,11 @@ function HeapSort() {
     const stop = () => {
         clearTimeout(timer);
         clearInterval(timer);
-        $('#plane').text('');
-        tbl.innerHTML = '';
+        $('#plane').html('');
+        $('#tbl').html('');
     };
 
-    useEffect(() => {
-        tbl = document.getElementById('tbl');
-        return () => stop();
-    }, []);
+    useEffect(() => () => stop(), []);
 
     return (
         <div className="sortNumbers">
@@ -169,9 +151,7 @@ function swapLargest(flag) {
         }
         clearInterval(timer);
         moveVertex(n - 1, v[n - 1]);
-        $('.vlbl')
-            .eq(n - 1)
-            .text(a[n - 1]);
+        $('.vlbl').eq(n - 1).text(a[n - 1]);
         moveVertex(0, v[0]);
         $('.vlbl').eq(0).text(a[0]);
         timer = setTimeout(() => {
@@ -200,8 +180,8 @@ function fall() {
             $('.vlbl:last').attr('y', cy + 7);
         } else {
             clearInterval(timer);
-            $(`g:eq(${0})`).remove();
-            cell[0].innerHTML = a[0];
+            $('.vgrp').eq(0).remove();
+            $('.cell').eq(0).text(a[0]);
         }
     }
 }
@@ -222,21 +202,15 @@ function swap(i, largest, angle) {
         $('.vlbl').eq(i).text(a[i]);
         moveVertex(largest, v[largest]);
         $('.vlbl').eq(largest).text(a[largest]);
-        $('.vrtx').eq(i).attr('fill', 'pink');
-        $('.vrtx').eq(largest).attr('fill', 'plum');
+        $('.vrtx').eq(largest).attr('fill', Colors.compare);
+        $('.vrtx').eq(i).attr('fill', Colors.compare);
         timer = setTimeout(() => {
             $('.vrtx').eq(i).attr('fill', Colors.vertex);
-            $('line')
-                .eq(i * 2)
-                .attr('stroke', Colors.stroke);
+            $('line').eq(i * 2).attr('stroke', Colors.stroke);
             if (i * 2 + 2 < n) {
-                $('line')
-                    .eq(i * 2 + 1)
-                    .attr('stroke', Colors.stroke);
+                $('line').eq(i * 2 + 1).attr('stroke', Colors.stroke);
             }
-            if (i < Math.floor(n / 2)) {
-                heapify(largest);
-            }
+            if (i < Math.floor(n / 2)) heapify(largest);
         }, delay);
     }
 }

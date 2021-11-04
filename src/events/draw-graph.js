@@ -6,9 +6,7 @@ import { Colors } from '../common/constants';
 
 export function drawGraph({ weighted, directed, asyclic }) {
     $('#plane').off();
-    var lastp,
-        prev,
-        flag = false;
+    var lastp, prev, flag;
 
     function isValid(p) {
         let s = new Segment(lastp, p);
@@ -28,6 +26,7 @@ export function drawGraph({ weighted, directed, asyclic }) {
         if (np === 0) {
             addVertex(p, 'A');
             Graph.addPoint(p);
+            flag = false;
             return;
         }
         let k;
@@ -41,10 +40,10 @@ export function drawGraph({ weighted, directed, asyclic }) {
             }
         }
         if (flag) {
+            flag = false;
             $('.vrtx').eq(prev).attr('stroke', '#777');
             if (p.equals(lastp) || !isValid(p)) {
                 $('line:last').remove();
-                flag = false;
                 return;
             }
             $('line:last').attr('x2', p.x);
@@ -52,7 +51,6 @@ export function drawGraph({ weighted, directed, asyclic }) {
             if (k === np) {
                 if (np === 26) {
                     $('line:last').remove();
-                    flag = false;
                     return;
                 }
                 addVertex(p, String.fromCharCode(65 + np));
@@ -69,14 +67,12 @@ export function drawGraph({ weighted, directed, asyclic }) {
                     });
                     $('line:last').remove();
                     Graph.removeSegment(s);
-                    flag = false;
                     return;
                 }
                 let q = fromDistance(lastp, p, 23);
                 $('line:last').attr('x2', q.x);
                 $('line:last').attr('y2', q.y);
             }
-            flag = false;
         } else {
             if (k === np) {
                 if (np < 26) {
