@@ -81,8 +81,7 @@ function extractMax() {
     n--;
     $('.cell').eq(n).text(a[n]);
     if (n > 1) {
-        timer = setTimeout(heapify, delay, 0);
-        k = 0;
+        timer = setTimeout(heapify, delay, k = 0);
     } else {
         timer = setTimeout(() => {
             timer = setInterval(fall, 10);
