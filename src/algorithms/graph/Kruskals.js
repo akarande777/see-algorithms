@@ -6,8 +6,7 @@ import Timer from '../../common/timer';
 import { Colors } from '../../common/constants';
 
 var parent;
-var arr;
-var mst, j;
+var arr, mst, k;
 var delay = 800;
 
 function findParent(q) {
@@ -41,41 +40,41 @@ function start() {
     }
     arr.sort((a, b) => a.w - b.w);
     mst = [];
-    j = 0;
+    k = 0;
     Timer.timeout(find, delay);
 }
 
 function find() {
-    if (j < arr.length) {
-        let p = findParent(arr[j].u);
-        let q = findParent(arr[j].v);
+    if (k < arr.length) {
+        let p = findParent(arr[k].u);
+        let q = findParent(arr[k].v);
         if (p !== q) {
             parent[q] = p;
-            $('.vrtx').eq(arr[j].u).attr('stroke', Colors.visited);
-            $('.vrtx').eq(arr[j].u).attr('fill', Colors.visited);
-            $('.vrtx').eq(arr[j].v).attr('stroke', Colors.visited);
-            $('.vrtx').eq(arr[j].v).attr('fill', Colors.visited);
-            $('.edge').eq(arr[j].i).attr('stroke', Colors.visited);
+            $('.vrtx').eq(arr[k].u).attr('stroke', Colors.visited);
+            $('.vrtx').eq(arr[k].u).attr('fill', Colors.visited);
+            $('.vrtx').eq(arr[k].v).attr('stroke', Colors.visited);
+            $('.vrtx').eq(arr[k].v).attr('fill', Colors.visited);
+            $('.edge').eq(arr[k].i).attr('stroke', Colors.visited);
             Timer.timeout(() => {
-                $('.vrtx').eq(arr[j].u).attr('fill', Colors.vertex);
-                $('.vrtx').eq(arr[j].v).attr('fill', Colors.vertex);
-                mst.push(arr[j++]);
+                $('.vrtx').eq(arr[k].u).attr('fill', Colors.vertex);
+                $('.vrtx').eq(arr[k].v).attr('fill', Colors.vertex);
+                mst.push(arr[k++]);
                 Timer.timeout(find, delay);
             }, delay);
         } else {
-            $('.vrtx').eq(arr[j].u).attr('stroke', '#f44336');
-            $('.vrtx').eq(arr[j].v).attr('stroke', '#f44336');
-            $('.edge').eq(arr[j].i).attr('stroke', '#f44336');
+            $('.vrtx').eq(arr[k].u).attr('stroke', '#f44336');
+            $('.vrtx').eq(arr[k].v).attr('stroke', '#f44336');
+            $('.edge').eq(arr[k].i).attr('stroke', '#f44336');
             Timer.timeout(skip, delay);
         }
     }
 }
 
 function skip() {
-    $('.vrtx').eq(arr[j].u).attr('stroke', Colors.visited);
-    $('.vrtx').eq(arr[j].v).attr('stroke', Colors.visited);
-    $('.edge').eq(arr[j].i).attr('stroke', Colors.rejected);
-    $('.edge').eq(arr[j].i).attr('stroke-dasharray', '8,5');
-    j++;
+    $('.vrtx').eq(arr[k].u).attr('stroke', Colors.visited);
+    $('.vrtx').eq(arr[k].v).attr('stroke', Colors.visited);
+    $('.edge').eq(arr[k].i).attr('stroke', Colors.rejected);
+    $('.edge').eq(arr[k].i).attr('stroke-dasharray', '8,5');
+    k++;
     Timer.timeout(find, delay);
 }
