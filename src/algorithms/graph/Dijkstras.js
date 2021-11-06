@@ -82,19 +82,19 @@ function extractMin() {
     Timer.timeout(span, 10, p, q, d - 2, j, ei);
 }
 
-function span(p, q, d, i, k) {
+function span(p, q, d, j, ei) {
     if (d > 0) {
         let r = fromDistance(p, q, d);
         $('line:last').attr('x2', r.x);
         $('line:last').attr('y2', r.y);
-        Timer.timeout(span, 10, p, q, d - 2, i, k);
+        Timer.timeout(span, 10, p, q, d - 2, j, ei);
     } else {
         $('line:last').remove();
-        $('line').eq(k).attr('stroke', Colors.visited);
-        $('line').eq(k).removeAttr('stroke-dasharray');
-        $('.vrtx').eq(i).attr('stroke', Colors.visited);
+        $('line').eq(ei).attr('stroke', Colors.visited);
+        $('line').eq(ei).removeAttr('stroke-dasharray');
+        $('.vrtx').eq(j).attr('stroke', Colors.visited);
         if (v.length < n) {
-            Timer.timeout(dijkstra, delay / 2, i);
+            Timer.timeout(dijkstra, delay / 2, j);
         }
     }
 }
