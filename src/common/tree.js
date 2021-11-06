@@ -10,7 +10,7 @@ export default {
 
     nodeAt: (index) => arr[index],
 
-    reset() {
+    clear() {
         arr = [];
         subroot = null;
     },
@@ -24,7 +24,7 @@ export default {
     },
 
     shiftNode(i, x) {
-        $('line').eq(i - 1).attr('x2', x);
+        $('.edge').eq(i - 1).attr('x2', x);
         $('.vrtx').eq(i).attr('cx', x);
         $('.vlbl').eq(i).attr('x', x);
     },

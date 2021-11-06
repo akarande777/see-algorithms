@@ -11,7 +11,7 @@ function ConvexHull(props) {
     const [status, setStatus] = useState(0);
 
     const reset = () => {
-        Graph.reset();
+        Graph.clear();
         addPoints();
         randomize();
     };

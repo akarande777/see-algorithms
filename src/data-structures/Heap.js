@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import $ from 'jquery';
 import DataInput from '../components/data-input/data-input';
 import { addVertex, addEdge, fromDistance, moveVertex, distance } from '../common/utils';
-import { Point } from '../common/graph';
 import Tree from '../common/tree';
 import { Colors } from '../common/constants';
 import { wait } from '../common/timer';
@@ -10,7 +9,7 @@ import { wait } from '../common/timer';
 const buttons = [{ text: 'Insert', onClick: input }];
 
 export default function (props) {
-    useEffect(() => Tree.reset(), []);
+    useEffect(() => Tree.clear(), []);
     return <DataInput {...props} buttons={buttons} />;
 }
 
@@ -24,7 +23,7 @@ function input(key) {
     }
     if (!Tree.nodeAt(0)) {
         let root = { key, index: 0 };
-        root.point = new Point(rx, dy);
+        root.point = { x: rx, y: dy };
         addVertex(root.point, key);
         Tree.pushNode(root);
         return Promise.resolve();
@@ -51,7 +50,7 @@ function createNode(key, parent, index) {
         x = p.x + dx;
     }
     y = p.y + dy;
-    let q = new Point(x, y);
+    let q = { x, y };
     node.point = q;
     let left = [1, 3, 4, 7, 8, 9, 10];
     Tree.flag = left.indexOf(index) > -1;
@@ -67,8 +66,8 @@ function createNode(key, parent, index) {
 function span(node, p, q, d) {
     if (d > 0) {
         let r = fromDistance(p, q, d);
-        $('line').eq(node.index - 1).attr('x2', r.x);
-        $('line').eq(node.index - 1).attr('y2', r.y);
+        $('.edge').eq(node.index - 1).attr('x2', r.x);
+        $('.edge').eq(node.index - 1).attr('y2', r.y);
         return wait(10).then(() => span(node, p, q, d - 2));
     } else {
         addVertex(q, node.key, 15);

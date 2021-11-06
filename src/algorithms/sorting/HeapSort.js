@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { createHeap, xco, yco } from '../../helpers/create-heap';
-import { Point } from '../../common/graph';
 import { createTable, moveVertex } from '../../common/utils';
 import $ from 'jquery';
 import Numbers from '../../components/numbers/numbers';
@@ -17,14 +16,15 @@ function heapSort() {
         let t = a[0];
         a[0] = a[n - 1];
         a[n - 1] = t;
-        p = new Point(v[0].x, v[0].y);
-        q = new Point(v[n - 1].x, v[n - 1].y);
+        p = { ...v[0] };
+        q = { ...v[n - 1] };
         let left = [7, 8, 3, 9, 10, 1, 4].indexOf(n - 1);
         let right = [14, 13, 6, 12, 11, 2, 5].indexOf(n - 1);
-        if (left > -1) {
-            timer = setInterval(swapLargest, left, true);
+        flag = left > -1;
+        if (flag) {
+            timer = setInterval(swapLargest, left);
         } else {
-            timer = setInterval(swapLargest, right, false);
+            timer = setInterval(swapLargest, right);
         }
     }
 }
@@ -66,9 +66,9 @@ function heapify(i) {
         k--;
         timer = setTimeout(() => {
             $('.vrtx').eq(i).attr('fill', Colors.vertex);
-            $('line').eq(left - 1).attr('stroke', Colors.stroke);
+            $('.edge').eq(left - 1).attr('stroke', Colors.stroke);
             if (right < n) {
-                $('line').eq(right - 1).attr('stroke', Colors.stroke);
+                $('.edge').eq(right - 1).attr('stroke', Colors.stroke);
             }
             timer = setTimeout(heapSort, delay);
         }, delay);
@@ -76,7 +76,7 @@ function heapify(i) {
 }
 
 function extractMax() {
-    $('line:last').remove();
+    $('.edge:last').remove();
     $('.vgrp:last').remove();
     n--;
     $('.cell').eq(n).text(a[n]);
@@ -127,7 +127,7 @@ function HeapSort() {
     );
 }
 
-function swapLargest(flag) {
+function swapLargest() {
     if (p.y < v[n - 1].y) {
         p.y += 1;
         moveVertex(0, p);
@@ -161,13 +161,13 @@ function swapLargest(flag) {
 
 function fall() {
     if (n > 1) {
-        let y1 = parseInt($('line:last').attr('y1'));
+        let y1 = parseInt($('.edge:last').attr('y1'));
         if (y1 < 300) {
-            $('line:last').attr('y1', y1 + 1);
+            $('.edge:last').attr('y1', y1 + 1);
             let cy = parseInt($('.vrtx:last').attr('cy'));
             $('.vrtx:last').attr('cy', cy + 1);
             $('.vlbl:last').attr('y', cy + 6);
-            $('line:last').attr('y2', cy + 1);
+            $('.edge:last').attr('y2', cy + 1);
         } else {
             clearInterval(timer);
             extractMax();
@@ -187,13 +187,14 @@ function fall() {
 
 function swap(i, largest, angle) {
     if (p.y < v[largest].y) {
-        let x1 = xco(angle, 1, p.x, flag);
-        let y1 = yco(angle, 1, p.y);
-        p = new Point(x1, y1);
+        let x, y;
+        x = xco(angle, 1, p.x, flag);
+        y = yco(angle, 1, p.y);
+        p = { x, y };
         moveVertex(i, p);
-        let x2 = xco(angle, -1, q.x, flag);
-        let y2 = yco(angle, -1, q.y);
-        q = new Point(x2, y2);
+        x = xco(angle, -1, q.x, flag);
+        y = yco(angle, -1, q.y);
+        q = { x, y };
         moveVertex(largest, q);
     } else {
         clearInterval(timer);
@@ -205,9 +206,9 @@ function swap(i, largest, angle) {
         $('.vrtx').eq(i).attr('fill', Colors.compare);
         timer = setTimeout(() => {
             $('.vrtx').eq(i).attr('fill', Colors.vertex);
-            $('line').eq(i * 2).attr('stroke', Colors.stroke);
+            $('.edge').eq(i * 2).attr('stroke', Colors.stroke);
             if (i * 2 + 2 < n) {
-                $('line').eq(i * 2 + 1).attr('stroke', Colors.stroke);
+                $('.edge').eq(i * 2 + 1).attr('stroke', Colors.stroke);
             }
             if (i < Math.floor(n / 2)) heapify(largest);
         }, delay);

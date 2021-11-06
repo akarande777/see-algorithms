@@ -40,15 +40,14 @@ function DrawGraph(props) {
         setStatus(1);
     };
 
-    const options = () => ({
+    const config = () => ({
         weighted: props.isMST || props.weighted || false,
-        directed: directed,
-        asyclic: props.isDAG || false,
+        acyclic: props.isDAG || false,
     });
 
     const reset = () => {
-        Graph.reset(directed);
-        drawGraph(options());
+        Graph.clear();
+        drawGraph(config());
     };
 
     const clear = () => {
@@ -81,7 +80,7 @@ function DrawGraph(props) {
     useEffect(() => {
         if (directed !== Graph.isDirected()) {
             Graph.switchType();
-            drawGraph(options());
+            drawGraph(config());
             if (directed) {
                 $('.edge').each(function (i) {
                     let s = Graph.segment(i);

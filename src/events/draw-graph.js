@@ -1,32 +1,29 @@
 import $ from 'jquery';
-import { distance, addVertex, addEdge, offset, fromDistance } from '../common/utils';
+import { distance, addVertex, addEdge, withOffset, fromDistance } from '../common/utils';
 import Graph, { Point, Segment } from '../common/graph';
 import { showToast } from '../components/toast/toast';
 import { Colors } from '../common/constants';
 
-export function drawGraph({ weighted, directed, asyclic }) {
+export function drawGraph({ weighted, acyclic }) {
     $('#plane').off();
-    var lastp, prev, flag;
+    var lastp, prev, flag = false;
 
     function isValid(p) {
         let s = new Segment(lastp, p);
-        let ns = Graph.totalSegments();
-        for (let i = 0; i < ns; i++) {
-            if (s.overlaps(Graph.segment(i))) {
-                return false;
-            }
+        for (let i = 0; i < Graph.totalSegments(); i++) {
+            let si = Graph.segment(i);
+            if (s.overlaps(si)) return false;
         }
         return true;
     }
 
     $('#plane').on('click', function (e) {
         e.preventDefault();
-        let p = new Point(offset(e).x, offset(e).y);
+        let p = new Point(...withOffset(e));
         let np = Graph.totalPoints();
         if (np === 0) {
             addVertex(p, 'A');
             Graph.addPoint(p);
-            flag = false;
             return;
         }
         let k;
@@ -41,16 +38,16 @@ export function drawGraph({ weighted, directed, asyclic }) {
         }
         if (flag) {
             flag = false;
-            $('.vrtx').eq(prev).attr('stroke', '#777');
+            $('.vrtx').eq(prev).attr('stroke', Colors.stroke);
             if (p.equals(lastp) || !isValid(p)) {
-                $('line:last').remove();
+                $('.edge:last').remove();
                 return;
             }
-            $('line:last').attr('x2', p.x);
-            $('line:last').attr('y2', p.y);
+            $('.edge:last').attr('x2', p.x);
+            $('.edge:last').attr('y2', p.y);
             if (k === np) {
                 if (np === 26) {
-                    $('line:last').remove();
+                    $('.edge:last').remove();
                     return;
                 }
                 addVertex(p, String.fromCharCode(65 + np));
@@ -58,20 +55,20 @@ export function drawGraph({ weighted, directed, asyclic }) {
             }
             let s = new Segment(lastp, p);
             Graph.addSegment(s);
-            weighted && addCost(p, lastp);
-            if (directed) {
-                if (asyclic && Graph.hasCycle()) {
+            if (weighted) addCost(p, lastp);
+            if (Graph.isDirected()) {
+                if (acyclic && Graph.hasCycle()) {
                     showToast({
                         message: 'Please draw acyclic graph',
                         variant: 'error',
                     });
-                    $('line:last').remove();
+                    $('.edge:last').remove();
                     Graph.removeSegment(s);
                     return;
                 }
                 let q = fromDistance(lastp, p, 23);
-                $('line:last').attr('x2', q.x);
-                $('line:last').attr('y2', q.y);
+                $('.edge:last').attr('x2', q.x);
+                $('.edge:last').attr('y2', q.y);
             }
         } else {
             if (k === np) {
@@ -82,8 +79,8 @@ export function drawGraph({ weighted, directed, asyclic }) {
             } else {
                 addEdge(p, p);
                 $('.vrtx').eq(k).attr('stroke', Colors.visited);
-                if (directed) {
-                    $('line:last').attr('marker-end', 'url(#arrow)');
+                if (Graph.isDirected()) {
+                    $('.edge:last').attr('marker-end', 'url(#arrow)');
                 }
                 lastp = p;
                 prev = k;
@@ -95,17 +92,17 @@ export function drawGraph({ weighted, directed, asyclic }) {
     $('#plane').on('mousemove', function (e) {
         e.preventDefault();
         if (flag) {
-            let p = new Point(offset(e).x, offset(e).y);
-            $('line:last').attr('x2', p.x);
-            $('line:last').attr('y2', p.y);
+            let p = new Point(...withOffset(e));
+            $('.edge:last').attr('x2', p.x);
+            $('.edge:last').attr('y2', p.y);
         }
     });
 
     $('#plane').on('mouseleave', function (e) {
         e.preventDefault();
         if (flag) {
-            $('line:last').remove();
-            $('.vrtx').eq(prev).attr('stroke', '#777');
+            $('.edge:last').remove();
+            $('.vrtx').eq(prev).attr('stroke', Colors.stroke);
             flag = false;
         }
     });
@@ -118,5 +115,5 @@ function addCost(p, q) {
                 ${Math.round(distance(p, q) / 20)}
             </p>
         </foreignObject>`;
-    document.querySelector('#plane').innerHTML += element;
+    document.getElementById('plane').innerHTML += element;
 }

@@ -10,6 +10,8 @@ export default {
         matrix.push([]);
     },
 
+    setPoint: (i, pnt) => void (points[i] = pnt),
+
     position(segment) {
         let i = points.findIndex((p) => p.equals(segment.p));
         let j = points.findIndex((p) => p.equals(segment.q));
@@ -36,12 +38,11 @@ export default {
 
     edgeIndex: (i, j) => matrix[i][j],
 
-    reset(type) {
+    clear() {
         points = [];
         segments = [];
         matrix = [];
         steps = [];
-        directed = Boolean(type);
     },
 
     forEach(callback) {

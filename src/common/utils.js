@@ -13,23 +13,24 @@ function fromDistance(start, end, distance) {
     let ratio = distance / z;
     let deltaX = x * ratio;
     let deltaY = y * ratio;
-    return new Point(end.x - deltaX, end.y - deltaY);
+    return { x: end.x - deltaX, y: end.y - deltaY };
 }
 
 const mouseEvents = ['click', 'mousedown', 'mouseup', 'mousemove', 'mouseenter', 'mouseleave'];
 const touchEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
 
-function offset(e) {
+function withOffset(e) {
     let out = { x: 0, y: 0 };
+    let { left, top } = $('#plane').offset();
     if (touchEvents.includes(e.type)) {
         let touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-        out.x = touch.pageX - $('#plane').offset().left;
-        out.y = touch.pageY - $('#plane').offset().top;
+        out.x = touch.pageX - left;
+        out.y = touch.pageY - top;
     } else if (mouseEvents.includes(e.type)) {
-        out.x = e.pageX - $('#plane').offset().left;
-        out.y = e.pageY - $('#plane').offset().top;
+        out.x = e.pageX - left;
+        out.y = e.pageY - top;
     }
-    return out;
+    return [out.x, out.y];
 }
 
 function addVertex(p, vlbl) {
@@ -38,7 +39,7 @@ function addVertex(p, vlbl) {
     }" stroke-width="2" fill="${Colors.vertex}" /><text class="vlbl" x="${p.x}" y="${
         p.y + 5
     }" text-anchor="middle" style="cursor:pointer">${vlbl}</text></g>`;
-    document.querySelector('#plane').innerHTML += vrtx;
+    document.getElementById('plane').innerHTML += vrtx;
 }
 
 function moveVertex(i, r) {
@@ -50,13 +51,13 @@ function moveVertex(i, r) {
 
 function addEdge(p, q) {
     let edge = `<line class="edge" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke-width="2" stroke="${Colors.stroke}" />`;
-    document.querySelector('#plane').innerHTML += edge;
+    document.getElementById('plane').innerHTML += edge;
     $('line:last').insertBefore($('.vgrp:first'));
 }
 
 function cloneEdge(i, j) {
     let edge = `<line stroke-width="3" stroke="${Colors.visited}" />`;
-    document.querySelector('#plane').innerHTML += edge;
+    document.getElementById('plane').innerHTML += edge;
     $('line:last').insertBefore($('.vgrp:first'));
     let p, q;
     let segment = Graph.segment(j);
@@ -83,8 +84,8 @@ export const createTable = (m, n, id) => {
             cell.setAttribute('class', 'cell');
             row.appendChild(cell);
         }
-        $(id || '#tbl').append(row);
+        $(`#${id || 'tbl'}`).append(row);
     }
 };
 
-export { distance, fromDistance, offset, addVertex, moveVertex, addEdge, cloneEdge };
+export { distance, fromDistance, withOffset, addVertex, moveVertex, addEdge, cloneEdge };

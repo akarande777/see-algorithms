@@ -1,13 +1,13 @@
 import React from 'react';
 import { fromDistance, distance, createTable } from '../../common/utils';
-import Graph, { Point } from '../../common/graph';
+import Graph from '../../common/graph';
 import DrawGraph from '../../components/draw-graph/draw-graph';
 import $ from 'jquery';
 import Timer from '../../common/timer';
 import { Colors } from '../../common/constants';
 
-var n, k, cells;
-var ind, stack;
+var cells, n;
+var ind, stack, k;
 var delay = 500;
 
 export default function (props) {
@@ -45,7 +45,7 @@ function sort() {
                 let p = Graph.point(i);
                 let x2 = $(`line:eq(${ei})`).attr('x2');
                 let y2 = $(`line:eq(${ei})`).attr('y2');
-                let q = new Point(x2, y2);
+                let q = { x: x2, y: y2 };
                 $(`line:eq(${ei})`).attr('stroke', Colors.visited);
                 let d = distance(p, q);
                 Timer.timeout(() => {
@@ -62,7 +62,7 @@ function sort() {
         }
     } else {
         setTimeout(() => {
-            document.querySelector('#clear').click();
+            document.getElementById('clear').click();
         }, delay);
     }
 }

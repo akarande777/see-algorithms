@@ -45,7 +45,7 @@ function prim() {
         if (mst.indexOf(k) === -1 && w[i][k] !== Infinity) {
             let ei = Graph.edgeIndex(i, k);
             $('.edge').eq(ei).attr('stroke', Colors.enqueue);
-            $('.edge').eq(ei).attr('stroke-dasharray', '8,5');
+            $('.edge').eq(ei).attr('stroke-dasharray', '8,4');
             $('.vrtx').eq(k).attr('stroke', Colors.enqueue);
         }
     }

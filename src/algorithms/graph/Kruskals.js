@@ -74,7 +74,7 @@ function skip() {
     $('.vrtx').eq(arr[k].u).attr('stroke', Colors.visited);
     $('.vrtx').eq(arr[k].v).attr('stroke', Colors.visited);
     $('.edge').eq(arr[k].i).attr('stroke', Colors.rejected);
-    $('.edge').eq(arr[k].i).attr('stroke-dasharray', '8,5');
+    $('.edge').eq(arr[k].i).attr('stroke-dasharray', '8,4');
     k++;
     Timer.timeout(find, delay);
 }

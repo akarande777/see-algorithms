@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { distance, offset } from '../common/utils';
+import { distance, withOffset } from '../common/utils';
 import Graph, { Point, Segment } from '../common/graph';
 import { Colors } from '../common/constants';
 
@@ -30,12 +30,11 @@ var left, p, q;
 
 export function addPoints(cvx) {
     convex = cvx;
-    var flag = false;
-    var k;
+    var flag, k;
 
     $('#plane').on('mousedown', function (e) {
         e.preventDefault();
-        let p = new Point(offset(e).x, offset(e).y);
+        let p = new Point(...withOffset(e));
         let np = Graph.totalPoints();
         for (let i = 0; i < np; i++) {
             if (distance(p, Graph.point(i)) < 8) {
@@ -46,16 +45,27 @@ export function addPoints(cvx) {
         }
         print(p);
         if (convex) {
-            let cl = convex.length;
-            for (let i = 0; i < cl; i++) {
+            let size = convex.length;
+            for (let i = 0; i < size; i++) {
                 let u = Graph.point(convex[i]);
-                let v = Graph.point(convex[(i + 1) % cl]);
+                let v = Graph.point(convex[(i + 1) % size]);
                 let s = new Segment(u, v);
                 if (s.orientation(p) === 1) {
                     newConvex();
                     break;
                 }
             }
+        }
+    });
+
+    $('#plane').on('mousemove', function (e) {
+        e.preventDefault();
+        if (flag) {
+            let p = new Point(...withOffset(e));
+            $('.vrtx').eq(k).attr('cx', p.x);
+            $('.vrtx').eq(k).attr('cy', p.y);
+            Graph.setPoint(k, p);
+            if (convex) newConvex();
         }
     });
 
@@ -96,7 +106,7 @@ function convexHull() {
         let u = Graph.point(p);
         let v = Graph.point(q);
         let edge = `<line x1="${u.x}" y1="${u.y}" x2="${v.x}" y2="${v.y}" stroke-width="2" stroke="${Colors.visited}" />`;
-        document.querySelector('#plane').innerHTML += edge;
+        document.getElementById('plane').innerHTML += edge;
         p = q;
     } while (p !== left);
 }

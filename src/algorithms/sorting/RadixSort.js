@@ -109,7 +109,7 @@ function RadixSort() {
 
     const start = () => {
         createTable(1, n);
-        createTable(2, 10, '#bkt');
+        createTable(2, 10, 'bkt');
         cells = document.querySelectorAll('.cell');
         for (let i = 0; i < n; i++) {
             cells[i].innerHTML = a[i];
