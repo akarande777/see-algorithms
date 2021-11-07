@@ -33,7 +33,7 @@ function jloop() {
         prev = pos;
         pos = j;
         clearInterval(timer);
-        timer = setTimeout(pick, delay / 2);
+        timer = setTimeout(select, delay / 2);
     }
     if (j === n) {
         clearInterval(timer);
@@ -43,7 +43,7 @@ function jloop() {
     j++;
 }
 
-function pick() {
+function select() {
     cells[prev + n].innerHTML = a[prev];
     cells[prev].innerHTML = '';
     cells[prev].removeAttribute('bgcolor');
