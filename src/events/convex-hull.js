@@ -30,7 +30,7 @@ var left, p, q;
 
 export function addPoints(cvx) {
     convex = cvx;
-    var flag, k;
+    var flag = false, k;
 
     $('#plane').on('mousedown', function (e) {
         e.preventDefault();
