@@ -20,10 +20,11 @@ function heapSort() {
         q = { ...v[n - 1] };
         let left = [7, 8, 3, 9, 10, 1, 4].indexOf(n - 1);
         let right = [14, 13, 6, 12, 11, 2, 5].indexOf(n - 1);
-        flag = left > -1;
-        if (flag) {
+        if (left > -1) {
+            flag = true;
             timer = setInterval(swapLargest, left);
         } else {
+            flag = false;
             timer = setInterval(swapLargest, right);
         }
     }

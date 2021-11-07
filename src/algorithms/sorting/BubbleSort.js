@@ -22,9 +22,9 @@ function iloop() {
 
 function jloop() {
     if (j < n - i - 1) {
-        cells[j + n - 1].removeAttribute('bgcolor');
         cells[j + n].setAttribute('bgcolor', Colors.compare);
         cells[j + n + 1].setAttribute('bgcolor', Colors.compare);
+        cells[j + n - 1].removeAttribute('bgcolor');
         if (a[j + 1] < a[j]) {
             timer = setTimeout(swap, delay);
             swaps++;
@@ -35,8 +35,8 @@ function jloop() {
     } else {
         cells[j + n - 1].removeAttribute('bgcolor');
         cells[j + n].setAttribute('bgcolor', Colors.sorted);
-        iloop();
         i++;
+        iloop();
     }
 }
 
