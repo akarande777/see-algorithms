@@ -5,17 +5,13 @@ import $ from 'jquery';
 import Timer from '../../common/timer';
 import { Colors } from '../../common/constants';
 
-var parent;
-var arr, mst, k;
-var delay = 800;
-
-function findParent(q) {
-    return parent[q] === q ? q : findParent(parent[q]);
-}
-
 export default function (props) {
     return <DrawGraph {...props} start={start} isMST={true} customSource={false} />;
 }
+
+var parent;
+var arr, mst, k;
+var delay = 800;
 
 function start() {
     arr = [];
@@ -77,4 +73,8 @@ function skip() {
     $('.edge').eq(arr[k].i).attr('stroke-dasharray', '8,4');
     k++;
     Timer.timeout(find, delay);
+}
+
+function findParent(q) {
+    return parent[q] === q ? q : findParent(parent[q]);
 }

@@ -5,12 +5,12 @@ import $ from 'jquery';
 import Timer from '../../common/timer';
 import { Colors } from '../../common/constants';
 
-var cvx, left, p, q;
-var delay = 400;
-
 export default function (props) {
     return <ConvexHull {...props} start={start} />;
 }
+
+var cvx, left, p, q;
+var delay = 400;
 
 function start() {
     cvx = [];

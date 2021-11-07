@@ -6,14 +6,13 @@ import $ from 'jquery';
 import Timer from '../../common/timer';
 import { Colors } from '../../common/constants';
 
-var stack;
-var v, i;
-var prev, k;
-var delay = 500;
-
 export default function (props) {
     return <DrawGraph {...props} start={start} />;
 }
+
+var stack;
+var v, i, prev, k;
+var delay = 500;
 
 function start(source) {
     v = [source];

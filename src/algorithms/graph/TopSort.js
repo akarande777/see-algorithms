@@ -6,13 +6,13 @@ import $ from 'jquery';
 import Timer from '../../common/timer';
 import { Colors } from '../../common/constants';
 
-var cells, n;
-var ind, stack, k;
-var delay = 500;
-
 export default function (props) {
     return <DrawGraph {...props} start={start} isDAG={true} />;
 }
+
+var cells, n;
+var ind, stack, k;
+var delay = 500;
 
 function start() {
     n = Graph.totalPoints();

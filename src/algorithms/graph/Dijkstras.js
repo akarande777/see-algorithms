@@ -6,14 +6,14 @@ import $ from 'jquery';
 import Timer from '../../common/timer';
 import { Colors } from '../../common/constants';
 
+export default function (props) {
+    return <DrawGraph {...props} start={start} weighted={true} />;
+}
+
 var n, w;
 var d, queue;
 var v, prev;
 var delay = 1000;
-
-export default function (props) {
-    return <DrawGraph {...props} start={start} weighted={true} />;
-}
 
 function start(source) {
     n = Graph.totalPoints();
