@@ -16,7 +16,7 @@ function iloop() {
         j = i + 1;
         timer = setTimeout(function () {
             cells[i].innerHTML = a[i];
-            cells[i].setAttribute('bgcolor', Colors.sorted);
+            cells[i].setAttribute('bgcolor', Colors.compare);
             cells[i + n].innerHTML = '';
             cells[i + n].removeAttribute('bgcolor');
             timer = setInterval(jloop, delay / 2);
@@ -41,6 +41,21 @@ function jloop() {
         timer = setTimeout(swapInit, delay);
     }
     j++;
+}
+
+function pick() {
+    cells[prev + n].innerHTML = a[prev];
+    cells[prev].innerHTML = '';
+    cells[prev].removeAttribute('bgcolor');
+    cells[pos].innerHTML = a[pos];
+    cells[pos].setAttribute('bgcolor', Colors.compare);
+    cells[pos + n].innerHTML = '';
+    cells[pos + n].removeAttribute('bgcolor');
+    if (j >= n) {
+        timer = setTimeout(swapInit, delay / 2);
+    } else {
+        timer = setInterval(jloop, delay / 2);
+    }
 }
 
 function SelectionSort() {
@@ -73,21 +88,6 @@ function SelectionSort() {
     );
 }
 
-function pick() {
-    cells[prev + n].innerHTML = a[prev];
-    cells[prev].innerHTML = '';
-    cells[prev].removeAttribute('bgcolor');
-    cells[pos].innerHTML = a[pos];
-    cells[pos].setAttribute('bgcolor', Colors.sorted);
-    cells[pos + n].innerHTML = '';
-    cells[pos + n].removeAttribute('bgcolor');
-    if (j >= n) {
-        timer = setTimeout(swapInit, delay / 2);
-    } else {
-        timer = setInterval(jloop, delay / 2);
-    }
-}
-
 function swapInit() {
     if (pos !== i) {
         cells[i + n + n].innerHTML = a[i];
@@ -108,7 +108,7 @@ function swapInit() {
 
 function swap() {
     cells[pos - k].innerHTML = a[pos];
-    cells[pos - k].setAttribute('bgcolor', Colors.sorted);
+    cells[pos - k].setAttribute('bgcolor', Colors.compare);
     cells[pos - k + 1].innerHTML = '';
     cells[pos - k + 1].removeAttribute('bgcolor');
     let npn = i + n + n;
