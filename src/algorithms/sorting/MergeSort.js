@@ -4,7 +4,7 @@ import { Colors } from '../../common/constants';
 import Timer, { wait } from '../../common/timer';
 import { createTable } from '../../common/utils';
 
-var n, a, cells;
+var a, n, cells;
 var mid, p, q, s;
 var t, r, k;
 var delay = 800;
@@ -33,53 +33,6 @@ function shiftInit(i) {
     cells[i].removeAttribute('bgcolor');
     k = i;
     return wait(100).then(shift);
-}
-
-function shift() {
-    if (k < r) {
-        cells[k + n + 1].innerHTML = t[r];
-        cells[k + n + 1].setAttribute('bgcolor', Colors.compare);
-        cells[k + n].innerHTML = '';
-        cells[k + n].removeAttribute('bgcolor');
-        k++;
-        return wait(100).then(shift);
-    } else if (k > r) {
-        cells[k + n - 1].innerHTML = t[r];
-        cells[k + n - 1].setAttribute('bgcolor', Colors.compare);
-        cells[k + n].innerHTML = '';
-        cells[k + n].removeAttribute('bgcolor');
-        k--;
-        return wait(100).then(shift);
-    } else {
-        return wait(200).then(() => {
-            cells[r + n + n].innerHTML = t[r];
-            cells[r + n + n].setAttribute('bgcolor', Colors.sorted);
-            cells[r + n].innerHTML = '';
-            cells[r + n].removeAttribute('bgcolor');
-            r++;
-            return wait(delay).then(merge);
-        });
-    }
-}
-
-function lift(u, v) {
-    if (u - n > -1) {
-        for (let i = u; i <= v; i++) {
-            cells[i - n].innerHTML = cells[i].innerHTML;
-            cells[i - n].setAttribute('bgcolor', Colors.sorted);
-            cells[i].removeAttribute('bgcolor');
-            cells[i].innerHTML = '';
-        }
-        return wait(100).then(() => lift(u - n, v - n));
-    } else {
-        return wait(delay / 2).then(() => {
-            for (let i = u; i <= v; i++) {
-                cells[i].removeAttribute('bgcolor');
-                cells[i + n + n].style.border = 0;
-                a[i] = t[i];
-            }
-        });
-    }
 }
 
 function mergeSort(start, end) {
@@ -147,6 +100,53 @@ function MergeSort() {
             <table id="tbl" />
         </div>
     );
+}
+
+function shift() {
+    if (k < r) {
+        cells[k + n + 1].innerHTML = t[r];
+        cells[k + n + 1].setAttribute('bgcolor', Colors.compare);
+        cells[k + n].innerHTML = '';
+        cells[k + n].removeAttribute('bgcolor');
+        k++;
+        return wait(100).then(shift);
+    } else if (k > r) {
+        cells[k + n - 1].innerHTML = t[r];
+        cells[k + n - 1].setAttribute('bgcolor', Colors.compare);
+        cells[k + n].innerHTML = '';
+        cells[k + n].removeAttribute('bgcolor');
+        k--;
+        return wait(100).then(shift);
+    } else {
+        return wait(200).then(() => {
+            cells[r + n + n].innerHTML = t[r];
+            cells[r + n + n].setAttribute('bgcolor', Colors.sorted);
+            cells[r + n].innerHTML = '';
+            cells[r + n].removeAttribute('bgcolor');
+            r++;
+            return wait(delay).then(merge);
+        });
+    }
+}
+
+function lift(u, v) {
+    if (u - n > -1) {
+        for (let i = u; i <= v; i++) {
+            cells[i - n].innerHTML = cells[i].innerHTML;
+            cells[i - n].setAttribute('bgcolor', Colors.sorted);
+            cells[i].removeAttribute('bgcolor');
+            cells[i].innerHTML = '';
+        }
+        return wait(100).then(() => lift(u - n, v - n));
+    } else {
+        return wait(delay / 2).then(() => {
+            for (let i = u; i <= v; i++) {
+                cells[i].removeAttribute('bgcolor');
+                cells[i + n + n].style.border = 0;
+                a[i] = t[i];
+            }
+        });
+    }
 }
 
 export default MergeSort;

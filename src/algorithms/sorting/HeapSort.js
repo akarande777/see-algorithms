@@ -75,20 +75,6 @@ function heapify(i) {
     }
 }
 
-function extractMax() {
-    $('.edge:last').remove();
-    $('.vgrp:last').remove();
-    n--;
-    $('.cell').eq(n).text(a[n]);
-    if (n > 1) {
-        timer = setTimeout(heapify, delay, k = 0);
-    } else {
-        timer = setTimeout(() => {
-            timer = setInterval(fall, 10);
-        }, delay);
-    }
-}
-
 function HeapSort() {
     const start = (values) => {
         a = [...values];
@@ -125,6 +111,36 @@ function HeapSort() {
             </div>
         </div>
     );
+}
+
+function swap(i, largest, angle) {
+    if (p.y < v[largest].y) {
+        let x, y;
+        x = xco(angle, 1, p.x, flag);
+        y = yco(angle, 1, p.y);
+        p = { x, y };
+        moveVertex(i, p);
+        x = xco(angle, -1, q.x, flag);
+        y = yco(angle, -1, q.y);
+        q = { x, y };
+        moveVertex(largest, q);
+    } else {
+        clearInterval(timer);
+        moveVertex(i, v[i]);
+        $('.vlbl').eq(i).text(a[i]);
+        moveVertex(largest, v[largest]);
+        $('.vlbl').eq(largest).text(a[largest]);
+        $('.vrtx').eq(largest).attr('fill', Colors.compare);
+        $('.vrtx').eq(i).attr('fill', Colors.compare);
+        timer = setTimeout(() => {
+            $('.vrtx').eq(i).attr('fill', Colors.vertex);
+            $('.edge').eq(i * 2).attr('stroke', Colors.stroke);
+            if (i * 2 + 2 < n) {
+                $('.edge').eq(i * 2 + 1).attr('stroke', Colors.stroke);
+            }
+            if (i < Math.floor(n / 2)) heapify(largest);
+        }, delay);
+    }
 }
 
 function swapLargest() {
@@ -185,32 +201,16 @@ function fall() {
     }
 }
 
-function swap(i, largest, angle) {
-    if (p.y < v[largest].y) {
-        let x, y;
-        x = xco(angle, 1, p.x, flag);
-        y = yco(angle, 1, p.y);
-        p = { x, y };
-        moveVertex(i, p);
-        x = xco(angle, -1, q.x, flag);
-        y = yco(angle, -1, q.y);
-        q = { x, y };
-        moveVertex(largest, q);
+function extractMax() {
+    $('.edge:last').remove();
+    $('.vgrp:last').remove();
+    n--;
+    $('.cell').eq(n).text(a[n]);
+    if (n > 1) {
+        timer = setTimeout(heapify, delay, k = 0);
     } else {
-        clearInterval(timer);
-        moveVertex(i, v[i]);
-        $('.vlbl').eq(i).text(a[i]);
-        moveVertex(largest, v[largest]);
-        $('.vlbl').eq(largest).text(a[largest]);
-        $('.vrtx').eq(largest).attr('fill', Colors.compare);
-        $('.vrtx').eq(i).attr('fill', Colors.compare);
         timer = setTimeout(() => {
-            $('.vrtx').eq(i).attr('fill', Colors.vertex);
-            $('.edge').eq(i * 2).attr('stroke', Colors.stroke);
-            if (i * 2 + 2 < n) {
-                $('.edge').eq(i * 2 + 1).attr('stroke', Colors.stroke);
-            }
-            if (i < Math.floor(n / 2)) heapify(largest);
+            timer = setInterval(fall, 10);
         }, delay);
     }
 }

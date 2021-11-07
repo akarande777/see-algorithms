@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Select, MenuItem } from '@material-ui/core';
 import { createTable } from '../../common/utils';
 
-var n, a, cells;
+var a, n, cells;
 var out, b, k;
 var max, exp;
 var timer;
