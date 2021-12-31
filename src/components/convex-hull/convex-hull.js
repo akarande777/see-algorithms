@@ -4,7 +4,7 @@ import { PlayArrow, Pause } from '@material-ui/icons';
 // import './draw-graph.scss';
 import Graph from '../../common/graph';
 import $ from 'jquery';
-import { addPoints, randomize } from '../../events/convex-hull';
+import { addPoints, randomize } from '../../algorithms/convex-hull';
 import Timer from '../../common/timer';
 
 function ConvexHull(props) {

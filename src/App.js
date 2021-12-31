@@ -1,45 +1,76 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './App.scss';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { Grid, Drawer } from '@material-ui/core';
 import Header from './components/header/header';
 import Sider from './components/sider/sider';
 import Content from './components/content/content';
-import Toast from './components/toast/toast';
+import Toast, { showToast } from './components/toast/toast';
 import Menu from './components/menu/menu';
-import { auth } from './services/firebase';
-import { createUserProfileDoc } from './services/auth';
+import { AppContext } from './common/context';
+import { gql, useQuery } from '@apollo/client';
+import Spinner from './components/spinner/spinner';
 
-export const AppContext = createContext({});
+const initialState = {
+    userAuth: null,
+};
+
+const GET_ALGORITHMS = gql`
+    query {
+        getAlgorithms {
+            data {
+                catId
+                catName
+                algorithms {
+                    algoId
+                    algoName
+                    pathId
+                }
+            }
+            status
+            message
+        }
+    }
+`;
 
 function App() {
+    const [state, setState] = useState(initialState);
     const [visible, setVisible] = useState(false);
-    const [user, setUser] = useState(null);
+    const [categories, setCategories] = useState([]);
+    const { loading, data } = useQuery(GET_ALGORITHMS);
+
+    const setContext = useCallback(
+        (slice) => {
+            setState({ ...state, ...slice });
+        },
+        [state]
+    );
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(async (userAuth) => {
-            console.log('user auth', userAuth);
-            if (userAuth && userAuth.emailVerified) {
-                const userRef = await createUserProfileDoc(userAuth);
-                userRef.onSnapshot((snapshot) => {
-                    setUser({
-                        id: snapshot.id,
-                        ...snapshot.data(),
-                    });
-                });
-            }
-            setUser(null);
-        });
-        return () => unsubscribe();
+        const userAuth = localStorage.getItem('userAuth');
+        if (userAuth) {
+            setContext({ userAuth: JSON.parse(userAuth) });
+        }
     }, []);
 
+    useEffect(() => {
+        if (data) {
+            const { data: items, status, message } = data.getAlgorithms;
+            if (status) {
+                setCategories(items);
+            } else {
+                showToast({ message, variant: 'error' });
+            }
+        }
+    }, [data]);
+
     return (
-        <AppContext.Provider value={{ user }}>
-            <div className="App">
+        <AppContext.Provider value={{ ...state, setContext }}>
+            <Spinner spinning={loading} className="App">
                 <Toast />
                 <Menu />
                 <Header toggleMenu={() => setVisible(!visible)} />
-                <HashRouter>
+                <BrowserRouter>
                     <Drawer
                         anchor="left"
                         open={visible}
@@ -48,18 +79,18 @@ function App() {
                         PaperProps={{ className: 'paper' }}
                         BackdropProps={{ className: 'backdrop' }}
                     >
-                        <Sider onClose={() => setVisible(false)} />
+                        <Sider categories={categories} onClose={() => setVisible(false)} />
                     </Drawer>
                     <Grid container className="layout">
                         <Grid item xs="auto" className="d-none d-md-block sider">
-                            <Sider onClose={() => null} />
+                            <Sider categories={categories} onClose={() => {}} />
                         </Grid>
                         <Grid item xs className="content">
-                            <Content visible={visible} />
+                            <Content categories={categories} visible={visible} />
                         </Grid>
                     </Grid>
-                </HashRouter>
-            </div>
+                </BrowserRouter>
+            </Spinner>
         </AppContext.Provider>
     );
 }

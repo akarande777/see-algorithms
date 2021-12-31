@@ -5,7 +5,7 @@ import { showToast } from '../toast/toast';
 import './draw-graph.scss';
 import Graph from '../../common/graph';
 import $ from 'jquery';
-import { drawGraph } from '../../events/draw-graph';
+import { drawGraph } from '../../algorithms/draw-graph';
 import { fromDistance } from '../../common/utils';
 import Timer from '../../common/timer';
 

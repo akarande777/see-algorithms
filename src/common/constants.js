@@ -24,8 +24,6 @@ export const DataStructures = [
     { value: 'bst', label: 'Binary Search Tree' },
 ];
 
-export const AppDomain = 'https://see-algorithms.vercel.app';
-
 export const Colors = {
     compare: '#ffb74d',
     sorted: '#81c784',

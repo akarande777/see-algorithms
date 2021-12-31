@@ -1,86 +1,97 @@
-import React, { useState } from 'react';
-import { TextField, Button, Link } from '@material-ui/core';
-import './register.scss';
+import React, { useEffect, useRef, useState } from 'react';
+import { TextField, Button } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+import { gql, useMutation } from '@apollo/client';
+import { Form, FormField } from 'react-form-decorator';
+import { showToast } from '../toast/toast';
+import Spinner from '../spinner/spinner';
+
+const REGISTER = gql`
+    mutation Register($email: String!, $password: String!, $displayName: String!) {
+        register(email: $email, password: $password, displayName: $displayName) {
+            status
+            message
+        }
+    }
+`;
 
 function RegisterForm(props) {
-    const [values, setValues] = useState({
-        email: '',
-        password: '',
-        password2: '',
-        displayName: '',
-    });
+    const formRef = useRef(null);
+    const [register, { data, loading }] = useMutation(REGISTER);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        if (data) {
+            const { status, message } = data.register;
+            console.log(message);
+            if (status) {
+                showToast({
+                    message: 'Verification email sent!',
+                    variant: 'success',
+                });
+                props.toLogin();
+            } else {
+                setError(message);
+            }
+        }
+    }, [data]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Received values of form: ', values);
-        props.register(values);
+        formRef.current.validateForm().then((values) => {
+            const { password2, ...rest } = values;
+            register({ variables: rest });
+        });
     };
 
-    const handleChange = (key, value) => {
-        setValues({ ...values, [key]: value });
-    };
-
-    const comparePassword = () => {
-        const { password2, password } = values;
-        if (password2 && password2 !== password) {
-            return 'Passwords do not match!';
+    const comparePassword = (value) => {
+        const { input } = formRef.current.formState;
+        if (value !== input.password) {
+            return ['error', 'Passwords do not match'];
         }
-        return '';
+        return [];
     };
 
     return (
-        <form className="register-form" onSubmit={handleSubmit}>
-            <p>Register with your email and password</p>
-            <TextField
-                type="email"
-                label="Email"
-                variant="outlined"
-                size="small"
-                className="formInput"
-                required
-                value={values.email}
-                onChange={(e) => handleChange('email', e.target.value)}
-            />
-            <TextField
-                type="password"
-                label="Password"
-                variant="outlined"
-                size="small"
-                className="formInput"
-                required
-                value={values.password}
-                onChange={(e) => handleChange('password', e.target.value)}
-            />
-            <TextField
-                type="password"
-                label="Confirm Password"
-                variant="outlined"
-                size="small"
-                className="formInput"
-                required
-                value={values.password2}
-                onChange={(e) => handleChange('password2', e.target.value)}
-                error={comparePassword().length > 0}
-            />
-            <TextField
-                label="Display Name"
-                variant="outlined"
-                size="small"
-                className="formInput"
-                required
-                value={values.displayName}
-                onChange={(e) => handleChange('displayName', e.target.value)}
-            />
-            <div className="formFooter">
-                <Button type="submit" variant="contained" color="primary">
-                    Register
-                </Button>
-                &nbsp; Or&nbsp;
-                <Link onClick={props.toLogin} variant="body1">
-                    back to login
-                </Link>
-            </div>
-        </form>
+        <Form
+            ref={formRef}
+            className="register"
+            onSubmit={handleSubmit}
+            inputDecorator={(_, { inputEl, status, message }) =>
+                React.cloneElement(inputEl, {
+                    variant: 'outlined',
+                    size: 'small',
+                    className: 'formInput',
+                    helperText: message,
+                    error: status === 'error',
+                })
+            }
+        >
+            <Spinner spinning={loading}>
+                <p>Sign up to explore new features!</p>
+                <FormField name="email" required>
+                    {(props) => <TextField type="email" label="Email" {...props} />}
+                </FormField>
+                <FormField name="password" required>
+                    {(props) => <TextField type="password" label="Password" {...props} />}
+                </FormField>
+                <FormField name="password2" required validate={comparePassword}>
+                    {(props) => <TextField type="password" label="Confirm Password" {...props} />}
+                </FormField>
+                <FormField name="displayName" required>
+                    {(props) => <TextField label="Display Name" {...props} />}
+                </FormField>
+                {error && <Alert severity="error">{error}</Alert>}
+                <div className="formFooter">
+                    <Button type="submit" variant="contained" color="primary">
+                        Sign up
+                    </Button>
+                    <Button color="primary" onClick={props.toLogin}>
+                        Log in
+                    </Button>
+                </div>
+            </Spinner>
+        </Form>
     );
 }
 

@@ -1,0 +1,11 @@
+.spinner {
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    z-index: 100;
+}
+
+.spinning {
+    opacity: 0.7;
+    pointer-events: none;
+}

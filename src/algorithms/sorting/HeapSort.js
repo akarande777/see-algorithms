@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { createHeap, xco, yco } from '../../helpers/create-heap';
+import { createHeap, xco, yco } from '../create-heap';
 import { createTable, moveVertex } from '../../common/utils';
 import $ from 'jquery';
 import Numbers from '../../components/numbers/numbers';
