@@ -23,7 +23,6 @@ function RegisterForm(props) {
     useEffect(() => {
         if (data) {
             const { status, message } = data.register;
-            console.log(message);
             if (status) {
                 showToast({
                     message: 'Verification email sent!',

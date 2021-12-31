@@ -60,7 +60,7 @@ function LoginForm(props) {
             }
         >
             <Spinner spinning={loading}>
-                <p>Log in to your account</p>
+                <p>Log in to your account!</p>
                 <FormField name="email" required>
                     {(props) => <TextField type="email" label="Email" {...props} />}
                 </FormField>
