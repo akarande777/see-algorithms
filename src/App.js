@@ -36,8 +36,8 @@ const GET_ALGORITHMS = gql`
 function App() {
     const [state, setState] = useState(initialState);
     const [visible, setVisible] = useState(false);
-    const [categories, setCategories] = useState([]);
     const { loading, data } = useQuery(GET_ALGORITHMS);
+    const [categories, setCategories] = useState([]);
 
     const setContext = useCallback(
         (slice) => {
