@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import Graph, { Point } from './graph';
+import Graph from './graph';
 import { Colors } from './constants';
 
 function distance(p, q) {
@@ -34,9 +34,11 @@ function withOffset(e) {
 }
 
 function addVertex(p, vlbl) {
-    let vrtx = `<g class="vgrp"><ellipse class="vrtx" cx="${p.x}" cy="${p.y}" rx="${18}" ry="15" stroke="${
-        Colors.stroke
-    }" stroke-width="2" fill="${Colors.vertex}" /><text class="vlbl" x="${p.x}" y="${
+    let vrtx = `<g class="vgrp"><ellipse class="vrtx" cx="${p.x}" cy="${
+        p.y
+    }" rx="${18}" ry="15" stroke="${Colors.stroke}" stroke-width="2" fill="${
+        Colors.vertex
+    }" /><text class="vlbl" x="${p.x}" y="${
         p.y + 5
     }" text-anchor="middle" style="cursor:pointer">${vlbl}</text></g>`;
     document.getElementById('plane').innerHTML += vrtx;
@@ -46,7 +48,9 @@ function moveVertex(i, r) {
     $('.vrtx').eq(i).attr('cx', r.x);
     $('.vrtx').eq(i).attr('cy', r.y);
     $('.vlbl').eq(i).attr('x', r.x);
-    $('.vlbl').eq(i).attr('y', r.y + 5);
+    $('.vlbl')
+        .eq(i)
+        .attr('y', r.y + 5);
 }
 
 function addEdge(p, q) {

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { Dashboard, InsertChart, MeetingRoom, Sort } from '@material-ui/icons';
+import { InsertChart, MeetingRoom } from '@material-ui/icons';
 import { withRouter } from 'react-router-dom';
 import './sider.scss';
 import { showMenu } from '../menu/menu';
