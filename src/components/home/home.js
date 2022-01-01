@@ -19,7 +19,7 @@ const VERIFY_EMAIL = gql`
 function Home({ location, history }) {
     const { userAuth } = useContext(AppContext);
     const [formType, setFormType] = useState(userAuth ? '' : 'register');
-    const [verifyEmail, { data, loading }] = useMutation(VERIFY_EMAIL);
+    const [verifyEmail, { data }] = useMutation(VERIFY_EMAIL);
 
     useEffect(() => {
         userAuth ? setFormType('') : setFormType('register');
@@ -49,7 +49,7 @@ function Home({ location, history }) {
     }, [data]);
 
     return (
-        <Spinner spinning={loading} className="home">
+        <Spinner spinning={false} className="home">
             {userAuth && <h5>Welcome {userAuth.displayName}!</h5>}
             {formType === 'login' && <LoginForm toRegister={() => setFormType('register')} />}
             {formType === 'register' && <RegisterForm toLogin={() => setFormType('login')} />}
