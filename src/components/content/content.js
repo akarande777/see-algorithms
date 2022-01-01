@@ -2,10 +2,9 @@ import React, { Fragment, useContext } from 'react';
 import { Switch, Route, withRouter, Link } from 'react-router-dom';
 import { Breadcrumbs } from '@material-ui/core';
 import { AppContext } from '../../common/context';
-import df from 'd-forest';
-
 import Home from '../home/home';
 import PageNotFound from '../404/404';
+
 import BubbleSort from '../../algorithms/sorting/BubbleSort';
 import InsertionSort from '../../algorithms/sorting/InsertionSort';
 import SelectionSort from '../../algorithms/sorting/SelectionSort';
@@ -23,12 +22,13 @@ import BST from '../../data-structures/BST';
 import BinaryHeap from '../../data-structures/BinaryHeap';
 import CircularQueue from '../../data-structures/CircularQueue';
 
+import { findAlgoId } from '../../common/utils';
+
 function Content({ location }) {
     const { categories } = useContext(AppContext);
     if (!categories.length) return null;
-    const algo = df.findLeaf(categories, ({ pathId }) => {
-        return location.pathname.includes(pathId);
-    });
+    const algo = findAlgoId(categories, location.pathname);
+
     return (
         <Fragment>
             <Breadcrumbs>
