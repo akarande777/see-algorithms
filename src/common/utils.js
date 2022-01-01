@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import Graph from './graph';
 import { Colors } from './constants';
+import df from 'd-forest';
 
 function distance(p, q) {
     return Math.sqrt((q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y));
@@ -91,5 +92,8 @@ export const createTable = (m, n, id) => {
         $(`#${id || 'tbl'}`).append(row);
     }
 };
+
+export const findAlgoId = (categories, pathname) =>
+    df.findLeaf(categories, (x) => pathname.includes(x.pathId)).algoId;
 
 export { distance, fromDistance, withOffset, addVertex, moveVertex, addEdge, cloneEdge };

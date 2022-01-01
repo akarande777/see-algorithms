@@ -10,9 +10,12 @@ import Menu from './components/menu/menu';
 import { AppContext } from './common/context';
 import { gql, useQuery } from '@apollo/client';
 import Spinner from './components/spinner/spinner';
+import InputList from './components/input-list/input-list';
 
 const initialState = {
     userAuth: null,
+    categories: [],
+    dataArray: [],
 };
 
 const GET_ALGORITHMS = gql`
@@ -36,8 +39,7 @@ const GET_ALGORITHMS = gql`
 function App() {
     const [state, setState] = useState(initialState);
     const [visible, setVisible] = useState(false);
-    const { loading, data } = useQuery(GET_ALGORITHMS);
-    const [categories, setCategories] = useState([]);
+    const { loading, data, error } = useQuery(GET_ALGORITHMS);
 
     const setContext = useCallback(
         (slice) => {
@@ -55,18 +57,21 @@ function App() {
 
     useEffect(() => {
         if (data) {
-            const { data: items, status, message } = data.getAlgorithms;
+            const { data: categories, status, message } = data.getAlgorithms;
             if (status) {
-                setCategories(items);
+                setContext({ categories });
             } else {
                 showToast({ message, variant: 'error' });
             }
+        } else if (error) {
+            const { message } = error;
+            showToast({ message, variant: 'error' });
         }
-    }, [data]);
+    }, [data, error]);
 
     return (
         <AppContext.Provider value={{ ...state, setContext }}>
-            <Spinner spinning={loading} className="App">
+            <Spinner className="App" spinning={loading}>
                 <Toast />
                 <Menu />
                 <Header toggleMenu={() => setVisible(!visible)} />
@@ -79,14 +84,17 @@ function App() {
                         PaperProps={{ className: 'paper' }}
                         BackdropProps={{ className: 'backdrop' }}
                     >
-                        <Sider categories={categories} onClose={() => setVisible(false)} />
+                        <Sider onClose={() => setVisible(false)} />
                     </Drawer>
                     <Grid container className="layout">
-                        <Grid item xs="auto" className="d-none d-md-block sider">
-                            <Sider categories={categories} onClose={() => {}} />
+                        <Grid item xs={2} className="d-none d-md-block sider">
+                            <Sider onClose={() => {}} />
                         </Grid>
                         <Grid item xs className="content">
-                            <Content categories={categories} visible={visible} />
+                            <Content visible={visible} />
+                        </Grid>
+                        <Grid item xs={2} className="d-none d-md-block sider">
+                            {/* <InputList /> */}
                         </Grid>
                     </Grid>
                 </BrowserRouter>

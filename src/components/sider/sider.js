@@ -6,11 +6,11 @@ import './sider.scss';
 import { showMenu } from '../menu/menu';
 import { AppContext } from '../../common/context';
 
-function Sider({ categories, history, ...props }) {
-    const { userAuth, setContext } = useContext(AppContext);
+function Sider(props) {
+    const { categories, userAuth, setContext } = useContext(AppContext);
 
     const handleSelect = (item) => {
-        history.push(item.value);
+        props.history.push(item.value);
         props.onClose();
     };
 
@@ -21,7 +21,7 @@ function Sider({ categories, history, ...props }) {
     });
 
     return (
-        <List className="list">
+        <List className="categories">
             {categories.map(({ catId, catName, algorithms }) => (
                 <ListItem
                     button
@@ -30,9 +30,11 @@ function Sider({ categories, history, ...props }) {
                     onClick={(e) => {
                         showMenu({
                             ...getMenuOptions(e),
-                            menuItems: algorithms.map(({ algoName, pathId }) => {
-                                return { label: algoName, value: pathId };
-                            }),
+                            menuItems: algorithms.map((algo) => ({
+                                label: algo.algoName,
+                                value: algo.pathId,
+                                key: algo.algoId,
+                            })),
                         });
                     }}
                 >
@@ -50,7 +52,7 @@ function Sider({ categories, history, ...props }) {
                         setContext({ userAuth: null });
                         localStorage.removeItem('userAuth');
                         props.onClose();
-                        history.push('/');
+                        props.history.push('/');
                     }}
                 >
                     <ListItemIcon>

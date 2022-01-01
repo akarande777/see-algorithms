@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
-export var showToast;
+export var showToast = () => {};
 
 function Toast() {
     const [options, setOptions] = useState({});
     const { message, variant } = options;
 
-    showToast = (options) => {
-        setOptions(options);
-    };
+    showToast = (options) => setOptions(options);
 
     return (
         <Snackbar

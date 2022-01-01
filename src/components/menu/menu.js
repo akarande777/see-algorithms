@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, ListItem, ListItemText } from '@material-ui/core';
 
-export var showMenu;
+export var showMenu = () => {};
 
 function List() {
     const [options, setOptions] = useState({});
@@ -21,7 +21,7 @@ function List() {
             {Array.isArray(menuItems) &&
                 menuItems.map((item) => (
                     <ListItem
-                        key={item.value}
+                        key={item.key}
                         button
                         onClick={() => {
                             onSelect(item);

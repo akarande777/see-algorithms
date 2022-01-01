@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Checkbox, TextField, FormControlLabel } from '@material-ui/core';
 import { PlayArrow, Pause } from '@material-ui/icons';
 import { showToast } from '../toast/toast';
@@ -6,13 +6,21 @@ import './draw-graph.scss';
 import Graph from '../../common/graph';
 import $ from 'jquery';
 import { drawGraph } from '../../algorithms/draw-graph';
-import { fromDistance } from '../../common/utils';
+import { findAlgoId, fromDistance } from '../../common/utils';
 import Timer from '../../common/timer';
+import { withRouter } from 'react-router-dom';
+import Spinner from '../spinner/spinner';
+import { AppContext } from '../../common/context';
+import useGraphData from './useGraphData';
 
 function DrawGraph(props) {
     const [directed, setDirected] = useState(props.isDAG || false);
     const [status, setStatus] = useState(0);
     const [source, setSource] = useState('A');
+    const { setContext, dataArray, categories } = useContext(AppContext);
+    const { pathname } = props.location;
+    const algoId = findAlgoId(categories, pathname);
+    const { saveGraphData, loading } = useGraphData({ algoId, dataArray, setContext });
 
     const validate = () => {
         let np = Graph.totalPoints();
@@ -21,23 +29,23 @@ function DrawGraph(props) {
                 message: 'Graph cannot be empty',
                 variant: 'error',
             });
-            return;
+            return false;
         }
         if (source < 'A' || source > 'Z') {
             showToast({
                 message: 'Please enter valid source',
                 variant: 'error',
             });
-            return;
+            return false;
         }
         if (!Graph.isConnected()) {
             showToast({
                 message: 'Please draw connected graph',
                 variant: 'error',
             });
-            return;
+            return false;
         }
-        setStatus(1);
+        return true;
     };
 
     const config = () => ({
@@ -104,7 +112,7 @@ function DrawGraph(props) {
     const handlePlay = () => {
         switch (status) {
             case 0:
-                validate();
+                validate() && setStatus(1);
                 break;
             case -1:
                 setStatus(2);
@@ -114,8 +122,13 @@ function DrawGraph(props) {
         }
     };
 
+    const saveGraph = () => {
+        const variables = { algoId, data: Graph.stringify() };
+        saveGraphData({ variables });
+    };
+
     return (
-        <div className="drawGraph">
+        <Spinner className="drawGraph" spinning={loading}>
             <div className="d-flex flex-wrap toolbar">
                 <span className="title">Draw Graph</span>
                 {!props.isDAG && (
@@ -160,6 +173,9 @@ function DrawGraph(props) {
                 <Button variant="contained" onClick={clear} id="clear">
                     Clear
                 </Button>
+                {/* <Button variant="contained" onClick={() => validate() && saveGraph()}>
+                    Save
+                </Button> */}
             </div>
             <svg id="plane">
                 <defs>
@@ -179,8 +195,8 @@ function DrawGraph(props) {
             <div className="spaceAround ">
                 <table id="tbl" />
             </div>
-        </div>
+        </Spinner>
     );
 }
 
-export default DrawGraph;
+export default withRouter(DrawGraph);

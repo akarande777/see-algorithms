@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { Switch, Route, withRouter, Link } from 'react-router-dom';
 import { Breadcrumbs } from '@material-ui/core';
+import { AppContext } from '../../common/context';
 import df from 'd-forest';
 
 import Home from '../home/home';
@@ -22,10 +23,11 @@ import BST from '../../data-structures/BST';
 import BinaryHeap from '../../data-structures/BinaryHeap';
 import CircularQueue from '../../data-structures/CircularQueue';
 
-function Content({ location, categories }) {
-    const { pathname } = location;
-    const algo = df.findLeaf(categories, (algo) => {
-        return pathname.includes(algo.pathId);
+function Content({ location }) {
+    const { categories } = useContext(AppContext);
+    if (!categories.length) return null;
+    const algo = df.findLeaf(categories, ({ pathId }) => {
+        return location.pathname.includes(pathId);
     });
     return (
         <Fragment>

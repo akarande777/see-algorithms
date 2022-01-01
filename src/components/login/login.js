@@ -21,9 +21,9 @@ const LOGIN = gql`
 
 function LoginForm(props) {
     const formRef = useRef(null);
-    const [login, { data, loading }] = useMutation(LOGIN);
+    const [login, { data, error, loading }] = useMutation(LOGIN);
     const { setContext } = useContext(AppContext);
-    const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         if (data) {
@@ -32,10 +32,12 @@ function LoginForm(props) {
                 setContext({ userAuth });
                 localStorage.setItem('userAuth', JSON.stringify(userAuth));
             } else {
-                setError(message);
+                setMessage(message);
             }
+        } else if (error) {
+            setMessage(error.message);
         }
-    }, [data]);
+    }, [data, error]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -67,7 +69,7 @@ function LoginForm(props) {
                 <FormField name="password" required>
                     {(props) => <TextField type="password" label="Password" {...props} />}
                 </FormField>
-                {error && <Alert severity="error">{error}</Alert>}
+                {message && <Alert severity="error">{message}</Alert>}
                 <div className="formFooter">
                     <Button type="submit" variant="contained" color="primary">
                         Log in

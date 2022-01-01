@@ -133,6 +133,11 @@ export default {
         }
         return k !== np;
     },
+
+    stringify() {
+        const data = { points, segments, matrix, steps, directed };
+        return JSON.stringify(data);
+    },
 };
 
 function Point(x, y) {

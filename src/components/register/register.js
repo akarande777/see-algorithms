@@ -17,8 +17,8 @@ const REGISTER = gql`
 
 function RegisterForm(props) {
     const formRef = useRef(null);
-    const [register, { data, loading }] = useMutation(REGISTER);
-    const [error, setError] = useState('');
+    const [register, { data, error, loading }] = useMutation(REGISTER);
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         if (data) {
@@ -30,10 +30,12 @@ function RegisterForm(props) {
                 });
                 props.toLogin();
             } else {
-                setError(message);
+                setMessage(message);
             }
+        } else if (error) {
+            setMessage(error.message);
         }
-    }, [data]);
+    }, [data, error]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -80,7 +82,7 @@ function RegisterForm(props) {
                 <FormField name="displayName" required>
                     {(props) => <TextField label="Display Name" {...props} />}
                 </FormField>
-                {error && <Alert severity="error">{error}</Alert>}
+                {message && <Alert severity="error">{message}</Alert>}
                 <div className="formFooter">
                     <Button type="submit" variant="contained" color="primary">
                         Sign up

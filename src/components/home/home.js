@@ -19,7 +19,7 @@ const VERIFY_EMAIL = gql`
 function Home({ location, history }) {
     const { userAuth } = useContext(AppContext);
     const [formType, setFormType] = useState(userAuth ? '' : 'register');
-    const [verifyEmail, { data }] = useMutation(VERIFY_EMAIL);
+    const [verifyEmail, { data, error }] = useMutation(VERIFY_EMAIL);
 
     useEffect(() => {
         userAuth ? setFormType('') : setFormType('register');
@@ -45,11 +45,14 @@ function Home({ location, history }) {
             } else {
                 showToast({ message, variant: 'error' });
             }
+        } else if (error) {
+            const { message } = error;
+            showToast({ message, variant: 'error' });
         }
-    }, [data]);
+    }, [data, error]);
 
     return (
-        <Spinner spinning={false} className="home">
+        <Spinner className="home" spinning={false}>
             {userAuth && <h5>Welcome {userAuth.displayName}!</h5>}
             {formType === 'login' && <LoginForm toRegister={() => setFormType('register')} />}
             {formType === 'register' && <RegisterForm toLogin={() => setFormType('login')} />}
