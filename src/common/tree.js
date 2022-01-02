@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { distance } from './utils';
+import { Point } from './graph';
 
 var subroot, arr = [];
 
@@ -66,7 +66,7 @@ export default {
         let i;
         for (i = 3; i < arr.length; i++) {
             if (arr[i].index !== node.index) {
-                let d = distance(node.point, arr[i].point);
+                let d = Point.distance(node.point, arr[i].point);
                 if (d < 30) break;
             }
         }

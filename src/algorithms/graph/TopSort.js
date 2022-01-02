@@ -1,6 +1,6 @@
 import React from 'react';
-import { fromDistance, distance, createTable } from '../../common/utils';
-import Graph from '../../common/graph';
+import { fromDistance, createTable, isNumber } from '../../common/utils';
+import Graph, { Point } from '../../common/graph';
 import DrawGraph from '../../components/draw-graph/draw-graph';
 import $ from 'jquery';
 import Timer from '../../common/timer';
@@ -39,7 +39,7 @@ function sort() {
         $(`.vrtx:eq(${i})`).attr('fill', Colors.visited);
         for (let j = 0; j < Graph.totalPoints(); j++) {
             let ei = Graph.edgeIndex(i, j);
-            if (ei !== undefined && ind[j] !== 0) {
+            if (isNumber(ei) && ind[j] !== 0) {
                 --ind[j];
                 k++;
                 let p = Graph.point(i);
@@ -47,7 +47,7 @@ function sort() {
                 let y2 = $(`line:eq(${ei})`).attr('y2');
                 let q = { x: x2, y: y2 };
                 $(`line:eq(${ei})`).attr('stroke', Colors.visited);
-                let d = distance(p, q);
+                let d = Point.distance(p, q);
                 Timer.timeout(() => {
                     if (ind[j] === 0) {
                         stack.push(j);

@@ -5,6 +5,7 @@ export const SAVE_ALGO_DATA = gql`
         saveAlgoData(algoId: $algoId, data: $data) {
             data {
                 dataId
+                algoId
                 algoData
                 createdOn
             }

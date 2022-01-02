@@ -1,21 +1,7 @@
 import $ from 'jquery';
-import Graph from './graph';
+import Graph, { Point } from './graph';
 import { Colors } from './constants';
 import df from 'd-forest';
-
-function distance(p, q) {
-    return Math.sqrt((q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y));
-}
-
-function fromDistance(start, end, distance) {
-    let x = end.x - start.x;
-    let y = end.y - start.y;
-    let z = Math.sqrt(x * x + y * y);
-    let ratio = distance / z;
-    let deltaX = x * ratio;
-    let deltaY = y * ratio;
-    return { x: end.x - deltaX, y: end.y - deltaY };
-}
 
 const mouseEvents = ['click', 'mousedown', 'mouseup', 'mousemove', 'mouseenter', 'mouseleave'];
 const touchEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
@@ -49,9 +35,7 @@ function moveVertex(i, r) {
     $('.vrtx').eq(i).attr('cx', r.x);
     $('.vrtx').eq(i).attr('cy', r.y);
     $('.vlbl').eq(i).attr('x', r.x);
-    $('.vlbl')
-        .eq(i)
-        .attr('y', r.y + 5);
+    $('.vlbl').eq(i).attr('y', r.y + 5);
 }
 
 function addEdge(p, q) {
@@ -66,7 +50,7 @@ function cloneEdge(i, j) {
     $('line:last').insertBefore($('.vgrp:first'));
     let p, q;
     let segment = Graph.segment(j);
-    if (segment.p.equals(Graph.point(i))) {
+    if (Point.equal(segment.p, Graph.point(i))) {
         p = segment.p;
         q = segment.q;
     } else {
@@ -77,11 +61,22 @@ function cloneEdge(i, j) {
     $('line:last').attr('y1', p.y);
     $('line:last').attr('x2', p.x);
     $('line:last').attr('y2', p.y);
-    let d = distance(p, q);
+    let d = Point.distance(p, q);
     return { p, q, d };
 }
 
-export const createTable = (m, n, id) => {
+function fromDistance(start, end, distance) {
+    let x = end.x - start.x;
+    let y = end.y - start.y;
+    let z = Math.sqrt(x * x + y * y);
+    let ratio = distance / z;
+    let deltaX = x * ratio;
+    let deltaY = y * ratio;
+    return { x: end.x - deltaX, y: end.y - deltaY };
+}
+
+
+function createTable(m, n, id) {
     for (let i = 0; i < m; i++) {
         let row = document.createElement('tr');
         for (let j = 0; j < n; j++) {
@@ -91,9 +86,38 @@ export const createTable = (m, n, id) => {
         }
         $(`#${id || 'tbl'}`).append(row);
     }
+}
+
+function getCostMatrix() {
+    let mat = [];
+    Graph.forEach((i, j) => {
+        mat[i] = mat[i] || [];
+        let ei = Graph.edgeIndex(i, j);
+        if (isNumber(ei)) {
+            let value = $('.cost').eq(ei).text();
+            mat[i][j] = parseInt(value) || 1;
+        } else {
+            mat[i][j] = Infinity;
+        }
+    });
+    return mat;
+}
+
+export {
+    withOffset,
+    addVertex,
+    moveVertex,
+    addEdge,
+    cloneEdge,
+    fromDistance,
+    createTable,
+    getCostMatrix,
 };
 
-export const findAlgoId = (categories, pathname) =>
-    df.findLeaf(categories, (x) => pathname.includes(x.pathId)).algoId;
+export const findAlgorithm = (categories, pathname) =>
+    df.findLeaf(categories, (x) => pathname.includes(x.pathId));
 
-export { distance, fromDistance, withOffset, addVertex, moveVertex, addEdge, cloneEdge };
+export const findCategory = (categories, algoId) =>
+    df.hierarchy(categories, (x) => x.algoId === algoId)[0];
+
+export const isNumber = (x) => !isNaN(parseInt(x));

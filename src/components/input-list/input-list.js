@@ -3,20 +3,32 @@ import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { DeleteOutline } from '@material-ui/icons';
 import { AppContext } from '../../common/context';
 import './input-list.scss';
+import { findCategory } from '../../common/utils';
+import { autoDraw } from '../../algorithms/draw-graph';
 
 function InputList() {
-    const { dataArray } = useContext(AppContext);
+    const { dataArray, categories, setContext } = useContext(AppContext);
+
+    const handleSelect = (algoId, algoData) => {
+        const { catName } = findCategory(categories, algoId);
+        switch (catName) {
+            case 'Graph':
+                const data = JSON.parse(algoData);
+                autoDraw(data);
+                setContext({ isGraphDirected: data.directed });
+                break;
+            default:
+        }
+    };
 
     return (
         <List className="inputList">
-            {dataArray.map(({ algoData, createdOn }) => (
+            {dataArray.map(({ algoId, algoData, createdOn }) => (
                 <ListItem
                     button
                     key={createdOn}
                     className="listItem"
-                    onClick={(e) => {
-                        console.log(algoData);
-                    }}
+                    onClick={() => handleSelect(algoId, algoData)}
                 >
                     <ListItemText primary={createdOn} className="listItemText" />
                     <ListItemIcon>

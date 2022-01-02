@@ -7,16 +7,10 @@ import Sider from './components/sider/sider';
 import Content from './components/content/content';
 import Toast, { showToast } from './components/toast/toast';
 import Menu from './components/menu/menu';
-import { AppContext } from './common/context';
+import { AppContext, initialState } from './common/context';
 import { gql, useQuery } from '@apollo/client';
 import Spinner from './components/spinner/spinner';
 import InputList from './components/input-list/input-list';
-
-const initialState = {
-    userAuth: null,
-    categories: [],
-    dataArray: [],
-};
 
 const GET_ALGORITHMS = gql`
     query {

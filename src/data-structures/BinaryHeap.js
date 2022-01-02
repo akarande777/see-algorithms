@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import $ from 'jquery';
 import DataInput from '../components/data-input/data-input';
-import { addVertex, addEdge, fromDistance, moveVertex, distance } from '../common/utils';
+import { addVertex, addEdge, fromDistance, moveVertex } from '../common/utils';
 import Tree from '../common/tree';
+import { Point } from '../common/graph';
 import { Colors } from '../common/constants';
 import { wait } from '../common/timer';
 
@@ -32,7 +33,7 @@ function input(key) {
         let parent = Tree.nodeAt(Math.floor((size - 1) / 2));
         let { node, p, q } = createNode(key, parent, size);
         Tree.pushNode(node);
-        let d = distance(p, q);
+        let d = Point.distance(p, q);
         return wait(10).then(() => span(node, p, q, d - 2));
     }
 }
@@ -84,7 +85,7 @@ function heapify(child, parent) {
         return wait(delay).then(() => {
             $('.vrtx').eq(parent.index).attr('fill', Colors.compare);
             return wait(delay).then(() => {
-                let d = distance(parent.point, child.point);
+                let d = Point.distance(parent.point, child.point);
                 return wait(5).then(() => swap(parent, child, d - 1));
             });
         });

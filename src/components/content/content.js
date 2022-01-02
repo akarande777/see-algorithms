@@ -22,12 +22,12 @@ import BST from '../../data-structures/BST';
 import BinaryHeap from '../../data-structures/BinaryHeap';
 import CircularQueue from '../../data-structures/CircularQueue';
 
-import { findAlgoId } from '../../common/utils';
+import { findAlgorithm } from '../../common/utils';
 
 function Content({ location }) {
     const { categories } = useContext(AppContext);
     if (!categories.length) return null;
-    const algo = findAlgoId(categories, location.pathname);
+    const algo = findAlgorithm(categories, location.pathname);
 
     return (
         <Fragment>

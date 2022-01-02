@@ -5,8 +5,8 @@ import { showToast } from '../toast/toast';
 import './draw-graph.scss';
 import Graph from '../../common/graph';
 import $ from 'jquery';
-import { drawGraph } from '../../algorithms/draw-graph';
-import { findAlgoId, fromDistance } from '../../common/utils';
+import { clearGraph, drawGraph, switchType } from '../../algorithms/draw-graph';
+import { findAlgorithm, getCostMatrix } from '../../common/utils';
 import Timer from '../../common/timer';
 import { withRouter } from 'react-router-dom';
 import Spinner from '../spinner/spinner';
@@ -14,12 +14,11 @@ import { AppContext } from '../../common/context';
 import useGraphData from './useGraphData';
 
 function DrawGraph(props) {
-    const [directed, setDirected] = useState(props.isDAG || false);
-    const [status, setStatus] = useState(0);
+    const { setContext, categories, dataArray, isGraphDirected, playStatus } =
+        useContext(AppContext);
     const [source, setSource] = useState('A');
-    const { setContext, dataArray, categories } = useContext(AppContext);
     const { pathname } = props.location;
-    const algoId = findAlgoId(categories, pathname);
+    const { algoId } = findAlgorithm(categories, pathname);
     const { saveGraphData, loading } = useGraphData({ algoId, dataArray, setContext });
 
     const validate = () => {
@@ -53,78 +52,53 @@ function DrawGraph(props) {
         acyclic: props.isDAG || false,
     });
 
-    const reset = () => {
-        Graph.clear();
-        drawGraph(config());
-    };
-
-    const clear = () => {
+    const handleClear = () => {
         Timer.clear();
-        $('#plane').off();
-        $('#plane').children().not(':first').remove();
-        $('#tbl').html('');
-        status ? setStatus(0) : reset();
+        clearGraph();
+        drawGraph(config());
+        setContext({ playStatus: 0 });
     };
 
-    useEffect(() => () => clear(), []);
-
-    useEffect(() => {
-        switch (status) {
+    const handlePlay = () => {
+        switch (playStatus) {
             case 0:
-                reset();
+                if (validate()) {
+                    $('#plane').off();
+                    props.start(source.charCodeAt(0) - 65);
+                    setContext({ playStatus: 1 });
+                }
                 break;
-            case 1:
-                $('#plane').off();
-                props.start(source.charCodeAt(0) - 65);
-                break;
-            case 2:
+            case -1:
+                setContext({ playStatus: 1 });
                 Timer.resume();
                 break;
             default:
+                setContext({ playStatus: -1 });
                 Timer.pause();
-        }
-    }, [status]);
-
-    useEffect(() => {
-        if (directed !== Graph.isDirected()) {
-            Graph.switchType();
-            drawGraph(config());
-            if (directed) {
-                $('.edge').each(function (i) {
-                    let s = Graph.segment(i);
-                    let r = fromDistance(s.p, s.q, 23);
-                    $(this).attr('x2', r.x);
-                    $(this).attr('y2', r.y);
-                    $(this).attr('marker-end', 'url(#arrow)');
-                });
-            } else {
-                $('.edge').each(function (i) {
-                    let s = Graph.segment(i);
-                    let { x, y } = s.q;
-                    $(this).attr('x2', x);
-                    $(this).attr('y2', y);
-                    $(this).removeAttr('marker-end');
-                });
-            }
-        }
-    }, [directed]);
-
-    const handlePlay = () => {
-        switch (status) {
-            case 0:
-                validate() && setStatus(1);
-                break;
-            case -1:
-                setStatus(2);
-                break;
-            default:
-                setStatus(-1);
         }
     };
 
+    useEffect(() => {
+        handleClear();
+        setContext({ isGraphDirected: false, playStatus: 0 });
+        while (Graph.isDirected()) {
+            Graph.switchType();
+        }
+        return () => {
+            Timer.clear() || clearGraph();
+        };
+    }, [pathname]);
+
+    const setDirected = () => {
+        switchType();
+        drawGraph(config());
+        setContext({ isGraphDirected: !isGraphDirected });
+    };
+
     const saveGraph = () => {
-        const variables = { algoId, data: Graph.stringify() };
-        saveGraphData({ variables });
+        const costMatrix = getCostMatrix();
+        const data = Graph.stringify({ costMatrix, ...config() });
+        saveGraphData({ variables: { algoId, data } });
     };
 
     return (
@@ -137,10 +111,10 @@ function DrawGraph(props) {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={directed}
-                                        onChange={() => setDirected(!directed)}
+                                        checked={isGraphDirected}
+                                        onChange={setDirected}
                                         name="directed"
-                                        disabled={status !== 0}
+                                        disabled={playStatus !== 0}
                                     />
                                 }
                                 label="Directed"
@@ -164,16 +138,20 @@ function DrawGraph(props) {
                 )}
                 <Button
                     variant="contained"
-                    startIcon={status > 0 ? <Pause /> : <PlayArrow />}
+                    startIcon={playStatus > 0 ? <Pause /> : <PlayArrow />}
                     onClick={handlePlay}
-                    disabled={Boolean(props.isDAG && status)}
+                    disabled={Boolean(props.isDAG && playStatus)}
                 >
-                    {status > 0 ? 'Pause' : 'Play'}
+                    {playStatus > 0 ? 'Pause' : 'Play'}
                 </Button>
-                <Button variant="contained" onClick={clear} id="clear">
+                <Button variant="contained" onClick={handleClear} id="clear">
                     Clear
                 </Button>
-                {/* <Button variant="contained" onClick={() => validate() && saveGraph()}>
+                {/* <Button
+                    variant="contained"
+                    onClick={() => validate() && saveGraph()}
+                    disabled={playStatus !== 0}
+                >
                     Save
                 </Button> */}
             </div>

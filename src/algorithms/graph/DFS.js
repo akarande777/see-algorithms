@@ -1,5 +1,5 @@
 import React from 'react';
-import { fromDistance, cloneEdge } from '../../common/utils';
+import { fromDistance, cloneEdge, isNumber } from '../../common/utils';
 import Graph from '../../common/graph';
 import DrawGraph from '../../components/draw-graph/draw-graph';
 import $ from 'jquery';
@@ -29,7 +29,7 @@ function start(source) {
 function visit(j) {
     if (j < Graph.totalPoints()) {
         let ei = Graph.edgeIndex(i, j);
-        if (ei !== undefined) {
+        if (isNumber(ei)) {
             if (v.indexOf(j) === -1) {
                 $('.edge').eq(ei).attr('stroke', Colors.enqueue);
                 $('.edge').eq(ei).attr('stroke-dasharray', '8,4');
@@ -37,10 +37,6 @@ function visit(j) {
                 stack.push(j);
                 v.push(j);
                 prev[j] = i;
-                Timer.timeout(visit, delay, ++j);
-            } else if (stack.indexOf(j) !== -1) {
-                $('.edge').eq(ei).attr('stroke', Colors.rejected);
-                $('.edge').eq(ei).attr('stroke-dasharray', '8,4');
                 Timer.timeout(visit, delay, ++j);
             } else visit(++j);
         } else visit(++j);
@@ -77,7 +73,7 @@ function span(p, q, d) {
         let n = Graph.totalPoints();
         for (j = 0; j < n; j++) {
             let ei = Graph.edgeIndex(i, j);
-            if (ei !== undefined) {
+            if (isNumber(ei)) {
                 if (v.indexOf(j) === -1 || stack.indexOf(j) !== -1) {
                     Timer.timeout(visit, delay, 0);
                     break;

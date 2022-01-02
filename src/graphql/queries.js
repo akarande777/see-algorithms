@@ -5,6 +5,7 @@ export const GET_ALGO_DATA = gql`
         getAlgoData(algoId: $algoId) {
             data {
                 dataId
+                algoId
                 algoData
                 createdOn
             }

@@ -4,6 +4,7 @@ import DrawGraph from '../../components/draw-graph/draw-graph';
 import $ from 'jquery';
 import Timer from '../../common/timer';
 import { Colors } from '../../common/constants';
+import { isNumber } from '../../common/utils';
 
 export default function (props) {
     return <DrawGraph {...props} start={start} isMST={true} customSource={false} />;
@@ -27,7 +28,7 @@ function start() {
         parent[i] = i;
         for (let j = 0; j < n; j++) {
             let ei = Graph.edgeIndex(i, j);
-            if (ei !== undefined) {
+            if (isNumber(ei)) {
                 arr[ei].u = i;
                 arr[ei].v = j;
                 arr[ei].i = ei;

@@ -1,10 +1,12 @@
+import { isNumber } from "./utils";
+
 var points = [];
 var segments = [];
 var matrix = [];
 var steps = [];
 var directed = false;
 
-export default {
+const Graph = {
     addPoint(point) {
         points.push(point);
         matrix.push([]);
@@ -13,8 +15,9 @@ export default {
     setPoint: (i, pnt) => void (points[i] = pnt),
 
     position(segment) {
-        let i = points.findIndex((p) => p.equals(segment.p));
-        let j = points.findIndex((p) => p.equals(segment.q));
+        const { equal } = Point;
+        let i = points.findIndex((p) => equal(p, segment.p));
+        let j = points.findIndex((p) => equal(p, segment.q));
         return [i, j];
     },
 
@@ -43,6 +46,19 @@ export default {
         segments = [];
         matrix = [];
         steps = [];
+    },
+
+    stringify(props) {
+        const data = { points, segments, matrix, steps, directed, ...props };
+        return JSON.stringify(data);
+    },
+
+    initialize(data) {
+        points = data.points;
+        segments = data.segments;
+        matrix = data.matrix;
+        steps = data.steps;
+        directed = data.directed;
     },
 
     forEach(callback) {
@@ -124,7 +140,7 @@ export default {
             let i = stack.pop();
             for (let j = 0; j < np; j++) {
                 let ei = this.edgeIndex(i, j);
-                if (ei !== undefined && ind[j] !== 0) {
+                if (isNumber(ei) && ind[j] !== 0) {
                     ind[j]--;
                     if (ind[j] === 0) stack.push(j);
                 }
@@ -133,46 +149,39 @@ export default {
         }
         return k !== np;
     },
+};
 
-    stringify() {
-        const data = { points, segments, matrix, steps, directed };
-        return JSON.stringify(data);
+export const Point = {
+    create: (x, y) => ({ x, y }),
+
+    equal: (p, q) => p.x === q.x && p.y === q.y,
+
+    distance(p, q) {
+        let sum = (q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y);
+        return Math.sqrt(sum);
     },
 };
 
-function Point(x, y) {
-    this.x = x;
-    this.y = y;
-}
+export const Segment = {
+    create: (p, q) => ({ p, q }),
 
-Point.prototype.equals = function (q) {
-    return this.x === q.x && this.y === q.y;
-};
+    slope: ({ p, q }) => (q.y - p.y) / (q.x - p.x),
 
-function Segment(p, q) {
-    this.p = p;
-    this.q = q;
-}
+    orientation({ p, q }, r) {
+        let d = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
+        if (d === 0) return 0;
+        return d > 0 ? 1 : 2;
+    },
 
-Segment.prototype.slope = function () {
-    return (this.q.y - this.p.y) / (this.q.x - this.p.x);
-};
-
-Segment.prototype.orientation = function (r) {
-    let p = this.p;
-    let q = this.q;
-    let d = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
-    if (d === 0) return 0;
-    return d > 0 ? 1 : 2;
-};
-
-Segment.prototype.overlaps = function (s) {
-    if (this.p.equals(s.p) || this.p.equals(s.q)) {
-        if (this.q.equals(s.p) || this.q.equals(s.q)) {
-            return true;
+    overlap(s1, s2) {
+        const { equal } = Point;
+        if (equal(s1.p, s2.p) || equal(s1.p, s2.q)) {
+            if (equal(s1.q, s2.p) || equal(s1.q, s2.q)) {
+                return true;
+            }
         }
-    }
-    return false;
+        return false;
+    },
 };
 
-export { Point, Segment };
+export default Graph;

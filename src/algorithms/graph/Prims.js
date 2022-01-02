@@ -1,5 +1,5 @@
 import React from 'react';
-import { fromDistance, cloneEdge } from '../../common/utils';
+import { fromDistance, cloneEdge, getCostMatrix } from '../../common/utils';
 import Graph from '../../common/graph';
 import DrawGraph from '../../components/draw-graph/draw-graph';
 import $ from 'jquery';
@@ -17,17 +17,7 @@ var delay = 1000;
 
 function start(source) {
     n = Graph.totalPoints();
-    w = [];
-    Graph.forEach((i, j) => {
-        w[i] = w[i] || [];
-        let ei = Graph.edgeIndex(i, j);
-        if (ei !== undefined) {
-            let value = $('.cost').eq(ei).text();
-            w[i][j] = parseInt(value) || 0;
-        } else {
-            w[i][j] = Infinity;
-        }
-    });
+    w = getCostMatrix();
     queue = [];
     mst = [];
     i = source;

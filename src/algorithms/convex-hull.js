@@ -1,11 +1,11 @@
 import $ from 'jquery';
-import { distance, withOffset } from '../common/utils';
+import { withOffset } from '../common/utils';
 import Graph, { Point, Segment } from '../common/graph';
 import { Colors } from '../common/constants';
 
 function print(p) {
-    let point = `<circle class="vrtx" cx="${p.x}" cy="${p.y}" r="4" fill="${Colors.stroke}" />`;
-    document.getElementById('plane').innerHTML += point;
+    let vertex = `<circle class="vrtx" cx="${p.x}" cy="${p.y}" r="4" fill="${Colors.stroke}" />`;
+    document.getElementById('plane').innerHTML += vertex;
     Graph.addPoint(p);
 }
 
@@ -17,7 +17,7 @@ export function randomize() {
         let np = Graph.totalPoints();
         let j;
         for (j = 0; j < np; j++) {
-            let d = distance(p, Graph.point(j));
+            let d = Point.distance(p, Graph.point(j));
             if (d < 15) break;
         }
         if (j < np) continue;
@@ -37,7 +37,8 @@ export function addPoints(cvx) {
         let p = new Point(...withOffset(e));
         let np = Graph.totalPoints();
         for (let i = 0; i < np; i++) {
-            if (distance(p, Graph.point(i)) < 8) {
+            let d = Point.distance(p, Graph.point(i));
+            if (d < 8) {
                 flag = true;
                 k = i;
                 return;
