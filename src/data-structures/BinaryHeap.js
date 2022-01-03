@@ -24,7 +24,7 @@ function input(key) {
     }
     if (!Tree.nodeAt(0)) {
         let root = { key, index: 0 };
-        root.point = { x: rx, y: dy };
+        root.point = Point.create(rx, dy);
         addVertex(root.point, key);
         Tree.pushNode(root);
         return Promise.resolve();
@@ -83,9 +83,10 @@ function heapify(child, parent) {
         parent.key = child.key;
         child.key = temp;
         return wait(delay).then(() => {
-            $('.vrtx').eq(parent.index).attr('fill', Colors.compare);
+            const { index, point } = parent;
+            $('.vrtx').eq(index).attr('fill', Colors.compare);
             return wait(delay).then(() => {
-                let d = Point.distance(parent.point, child.point);
+                let d = Point.distance(point, child.point);
                 return wait(5).then(() => swap(parent, child, d - 1));
             });
         });

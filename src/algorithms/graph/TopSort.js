@@ -45,9 +45,10 @@ function sort() {
                 let p = Graph.point(i);
                 let x2 = $(`line:eq(${ei})`).attr('x2');
                 let y2 = $(`line:eq(${ei})`).attr('y2');
-                let q = { x: x2, y: y2 };
+                let q = Point.create(x2, y2);
                 $(`line:eq(${ei})`).attr('stroke', Colors.visited);
                 let d = Point.distance(p, q);
+                // eslint-disable-next-line no-loop-func
                 Timer.timeout(() => {
                     if (ind[j] === 0) {
                         stack.push(j);

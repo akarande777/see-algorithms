@@ -4,22 +4,14 @@ import RegisterForm from '../register/register';
 import { showToast } from '../toast/toast';
 import './home.scss';
 import { AppContext } from '../../common/context';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+import { VERIFY_EMAIL } from '../../graphql/mutations';
 import Spinner from '../spinner/spinner';
-
-const VERIFY_EMAIL = gql`
-    mutation VerifyEmail($token: String!) {
-        verifyEmail(token: $token) {
-            status
-            message
-        }
-    }
-`;
 
 function Home({ location, history }) {
     const { userAuth } = useContext(AppContext);
     const [formType, setFormType] = useState(userAuth ? '' : 'register');
-    const [verifyEmail, { data, error }] = useMutation(VERIFY_EMAIL);
+    const [verifyEmail, { data }] = useMutation(VERIFY_EMAIL);
 
     useEffect(() => {
         userAuth ? setFormType('') : setFormType('register');
@@ -32,6 +24,7 @@ function Home({ location, history }) {
             verifyEmail({ variables: { token } });
             history.replace(location.pathname);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -45,11 +38,8 @@ function Home({ location, history }) {
             } else {
                 showToast({ message, variant: 'error' });
             }
-        } else if (error) {
-            const { message } = error;
-            showToast({ message, variant: 'error' });
         }
-    }, [data, error]);
+    }, [data]);
 
     return (
         <Spinner className="home" spinning={false}>

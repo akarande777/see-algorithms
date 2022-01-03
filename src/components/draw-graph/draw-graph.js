@@ -5,21 +5,25 @@ import { showToast } from '../toast/toast';
 import './draw-graph.scss';
 import Graph from '../../common/graph';
 import $ from 'jquery';
-import { clearGraph, drawGraph, switchType } from '../../algorithms/draw-graph';
+import { clearGraph, drawGraph, switchType } from '../../helpers/draw-graph';
 import { findAlgorithm, getCostMatrix } from '../../common/utils';
 import Timer from '../../common/timer';
-import { withRouter } from 'react-router-dom';
 import Spinner from '../spinner/spinner';
 import { AppContext } from '../../common/context';
 import useGraphData from './useGraphData';
 
 function DrawGraph(props) {
-    const { setContext, categories, dataArray, isGraphDirected, playStatus } =
+    const { setContext, userAuth, categories, dataArray, isDirGraph, playStatus } =
         useContext(AppContext);
     const [source, setSource] = useState('A');
     const { pathname } = props.location;
     const { algoId } = findAlgorithm(categories, pathname);
-    const { saveGraphData, loading } = useGraphData({ algoId, dataArray, setContext });
+    const { saveGraphData, loading } = useGraphData({
+        algoId,
+        skipQuery: !userAuth,
+        dataArray,
+        setContext,
+    });
 
     const validate = () => {
         let np = Graph.totalPoints();
@@ -53,7 +57,6 @@ function DrawGraph(props) {
     });
 
     const handleClear = () => {
-        Timer.clear();
         clearGraph();
         drawGraph(config());
         setContext({ playStatus: 0 });
@@ -80,19 +83,19 @@ function DrawGraph(props) {
 
     useEffect(() => {
         handleClear();
-        setContext({ isGraphDirected: false, playStatus: 0 });
+        setContext({ isDirGraph: false });
         while (Graph.isDirected()) {
             Graph.switchType();
         }
-        return () => {
-            Timer.clear() || clearGraph();
-        };
+        return () => clearGraph();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
 
     const setDirected = () => {
         switchType();
+        $('#plane').off();
         drawGraph(config());
-        setContext({ isGraphDirected: !isGraphDirected });
+        setContext({ isDirGraph: !isDirGraph });
     };
 
     const saveGraph = () => {
@@ -111,7 +114,7 @@ function DrawGraph(props) {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={isGraphDirected}
+                                        checked={isDirGraph}
                                         onChange={setDirected}
                                         name="directed"
                                         disabled={playStatus !== 0}
@@ -147,13 +150,15 @@ function DrawGraph(props) {
                 <Button variant="contained" onClick={handleClear} id="clear">
                     Clear
                 </Button>
-                {/* <Button
-                    variant="contained"
-                    onClick={() => validate() && saveGraph()}
-                    disabled={playStatus !== 0}
-                >
-                    Save
-                </Button> */}
+                {/* {userAuth && (
+                    <Button
+                        variant="contained"
+                        onClick={() => validate() && saveGraph()}
+                        disabled={playStatus !== 0}
+                    >
+                        Save
+                    </Button>
+                )} */}
             </div>
             <svg id="plane">
                 <defs>
@@ -177,4 +182,4 @@ function DrawGraph(props) {
     );
 }
 
-export default withRouter(DrawGraph);
+export default DrawGraph;

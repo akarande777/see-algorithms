@@ -1,23 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { AppContext } from '../../common/context';
 import { Form, FormField } from 'react-form-decorator';
 import Spinner from '../spinner/spinner';
-
-const LOGIN = gql`
-    mutation Login($email: String!, $password: String!) {
-        login(email: $email, password: $password) {
-            data {
-                displayName
-                authToken
-            }
-            status
-            message
-        }
-    }
-`;
+import { LOGIN } from '../../graphql/mutations';
 
 function LoginForm(props) {
     const formRef = useRef(null);
@@ -29,7 +17,7 @@ function LoginForm(props) {
         if (data) {
             const { data: userAuth, status, message } = data.login;
             if (status) {
-                setContext({ userAuth });
+                setContext({ userAuth, dataArray: [] });
                 localStorage.setItem('userAuth', JSON.stringify(userAuth));
             } else {
                 setMessage(message);
@@ -37,6 +25,7 @@ function LoginForm(props) {
         } else if (error) {
             setMessage(error.message);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, error]);
 
     const handleSubmit = (e) => {

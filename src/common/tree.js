@@ -3,7 +3,7 @@ import { Point } from './graph';
 
 var subroot, arr = [];
 
-export default {
+var Tree = {
     size: () => arr.length,
 
     pushNode: (node) => arr.push(node),
@@ -80,3 +80,5 @@ export default {
         }
     },
 };
+
+export default Tree;

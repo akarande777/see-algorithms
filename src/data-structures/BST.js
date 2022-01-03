@@ -29,11 +29,13 @@ function input(key) {
         return Promise.resolve();
     } else {
         $('.vrtx:first').attr('stroke', Colors.visited);
-        Tree.flag = key <= root.key;
-        if (Tree.flag) {
-            return wait(delay).then(() => insert(key, root.left, root, true));
+        const { left, right } = root;
+        if (key <= root.key) {
+            Tree.flag = true;
+            return wait(delay).then(() => insert(key, left, root, true));
         } else {
-            return wait(delay).then(() => insert(key, root.right, root, false));
+            Tree.flag = false;
+            return wait(delay).then(() => insert(key, right, root, false));
         }
     }
 }
@@ -67,19 +69,21 @@ function insert(key, node, parent, flag) {
     if (!node) {
         node = createNode(key, parent, flag);
         Tree.pushNode(node);
-        span(node.index - 1, node.index, Colors.visited);
+        const { index } = node;
+        span(index - 1, index, Colors.visited);
         return wait(delay).then(() => {
-            span(node.index - 1, parent.index, Colors.stroke);
-            $('.vrtx').eq(node.index).attr('stroke', Colors.stroke);
+            span(index - 1, parent.index, Colors.stroke);
+            $('.vrtx').eq(index).attr('stroke', Colors.stroke);
         });
     } else {
-        span(node.index - 1, node.index, Colors.visited);
+        const { index, left, right } = node;
+        span(index - 1, index, Colors.visited);
         return wait(delay).then(() => {
-            span(node.index - 1, parent.index, Colors.stroke);
+            span(index - 1, parent.index, Colors.stroke);
             if (key <= node.key) {
-                return wait(delay).then(() => insert(key, node.left, node, true));
+                return wait(delay).then(() => insert(key, left, node, true));
             } else {
-                return wait(delay).then(() => insert(key, node.right, node, false));
+                return wait(delay).then(() => insert(key, right, node, false));
             }
         });
     }

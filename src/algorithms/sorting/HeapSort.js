@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { createHeap, xco, yco } from '../create-heap';
+import { createHeap, xco, yco } from '../../helpers/create-heap';
 import { createTable, moveVertex } from '../../common/utils';
 import $ from 'jquery';
 import Numbers from '../../components/numbers/numbers';
@@ -79,14 +79,11 @@ function heapify(i) {
 function HeapSort() {
     const start = (values) => {
         a = [...values];
-        v = createHeap(a.length);
+        v = createHeap(a);
         n = a.length;
         createTable(1, n);
         for (let i = 0; i < n; i++) {
             $('.cell').eq(i).css('border', '2px solid');
-        }
-        for (let i = 0; i < n; i++) {
-            $('.vlbl').eq(i).text(a[i]);
         }
         k = Math.floor(n / 2) - 1;
         timer = setTimeout(heapSort, delay * 2);
@@ -208,7 +205,7 @@ function extractMax() {
     n--;
     $('.cell').eq(n).text(a[n]);
     if (n > 1) {
-        timer = setTimeout(heapify, delay, k = 0);
+        timer = setTimeout(heapify, delay, (k = 0));
     } else {
         timer = setTimeout(() => {
             timer = setInterval(fall, 10);

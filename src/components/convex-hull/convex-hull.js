@@ -1,83 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import { Button } from '@material-ui/core';
-import { PlayArrow, Pause } from '@material-ui/icons';
-// import './draw-graph.scss';
-import Graph from '../../common/graph';
+import React from 'react';
+import Graph, { Segment } from '../../common/graph';
+import AddPoints from './add-points';
 import $ from 'jquery';
-import { addPoints, randomize } from '../../algorithms/convex-hull';
 import Timer from '../../common/timer';
+import { Colors } from '../../common/constants';
+import { addPoints } from '../../helpers/convex-hull';
 
-function ConvexHull(props) {
-    const [status, setStatus] = useState(0);
-
-    const reset = () => {
-        Graph.clear();
-        addPoints();
-        randomize();
-    };
-
-    const clear = () => {
-        Timer.clear();
-        $('#plane').off();
-        $('#plane').children().remove();
-    };
-
-    const handleReset = () => {
-        clear();
-        status ? setStatus(0) : reset();
-    };
-
-    useEffect(() => () => clear(), []);
-
-    useEffect(() => {
-        switch (status) {
-            case 0:
-                reset();
-                break;
-            case 1:
-                $('#plane').off();
-                props.start();
-                break;
-            case 2:
-                Timer.resume();
-                break;
-            default:
-                Timer.pause();
-        }
-    }, [status]);
-
-    const handlePlay = () => {
-        switch (status) {
-            case 0:
-                setStatus(1);
-                break;
-            case -1:
-                setStatus(2);
-                break;
-            default:
-                setStatus(-1);
-        }
-    };
-
-    return (
-        <div className="drawGraph">
-            <div className="d-flex flex-wrap toolbar">
-                <span className="title">Add Points</span>
-                <Button
-                    variant="contained"
-                    startIcon={status > 0 ? <Pause /> : <PlayArrow />}
-                    onClick={handlePlay}
-                    disabled={Boolean(props.isDAG && status)}
-                >
-                    {status > 0 ? 'Pause' : 'Play'}
-                </Button>
-                <Button variant="contained" onClick={handleReset} id="clear">
-                    Reset
-                </Button>
-            </div>
-            <svg id="plane"></svg>
-        </div>
-    );
+export default function (props) {
+    return <AddPoints {...props} start={start} />;
 }
 
-export default ConvexHull;
+var cvx, left, p, q;
+var delay = 400;
+
+function start() {
+    cvx = [];
+    left = 0;
+    for (let i = 1; i < Graph.totalPoints(); i++) {
+        let x1 = Graph.point(i).x;
+        let x2 = Graph.point(left).x;
+        if (x1 < x2) left = i;
+    }
+    p = left;
+    convexHull();
+}
+
+function convexHull() {
+    cvx.push(p);
+    $('.vrtx').eq(p).attr('fill', Colors.visited);
+    $('.vrtx').eq(p).attr('stroke', Colors.visited);
+    q = (p + 1) % Graph.totalPoints();
+    Timer.timeout(next, delay, 0);
+}
+
+function next(i) {
+    if (i < Graph.totalPoints()) {
+        let s = Segment.create(Graph.point(p), Graph.point(q));
+        let o = Segment.orientation(s, Graph.point(i));
+        if (o === 1) {
+            q = i;
+            connect(Colors.stroke);
+            Timer.timeout(() => {
+                $('line:last').remove();
+                next(i + 1);
+            }, delay);
+            return;
+        }
+        next(i + 1);
+    } else {
+        connect(Colors.visited);
+        p = q;
+        p !== left ? convexHull(q) : addPoints(cvx);
+    }
+}
+
+function connect(color) {
+    let u = Graph.point(p);
+    let v = Graph.point(q);
+    let edge = `<line x1="${u.x}" y1="${u.y}" x2="${v.x}" y2="${v.y}" stroke-width="2" stroke="${color}" />`;
+    document.getElementById('plane').innerHTML += edge;
+}

@@ -17,7 +17,7 @@ function withOffset(e) {
         out.x = e.pageX - left;
         out.y = e.pageY - top;
     }
-    return [out.x, out.y];
+    return out;
 }
 
 function addVertex(p, vlbl) {
@@ -35,17 +35,19 @@ function moveVertex(i, r) {
     $('.vrtx').eq(i).attr('cx', r.x);
     $('.vrtx').eq(i).attr('cy', r.y);
     $('.vlbl').eq(i).attr('x', r.x);
-    $('.vlbl').eq(i).attr('y', r.y + 5);
+    $('.vlbl')
+        .eq(i)
+        .attr('y', r.y + 5);
 }
 
 function addEdge(p, q) {
-    let edge = `<line class="edge" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke-width="2" stroke="${Colors.stroke}" />`;
+    let edge = `<line class="edge" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke-width="2.5" stroke="${Colors.stroke}" />`;
     document.getElementById('plane').innerHTML += edge;
     $('line:last').insertBefore($('.vgrp:first'));
 }
 
 function cloneEdge(i, j) {
-    let edge = `<line stroke-width="3" stroke="${Colors.visited}" />`;
+    let edge = `<line stroke-width="4" stroke="${Colors.visited}" />`;
     document.getElementById('plane').innerHTML += edge;
     $('line:last').insertBefore($('.vgrp:first'));
     let p, q;
@@ -74,7 +76,6 @@ function fromDistance(start, end, distance) {
     let deltaY = y * ratio;
     return { x: end.x - deltaX, y: end.y - deltaY };
 }
-
 
 function createTable(m, n, id) {
     for (let i = 0; i < m; i++) {

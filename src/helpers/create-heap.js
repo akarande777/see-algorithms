@@ -1,10 +1,11 @@
+import { Point } from '../common/graph';
 import { addVertex, addEdge } from '../common/utils';
 
-function createHeap(n) {
-    let p = { x: 325, y: 25 };
-    addVertex(p, '');
-    let v = new Array();
-    v.push(p);
+function createHeap(arr) {
+    let n = arr.length;
+    let p = Point.create(325, 25);
+    addVertex(p, arr[0]);
+    let v = [p];
     let dx = 325, dy = 25;
     let theta = 70, hyp = 150;
     let size = 2, k = 1;
@@ -15,10 +16,10 @@ function createHeap(n) {
             let y1 = yco(theta, 15, dy);
             let x2 = xco(theta, hyp, dx, flag);
             let y2 = yco(theta, hyp, dy);
-            let p = { x: x1, y: y1 };
-            let q = { x: x2, y: y2 };
+            let p = Point.create(x1, y1);
+            let q = Point.create(x2, y2);
             addEdge(p, q);
-            addVertex(q, '');
+            addVertex(q, arr[v.length]);
             v.push(q);
             if (v.length === n) break;
             if (!flag) {

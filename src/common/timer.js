@@ -2,7 +2,7 @@ var timer, start;
 var callback, delay;
 var status = 0;
 
-export default {
+var Timer = {
     timeout(cb, d, ...args) {
         delay = d;
         callback = () => {
@@ -35,6 +35,8 @@ export default {
         clearTimeout(timer);
     },
 };
+
+export default Timer;
 
 export const wait = (ms) =>
     new Promise((resolve) => {

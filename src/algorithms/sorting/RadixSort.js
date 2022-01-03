@@ -1,3 +1,4 @@
+/* eslint-disable no-array-constructor */
 import React, { useEffect } from 'react';
 import { Select, MenuItem } from '@material-ui/core';
 import { createTable } from '../../common/utils';

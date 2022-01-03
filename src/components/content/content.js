@@ -17,7 +17,7 @@ import Prims from '../../algorithms/graph/Prims';
 import Kruskals from '../../algorithms/graph/Kruskals';
 import Dijkstras from '../../algorithms/graph/Dijkstras';
 import TopSort from '../../algorithms/graph/TopSort';
-import ConvexHull from '../../algorithms/graph/ConvexHull';
+import ConvexHull from '../convex-hull/convex-hull';
 import BST from '../../data-structures/BST';
 import BinaryHeap from '../../data-structures/BinaryHeap';
 import CircularQueue from '../../data-structures/CircularQueue';

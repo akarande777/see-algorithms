@@ -4,7 +4,7 @@ export const initialState = {
     userAuth: null,
     categories: [],
     dataArray: [],
-    isGraphDirected: false,
+    isDirGraph: false,
     playStatus: 0,
 };
 

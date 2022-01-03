@@ -1,23 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { Form, FormField } from 'react-form-decorator';
 import { showToast } from '../toast/toast';
 import Spinner from '../spinner/spinner';
-
-const REGISTER = gql`
-    mutation Register($email: String!, $password: String!, $displayName: String!) {
-        register(email: $email, password: $password, displayName: $displayName) {
-            status
-            message
-        }
-    }
-`;
+import { REGISTER } from '../../graphql/mutations';
 
 function RegisterForm(props) {
     const formRef = useRef(null);
-    const [register, { data, error, loading }] = useMutation(REGISTER);
+    const [register, { data, loading }] = useMutation(REGISTER);
     const [message, setMessage] = useState('');
 
     useEffect(() => {
@@ -32,10 +24,9 @@ function RegisterForm(props) {
             } else {
                 setMessage(message);
             }
-        } else if (error) {
-            setMessage(error.message);
         }
-    }, [data, error]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
