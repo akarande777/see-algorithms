@@ -19,7 +19,7 @@ export const GET_ALGORITHMS = gql`
 `;
 
 export const GET_ALGO_DATA = gql`
-    query GetAlgoData($algoId: Int!) {
+    query getAlgoData($algoId: Int!) {
         getAlgoData(algoId: $algoId) {
             data {
                 dataId

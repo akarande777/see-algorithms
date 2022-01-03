@@ -1,32 +1,26 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useMutation } from '@apollo/client';
-import { AppContext } from '../../common/context';
 import { Form, FormField } from 'react-form-decorator';
 import Spinner from '../spinner/spinner';
 import { LOGIN } from '../../graphql/mutations';
+import { userAuthVar } from '../../common/cache';
 
 function LoginForm(props) {
     const formRef = useRef(null);
-    const [login, { data, error, loading }] = useMutation(LOGIN);
-    const { setContext } = useContext(AppContext);
     const [message, setMessage] = useState('');
-
-    useEffect(() => {
-        if (data) {
+    const [login, { loading }] = useMutation(LOGIN, {
+        onCompleted(data) {
             const { data: userAuth, status, message } = data.login;
             if (status) {
-                setContext({ userAuth, dataArray: [] });
+                userAuthVar(userAuth);
                 localStorage.setItem('userAuth', JSON.stringify(userAuth));
             } else {
                 setMessage(message);
             }
-        } else if (error) {
-            setMessage(error.message);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data, error]);
+        },
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();

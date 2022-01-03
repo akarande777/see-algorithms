@@ -1,4 +1,3 @@
-/* eslint-disable no-array-constructor */
 import React, { useEffect } from 'react';
 import { Select, MenuItem } from '@material-ui/core';
 import { createTable } from '../../common/utils';
@@ -145,7 +144,9 @@ function RadixSort() {
                 <Select onChange={handleSelect} className="select">
                     <MenuItem></MenuItem>
                     {[7, 8, 9, 10, 11, 12].map((i) => (
-                        <MenuItem key={i} value={i}>{i}</MenuItem>
+                        <MenuItem key={i} value={i}>
+                            {i}
+                        </MenuItem>
                     ))}
                 </Select>
             </div>

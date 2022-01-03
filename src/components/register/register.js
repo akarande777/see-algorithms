@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useMutation } from '@apollo/client';
@@ -9,11 +9,9 @@ import { REGISTER } from '../../graphql/mutations';
 
 function RegisterForm(props) {
     const formRef = useRef(null);
-    const [register, { data, loading }] = useMutation(REGISTER);
     const [message, setMessage] = useState('');
-
-    useEffect(() => {
-        if (data) {
+    const [register, { loading }] = useMutation(REGISTER, {
+        onCompleted(data) {
             const { status, message } = data.register;
             if (status) {
                 showToast({
@@ -24,9 +22,8 @@ function RegisterForm(props) {
             } else {
                 setMessage(message);
             }
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data]);
+        },
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();

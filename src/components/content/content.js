@@ -1,7 +1,6 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment } from 'react';
 import { Switch, Route, withRouter, Link } from 'react-router-dom';
 import { Breadcrumbs } from '@material-ui/core';
-import { AppContext } from '../../common/context';
 import Home from '../home/home';
 import PageNotFound from '../404/404';
 
@@ -22,10 +21,12 @@ import BST from '../../data-structures/BST';
 import BinaryHeap from '../../data-structures/BinaryHeap';
 import CircularQueue from '../../data-structures/CircularQueue';
 
+import { useReactiveVar } from '@apollo/client';
+import { categoriesVar } from '../../common/cache';
 import { findAlgorithm } from '../../common/utils';
 
 function Content({ location }) {
-    const { categories } = useContext(AppContext);
+    const categories = useReactiveVar(categoriesVar);
     if (!categories.length) return null;
     const algo = findAlgorithm(categories, location.pathname);
 

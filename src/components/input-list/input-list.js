@@ -5,9 +5,13 @@ import { AppContext } from '../../common/context';
 import './input-list.scss';
 import { findCategory } from '../../common/utils';
 import { createGraph } from '../../helpers/draw-graph';
+import { useReactiveVar } from '@apollo/client';
+import { dataArrayVar, categoriesVar } from '../../common/cache';
 
 function InputList() {
-    const { dataArray, categories, setContext } = useContext(AppContext);
+    const { setContext } = useContext(AppContext);
+    const dataArray = useReactiveVar(dataArrayVar);
+    const categories = useReactiveVar(categoriesVar);
 
     const handleSelect = (algoId, algoData) => {
         const { catName } = findCategory(categories, algoId);
@@ -23,7 +27,6 @@ function InputList() {
             default:
         }
     };
-    console.log(dataArray)
 
     return (
         <List className="inputList">

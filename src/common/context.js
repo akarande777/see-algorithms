@@ -1,9 +1,6 @@
 import { createContext } from 'react';
 
 export const initialState = {
-    userAuth: null,
-    categories: [],
-    dataArray: [],
     isDirGraph: false,
     playStatus: 0,
 };

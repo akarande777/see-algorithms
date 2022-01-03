@@ -6,24 +6,21 @@ import './draw-graph.scss';
 import Graph from '../../common/graph';
 import $ from 'jquery';
 import { clearGraph, drawGraph, switchType } from '../../helpers/draw-graph';
-import { findAlgorithm, getCostMatrix } from '../../common/utils';
+import { getCostMatrix } from '../../common/utils';
 import Timer from '../../common/timer';
 import Spinner from '../spinner/spinner';
 import { AppContext } from '../../common/context';
 import useGraphData from './useGraphData';
+import { useReactiveVar } from '@apollo/client';
+import { userAuthVar } from '../../common/cache';
 
 function DrawGraph(props) {
-    const { setContext, userAuth, categories, dataArray, isDirGraph, playStatus } =
-        useContext(AppContext);
+    const { setContext, isDirGraph, playStatus } = useContext(AppContext);
+    const userAuth = useReactiveVar(userAuthVar);
     const [source, setSource] = useState('A');
-    const { pathname } = props.location;
-    const { algoId } = findAlgorithm(categories, pathname);
-    const { saveGraphData, loading } = useGraphData({
-        algoId,
-        skipQuery: !userAuth,
-        dataArray,
-        setContext,
-    });
+    const { state: algoId } = props.location;
+    const payload = { algoId, skipQuery: !userAuth };
+    const { saveGraphData, loading } = useGraphData(payload);
 
     const validate = () => {
         let np = Graph.totalPoints();
@@ -89,7 +86,7 @@ function DrawGraph(props) {
         }
         return () => clearGraph();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pathname]);
+    }, [algoId]);
 
     const setDirected = () => {
         switchType();
@@ -150,7 +147,7 @@ function DrawGraph(props) {
                 <Button variant="contained" onClick={handleClear} id="clear">
                     Clear
                 </Button>
-                {/* {userAuth && (
+                {false && (
                     <Button
                         variant="contained"
                         onClick={() => validate() && saveGraph()}
@@ -158,7 +155,7 @@ function DrawGraph(props) {
                     >
                         Save
                     </Button>
-                )} */}
+                )}
             </div>
             <svg id="plane">
                 <defs>

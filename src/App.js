@@ -12,11 +12,21 @@ import Spinner from './components/spinner/spinner';
 import { AppContext, initialState } from './common/context';
 import { useQuery } from '@apollo/client';
 import { GET_ALGORITHMS } from './graphql/queries';
+import { categoriesVar, userAuthVar } from './common/cache';
 
 function App() {
     const [state, setState] = useState(initialState);
     const [visible, setVisible] = useState(false);
-    const { loading, data } = useQuery(GET_ALGORITHMS);
+    const { loading } = useQuery(GET_ALGORITHMS, {
+        onCompleted(data) {
+            const { data: _data, status, message } = data.getAlgorithms;
+            if (status) {
+                categoriesVar(_data);
+            } else {
+                showToast({ message, variant: 'error' });
+            }
+        },
+    });
 
     const setContext = (slice) => {
         setState((state) => ({ ...state, ...slice }));
@@ -25,20 +35,9 @@ function App() {
     useEffect(() => {
         const userAuth = localStorage.getItem('userAuth');
         if (userAuth) {
-            setContext({ userAuth: JSON.parse(userAuth) });
+            userAuthVar(JSON.parse(userAuth));
         }
     }, []);
-
-    useEffect(() => {
-        if (data) {
-            const { data: categories, status, message } = data.getAlgorithms;
-            if (status) {
-                setContext({ categories });
-            } else {
-                showToast({ message, variant: 'error' });
-            }
-        }
-    }, [data]);
 
     return (
         <AppContext.Provider value={{ ...state, setContext }}>

@@ -1,16 +1,18 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { InsertChart, MeetingRoom } from '@material-ui/icons';
 import { withRouter } from 'react-router-dom';
 import './sider.scss';
 import { showMenu } from '../menu/menu';
-import { AppContext } from '../../common/context';
+import { useReactiveVar } from '@apollo/client';
+import { categoriesVar, userAuthVar } from '../../common/cache';
 
 function Sider(props) {
-    const { categories, userAuth, setContext } = useContext(AppContext);
+    const categories = useReactiveVar(categoriesVar);
+    const userAuth = useReactiveVar(userAuthVar);
 
-    const handleSelect = (item) => {
-        props.history.push(item.value);
+    const handleSelect = ({ key, value }) => {
+        props.history.push(value, key);
         props.onClose();
     };
 
@@ -49,7 +51,7 @@ function Sider(props) {
                     button
                     className="listItem logout"
                     onClick={() => {
-                        setContext({ userAuth: null });
+                        userAuthVar(null);
                         localStorage.removeItem('userAuth');
                         props.onClose();
                         props.history.push('/');
