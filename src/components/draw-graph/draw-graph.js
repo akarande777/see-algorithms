@@ -80,10 +80,9 @@ function DrawGraph(props) {
 
     useEffect(() => {
         handleClear();
-        setContext({ isDirGraph: false });
-        while (Graph.isDirected()) {
-            Graph.switchType();
-        }
+        const isDirGraph = props.isDAG || false;
+        setContext({ isDirGraph });
+        Graph.isDirected() !== isDirGraph && Graph.switchType();
         return () => clearGraph();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [algoId]);
