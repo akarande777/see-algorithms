@@ -1,17 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { showToast } from '../toast/toast';
 import { Select, Input, Button, MenuItem } from '@material-ui/core';
 import './numbers.scss';
+import { dataArrayVar } from '../../common/cache';
+import { randomInt } from '../../common/utils';
 
 function Numbers(props) {
     const [values, setValues] = useState([]);
     const [status, setStatus] = useState(false);
+    const { min = 7, max = 12 } = props;
+
+    useEffect(() => {
+        dataArrayVar([]);
+    }, []);
 
     const handleSelect = (e) => {
         const size = parseInt(e.target.value);
         const values = [];
         for (let i = 0; i < size; i++) {
-            values.push(Math.floor(Math.random() * 100));
+            values.push(randomInt());
         }
         setValues(values);
     };
@@ -60,11 +67,13 @@ function Numbers(props) {
             {!values.length ? (
                 <Select onChange={handleSelect} className="select">
                     <MenuItem></MenuItem>
-                    {[6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((i) => (
-                        <MenuItem key={i} value={i}>
-                            {i}
-                        </MenuItem>
-                    ))}
+                    {Array.from(Array(max - min + 1))
+                        .map((_, i) => min + i)
+                        .map((i) => (
+                            <MenuItem key={i} value={i}>
+                                {i}
+                            </MenuItem>
+                        ))}
                 </Select>
             ) : (
                 <div>

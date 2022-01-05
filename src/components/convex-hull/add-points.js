@@ -4,9 +4,10 @@ import { PlayArrow, Pause } from '@material-ui/icons';
 // import './draw-graph.scss';
 import Graph from '../../common/graph';
 import $ from 'jquery';
-import { addPoints, randomize } from '../../helpers/convex-hull';
+import { addPoints, randomize } from '../../helpers/convexHull';
 import Timer from '../../common/timer';
 import { AppContext } from '../../common/context';
+import { dataArrayVar } from '../../common/cache';
 
 function AddPoints(props) {
     const { setContext, playStatus } = useContext(AppContext);
@@ -44,6 +45,7 @@ function AddPoints(props) {
 
     useEffect(() => {
         handleReset();
+        dataArrayVar([]);
         return () => clear();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

@@ -45,3 +45,13 @@ export const SAVE_ALGO_DATA = gql`
         }
     }
 `;
+
+export const REMOVE_ALGO_DATA = gql`
+    mutation RemoveAlgoData($dataId: Int!) {
+        removeAlgoData(dataId: $dataId) {
+            data
+            status
+            message
+        }
+    }
+`;

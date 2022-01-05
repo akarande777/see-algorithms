@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import $ from 'jquery';
-import DataInput from '../components/data-input/data-input';
+import DSInput from '../components/ds-input/ds-input';
 import { showToast } from '../components/toast/toast';
+import { randomInt } from '../common/utils';
 
 const buttons = [
     { text: 'Enqueue', onClick: enqueue },
@@ -10,7 +11,7 @@ const buttons = [
 
 export default function (props) {
     useEffect(() => createQueue(), []);
-    return <DataInput {...props} buttons={buttons} />;
+    return <DSInput {...props} buttons={buttons} />;
 }
 
 var n = 16;
@@ -38,7 +39,7 @@ function createQueue() {
         let text = `<text class="num" x="${nx}" y="${ny}"></text>`;
         document.getElementById('plane').innerHTML += text;
         if (i < rear) {
-            $('.num:last').html(Math.floor(Math.random() * 100));
+            $('.num:last').html(randomInt());
         }
         nx = 195 + (r + 20) * Math.sin(rad);
         ny = 205 + (r + 20) * Math.cos(rad);

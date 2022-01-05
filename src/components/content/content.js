@@ -27,7 +27,6 @@ import { findAlgorithm } from '../../common/utils';
 
 function Content({ location }) {
     const categories = useReactiveVar(categoriesVar);
-    if (!categories.length) return null;
     const algo = findAlgorithm(categories, location.pathname);
 
     return (

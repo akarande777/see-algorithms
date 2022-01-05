@@ -115,10 +115,12 @@ export {
     getCostMatrix,
 };
 
+export const isNumber = (x) => !isNaN(parseInt(x));
+
+export const randomInt = () => Math.floor(Math.random() * 99) + 1;
+
 export const findAlgorithm = (categories, pathname) =>
     df.findLeaf(categories, (x) => pathname.includes(x.pathId));
 
 export const findCategory = (categories, algoId) =>
     df.hierarchy(categories, (x) => x.algoId === algoId)[0];
-
-export const isNumber = (x) => !isNaN(parseInt(x));

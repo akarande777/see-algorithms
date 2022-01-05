@@ -5,12 +5,12 @@ import { showToast } from '../toast/toast';
 import './draw-graph.scss';
 import Graph from '../../common/graph';
 import $ from 'jquery';
-import { clearGraph, drawGraph, switchType } from '../../helpers/draw-graph';
+import { clearGraph, drawGraph, switchType } from '../../helpers/drawGraph';
 import { getCostMatrix } from '../../common/utils';
 import Timer from '../../common/timer';
 import Spinner from '../spinner/spinner';
 import { AppContext } from '../../common/context';
-import useGraphData from './useGraphData';
+import useAlgoData from '../../helpers/useAlgoData';
 import { useReactiveVar } from '@apollo/client';
 import { userAuthVar } from '../../common/cache';
 
@@ -20,7 +20,7 @@ function DrawGraph(props) {
     const [source, setSource] = useState('A');
     const { state: algoId } = props.location;
     const payload = { algoId, skipQuery: !userAuth };
-    const { saveGraphData, loading } = useGraphData(payload);
+    const { saveGraphData, loading } = useAlgoData(payload);
 
     const validate = () => {
         let np = Graph.totalPoints();
@@ -146,7 +146,7 @@ function DrawGraph(props) {
                 <Button variant="contained" onClick={handleClear} id="clear">
                     Clear
                 </Button>
-                {false && (
+                {userAuth && (
                     <Button
                         variant="contained"
                         onClick={() => validate() && saveGraph()}

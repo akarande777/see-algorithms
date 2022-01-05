@@ -6,9 +6,7 @@ export var showMenu = () => {};
 function List() {
     const [options, setOptions] = useState({});
     const { anchorEl, anchorOrigin, menuItems, onSelect } = options;
-
     showMenu = (options) => setOptions(options);
-
     return (
         <Menu
             anchorEl={anchorEl}

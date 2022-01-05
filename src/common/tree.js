@@ -4,11 +4,10 @@ import { Point } from './graph';
 var subroot, arr = [];
 
 var Tree = {
+    flag: true,
     size: () => arr.length,
-
-    pushNode: (node) => arr.push(node),
-
-    nodeAt: (index) => arr[index],
+    node: (index) => arr[index],
+    push: (node) => arr.push(node),
 
     clear() {
         arr = [];
@@ -41,7 +40,7 @@ var Tree = {
         subroot.point.x = x2;
         this.shift(subroot.left, d);
         this.shift(subroot.right, d);
-        this.accomodate(subroot);
+        this.cleanUp(subroot);
     },
 
     shift(node, d) {
@@ -59,10 +58,10 @@ var Tree = {
         node.point.x = x2;
         this.shift(node.left, d);
         this.shift(node.right, d);
-        this.accomodate(node);
+        this.cleanUp(node);
     },
 
-    accomodate(node) {
+    cleanUp(node) {
         let i;
         for (i = 3; i < arr.length; i++) {
             if (arr[i].index !== node.index) {

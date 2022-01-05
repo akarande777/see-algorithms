@@ -23,7 +23,7 @@ function Sider(props) {
     });
 
     return (
-        <List className="categories">
+        <List className="sider">
             {categories.map(({ catId, catName, algorithms }) => (
                 <ListItem
                     button

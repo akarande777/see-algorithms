@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import $ from 'jquery';
-import DataInput from '../components/data-input/data-input';
+import DSInput from '../components/ds-input/ds-input';
 import { addVertex, addEdge } from '../common/utils';
 import Tree from '../common/tree';
 import { Colors } from '../common/constants';
@@ -10,7 +10,7 @@ const buttons = [{ text: 'Insert', onClick: input }];
 
 export default function (props) {
     useEffect(() => Tree.clear(), []);
-    return <DataInput {...props} buttons={buttons} />;
+    return <DSInput {...props} buttons={buttons} />;
 }
 
 var root, rx = 350;
@@ -21,11 +21,11 @@ function input(key) {
     if (Tree.size() === 15) {
         return Promise.resolve(true);
     }
-    if (!Tree.nodeAt(0)) {
+    if (!Tree.node(0)) {
         root = { key, index: 0 };
         root.point = { x: rx, y: dy };
         addVertex(root.point, key);
-        Tree.pushNode(root);
+        Tree.push(root);
         return Promise.resolve();
     } else {
         $('.vrtx:first').attr('stroke', Colors.visited);
@@ -68,7 +68,7 @@ function createNode(key, parent, left) {
 function insert(key, node, parent, flag) {
     if (!node) {
         node = createNode(key, parent, flag);
-        Tree.pushNode(node);
+        Tree.push(node);
         const { index } = node;
         span(index - 1, index, Colors.visited);
         return wait(delay).then(() => {

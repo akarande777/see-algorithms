@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { showToast } from '../toast/toast';
 import { Input, Button } from '@material-ui/core';
-import './data-input.scss';
+import './ds-input.scss';
+import { dataArrayVar } from '../../common/cache';
+import { randomInt } from '../../common/utils';
 
-function DataInput(props) {
-    const [number, setNumber] = useState(Math.floor(Math.random() * 100));
+function DSInput(props) {
+    const [number, setNumber] = useState(randomInt());
     const [status, setStatus] = useState(false);
+
+    useEffect(() => {
+        dataArrayVar([]);
+    }, []);
 
     const handleInput = (e) => {
         let value = e.target.value.trim().slice(0, 3);
@@ -25,21 +31,17 @@ function DataInput(props) {
             callback(number).then((flag) => {
                 if (!flag) {
                     setStatus(false);
-                    setNumber(Math.floor(Math.random() * 100));
+                    setNumber(randomInt());
                 }
             });
         }
     };
 
     return (
-        <div className="dataInput">
+        <div className="numberInput">
             <div className="input" style={{ marginBottom: 0 }}>
                 <span className="label">Enter a number: &nbsp;</span>
-                <Input
-                    value={number}
-                    onChange={(e) => handleInput(e)}
-                    className="number"
-                />
+                <Input value={number} onChange={handleInput} className="number" />
                 <div>
                     {props.buttons.map((btn, i) => (
                         <Button
@@ -58,4 +60,4 @@ function DataInput(props) {
     );
 }
 
-export default DataInput;
+export default DSInput;

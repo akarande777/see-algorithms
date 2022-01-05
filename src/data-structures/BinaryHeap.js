@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import $ from 'jquery';
-import DataInput from '../components/data-input/data-input';
+import DSInput from '../components/ds-input/ds-input';
 import { addVertex, addEdge, fromDistance, moveVertex } from '../common/utils';
 import Tree from '../common/tree';
 import { Point } from '../common/graph';
@@ -11,7 +11,7 @@ const buttons = [{ text: 'Insert', onClick: input }];
 
 export default function (props) {
     useEffect(() => Tree.clear(), []);
-    return <DataInput {...props} buttons={buttons} />;
+    return <DSInput {...props} buttons={buttons} />;
 }
 
 var rx = 350;
@@ -22,17 +22,17 @@ function input(key) {
     if (Tree.size() === 15) {
         return Promise.resolve(true);
     }
-    if (!Tree.nodeAt(0)) {
+    if (!Tree.node(0)) {
         let root = { key, index: 0 };
         root.point = Point.create(rx, dy);
         addVertex(root.point, key);
-        Tree.pushNode(root);
+        Tree.push(root);
         return Promise.resolve();
     } else {
         let size = Tree.size();
-        let parent = Tree.nodeAt(Math.floor((size - 1) / 2));
+        let parent = Tree.node(Math.floor((size - 1) / 2));
         let { node, p, q } = createNode(key, parent, size);
-        Tree.pushNode(node);
+        Tree.push(node);
         let d = Point.distance(p, q);
         return wait(10).then(() => span(node, p, q, d - 2));
     }

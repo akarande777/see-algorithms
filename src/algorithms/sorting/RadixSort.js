@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { Select, MenuItem } from '@material-ui/core';
 import { createTable } from '../../common/utils';
+import Numbers from '../../components/numbers/numbers';
 
 var a, n, cells;
 var out, b, k;
@@ -8,7 +8,7 @@ var max, exp;
 var timer;
 var delay = 700;
 
-function shift() {
+function next() {
     for (let i = 0; i < n; i++) {
         cells[i].innerHTML = '</div>';
         let t = a[i];
@@ -17,7 +17,7 @@ function shift() {
             let r = t % 10;
             if (j === exp) {
                 cells[i].innerHTML =
-                    '<span style="color: crimson">' + r + '</span>' + cells[i].innerHTML;
+                    '<span style="color: #e91e63">' + r + '</span>' + cells[i].innerHTML;
             } else {
                 cells[i].innerHTML = r + cells[i].innerHTML;
             }
@@ -29,7 +29,7 @@ function shift() {
 }
 
 function radixSort() {
-    shift();
+    next();
     if (Math.floor(max / exp) > 0) {
         b = new Array();
         for (let j = 0; j < 10; j++) b[j] = 0;
@@ -42,14 +42,14 @@ function bucket() {
     if (k < n) {
         let j = Math.floor(a[k] / exp) % 10;
         b[j]++;
-        cells[k].setAttribute('bgcolor', '#F9E79F');
+        cells[k].setAttribute('bgcolor', '#ffe57f');
         timer = setTimeout(function () {
             cells[k].removeAttribute('bgcolor');
             document
                 .getElementsByClassName('mydiv')[0]
                 .setAttribute(
                     'style',
-                    'background-color: #F9E79F; margin-top: 4px; border: thin solid'
+                    'background-color: #ffe57f; margin-top: 4px; border: thin solid'
                 );
             cells[j + n].innerHTML = cells[k].innerHTML + cells[j + n].innerHTML;
             cells[k++].innerHTML = '';
@@ -75,7 +75,7 @@ function combine(j) {
         if (bkt.childNodes.length > 0) {
             bkt.firstChild.removeAttribute('style');
             cells[k].innerHTML = bkt.firstChild.outerHTML;
-            cells[k].setAttribute('bgcolor', '#F9E79F');
+            cells[k].setAttribute('bgcolor', '#ffe57f');
             k--;
             bkt.removeChild(bkt.firstChild);
             timer = setTimeout(combine, delay, j);
@@ -91,23 +91,9 @@ function combine(j) {
 }
 
 function RadixSort() {
-    useEffect(() => {
-        return () => clearTimeout(timer);
-    }, []);
-
-    const handleSelect = (e) => {
-        a = new Array();
-        n = parseInt(e.target.value);
-        for (let i = 0; i < n; i++) {
-            a[i] = Math.floor(Math.random() * 900 + 100);
-        }
-        clearTimeout(timer);
-        document.getElementById('tbl').innerHTML = '';
-        document.getElementById('bkt').innerHTML = '';
-        start();
-    };
-
-    const start = () => {
+    const start = (values) => {
+        a = [...values];
+        n = a.length;
         createTable(1, n);
         createTable(2, 10, 'bkt');
         cells = document.querySelectorAll('.cell');
@@ -137,19 +123,17 @@ function RadixSort() {
         timer = setTimeout(radixSort, delay);
     };
 
+    const stop = () => {
+        clearTimeout(timer);
+        document.getElementById('tbl').innerHTML = '';
+        document.getElementById('bkt').innerHTML = '';
+    };
+
+    useEffect(() => () => stop(), []);
+
     return (
         <div className="sortNumbers">
-            <div className="input">
-                <span className="label">Select number of elements: &nbsp;</span>
-                <Select onChange={handleSelect} className="select">
-                    <MenuItem></MenuItem>
-                    {[7, 8, 9, 10, 11, 12].map((i) => (
-                        <MenuItem key={i} value={i}>
-                            {i}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </div>
+            <Numbers start={start} stop={stop} />
             <table id="tbl" />
             <br />
             <br />

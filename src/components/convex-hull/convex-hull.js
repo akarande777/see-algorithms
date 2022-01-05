@@ -4,7 +4,7 @@ import AddPoints from './add-points';
 import $ from 'jquery';
 import Timer from '../../common/timer';
 import { Colors } from '../../common/constants';
-import { addPoints } from '../../helpers/convex-hull';
+import { addPoints } from '../../helpers/convexHull';
 
 export default function (props) {
     return <AddPoints {...props} start={start} />;

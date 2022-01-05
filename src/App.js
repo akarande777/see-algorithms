@@ -7,8 +7,8 @@ import Sider from './components/sider/sider';
 import Content from './components/content/content';
 import Toast, { showToast } from './components/toast/toast';
 import Menu from './components/menu/menu';
-import InputList from './components/input-list/input-list';
 import Spinner from './components/spinner/spinner';
+import DataItems from './components/data-items/data-items';
 import { AppContext, initialState } from './common/context';
 import { useQuery } from '@apollo/client';
 import { GET_ALGORITHMS } from './graphql/queries';
@@ -16,7 +16,7 @@ import { categoriesVar, userAuthVar } from './common/cache';
 
 function App() {
     const [state, setState] = useState(initialState);
-    const [visible, setVisible] = useState(false);
+    const [menuVisible, setMenuVisible] = useState(false);
     const { loading } = useQuery(GET_ALGORITHMS, {
         onCompleted(data) {
             const { data: _data, status, message } = data.getAlgorithms;
@@ -44,28 +44,28 @@ function App() {
             <Spinner className="App" spinning={loading}>
                 <Toast />
                 <Menu />
-                <Header toggleMenu={() => setVisible(!visible)} />
+                <Header toggleMenu={() => setMenuVisible(!menuVisible)} />
                 <BrowserRouter>
                     <Drawer
                         anchor="left"
-                        open={visible}
-                        onClose={() => setVisible(false)}
+                        open={menuVisible}
+                        onClose={() => setMenuVisible(false)}
                         className="drawer"
                         PaperProps={{ className: 'paper' }}
                         BackdropProps={{ className: 'backdrop' }}
                     >
-                        <Sider onClose={() => setVisible(false)} />
+                        <Sider onClose={() => setMenuVisible(false)} />
                     </Drawer>
                     <Grid container className="layout">
-                        <Grid item xs={2} className="d-none d-md-block sider">
+                        <Grid item xs={2} className="d-none d-md-block">
                             <Sider onClose={() => {}} />
                         </Grid>
                         <Grid item xs className="content">
-                            <Content visible={visible} />
+                            <Content />
                         </Grid>
-                        {/* <Grid item xs={2} className="d-none d-md-block sider">
-                            <InputList />
-                        </Grid> */}
+                        <Grid item xs={2} className="d-none d-md-block">
+                            <DataItems />
+                        </Grid>
                     </Grid>
                 </BrowserRouter>
             </Spinner>
