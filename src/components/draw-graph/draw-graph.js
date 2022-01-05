@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { Button, Checkbox, TextField, FormControlLabel } from '@material-ui/core';
 import { PlayArrow, Pause } from '@material-ui/icons';
 import { showToast } from '../toast/toast';
@@ -20,7 +20,7 @@ function DrawGraph(props) {
     const [source, setSource] = useState('A');
     const { state: algoId } = props.location;
     const payload = { algoId, skipQuery: !userAuth };
-    const { saveGraphData, loading } = useAlgoData(payload);
+    const { saveAlgoData, loading } = useAlgoData(payload);
 
     const validate = () => {
         let np = Graph.totalPoints();
@@ -97,7 +97,7 @@ function DrawGraph(props) {
     const saveGraph = () => {
         const costMatrix = getCostMatrix();
         const data = Graph.stringify({ costMatrix, ...config() });
-        saveGraphData({ variables: { algoId, data } });
+        saveAlgoData({ variables: { algoId, data } });
     };
 
     return (
@@ -105,7 +105,7 @@ function DrawGraph(props) {
             <div className="d-flex flex-wrap toolbar">
                 <span className="title">Draw Graph</span>
                 {!props.isDAG && (
-                    <>
+                    <Fragment>
                         {!props.isMST && (
                             <FormControlLabel
                                 control={
@@ -133,7 +133,7 @@ function DrawGraph(props) {
                                 size="small"
                             />
                         )}
-                    </>
+                    </Fragment>
                 )}
                 <Button
                     variant="contained"
