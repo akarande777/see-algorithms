@@ -19,6 +19,7 @@ function Home({ location, history }) {
                     message: 'Email verified successfully!',
                     variant: 'success',
                 });
+                setFormType('login');
             } else {
                 showToast({ message, variant: 'error' });
             }
