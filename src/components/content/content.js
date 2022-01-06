@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route, withRouter, Link, Redirect } from 'react-router-dom';
 import { Breadcrumbs } from '@material-ui/core';
 import Home from '../home/home';
@@ -23,13 +23,17 @@ import BinaryHeap from '../../data-structures/BinaryHeap';
 import CircularQueue from '../../data-structures/CircularQueue';
 
 import { useReactiveVar } from '@apollo/client';
-import { categoriesVar, userAuthVar } from '../../common/cache';
+import { categoriesVar, dataArrayVar, userAuthVar } from '../../common/cache';
 import { findAlgorithm } from '../../common/utils';
 
 function Content({ location }) {
     const userAuth = useReactiveVar(userAuthVar);
     const categories = useReactiveVar(categoriesVar);
-    const algo = findAlgorithm(categories, location.pathname);
+    const algo = findAlgorithm(categories, location.state);
+
+    useEffect(() => {
+        !algo && dataArrayVar([]);
+    }, [algo]);
 
     return (
         <div className="content">

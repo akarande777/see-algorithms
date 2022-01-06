@@ -1,11 +1,12 @@
 import React from 'react';
-import { CircularProgress } from '@material-ui/core';
-import './spinner.scss';
+import { Backdrop, CircularProgress } from '@material-ui/core';
 
 function Spinner({ spinning, className, children }) {
     return (
-        <div className={`${className || ''} ${spinning ? 'spinning' : ''}`}>
-            {spinning && <CircularProgress className="spinner" />}
+        <div className={className}>
+            <Backdrop open={spinning} style={{ zIndex: 100 }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
             {children}
         </div>
     );
