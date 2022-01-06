@@ -10,9 +10,15 @@
 .layout {
     height: $layout-height;
 
-    .content {
-        overflow: auto;
+    .container {
         height: 100%;
+        overflow-x: auto;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        padding: 0;
+    }
+    .content {
         padding: 1.5rem;
     }
 }
@@ -27,7 +33,7 @@
 
 .sortNumbers,
 .drawGraph {
-    min-width: max-content;
+    width: max-content;
 
     table {
         border-collapse: separate;

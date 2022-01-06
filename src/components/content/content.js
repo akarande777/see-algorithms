@@ -30,7 +30,7 @@ function Content({ location }) {
     const algo = findAlgorithm(categories, location.pathname);
 
     return (
-        <Fragment>
+        <div className="content">
             <Breadcrumbs>
                 {algo ? <Link to="/">Home</Link> : <span>Home</span>}
                 {algo && <span>{algo.algoName}</span>}
@@ -58,7 +58,7 @@ function Content({ location }) {
                     <PageNotFound />
                 </Route>
             </Switch>
-        </Fragment>
+        </div>
     );
 }
 

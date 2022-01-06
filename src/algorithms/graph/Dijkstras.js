@@ -1,5 +1,5 @@
 import React from 'react';
-import { fromDistance, cloneEdge, getCostMatrix } from '../../common/utils';
+import { fromDistance, cloneEdge, getCostMatrix, isNumber } from '../../common/utils';
 import Graph from '../../common/graph';
 import DrawGraph from '../../components/draw-graph/draw-graph';
 import $ from 'jquery';
@@ -40,7 +40,7 @@ function dijkstra(i) {
     for (let j = 0; j < n; j++) {
         if (v.indexOf(j) === -1) {
             let ei = Graph.edgeIndex(i, j);
-            if (isNaN(ei)) continue;
+            if (!isNumber(ei)) continue;
             $('.edge').eq(ei).attr('stroke-dasharray', '8,4');
             if (d[i] + w[i][j] < d[j]) {
                 d[j] = d[i] + w[i][j];

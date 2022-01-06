@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import { DeleteOutline } from '@material-ui/icons';
 import { AppContext } from '../../common/context';
 import './data-items.scss';
@@ -15,7 +16,7 @@ function DataItems() {
     const dataArray = useReactiveVar(dataArrayVar);
     const categories = useReactiveVar(categoriesVar);
 
-    const [removeAlgoData] = useMutation(REMOVE_ALGO_DATA, {
+    const [removeAlgoData, { loading }] = useMutation(REMOVE_ALGO_DATA, {
         onCompleted(data) {
             const { data: dataId, status, message } = data.removeAlgoData;
             if (status) {
@@ -44,10 +45,17 @@ function DataItems() {
     const handleRemove = (e, dataId) => {
         e.stopPropagation();
         removeAlgoData({ variables: { dataId } });
-    }
+    };
 
     return (
-        <List className="inputList">
+        <List
+            className={'dataItems ' + (loading ? 'spinning' : '')}
+            subheader={
+                <ListSubheader component="div" className="listHeader">
+                    Saved Data Items
+                </ListSubheader>
+            }
+        >
             {dataArray.map(({ dataId, algoId, algoData, createdOn }) => (
                 <ListItem
                     button

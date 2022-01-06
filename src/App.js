@@ -10,13 +10,15 @@ import Menu from './components/menu/menu';
 import Spinner from './components/spinner/spinner';
 import DataItems from './components/data-items/data-items';
 import { AppContext, initialState } from './common/context';
-import { useQuery } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { GET_ALGORITHMS } from './graphql/queries';
-import { categoriesVar, userAuthVar } from './common/cache';
+import { categoriesVar, dataArrayVar, userAuthVar } from './common/cache';
 
 function App() {
     const [state, setState] = useState(initialState);
     const [menuVisible, setMenuVisible] = useState(false);
+    const dataArray = useReactiveVar(dataArrayVar);
+
     const { loading } = useQuery(GET_ALGORITHMS, {
         onCompleted(data) {
             const { data: _data, status, message } = data.getAlgorithms;
@@ -60,11 +62,9 @@ function App() {
                         <Grid item xs={2} className="d-none d-md-block">
                             <Sider onClose={() => {}} />
                         </Grid>
-                        <Grid item xs className="content">
+                        <Grid item xs className="container">
                             <Content />
-                        </Grid>
-                        <Grid item xs={2} className="d-none d-md-block">
-                            <DataItems />
+                            {dataArray.length > 0 && <DataItems />}
                         </Grid>
                     </Grid>
                 </BrowserRouter>

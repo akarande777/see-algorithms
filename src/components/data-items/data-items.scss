@@ -1,7 +1,15 @@
-.inputList {
-    width: 100%;
-    height: 100%;
+@import '../../common/styles.scss';
 
+.dataItems {
+    height: 100%;
+    border-left: $border;
+    overflow: auto;
+    min-width: max-content;
+
+    .listHeader {
+        border-bottom: $border;
+        background-color: white;
+    }
     .listItemIcon {
         position: relative;
         left: 1.5rem;
