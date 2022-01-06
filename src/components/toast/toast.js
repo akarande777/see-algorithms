@@ -11,11 +11,11 @@ function Toast() {
     return (
         <Snackbar
             open={Boolean(message)}
-            autoHideDuration={2000}
+            autoHideDuration={3000}
             onClose={() => setOptions({})}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
-            {message && <Alert severity={variant}> {message} </Alert>}
+            {message && <Alert severity={variant}>{message}</Alert>}
         </Snackbar>
     );
 }
