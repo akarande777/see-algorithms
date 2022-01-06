@@ -26,21 +26,22 @@ function DrawGraph(props) {
         let np = Graph.totalPoints();
         if (np < 2) {
             showToast({
-                message: 'Graph cannot be empty',
+                message: 'Graph cannot be empty!',
                 variant: 'error',
             });
             return false;
         }
-        if (source < 'A' || source > 'Z') {
+        let lastChar = String.fromCharCode(64 + np);
+        if (source < 'A' || source > lastChar) {
             showToast({
-                message: 'Please enter valid source',
+                message: 'Please enter a valid source.',
                 variant: 'error',
             });
             return false;
         }
         if (!Graph.isConnected()) {
             showToast({
-                message: 'Please draw connected graph',
+                message: 'Please draw connected graph.',
                 variant: 'error',
             });
             return false;

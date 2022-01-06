@@ -35,7 +35,7 @@ function Numbers(props) {
         for (let i = 0; i < values.length; i++) {
             if (typeof values[i] !== 'number') {
                 showToast({
-                    message: 'Please enter numbers',
+                    message: 'Please enter valid numbers.',
                     variant: 'error',
                 });
                 setStatus(false);

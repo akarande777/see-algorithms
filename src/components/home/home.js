@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import LoginForm from '../login/login';
-import RegisterForm from '../register/register';
+import React, { useEffect } from 'react';
+import Register from '../register/register';
 import { showToast } from '../toast/toast';
 import './home.scss';
 import { useMutation, useReactiveVar } from '@apollo/client';
@@ -8,9 +7,9 @@ import { VERIFY_EMAIL } from '../../graphql/mutations';
 import Spinner from '../spinner/spinner';
 import { userAuthVar } from '../../common/cache';
 
-function Home({ location, history }) {
+function Home(props) {
+    const { location, history } = props;
     const userAuth = useReactiveVar(userAuthVar);
-    const [formType, setFormType] = useState(userAuth ? '' : 'register');
     const [verifyEmail] = useMutation(VERIFY_EMAIL, {
         onCompleted(data) {
             const { status, message } = data.verifyEmail;
@@ -19,16 +18,12 @@ function Home({ location, history }) {
                     message: 'Email verified successfully!',
                     variant: 'success',
                 });
-                setFormType('login');
+                history.push('/login');
             } else {
                 showToast({ message, variant: 'error' });
             }
         },
     });
-
-    useEffect(() => {
-        userAuth ? setFormType('') : setFormType('register');
-    }, [userAuth]);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -40,11 +35,12 @@ function Home({ location, history }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    if (!userAuth) {
+        return <Register {...props} />;
+    }
     return (
         <Spinner className="home" spinning={false}>
             {userAuth && <h5>Welcome {userAuth.displayName}!</h5>}
-            {formType === 'login' && <LoginForm toRegister={() => setFormType('register')} />}
-            {formType === 'register' && <RegisterForm toLogin={() => setFormType('login')} />}
         </Spinner>
     );
 }

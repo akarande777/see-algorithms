@@ -64,7 +64,7 @@ function createQueue() {
 
 export function enqueue(num) {
     if (front === rear && size === n) {
-        showToast({ message: 'Queue is full', variant: 'error' });
+        showToast({ message: 'Queue is full.', variant: 'error' });
     } else {
         $('.num').eq(rear).html(num);
         $('.rear').eq(rear).html('');
@@ -77,7 +77,7 @@ export function enqueue(num) {
 
 export function dequeue() {
     if (front === rear && size === 0) {
-        showToast({ message: 'Queue is empty', variant: 'error' });
+        showToast({ message: 'Queue is empty.', variant: 'error' });
     } else {
         $('.num').eq(front).html('');
         $('.front').eq(front).html('');

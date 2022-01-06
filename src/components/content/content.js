@@ -1,7 +1,8 @@
 import React from 'react';
-import { Switch, Route, withRouter, Link } from 'react-router-dom';
+import { Switch, Route, withRouter, Link, Redirect } from 'react-router-dom';
 import { Breadcrumbs } from '@material-ui/core';
 import Home from '../home/home';
+import Login from '../login/login';
 import PageNotFound from '../404/404';
 
 import BubbleSort from '../../algorithms/sorting/BubbleSort';
@@ -22,10 +23,11 @@ import BinaryHeap from '../../data-structures/BinaryHeap';
 import CircularQueue from '../../data-structures/CircularQueue';
 
 import { useReactiveVar } from '@apollo/client';
-import { categoriesVar } from '../../common/cache';
+import { categoriesVar, userAuthVar } from '../../common/cache';
 import { findAlgorithm } from '../../common/utils';
 
 function Content({ location }) {
+    const userAuth = useReactiveVar(userAuthVar);
     const categories = useReactiveVar(categoriesVar);
     const algo = findAlgorithm(categories, location.pathname);
 
@@ -38,6 +40,11 @@ function Content({ location }) {
             <br />
             <Switch>
                 <Route path="/" exact component={Home} />
+                <Route
+                    path="/login"
+                    exact
+                    render={(props) => (userAuth ? <Redirect to="/" /> : <Login {...props} />)}
+                />
                 <Route path="/bubble-sort" exact component={BubbleSort} />
                 <Route path="/insertion-sort" exact component={InsertionSort} />
                 <Route path="/selection-sort" exact component={SelectionSort} />

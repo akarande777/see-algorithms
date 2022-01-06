@@ -23,7 +23,7 @@ function DSInput(props) {
     const validate = (callback) => {
         if (typeof number !== 'number') {
             showToast({
-                message: 'Please enter a number',
+                message: 'Please enter a number.',
                 variant: 'error',
             });
         } else {

@@ -89,7 +89,7 @@ export function drawGraph({ weighted, acyclic }) {
             if (Graph.isDirected()) {
                 if (acyclic && Graph.hasCycle()) {
                     showToast({
-                        message: 'Please draw acyclic graph',
+                        message: 'Please draw acyclic graph.',
                         variant: 'error',
                     });
                     $('.edge:last').remove();

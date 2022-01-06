@@ -6,8 +6,9 @@ import { Form, FormField } from 'react-form-decorator';
 import Spinner from '../spinner/spinner';
 import { LOGIN } from '../../graphql/mutations';
 import { userAuthVar } from '../../common/cache';
+import { Link } from 'react-router-dom';
 
-function LoginForm(props) {
+function Login({ history }) {
     const formRef = useRef(null);
     const [message, setMessage] = useState('');
     const [login, { loading }] = useMutation(LOGIN, {
@@ -16,6 +17,7 @@ function LoginForm(props) {
             if (status) {
                 userAuthVar(userAuth);
                 localStorage.setItem('userAuth', JSON.stringify(userAuth));
+                history.push('/');
             } else {
                 setMessage(message);
             }
@@ -57,13 +59,13 @@ function LoginForm(props) {
                     <Button type="submit" variant="contained" color="primary">
                         Log in
                     </Button>
-                    <Button color="primary" onClick={props.toRegister}>
-                        Sign up
-                    </Button>
+                    <div>
+                        Don't have an account? <Link to="/">Sign up</Link>
+                    </div>
                 </div>
             </Spinner>
         </Form>
     );
 }
 
-export default LoginForm;
+export default Login;

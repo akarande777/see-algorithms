@@ -6,8 +6,9 @@ import { Form, FormField } from 'react-form-decorator';
 import { showToast } from '../toast/toast';
 import Spinner from '../spinner/spinner';
 import { REGISTER } from '../../graphql/mutations';
+import { Link } from 'react-router-dom';
 
-function RegisterForm(props) {
+function Register({ history }) {
     const formRef = useRef(null);
     const [message, setMessage] = useState('');
     const [register, { loading }] = useMutation(REGISTER, {
@@ -15,10 +16,10 @@ function RegisterForm(props) {
             const { status, message } = data.register;
             if (status) {
                 showToast({
-                    message: 'Verification email sent!',
+                    message: 'A verification link has been sent to your email account.',
                     variant: 'success',
                 });
-                props.toLogin();
+                history.push('/login');
             } else {
                 setMessage(message);
             }
@@ -75,13 +76,13 @@ function RegisterForm(props) {
                     <Button type="submit" variant="contained" color="primary">
                         Sign up
                     </Button>
-                    <Button color="primary" onClick={props.toLogin}>
-                        Log in
-                    </Button>
+                    <div>
+                        Already have an account? <Link to="/login">Log in</Link>
+                    </div>
                 </div>
             </Spinner>
         </Form>
     );
 }
 
-export default RegisterForm;
+export default Register;
