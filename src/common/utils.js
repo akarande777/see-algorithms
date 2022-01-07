@@ -1,7 +1,6 @@
 import $ from 'jquery';
 import Graph, { Point } from './graph';
 import { Colors } from './constants';
-import df from 'd-forest';
 
 const mouseEvents = ['click', 'mousedown', 'mouseup', 'mousemove', 'mouseenter', 'mouseleave'];
 const touchEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
@@ -35,9 +34,7 @@ function moveVertex(i, r) {
     $('.vrtx').eq(i).attr('cx', r.x);
     $('.vrtx').eq(i).attr('cy', r.y);
     $('.vlbl').eq(i).attr('x', r.x);
-    $('.vlbl')
-        .eq(i)
-        .attr('y', r.y + 5);
+    $('.vlbl').eq(i).attr('y', r.y + 5);
 }
 
 function addEdge(p, q) {

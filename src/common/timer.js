@@ -1,17 +1,17 @@
-var timer, start;
-var callback, delay;
+var timer, func;
+var start, delay;
 var status = 0;
 
 var Timer = {
-    timeout(cb, d, ...args) {
+    timeout(fn, d, ...args) {
         delay = d;
-        callback = () => {
+        func = () => {
             status = 0;
-            cb(...args);
+            fn(...args);
         };
         status = 1;
         start = Date.now();
-        timer = setTimeout(callback, d);
+        timer = setTimeout(func, d);
     },
 
     pause() {
@@ -26,7 +26,7 @@ var Timer = {
         if (status === -1) {
             start = Date.now();
             status = 1;
-            timer = setTimeout(callback, delay);
+            timer = setTimeout(func, delay);
         }
     },
 

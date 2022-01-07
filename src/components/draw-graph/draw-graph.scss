@@ -1,11 +1,14 @@
 .drawGraph {
-    width: 700px;
+    width: max-content;
+    height: max-content;
 
-    #plane {
+    .resize {
         border: thin solid;
         margin: 1rem 0;
-        width: inherit;
-        height: 450px;
+        min-width: 700px;
+        height: 500px;
+        resize: both;
+        overflow: auto;
     }
 }
 

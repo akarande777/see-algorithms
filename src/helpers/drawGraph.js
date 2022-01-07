@@ -32,7 +32,6 @@ export function clearGraph() {
     Timer.clear();
     $('#plane').off();
     $('#plane').children().not(':first').remove();
-    $('#tbl').html('');
     Graph.clear();
 }
 

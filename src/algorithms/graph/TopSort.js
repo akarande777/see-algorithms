@@ -15,6 +15,7 @@ var ind, stack, k;
 var delay = 500;
 
 function start() {
+    $('#tbl').html('');
     n = Graph.totalPoints();
     createTable(1, n);
     cells = document.querySelectorAll('.cell');
@@ -30,10 +31,10 @@ function start() {
         }
     }
     k = 0;
-    Timer.timeout(sort, delay * 2);
+    Timer.timeout(topsort, delay * 2);
 }
 
-function sort() {
+function topsort() {
     if (stack.length > 0) {
         let i = stack.pop();
         $(`.vrtx:eq(${i})`).attr('fill', Colors.visited);
@@ -62,9 +63,7 @@ function sort() {
             Timer.timeout(fall, delay, i);
         }
     } else {
-        setTimeout(() => {
-            document.getElementById('clear').click();
-        }, delay);
+        document.getElementById('clear').click();
     }
 }
 
@@ -86,7 +85,7 @@ function extract(p, q, i, j, d) {
 
 function fall(i) {
     let cy = parseInt($(`.vrtx:eq(${i})`).attr('cy'));
-    if (cy < 520) {
+    if (cy < $('#plane').height() + 20) {
         $(`.vrtx:eq(${i})`).attr('cy', cy + 2);
         $(`.vlbl:eq(${i})`).attr('y', cy + 7);
         Timer.timeout(fall, 5, i);
@@ -94,7 +93,8 @@ function fall(i) {
         let np = Graph.totalPoints();
         cells[np - n].innerHTML = String.fromCharCode(65 + i);
         cells[np - n].setAttribute('bgcolor', Colors.visited);
+        $(`.vgrp:eq(${i})`).css('visibility', 'hidden');
         n--;
-        Timer.timeout(sort, delay);
+        Timer.timeout(topsort, delay);
     }
 }
