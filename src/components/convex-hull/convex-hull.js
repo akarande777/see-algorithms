@@ -11,7 +11,7 @@ export default function (props) {
 }
 
 var cvx, left, p, q;
-var delay = 400;
+var delay = 500;
 
 function start() {
     cvx = [];
@@ -22,7 +22,7 @@ function start() {
         if (x1 < x2) left = i;
     }
     p = left;
-    convexHull();
+    Timer.timeout(convexHull, delay);
 }
 
 function convexHull() {
@@ -50,7 +50,7 @@ function next(i) {
     } else {
         connect(Colors.visited);
         p = q;
-        p !== left ? convexHull(q) : addPoints(cvx);
+        p !== left ? convexHull() : addPoints(cvx);
     }
 }
 
