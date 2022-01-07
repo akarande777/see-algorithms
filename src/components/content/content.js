@@ -23,23 +23,21 @@ import BinaryHeap from '../../data-structures/BinaryHeap';
 import CircularQueue from '../../data-structures/CircularQueue';
 
 import { useReactiveVar } from '@apollo/client';
-import { categoriesVar, dataArrayVar, userAuthVar } from '../../common/cache';
-import { findAlgorithm } from '../../common/utils';
+import { dataArrayVar, userAuthVar } from '../../common/cache';
 
 function Content({ location }) {
     const userAuth = useReactiveVar(userAuthVar);
-    const categories = useReactiveVar(categoriesVar);
-    const algo = findAlgorithm(categories, location.state);
+    const { algoName } = location.state || {};
 
     useEffect(() => {
-        !algo && dataArrayVar([]);
-    }, [algo]);
+        !algoName && dataArrayVar([]);
+    }, [algoName]);
 
     return (
         <div className="content">
             <Breadcrumbs>
-                {algo ? <Link to="/">Home</Link> : <span>Home</span>}
-                {algo && <span>{algo.algoName}</span>}
+                {algoName ? <Link to="/">Home</Link> : <span>Home</span>}
+                {algoName && <span>{algoName}</span>}
             </Breadcrumbs>
             <br />
             <Switch>

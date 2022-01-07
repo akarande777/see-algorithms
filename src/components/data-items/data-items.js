@@ -4,17 +4,16 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import { DeleteOutline } from '@material-ui/icons';
 import { AppContext } from '../../common/context';
 import './data-items.scss';
-import { findCategory } from '../../common/utils';
 import { createGraph } from '../../helpers/drawGraph';
 import { useMutation, useReactiveVar } from '@apollo/client';
-import { dataArrayVar, categoriesVar } from '../../common/cache';
+import { dataArrayVar } from '../../common/cache';
 import { REMOVE_ALGO_DATA } from '../../graphql/mutations';
 import { showToast } from '../toast/toast';
+import { withRouter } from 'react-router-dom';
 
-function DataItems() {
+function DataItems({ location }) {
     const { setContext } = useContext(AppContext);
     const dataArray = useReactiveVar(dataArrayVar);
-    const categories = useReactiveVar(categoriesVar);
 
     const [removeAlgoData, { loading }] = useMutation(REMOVE_ALGO_DATA, {
         onCompleted(data) {
@@ -27,8 +26,8 @@ function DataItems() {
         },
     });
 
-    const handleSelect = (algoId, algoData) => {
-        const { catName } = findCategory(categories, algoId);
+    const handleSelect = (algoData) => {
+        const { catName } = location.state;
         const data = JSON.parse(algoData);
         switch (catName) {
             case 'Graph':
@@ -56,12 +55,12 @@ function DataItems() {
                 </ListSubheader>
             }
         >
-            {dataArray.map(({ dataId, algoId, algoData, createdOn }) => (
+            {dataArray.map(({ dataId, algoData, createdOn }) => (
                 <ListItem
                     button
                     key={dataId}
                     className="listItem"
-                    onClick={() => handleSelect(algoId, algoData)}
+                    onClick={() => handleSelect(algoData)}
                 >
                     <ListItemText
                         primary={new Date(createdOn + ' UTC').toLocaleString()}
@@ -76,4 +75,4 @@ function DataItems() {
     );
 }
 
-export default DataItems;
+export default withRouter(DataItems);

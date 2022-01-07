@@ -18,8 +18,8 @@ function DrawGraph(props) {
     const { setContext, isDirGraph, playStatus } = useContext(AppContext);
     const userAuth = useReactiveVar(userAuthVar);
     const [source, setSource] = useState('A');
-    const { state: algoId } = props.location;
-    const payload = { algoId, skipQuery: !userAuth };
+    const { state: { algoId } = {} } = props.location;
+    const payload = { algoId, skipQuery: !userAuth || !algoId };
     const { saveAlgoData, loading } = useAlgoData(payload);
 
     const validate = () => {

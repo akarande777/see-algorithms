@@ -11,8 +11,8 @@ function Sider(props) {
     const categories = useReactiveVar(categoriesVar);
     const userAuth = useReactiveVar(userAuthVar);
 
-    const handleSelect = ({ key, value }) => {
-        props.history.push(value, key);
+    const handleSelect = ({ value, data }) => {
+        props.history.push(value, data);
         props.onClose();
     };
 
@@ -32,11 +32,15 @@ function Sider(props) {
                     onClick={(e) => {
                         showMenu({
                             ...getMenuOptions(e),
-                            menuItems: algorithms.map((algo) => ({
-                                label: algo.algoName,
-                                value: algo.pathId,
-                                key: algo.algoId,
-                            })),
+                            menuItems: algorithms.map((x) => {
+                                const { algoId, algoName, pathId } = x;
+                                return {
+                                    label: algoName,
+                                    value: pathId,
+                                    key: algoId,
+                                    data: { algoId, algoName, catName },
+                                };
+                            }),
                         });
                     }}
                 >

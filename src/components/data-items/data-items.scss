@@ -2,8 +2,9 @@
 
 .dataItems {
     height: 100%;
-    border-left: $border;
     overflow: auto;
+    border-left: $border;
+    width: 20%;
     min-width: max-content;
 
     .listHeader {

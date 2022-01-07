@@ -118,9 +118,3 @@ export {
 export const isNumber = (x) => !isNaN(parseInt(x));
 
 export const randomInt = () => Math.floor(Math.random() * 99) + 1;
-
-export const findAlgorithm = (categories, algoId) =>
-    df.findLeaf(categories, (x) => x.algoId === algoId);
-
-export const findCategory = (categories, algoId) =>
-    df.hierarchy(categories, (x) => x.algoId === algoId)[0];
