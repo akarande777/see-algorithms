@@ -26,7 +26,7 @@ function DrawGraph(props) {
         let np = Graph.totalPoints();
         if (np < 2) {
             showToast({
-                message: 'Graph cannot be empty!',
+                message: 'Graph cannot be empty.',
                 variant: 'error',
             });
             return false;
