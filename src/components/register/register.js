@@ -37,7 +37,7 @@ function Register({ history }) {
     const comparePassword = (value) => {
         const { input } = formRef.current.formState;
         if (value !== input.password) {
-            return ['error', 'Passwords do not match'];
+            return ['error', 'Passwords do not match!'];
         }
         return [];
     };
