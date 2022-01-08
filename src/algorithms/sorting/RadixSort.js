@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { createTable } from '../../common/utils';
 import Numbers from '../../components/numbers/numbers';
+import Timer from '../../common/timer';
 
 var a, n, cells;
 var out, b, k;
 var max, exp;
-var timer;
 var delay = 700;
 
 function next() {
@@ -34,7 +34,7 @@ function radixSort() {
         b = new Array();
         for (let j = 0; j < 10; j++) b[j] = 0;
         k = 0;
-        timer = setTimeout(bucket, delay);
+        Timer.timeout(bucket, delay);
     }
 }
 
@@ -43,7 +43,7 @@ function bucket() {
         let j = Math.floor(a[k] / exp) % 10;
         b[j]++;
         cells[k].setAttribute('bgcolor', '#ffe57f');
-        timer = setTimeout(function () {
+        Timer.timeout(function () {
             cells[k].removeAttribute('bgcolor');
             document
                 .getElementsByClassName('mydiv')[0]
@@ -53,7 +53,7 @@ function bucket() {
                 );
             cells[j + n].innerHTML = cells[k].innerHTML + cells[j + n].innerHTML;
             cells[k++].innerHTML = '';
-            timer = setTimeout(bucket, delay);
+            Timer.timeout(bucket, delay);
         }, delay);
     } else {
         for (let j = 1; j < 10; j++) {
@@ -65,7 +65,7 @@ function bucket() {
         for (let i = 0; i < n; i++) a[i] = out[i];
         exp *= 10;
         k--;
-        timer = setTimeout(combine, delay, 10);
+        Timer.timeout(combine, delay, 10);
     }
 }
 
@@ -78,7 +78,7 @@ function combine(j) {
             cells[k].setAttribute('bgcolor', '#ffe57f');
             k--;
             bkt.removeChild(bkt.firstChild);
-            timer = setTimeout(combine, delay, j);
+            Timer.timeout(combine, delay, j);
         } else {
             combine(--j);
         }
@@ -86,7 +86,7 @@ function combine(j) {
         for (let i = 0; i < n; i++) {
             cells[i].removeAttribute('bgcolor');
         }
-        timer = setTimeout(radixSort, delay);
+        Timer.timeout(radixSort, delay);
     }
 }
 
@@ -120,11 +120,11 @@ function RadixSort() {
         }
         exp = 1;
         out = new Array();
-        timer = setTimeout(radixSort, delay);
+        Timer.timeout(radixSort, delay);
     };
 
     const stop = () => {
-        clearTimeout(timer);
+        Timer.clear();
         document.getElementById('tbl').innerHTML = '';
         document.getElementById('bkt').innerHTML = '';
     };
