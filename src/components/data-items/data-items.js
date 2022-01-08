@@ -67,7 +67,7 @@ function DataItems({ location }) {
                         className="listItemText"
                     />
                     <ListItemIcon onClick={(e) => handleRemove(e, dataId)}>
-                        <DeleteOutline className="listItemIcon" />
+                        <DeleteOutline className="deleteIcon" />
                     </ListItemIcon>
                 </ListItem>
             ))}
