@@ -36,7 +36,7 @@ export function clearGraph() {
 }
 
 export function drawGraph({ weighted, acyclic }) {
-    let px, ipx, flag;
+    let px, ix, flag;
 
     function overlap(seg) {
         for (let i = 0; i < Graph.totalSegments(); i++) {
@@ -66,7 +66,7 @@ export function drawGraph({ weighted, acyclic }) {
         }
         if (flag) {
             flag = false;
-            $('.vrtx').eq(ipx).attr('stroke', Colors.stroke);
+            $('.vrtx').eq(ix).attr('stroke', Colors.stroke);
             let seg = Segment.create(px, p);
             if (Point.equal(p, px) || overlap(seg)) {
                 $('.edge:last').remove();
@@ -110,7 +110,8 @@ export function drawGraph({ weighted, acyclic }) {
                 if (Graph.isDirected()) {
                     $('.edge:last').attr('marker-end', 'url(#arrow)');
                 }
-                (px = p) && (ipx = k);
+                px = p;
+                ix = k;
                 flag = true;
             }
         }
@@ -129,7 +130,7 @@ export function drawGraph({ weighted, acyclic }) {
         e.preventDefault();
         if (flag) {
             $('.edge:last').remove();
-            $('.vrtx').eq(ipx).attr('stroke', Colors.stroke);
+            $('.vrtx').eq(ix).attr('stroke', Colors.stroke);
             flag = false;
         }
     });

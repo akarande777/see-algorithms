@@ -83,7 +83,9 @@ function DrawGraph(props) {
         handleClear();
         const isDirGraph = props.isDAG || false;
         setContext({ isDirGraph });
-        Graph.isDirected() !== isDirGraph && Graph.switchType();
+        if (Graph.isDirected() !== isDirGraph) {
+            Graph.switchType();
+        }
         return () => clearGraph();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [algoId]);
