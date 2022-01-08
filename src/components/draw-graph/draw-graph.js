@@ -144,12 +144,7 @@ function DrawGraph(props) {
                 >
                     {playStatus > 0 ? 'Pause' : 'Play'}
                 </Button>
-                <Button
-                    variant="contained"
-                    onClick={handleClear}
-                    id="clear"
-                    style={{ pointerEvents: props.isDAG && playStatus ? 'none' : 'auto' }}
-                >
+                <Button variant="contained" onClick={handleClear} id="clear">
                     Clear
                 </Button>
                 {userAuth && (

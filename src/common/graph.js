@@ -1,4 +1,4 @@
-import { isNumber } from "./utils";
+import { isNumber } from './utils';
 
 var points = [];
 var segments = [];
@@ -12,22 +12,23 @@ const Graph = {
         matrix.push([]);
     },
 
-    setPoint: (i, pnt) => void (points[i] = pnt),
+    setPoint: (i, point) => {
+        points[i] = point;
+    },
 
-    position(segment) {
-        const { equal } = Point;
-        let i = points.findIndex((p) => equal(p, segment.p));
-        let j = points.findIndex((p) => equal(p, segment.q));
+    position(seg) {
+        let i = points.findIndex((r) => Point.equal(r, seg.p));
+        let j = points.findIndex((r) => Point.equal(r, seg.q));
         return [i, j];
     },
 
-    addSegment(segment) {
-        let [i, j] = this.position(segment);
+    addSegment(seg) {
+        let [i, j] = this.position(seg);
         matrix[i][j] = segments.length;
         if (!directed) {
             matrix[j][i] = segments.length;
         }
-        segments.push(segment);
+        segments.push(seg);
         steps.push([i, j]);
     },
 
@@ -39,7 +40,7 @@ const Graph = {
 
     segment: (index) => segments[index],
 
-    edgeIndex: (i, j) => matrix[i][j],
+    edgeIndex: (i, j) => matrix[i]?.[j],
 
     clear() {
         points = [];
@@ -107,8 +108,8 @@ const Graph = {
         }
     },
 
-    removeSegment(segment) {
-        let [i, j] = this.position(segment);
+    removeSegment(seg) {
+        let [i, j] = this.position(seg);
         segments.splice(matrix[i][j], 1);
         matrix[i][j] = undefined;
         if (!directed) {

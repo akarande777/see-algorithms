@@ -38,13 +38,12 @@ export function clearGraph() {
 export function drawGraph({ weighted, acyclic }) {
     let px, ipx, flag;
 
-    function isValid(p) {
-        let s1 = Segment.create(px, p);
+    function overlap(seg) {
         for (let i = 0; i < Graph.totalSegments(); i++) {
-            let s2 = Graph.segment(i);
-            if (Segment.overlap(s1, s2)) return false;
+            let si = Graph.segment(i);
+            if (Segment.overlap(seg, si)) return true;
         }
-        return true;
+        return false;
     }
 
     $('#plane').on('click', function (e) {
@@ -68,7 +67,8 @@ export function drawGraph({ weighted, acyclic }) {
         if (flag) {
             flag = false;
             $('.vrtx').eq(ipx).attr('stroke', Colors.stroke);
-            if (Point.equal(p, px) || !isValid(p)) {
+            let seg = Segment.create(px, p);
+            if (Point.equal(p, px) || overlap(seg)) {
                 $('.edge:last').remove();
                 return;
             }
@@ -82,8 +82,7 @@ export function drawGraph({ weighted, acyclic }) {
                 addVertex(p, String.fromCharCode(65 + np));
                 Graph.addPoint(p);
             }
-            let s = Segment.create(px, p);
-            Graph.addSegment(s);
+            Graph.addSegment(seg);
             if (weighted) addCost(p, px);
             if (Graph.isDirected()) {
                 if (acyclic && Graph.hasCycle()) {
@@ -92,7 +91,7 @@ export function drawGraph({ weighted, acyclic }) {
                         variant: 'error',
                     });
                     $('.edge:last').remove();
-                    Graph.removeSegment(s);
+                    Graph.removeSegment(seg);
                     return;
                 }
                 let q = fromDistance(px, p, 23);
@@ -151,18 +150,17 @@ export function switchType() {
     Graph.switchType();
     if (Graph.isDirected()) {
         $('.edge').each(function (i) {
-            let s = Graph.segment(i);
-            let r = fromDistance(s.p, s.q, 23);
+            let seg = Graph.segment(i);
+            let r = fromDistance(seg.p, seg.q, 23);
             $(this).attr('x2', r.x);
             $(this).attr('y2', r.y);
             $(this).attr('marker-end', 'url(#arrow)');
         });
     } else {
         $('.edge').each(function (i) {
-            let s = Graph.segment(i);
-            let { x, y } = s.q;
-            $(this).attr('x2', x);
-            $(this).attr('y2', y);
+            let { q } = Graph.segment(i);
+            $(this).attr('x2', q.x);
+            $(this).attr('y2', q.y);
             $(this).removeAttr('marker-end');
         });
     }
