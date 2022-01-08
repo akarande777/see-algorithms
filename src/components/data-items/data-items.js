@@ -48,7 +48,7 @@ function DataItems({ location }) {
 
     return (
         <List
-            className={'dataItems ' + (loading ? 'spinning' : '')}
+            className={'dataItems ' + (loading ? 'blur' : '')}
             subheader={
                 <ListSubheader component="div" className="listHeader">
                     Saved Data Items
