@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import Graph, { Point } from './graph';
 import { Colors } from './constants';
+import Timer from './timer';
 
 const mouseEvents = ['click', 'mousedown', 'mouseup', 'mousemove', 'mouseenter', 'mouseleave'];
 const touchEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
@@ -101,6 +102,27 @@ function getCostMatrix() {
     return mat;
 }
 
+
+function spanEdge(i, j, delay, callback) {
+    let ei = Graph.edgeIndex(i, j);
+    function span(p, q, d) {
+        if (d > 0) {
+            let r = fromDistance(p, q, d);
+            $('line:last').attr('x2', r.x);
+            $('line:last').attr('y2', r.y);
+            Timer.timeout(span, delay, p, q, d - 2);
+        } else {
+            $('line:last').remove();
+            $('.edge').eq(ei).removeAttr('stroke-dasharray');
+            $('.edge').eq(ei).attr('stroke', Colors.visited);
+            $('.vrtx').eq(j).attr('stroke', Colors.visited);
+            callback(ei);
+        }
+    }
+    let { p, q, d } = cloneEdge(i, ei);
+    span(p, q, d - 2);
+}
+
 export {
     withOffset,
     addVertex,
@@ -110,6 +132,7 @@ export {
     fromDistance,
     createTable,
     getCostMatrix,
+    spanEdge,
 };
 
 export const isNumber = (x) => !isNaN(parseInt(x));

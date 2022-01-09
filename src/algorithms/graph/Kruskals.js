@@ -18,9 +18,8 @@ function start() {
     arr = [];
     $('.cost').each(function () {
         let edge = {};
-        edge.w = parseInt($(this).text()) || 0;
+        edge.w = parseInt($(this).text()) || 1;
         arr.push(edge);
-        $(this).attr('contenteditable', 'false');
     });
     let n = Graph.totalPoints();
     parent = [];
@@ -62,12 +61,12 @@ function find() {
             $('.vrtx').eq(arr[k].u).attr('stroke', '#f44336');
             $('.vrtx').eq(arr[k].v).attr('stroke', '#f44336');
             $('.edge').eq(arr[k].i).attr('stroke', '#f44336');
-            Timer.timeout(skip, delay);
+            Timer.timeout(reject, delay);
         }
     }
 }
 
-function skip() {
+function reject() {
     $('.vrtx').eq(arr[k].u).attr('stroke', Colors.visited);
     $('.vrtx').eq(arr[k].v).attr('stroke', Colors.visited);
     $('.edge').eq(arr[k].i).attr('stroke', Colors.rejected);

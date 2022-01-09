@@ -1,5 +1,5 @@
 import React from 'react';
-import { fromDistance, cloneEdge, isNumber } from '../../common/utils';
+import { isNumber, spanEdge } from '../../common/utils';
 import Graph from '../../common/graph';
 import DrawGraph from '../../components/draw-graph/draw-graph';
 import $ from 'jquery';
@@ -11,7 +11,7 @@ export default function (props) {
 }
 
 var stack;
-var v, i, prev, k;
+var v, i, prev;
 var delay = 500;
 
 function start(source) {
@@ -47,41 +47,28 @@ function dfs() {
     if (stack.length) {
         $('.vrtx').eq(i).attr('fill', Colors.vertex);
         i = stack.pop();
-        k = prev[i];
-        let ei = Graph.edgeIndex(k, i);
-        let { p, q, d } = cloneEdge(k, ei);
-        Timer.timeout(span, delay * 2, p, q, d - 2);
+        Timer.timeout(() => {
+            spanEdge(prev[i], i, 5, dequeue);
+        }, delay * 2);
     } else {
         $('.vrtx').eq(i).attr('fill', Colors.vertex);
     }
 }
 
-function span(p, q, d) {
-    if (d > 0) {
-        let r = fromDistance(p, q, d);
-        $('line:last').attr('x2', r.x);
-        $('line:last').attr('y2', r.y);
-        Timer.timeout(span, 5, p, q, d - 2);
-    } else {
-        $('line:last').remove();
-        let ei = Graph.edgeIndex(k, i);
-        $('.edge').eq(ei).removeAttr('stroke-dasharray');
-        $('.edge').eq(ei).attr('stroke', Colors.visited);
-        $('.vrtx').eq(i).attr('stroke', Colors.visited);
-        $('.vrtx').eq(i).attr('fill', Colors.visited);
-        let j;
-        let n = Graph.totalPoints();
-        for (j = 0; j < n; j++) {
-            let ei = Graph.edgeIndex(i, j);
-            if (isNumber(ei)) {
-                if (v.indexOf(j) === -1 || stack.indexOf(j) !== -1) {
-                    Timer.timeout(visit, delay, 0);
-                    break;
-                }
+function dequeue() {
+    $('.vrtx').eq(i).attr('fill', Colors.visited);
+    let j;
+    let n = Graph.totalPoints();
+    for (j = 0; j < n; j++) {
+        let ei = Graph.edgeIndex(i, j);
+        if (isNumber(ei)) {
+            if (v.indexOf(j) === -1 || stack.indexOf(j) > -1) {
+                Timer.timeout(visit, delay, 0);
+                break;
             }
         }
-        if (j === n) {
-            Timer.timeout(dfs, delay);
-        }
+    }
+    if (j === n) {
+        Timer.timeout(dfs, delay);
     }
 }

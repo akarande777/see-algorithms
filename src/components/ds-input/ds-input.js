@@ -38,7 +38,7 @@ function DSInput(props) {
     };
 
     return (
-        <div className="numberInput">
+        <div className="dsInput">
             <div className="input" style={{ marginBottom: 0 }}>
                 <span className="label">Enter a number: &nbsp;</span>
                 <Input value={number} onChange={handleInput} className="number" />
@@ -55,7 +55,9 @@ function DSInput(props) {
                     ))}
                 </div>
             </div>
-            <svg id="plane"></svg>
+            <div className='resizable'>
+                <svg id="plane" className="w-100 h-100"></svg>
+            </div>
         </div>
     );
 }

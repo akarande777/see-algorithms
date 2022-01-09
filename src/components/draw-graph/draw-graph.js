@@ -159,7 +159,7 @@ function DrawGraph(props) {
                     </Button>
                 )}
             </div>
-            <div className="resize">
+            <div className="resizable">
                 <svg id="plane" className="w-100 h-100">
                     <defs>
                         <marker

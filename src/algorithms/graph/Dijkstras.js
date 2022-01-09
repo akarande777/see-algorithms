@@ -1,5 +1,5 @@
 import React from 'react';
-import { fromDistance, cloneEdge, getCostMatrix, isNumber } from '../../common/utils';
+import { getCostMatrix, isNumber, spanEdge } from '../../common/utils';
 import Graph from '../../common/graph';
 import DrawGraph from '../../components/draw-graph/draw-graph';
 import $ from 'jquery';
@@ -67,24 +67,10 @@ function extractMin() {
     let j = queue.indexOf(Math.min(...queue));
     v.push(j);
     let i = prev[j];
-    let ei = Graph.edgeIndex(i, j);
-    let { p, q, d } = cloneEdge(i, ei);
-    Timer.timeout(span, 10, p, q, d - 2, j, ei);
-}
-
-function span(p, q, d, j, ei) {
-    if (d > 0) {
-        let r = fromDistance(p, q, d);
-        $('line:last').attr('x2', r.x);
-        $('line:last').attr('y2', r.y);
-        Timer.timeout(span, 10, p, q, d - 2, j, ei);
-    } else {
-        $('line:last').remove();
-        $('line').eq(ei).attr('stroke', Colors.visited);
-        $('line').eq(ei).removeAttr('stroke-dasharray');
+    spanEdge(i, j, 10, () => {
         $('.vrtx').eq(j).attr('stroke', Colors.visited);
         if (v.length < n) {
             Timer.timeout(dijkstra, delay / 2, j);
         }
-    }
+    });
 }
