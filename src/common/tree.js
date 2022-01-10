@@ -40,16 +40,8 @@ var Tree = {
             addVertex(root.point, key);
             return Promise.resolve(root);
         }
-        let { p, q, node } = this.createNode(key, parent, flag);
-        if (flag !== this.flag) {
-            let subroot = this.findSubRoot(parent);
-            let rx = root.point.x;
-            if (Math.abs(q.x - rx) < 15) {
-                this.shiftNode(subroot, 40);
-            } else {
-                this.shiftNode(subroot, 60);
-            }
-        }
+        let { node, p, q } = this.createNode(key, parent, flag);
+        this.cleanup(node);
         addEdge(p, p);
         let d = Point.distance(p, q);
         return span(node, p, q, d - 2).then(() => node);
