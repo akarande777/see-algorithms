@@ -19,7 +19,7 @@ var Tree = {
     _find(node, callback) {
         if (!node) return;
         if (callback(node)) return node;
-        const { left, right } = node;
+        let { left, right } = node;
         return this._find(left, callback) || this._find(right, callback);
     },
 
