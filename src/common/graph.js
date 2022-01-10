@@ -7,14 +7,12 @@ var steps = [];
 var directed = false;
 
 const Graph = {
-    addPoint(point) {
-        points.push(point);
+    addPoint(p) {
+        points.push(p);
         matrix.push([]);
     },
 
-    setPoint: (i, point) => {
-        points[i] = point;
-    },
+    setPoint: (i, p) => void (points[i] = p),
 
     position(seg) {
         let i = points.findIndex((r) => Point.equal(r, seg.p));
