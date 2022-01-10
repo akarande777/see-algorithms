@@ -9,7 +9,6 @@ var dx = 40, dy = 60;
 var Tree = {
     flag: true,
     root: () => root,
-    clear: () => void (root = null),
 
     _size(node) {
         if (!node) return 0;
@@ -31,6 +30,8 @@ var Tree = {
     find(callback) {
         return this._find(root, callback);
     },
+
+    clear: () => void (root = null),
 
     insert(key, parent, flag) {
         if (!root) {
