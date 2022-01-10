@@ -11,7 +11,7 @@ var buttons = [{ text: 'Insert', onClick: input }];
 var delay = 500;
 
 export default function (props) {
-    useEffect(() => Tree.clear(), []);
+    useEffect(() => Tree.reset(), []);
     return <DSInput {...props} buttons={buttons} />;
 }
 
