@@ -28,11 +28,9 @@ function DSInput(props) {
             });
         } else {
             setStatus(true);
-            callback(number).then((flag) => {
-                if (!flag) {
-                    setStatus(false);
-                    setNumber(randomInt());
-                }
+            callback(number).then(() => {
+                setStatus(false);
+                setNumber(randomInt());
             });
         }
     };

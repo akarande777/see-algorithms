@@ -1,34 +1,25 @@
 import React, { useEffect } from 'react';
 import $ from 'jquery';
 import DSInput from '../components/ds-input/ds-input';
-import { addVertex, addEdge } from '../common/utils';
 import Tree from '../common/tree';
 import { Colors } from '../common/constants';
 import { wait } from '../common/timer';
 
-const buttons = [{ text: 'Insert', onClick: input }];
+var buttons = [{ text: 'Insert', onClick: input }];
+var delay = 500;
 
 export default function (props) {
     useEffect(() => Tree.clear(), []);
     return <DSInput {...props} buttons={buttons} />;
 }
 
-var root, rx = 350;
-var dx = 50, dy = 60;
-var delay = 500;
-
-function input(key) {
-    if (Tree.size() === 15) {
-        return Promise.resolve(true);
-    }
-    if (!Tree.node(0)) {
-        root = { key, index: 0 };
-        root.point = { x: rx, y: dy };
-        addVertex(root.point, key);
-        Tree.push(root);
+async function input(key) {
+    if (!Tree.root()) {
+        Tree.insert(key);
         return Promise.resolve();
     } else {
         $('.vrtx:first').attr('stroke', Colors.visited);
+        const root = Tree.root();
         const { left, right } = root;
         if (key <= root.key) {
             Tree.flag = true;
@@ -40,53 +31,21 @@ function input(key) {
     }
 }
 
-function createNode(key, parent, left) {
-    let node = { key, parent, index: Tree.size() };
-    node.flag = left;
-    let p = parent.point;
-    let x, y;
-    if (left) {
-        parent.left = node;
-        x = p.x - dx;
-    } else {
-        parent.right = node;
-        x = p.x + dx;
-    }
-    y = p.y + dy;
-    let q = { x, y };
-    node.point = q;
-    if (node.flag !== Tree.flag) {
-        Tree.findSubRoot(parent);
-        if (Math.abs(x - rx) < 15) Tree.shiftSubRoot(25);
-        else Tree.shiftSubRoot(dx);
-    }
-    addEdge(p, q);
-    addVertex(q, node.key);
-    return node;
-}
-
 function insert(key, node, parent, flag) {
     if (!node) {
-        node = createNode(key, parent, flag);
-        Tree.push(node);
-        const { index } = node;
-        span(index - 1, index, Colors.visited);
-        return wait(delay).then(() => {
-            span(index - 1, parent.index, Colors.stroke);
-            $('.vrtx').eq(index).attr('stroke', Colors.stroke);
-        });
-    } else {
-        const { index, left, right } = node;
-        span(index - 1, index, Colors.visited);
-        return wait(delay).then(() => {
-            span(index - 1, parent.index, Colors.stroke);
-            if (key <= node.key) {
-                return wait(delay).then(() => insert(key, left, node, true));
-            } else {
-                return wait(delay).then(() => insert(key, right, node, false));
-            }
-        });
+        $('.vrtx').eq(parent.index).attr('stroke', Colors.stroke);
+        return Tree.insert(key, parent, flag);
     }
+    const { index, left, right } = node;
+    span(index - 1, index, Colors.visited);
+    return wait(delay).then(() => {
+        span(index - 1, parent.index, Colors.stroke);
+        if (key <= node.key) {
+            return wait(delay).then(() => insert(key, left, node, true));
+        } else {
+            return wait(delay).then(() => insert(key, right, node, false));
+        }
+    });
 }
 
 function span(ei, vi, color) {

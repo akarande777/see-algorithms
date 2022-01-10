@@ -67,13 +67,9 @@ function heapify(i) {
         k--;
         timer = setTimeout(() => {
             $('.vrtx').eq(i).attr('fill', Colors.vertex);
-            $('.edge')
-                .eq(left - 1)
-                .attr('stroke', Colors.stroke);
+            $('.edge').eq(left - 1).attr('stroke', Colors.stroke);
             if (right < n) {
-                $('.edge')
-                    .eq(right - 1)
-                    .attr('stroke', Colors.stroke);
+                $('.edge').eq(right - 1).attr('stroke', Colors.stroke);
             }
             timer = setTimeout(heapSort, delay);
         }, delay);
@@ -139,13 +135,9 @@ function swap(i, largest, angle) {
         $('.vrtx').eq(i).attr('fill', Colors.compare);
         timer = setTimeout(() => {
             $('.vrtx').eq(i).attr('fill', Colors.vertex);
-            $('.edge')
-                .eq(i * 2)
-                .attr('stroke', Colors.stroke);
+            $('.edge').eq(i * 2).attr('stroke', Colors.stroke);
             if (i * 2 + 2 < n) {
-                $('.edge')
-                    .eq(i * 2 + 1)
-                    .attr('stroke', Colors.stroke);
+                $('.edge').eq(i * 2 + 1).attr('stroke', Colors.stroke);
             }
             if (i < Math.floor(n / 2)) heapify(largest);
         }, delay);
@@ -175,9 +167,7 @@ function swapLargest() {
         }
         clearInterval(timer);
         moveVertex(n - 1, v[n - 1]);
-        $('.vlbl')
-            .eq(n - 1)
-            .text(a[n - 1]);
+        $('.vlbl').eq(n - 1).text(a[n - 1]);
         moveVertex(0, v[0]);
         $('.vlbl').eq(0).text(a[0]);
         timer = setTimeout(() => {
