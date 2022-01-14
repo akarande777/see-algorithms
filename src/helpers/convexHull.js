@@ -11,8 +11,8 @@ function print(p) {
 
 export function randomize() {
     for (let i = 0; i < 30; i++) {
-        let x = Math.floor(Math.random() * 600 + 50);
-        let y = Math.floor(Math.random() * 350 + 50);
+        let x = Math.random() * ($('#plane').width() - 100) + 50;
+        let y = Math.random() * ($('#plane').height() - 100) + 50;
         let p = Point.create(x, y);
         let np = Graph.totalPoints();
         let j;
