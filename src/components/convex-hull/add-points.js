@@ -65,7 +65,9 @@ function AddPoints(props) {
                     Reset
                 </Button>
             </div>
-            <svg id="plane"></svg>
+            <div className="resizable">
+                <svg id="plane" className="w-100 h-100"></svg>
+            </div>
         </div>
     );
 }
