@@ -38,12 +38,12 @@ export function clearGraph() {
 export function drawGraph({ weighted, acyclic }) {
     let px, ix, flag;
 
-    function overlap(seg) {
+    function isValidSeg(seg) {
         for (let i = 0; i < Graph.totalSegments(); i++) {
             let si = Graph.segment(i);
-            if (Segment.overlap(seg, si)) return true;
+            if (Segment.overlap(seg, si)) return false;
         }
-        return false;
+        return true;
     }
 
     $('#plane').on('click', function (e) {
@@ -68,7 +68,7 @@ export function drawGraph({ weighted, acyclic }) {
             flag = false;
             $('.vrtx').eq(ix).attr('stroke', Colors.stroke);
             let seg = Segment.create(px, p);
-            if (Point.equal(p, px) || overlap(seg)) {
+            if (Point.equal(p, px) || !isValidSeg(seg)) {
                 $('.edge:last').remove();
                 return;
             }
