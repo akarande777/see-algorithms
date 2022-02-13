@@ -4,8 +4,8 @@ import Graph, { Point, Segment } from '../common/graph';
 import { Colors } from '../common/constants';
 
 function print(p) {
-    let vertex = `<circle class="vrtx" cx="${p.x}" cy="${p.y}" r="4" fill="${Colors.stroke}" />`;
-    document.getElementById('plane').innerHTML += vertex;
+    let dot = `<circle class="vrtx" cx="${p.x}" cy="${p.y}" r="4" fill="${Colors.stroke}" />`;
+    document.getElementById('plane').innerHTML += dot;
     Graph.addPoint(p);
 }
 
