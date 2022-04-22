@@ -5,11 +5,14 @@ import Tree from '../common/tree';
 import { Colors } from '../common/constants';
 import { wait } from '../common/timer';
 
-var buttons = [{ text: 'Insert', onClick: input }];
+var buttons = [
+    { text: 'Insert', onClick: input, validate: true },
+    { text: 'Clear', onClick: Tree.remove }
+];
 var delay = 500;
 
 export default function (props) {
-    useEffect(() => Tree.reset(), []);
+    useEffect(() => Tree.remove(), []);
     return <DSInput {...props} buttons={buttons} />;
 }
 

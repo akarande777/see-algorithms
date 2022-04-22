@@ -5,7 +5,7 @@ import { showToast } from '../components/toast/toast';
 import { randomInt } from '../common/utils';
 
 const buttons = [
-    { text: 'Enqueue', onClick: enqueue },
+    { text: 'Enqueue', onClick: enqueue, validate: true },
     { text: 'Dequeue', onClick: dequeue },
 ];
 

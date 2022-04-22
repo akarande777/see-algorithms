@@ -9,7 +9,10 @@ var dx = 40, dy = 60;
 var Tree = {
     flag: true,
     root: () => root,
-    reset: () => void (root = null),
+    remove: () => {
+        root = null;
+        $('#plane').html('');
+    },
 
     _size(node) {
         if (!node) return 0;

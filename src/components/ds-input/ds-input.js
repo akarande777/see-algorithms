@@ -45,7 +45,9 @@ function DSInput(props) {
                         <Button
                             key={i}
                             variant="contained"
-                            onClick={() => validate(btn.onClick)}
+                            onClick={() => {
+                                btn.validate ? validate(btn.onClick) : btn.onClick();
+                            }}
                             disabled={status}
                         >
                             {btn.text}
@@ -54,7 +56,7 @@ function DSInput(props) {
                 </div>
             </div>
             <div className='resizable'>
-                <svg id="plane" className="w-100 h-100"></svg>
+                <svg id="plane" />
             </div>
         </div>
     );
