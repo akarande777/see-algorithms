@@ -18,6 +18,7 @@ function Header(props) {
                     onClick={() => {
                         window.location.href = 'https://github.com/akarande777/see-algorithms';
                     }}
+                    style={{ cursor: 'pointer' }}
                 />
             </div>
         </div>
