@@ -19,7 +19,7 @@ function List() {
             {Array.isArray(menuItems) &&
                 menuItems.map((item) => (
                     <ListItem
-                        key={item.key}
+                        key={item.value}
                         button
                         onClick={() => {
                             onSelect(item);

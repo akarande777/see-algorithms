@@ -35,12 +35,15 @@ function Home(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    if (!userAuth) {
-        return <Register {...props} />;
-    }
+    // if (!userAuth) {
+    //     return <Register {...props} />;
+    // }
     return (
         <Spinner className="home" spinning={false}>
-            {userAuth && <h5>Welcome {userAuth.displayName}!</h5>}
+            {userAuth
+                ? <h5>Hello {userAuth.displayName}!</h5>
+                : <h5>Hello World!</h5>
+            }
         </Spinner>
     );
 }

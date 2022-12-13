@@ -24,23 +24,21 @@ function Sider(props) {
 
     return (
         <List className="sider">
-            {categories.map(({ catId, catName, algorithms }) => (
+            {categories.map(({ catName, algorithms }) => (
                 <ListItem
                     button
-                    key={catId}
+                    key={catName}
                     className="listItem"
                     onClick={(e) => {
                         showMenu({
                             ...getMenuOptions(e),
-                            menuItems: algorithms.map((x) => {
-                                const { algoId, algoName, pathId } = x;
-                                return {
+                            menuItems: algorithms.map(
+                                ({ algoName, pathId }) => ({
                                     label: algoName,
                                     value: pathId,
-                                    key: algoId,
-                                    data: { algoId, algoName, catName },
-                                };
-                            }),
+                                    data: { algoName, catName },
+                                })
+                            ),
                         });
                     }}
                 >
