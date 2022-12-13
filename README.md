@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Visit https://akshay9136.github.io/see-algorithms/
+https://akshay9136.github.io/see-algorithms/
 
 ## Available Scripts
 

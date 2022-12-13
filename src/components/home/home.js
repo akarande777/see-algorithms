@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Register from '../register/register';
+// import Register from '../register/register';
 import { showToast } from '../toast/toast';
 import './home.scss';
 import { useMutation, useReactiveVar } from '@apollo/client';

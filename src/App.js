@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.scss';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { Grid, Drawer } from '@material-ui/core';
 import Header from './components/header/header';
 import Sider from './components/sider/sider';
@@ -47,7 +47,7 @@ function App() {
                 <Toast />
                 <Menu />
                 <Header toggleMenu={() => setMenuVisible(!menuVisible)} />
-                <BrowserRouter>
+                <HashRouter>
                     <Drawer
                         anchor="left"
                         open={menuVisible}
@@ -67,7 +67,7 @@ function App() {
                             {dataArray.length > 0 && <DataItems />}
                         </Grid>
                     </Grid>
-                </BrowserRouter>
+                </HashRouter>
             </Spinner>
         </AppContext.Provider>
     );
