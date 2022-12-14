@@ -7,22 +7,15 @@ import { Point } from '../common/graph';
 import { Colors } from '../common/constants';
 import { wait } from '../common/timer';
 
-const buttons = [
+var buttons = [
     { text: 'Insert', onClick: input, validate: true },
     { text: 'Clear', onClick: Tree.remove }
 ];
-const delay = 500;
+var delay = 500;
 
 export default function (props) {
     useEffect(() => Tree.remove(), []);
-    return (
-        <div className="dsInput">
-            <DSInput {...props} buttons={buttons} />
-            <div className="resizable">
-                <svg id="plane" />
-            </div>
-        </div>
-    );
+    return <DSInput {...props} buttons={buttons} />;
 }
 
 async function input(key) {

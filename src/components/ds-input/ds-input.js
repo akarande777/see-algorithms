@@ -36,22 +36,27 @@ function DSInput(props) {
     };
 
     return (
-        <div className="input dsInput" style={{ marginBottom: 0 }}>
-            <span className="label">Enter a number: &nbsp;</span>
-            <Input value={number} onChange={handleInput} className="number" />
-            <div>
-                {props.buttons.map((btn, i) => (
-                    <Button
-                        key={i}
-                        variant="contained"
-                        onClick={() => {
-                            btn.validate ? validate(btn.onClick) : btn.onClick();
-                        }}
-                        disabled={status}
-                    >
-                        {btn.text}
-                    </Button>
-                ))}
+        <div className="dsInput">
+            <div className="input" style={{ marginBottom: 0 }}>
+                <span className="label">Enter a number: &nbsp;</span>
+                <Input value={number} onChange={handleInput} className="number" />
+                <div>
+                    {props.buttons.map((btn, i) => (
+                        <Button
+                            key={i}
+                            variant="contained"
+                            onClick={() => {
+                                btn.validate ? validate(btn.onClick) : btn.onClick();
+                            }}
+                            disabled={status}
+                        >
+                            {btn.text}
+                        </Button>
+                    ))}
+                </div>
+            </div>
+            <div className='resizable'>
+                <svg id="plane" />
             </div>
         </div>
     );
