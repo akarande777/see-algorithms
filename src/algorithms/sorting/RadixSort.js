@@ -17,7 +17,7 @@ function next() {
             let r = t % 10;
             if (j === exp) {
                 cells[i].innerHTML =
-                    '<span style="color: #e91e63">' + r + '</span>' + cells[i].innerHTML;
+                    '<span style="color:#e91e63">' + r + '</span>' + cells[i].innerHTML;
             } else {
                 cells[i].innerHTML = r + cells[i].innerHTML;
             }
@@ -49,9 +49,10 @@ function bucket() {
                 .getElementsByClassName('mydiv')[0]
                 .setAttribute(
                     'style',
-                    'background-color: #ffe57f; margin-top: 4px; border: thin solid'
+                    'background-color:#ffe57f; margin-top:4px; border:thin solid;'
                 );
-            cells[j + n].innerHTML = cells[k].innerHTML + cells[j + n].innerHTML;
+            const addedHTML = cells[k].innerHTML + cells[j + n].innerHTML;
+            cells[j + n].innerHTML = addedHTML;
             cells[k++].innerHTML = '';
             Timer.timeout(bucket, delay);
         }, delay);
@@ -111,11 +112,11 @@ function RadixSort() {
             cells[npn].setAttribute('align', 'center');
             cells[npn].setAttribute(
                 'style',
-                'font-weight: 600; border-top: 2px solid; text-align: center'
+                'font-weight:600; border-top:2px solid; text-align:center;'
             );
             cells[n + i].setAttribute(
                 'style',
-                'padding: 0; height: 80px; text-align: center; vertical-align: bottom'
+                'padding:0; height:80px; text-align:center; vertical-align:bottom;'
             );
         }
         exp = 1;

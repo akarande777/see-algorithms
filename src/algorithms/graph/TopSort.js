@@ -20,7 +20,7 @@ function start() {
     createTable(1, n);
     cells = document.querySelectorAll('.cell');
     for (let i = 0; i < n; i++) {
-        cells[i].setAttribute('style', 'border: 2px solid;width: 3rem');
+        cells[i].setAttribute('style', 'border:2px solid; width:3rem;');
     }
     stack = [];
     ind = Graph.indegree();

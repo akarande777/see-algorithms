@@ -23,7 +23,7 @@ export const categoriesVar = makeVar([
             { algoName: "Kruskal's MST", pathId: 'kruskals' },
             { algoName: "Dijkstra's Shortest Path", pathId: 'dijkstras' },
             { algoName: 'Topological Sorting', pathId: 'top-sort' },
-        ]
+        ],
     },
     {
         catName: 'Data Structures',
@@ -31,7 +31,13 @@ export const categoriesVar = makeVar([
             { algoName: 'Binary Search Tree', pathId: 'bst' },
             { algoName: 'Binary Heap', pathId: 'binary-heap' },
             { algoName: 'Circular Queue', pathId: 'circular-queue' },
-        ]
+        ],
+    },
+    {
+        catName: 'Other',
+        algorithms: [
+            { algoName: 'Convex Hull', pathId: 'convex-hull' },
+        ],
     }
 ]);
 

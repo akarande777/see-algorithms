@@ -1,6 +1,6 @@
 import React from 'react';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { InsertChart, MeetingRoom } from '@material-ui/icons';
+import { Category, MeetingRoom } from '@material-ui/icons';
 import { withRouter } from 'react-router-dom';
 import './sider.scss';
 import { showMenu } from '../menu/menu';
@@ -43,7 +43,7 @@ function Sider(props) {
                     }}
                 >
                     <ListItemIcon>
-                        <InsertChart className="listItemIcon" />
+                        <Category className="listItemIcon" />
                     </ListItemIcon>
                     <ListItemText primary={catName} className="listItemText" />
                 </ListItem>
