@@ -47,7 +47,7 @@ function BubbleSort() {
         createTable(3, n);
         cells = document.querySelectorAll('.cell');
         for (let k = 0; k < n; k++) {
-            cells[k + n].innerHTML = a[k];
+            cells[k + n].textContent = a[k];
             cells[k + n].style.border = '2px solid';
         }
         i = 0;
@@ -93,10 +93,10 @@ function swap() {
 }
 
 function shift(u, v) {
-    cells[u].innerHTML = cells[v].innerHTML;
+    cells[u].textContent = cells[v].textContent;
     cells[u].setAttribute('bgcolor', Colors.compare);
     cells[v].removeAttribute('bgcolor');
-    cells[v].innerHTML = '';
+    cells[v].textContent = '';
 }
 
 export default BubbleSort;

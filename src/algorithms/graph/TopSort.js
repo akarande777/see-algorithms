@@ -91,7 +91,7 @@ function fall(i) {
         Timer.timeout(fall, 5, i);
     } else {
         let np = Graph.totalPoints();
-        cells[np - n].innerHTML = String.fromCharCode(65 + i);
+        cells[np - n].textContent = String.fromCharCode(65 + i);
         cells[np - n].setAttribute('bgcolor', Colors.visited);
         $(`.vgrp:eq(${i})`).css('visibility', 'hidden');
         n--;

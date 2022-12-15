@@ -12,7 +12,8 @@ function Sider(props) {
     const userAuth = useReactiveVar(userAuthVar);
 
     const handleSelect = ({ value, data }) => {
-        props.history.push(value, data);
+        const params = new URLSearchParams(data).toString();
+        props.history.push(`${value}?${params}`);
         props.onClose();
     };
 

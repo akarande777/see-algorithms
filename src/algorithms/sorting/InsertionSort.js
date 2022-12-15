@@ -15,7 +15,7 @@ function InsertionSort() {
         createTable(2, n);
         cells = document.querySelectorAll('.cell');
         for (let k = 0; k < n; k++) {
-            cells[k + n].innerHTML = a[k];
+            cells[k + n].textContent = a[k];
             cells[k + n].style.border = '2px solid';
         }
         i = 1;
@@ -45,8 +45,8 @@ function pick() {
     if (i < n) {
         cells[i + n].setAttribute('bgcolor', Colors.compare);
         timer = setTimeout(function () {
-            cells[i].innerHTML = cells[i + n].innerHTML;
-            cells[i + n].innerHTML = '';
+            cells[i].textContent = cells[i + n].textContent;
+            cells[i + n].textContent = '';
             cells[i + n].removeAttribute('bgcolor');
             cells[i].setAttribute('bgcolor', Colors.compare);
             temp = a[i];
@@ -61,9 +61,9 @@ function pick() {
 function shift() {
     if (temp < a[j - 1]) {
         a[j] = a[j - 1];
-        cells[j + n].innerHTML = a[j];
+        cells[j + n].textContent = a[j];
         cells[j + n].setAttribute('bgcolor', Colors.sorted);
-        cells[j + n - 1].innerHTML = '';
+        cells[j + n - 1].textContent = '';
         cells[j + n - 1].removeAttribute('bgcolor');
         j--;
     } else {
@@ -75,17 +75,17 @@ function shift() {
 
 function insert() {
     if (temp < a[j - 1]) {
-        cells[j - 1].innerHTML = cells[j].innerHTML;
+        cells[j - 1].textContent = cells[j].textContent;
         cells[j - 1].setAttribute('bgcolor', Colors.compare);
-        cells[j].innerHTML = '';
+        cells[j].textContent = '';
         cells[j].removeAttribute('bgcolor');
         j--;
     } else {
         clearInterval(timer);
         a[j] = temp;
-        cells[j + n].innerHTML = cells[j].innerHTML;
+        cells[j + n].textContent = cells[j].textContent;
         cells[j + n].setAttribute('bgcolor', Colors.sorted);
-        cells[j].innerHTML = '';
+        cells[j].textContent = '';
         cells[j].removeAttribute('bgcolor');
         i++;
         timer = setTimeout(pick, delay);

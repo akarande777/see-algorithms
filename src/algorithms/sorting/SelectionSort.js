@@ -15,9 +15,9 @@ function iloop() {
         pos = i;
         j = i + 1;
         timer = setTimeout(function () {
-            cells[i].innerHTML = a[i];
+            cells[i].textContent = a[i];
             cells[i].setAttribute('bgcolor', Colors.compare);
-            cells[i + n].innerHTML = '';
+            cells[i + n].textContent = '';
             cells[i + n].removeAttribute('bgcolor');
             timer = setInterval(jloop, delay / 2);
         }, delay / 2);
@@ -44,12 +44,12 @@ function jloop() {
 }
 
 function select() {
-    cells[prev + n].innerHTML = a[prev];
-    cells[prev].innerHTML = '';
+    cells[prev + n].textContent = a[prev];
+    cells[prev].textContent = '';
     cells[prev].removeAttribute('bgcolor');
-    cells[pos].innerHTML = a[pos];
+    cells[pos].textContent = a[pos];
     cells[pos].setAttribute('bgcolor', Colors.compare);
-    cells[pos + n].innerHTML = '';
+    cells[pos + n].textContent = '';
     cells[pos + n].removeAttribute('bgcolor');
     if (j >= n) {
         timer = setTimeout(swapInit, delay / 2);
@@ -65,7 +65,7 @@ function SelectionSort() {
         createTable(3, n);
         cells = document.querySelectorAll('.cell');
         for (let k = 0; k < n; k++) {
-            cells[k + n].innerHTML = a[k];
+            cells[k + n].textContent = a[k];
             cells[k + n].style.border = '2px solid';
         }
         i = 0;
@@ -90,16 +90,16 @@ function SelectionSort() {
 
 function swapInit() {
     if (pos !== i) {
-        cells[i + n + n].innerHTML = a[i];
-        cells[i + n].innerHTML = '';
+        cells[i + n + n].textContent = a[i];
+        cells[i + n].textContent = '';
         k = 1;
         timer = setTimeout(function () {
             timer = setInterval(swap, 100);
         }, 200);
     } else {
-        cells[pos + n].innerHTML = a[pos];
+        cells[pos + n].textContent = a[pos];
         cells[pos + n].setAttribute('bgcolor', Colors.sorted);
-        cells[pos].innerHTML = '';
+        cells[pos].textContent = '';
         cells[pos].removeAttribute('bgcolor');
         i++;
         timer = setTimeout(iloop, delay);
@@ -107,21 +107,21 @@ function swapInit() {
 }
 
 function swap() {
-    cells[pos - k].innerHTML = a[pos];
+    cells[pos - k].textContent = a[pos];
     cells[pos - k].setAttribute('bgcolor', Colors.compare);
-    cells[pos - k + 1].innerHTML = '';
+    cells[pos - k + 1].textContent = '';
     cells[pos - k + 1].removeAttribute('bgcolor');
     let npn = i + n + n;
-    cells[npn + k].innerHTML = a[i];
-    cells[npn + k - 1].innerHTML = '';
+    cells[npn + k].textContent = a[i];
+    cells[npn + k - 1].textContent = '';
     if (i + k === pos) {
         clearInterval(timer);
         timer = setTimeout(function () {
-            cells[pos + n].innerHTML = a[i];
-            cells[pos + n + n].innerHTML = '';
-            cells[i + n].innerHTML = a[pos];
+            cells[pos + n].textContent = a[i];
+            cells[pos + n + n].textContent = '';
+            cells[i + n].textContent = a[pos];
             cells[i + n].setAttribute('bgcolor', Colors.sorted);
-            cells[i].innerHTML = '';
+            cells[i].textContent = '';
             cells[i].removeAttribute('bgcolor');
             let t = a[i];
             a[i] = a[pos];

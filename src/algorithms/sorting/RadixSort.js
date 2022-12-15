@@ -10,21 +10,20 @@ var delay = 700;
 
 function next() {
     for (let i = 0; i < n; i++) {
-        cells[i].innerHTML = '</div>';
+        let html = '</div>';
         let t = a[i];
         let j = 1;
         while (t !== 0) {
             let r = t % 10;
             if (j === exp) {
-                cells[i].innerHTML =
-                    '<span style="color:#e91e63">' + r + '</span>' + cells[i].innerHTML;
+                html = `<span style="color:#e91e63">${r}</span>${html}`;
             } else {
-                cells[i].innerHTML = r + cells[i].innerHTML;
+                html = r + html;
             }
             t = Math.floor(t / 10);
             j = j * 10;
         }
-        cells[i].innerHTML = '<div class="mydiv">' + cells[i].innerHTML;
+        cells[i].innerHTML = '<div>' + html;
     }
 }
 
@@ -45,14 +44,13 @@ function bucket() {
         cells[k].setAttribute('bgcolor', '#ffe57f');
         Timer.timeout(function () {
             cells[k].removeAttribute('bgcolor');
-            document
-                .getElementsByClassName('mydiv')[0]
-                .setAttribute(
-                    'style',
-                    'background-color:#ffe57f; margin-top:4px; border:thin solid;'
-                );
-            const addedHTML = cells[k].innerHTML + cells[j + n].innerHTML;
-            cells[j + n].innerHTML = addedHTML;
+            cells[k].firstChild.setAttribute('style', `
+                background-color:#ffe57f;
+                margin-top:4px;
+                border:thin solid;
+                border-radius:4px;
+            `);
+            cells[j + n].innerHTML = cells[k].innerHTML + cells[j + n].innerHTML;
             cells[k++].innerHTML = '';
             Timer.timeout(bucket, delay);
         }, delay);
@@ -99,7 +97,7 @@ function RadixSort() {
         createTable(2, 10, 'bkt');
         cells = document.querySelectorAll('.cell');
         for (let i = 0; i < n; i++) {
-            cells[i].innerHTML = a[i];
+            cells[i].textContent = a[i];
             cells[i].style.border = '2px solid';
         }
         max = a[0];
@@ -108,7 +106,7 @@ function RadixSort() {
         }
         for (let i = 0; i < 10; i++) {
             let npn = i + 10 + n;
-            cells[npn].innerHTML = i;
+            cells[npn].textContent = i;
             cells[npn].setAttribute('align', 'center');
             cells[npn].setAttribute(
                 'style',

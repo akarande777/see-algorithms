@@ -27,9 +27,9 @@ function merge() {
 
 function shiftInit(i) {
     t[r] = a[i];
-    cells[i + n].innerHTML = a[i];
+    cells[i + n].textContent = a[i];
     cells[i + n].setAttribute('bgcolor', Colors.compare);
-    cells[i].innerHTML = '';
+    cells[i].textContent = '';
     cells[i].removeAttribute('bgcolor');
     k = i;
     return wait(100).then(shift);
@@ -81,7 +81,7 @@ function MergeSort() {
         createTable(3, n);
         cells = document.querySelectorAll('.cell');
         for (let i = 0; i < n; i++) {
-            cells[i].innerHTML = a[i];
+            cells[i].textContent = a[i];
             cells[i].style.border = '2px solid';
         }
         wait(delay).then(() => mergeSort(0, n - 1));
@@ -104,24 +104,24 @@ function MergeSort() {
 
 function shift() {
     if (k < r) {
-        cells[k + n + 1].innerHTML = t[r];
+        cells[k + n + 1].textContent = t[r];
         cells[k + n + 1].setAttribute('bgcolor', Colors.compare);
-        cells[k + n].innerHTML = '';
+        cells[k + n].textContent = '';
         cells[k + n].removeAttribute('bgcolor');
         k++;
         return wait(100).then(shift);
     } else if (k > r) {
-        cells[k + n - 1].innerHTML = t[r];
+        cells[k + n - 1].textContent = t[r];
         cells[k + n - 1].setAttribute('bgcolor', Colors.compare);
-        cells[k + n].innerHTML = '';
+        cells[k + n].textContent = '';
         cells[k + n].removeAttribute('bgcolor');
         k--;
         return wait(100).then(shift);
     } else {
         return wait(200).then(() => {
-            cells[r + n + n].innerHTML = t[r];
+            cells[r + n + n].textContent = t[r];
             cells[r + n + n].setAttribute('bgcolor', Colors.sorted);
-            cells[r + n].innerHTML = '';
+            cells[r + n].textContent = '';
             cells[r + n].removeAttribute('bgcolor');
             r++;
             return wait(delay).then(merge);
@@ -132,10 +132,10 @@ function shift() {
 function lift(u, v) {
     if (u - n > -1) {
         for (let i = u; i <= v; i++) {
-            cells[i - n].innerHTML = cells[i].innerHTML;
+            cells[i - n].textContent = cells[i].textContent;
             cells[i - n].setAttribute('bgcolor', Colors.sorted);
             cells[i].removeAttribute('bgcolor');
-            cells[i].innerHTML = '';
+            cells[i].textContent = '';
         }
         return wait(100).then(() => lift(u - n, v - n));
     } else {

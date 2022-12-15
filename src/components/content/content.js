@@ -25,7 +25,8 @@ import CircularQueue from '../../data-structures/CircularQueue';
 
 function Content({ location }) {
     const userAuth = useReactiveVar(userAuthVar);
-    const { algoName } = location.state || {};
+    const queryParams = new URLSearchParams(location.search);
+    const algoName = queryParams.get('algoName');
 
     useEffect(() => {
         !algoName && dataArrayVar([]);
