@@ -16,7 +16,7 @@ function Header(props) {
             <div>
                 <GitHub
                     onClick={() => {
-                        window.location.href = 'https://github.com/akarande777/see-algorithms';
+                        window.location.href = 'https://github.com/akshay9136/see-algorithms';
                     }}
                     style={{ cursor: 'pointer' }}
                 />
