@@ -1,7 +1,7 @@
 import React from 'react';
-import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { Category, MeetingRoom } from '@material-ui/icons';
-import { withRouter } from 'react-router-dom';
+import { List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Category, MeetingRoom } from '@mui/icons-material';
+import { useHistory } from 'react-router-dom';
 import './sider.scss';
 import { showMenu } from '../menu/menu';
 import { useReactiveVar } from '@apollo/client';
@@ -10,10 +10,11 @@ import { categoriesVar, userAuthVar } from '../../common/cache';
 function Sider(props) {
     const categories = useReactiveVar(categoriesVar);
     const userAuth = useReactiveVar(userAuthVar);
+    const history = useHistory();
 
     const handleSelect = ({ value, data }) => {
         const params = new URLSearchParams(data).toString();
-        props.history.push(`${value}?${params}`);
+        history.push(`${value}?${params}`);
         props.onClose();
     };
 
@@ -26,8 +27,7 @@ function Sider(props) {
     return (
         <List className="sider">
             {categories.map(({ catName, algorithms }) => (
-                <ListItem
-                    button
+                <ListItemButton
                     key={catName}
                     className="listItem"
                     onClick={(e) => {
@@ -47,27 +47,26 @@ function Sider(props) {
                         <Category className="listItemIcon" />
                     </ListItemIcon>
                     <ListItemText primary={catName} className="listItemText" />
-                </ListItem>
+                </ListItemButton>
             ))}
             {userAuth && (
-                <ListItem
-                    button
+                <ListItemButton
                     className="listItem logout"
                     onClick={() => {
                         userAuthVar(null);
                         localStorage.removeItem('userAuth');
                         props.onClose();
-                        props.history.push('/');
+                        history.push('/');
                     }}
                 >
                     <ListItemIcon>
                         <MeetingRoom className="listItemIcon" />
                     </ListItemIcon>
                     <ListItemText primary="Logout" className="listItemText" />
-                </ListItem>
+                </ListItemButton>
             )}
         </List>
     );
 }
 
-export default withRouter(Sider);
+export default Sider;

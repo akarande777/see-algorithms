@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
-import { Switch, Route, withRouter, Link, Redirect } from 'react-router-dom';
-import { Breadcrumbs } from '@material-ui/core';
-import { useReactiveVar } from '@apollo/client';
-import { dataArrayVar, userAuthVar } from '../../common/cache';
+import { Switch, Route, Link, useLocation } from 'react-router-dom';
+import { Breadcrumbs } from '@mui/material';
+import { dataArrayVar } from '../../common/cache';
 import Home from '../home/home';
-import Login from '../login/login';
 import PageNotFound from '../404/404';
 import BubbleSort from '../../algorithms/sorting/BubbleSort';
 import InsertionSort from '../../algorithms/sorting/InsertionSort';
@@ -23,8 +21,8 @@ import BST from '../../data-structures/BST';
 import BinaryHeap from '../../data-structures/BinaryHeap';
 import CircularQueue from '../../data-structures/CircularQueue';
 
-function Content({ location }) {
-    const userAuth = useReactiveVar(userAuthVar);
+function Content() {
+    const location = useLocation()
     const queryParams = new URLSearchParams(location.search);
     const algoName = queryParams.get('algoName');
 
@@ -41,13 +39,6 @@ function Content({ location }) {
             <br />
             <Switch>
                 <Route path="/" exact component={Home} />
-                <Route
-                    path="/login"
-                    exact
-                    render={(props) => (
-                        userAuth ? <Redirect to="/" /> : <Login {...props} />
-                    )}
-                />
                 <Route path="/bubble-sort" exact component={BubbleSort} />
                 <Route path="/insertion-sort" exact component={InsertionSort} />
                 <Route path="/selection-sort" exact component={SelectionSort} />
@@ -72,4 +63,4 @@ function Content({ location }) {
     );
 }
 
-export default withRouter(Content);
+export default Content;

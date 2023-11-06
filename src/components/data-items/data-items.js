@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import { DeleteOutline } from '@material-ui/icons';
+import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import ListSubheader from '@mui/material/ListSubheader';
+import { DeleteOutline } from '@mui/icons-material';
 import { AppContext } from '../../common/context';
 import './data-items.scss';
 import { createGraph } from '../../helpers/drawGraph';
@@ -9,11 +9,12 @@ import { useMutation, useReactiveVar } from '@apollo/client';
 import { dataArrayVar } from '../../common/cache';
 import { REMOVE_ALGO_DATA } from '../../graphql/mutations';
 import { showToast } from '../toast/toast';
-import { withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-function DataItems({ location }) {
+function DataItems() {
     const { setContext } = useContext(AppContext);
     const dataArray = useReactiveVar(dataArrayVar);
+    const location = useLocation();
 
     const [removeAlgoData, { loading }] = useMutation(REMOVE_ALGO_DATA, {
         onCompleted(data) {
@@ -75,4 +76,4 @@ function DataItems({ location }) {
     );
 }
 
-export default withRouter(DataItems);
+export default DataItems;

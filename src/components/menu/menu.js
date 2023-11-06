@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, ListItem, ListItemText } from '@material-ui/core';
+import { Menu, ListItem, ListItemText } from '@mui/material';
 
 export var showMenu = () => {};
 
@@ -13,7 +13,6 @@ function List() {
             open={Boolean(anchorEl)}
             keepMounted={false}
             anchorOrigin={anchorOrigin}
-            getContentAnchorEl={null}
             onClose={() => setOptions({})}
         >
             {Array.isArray(menuItems) &&

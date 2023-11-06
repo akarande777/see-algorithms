@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.scss';
 import { HashRouter } from 'react-router-dom';
-import { Grid, Drawer } from '@material-ui/core';
+import { Grid, Drawer } from '@mui/material';
 import Header from './components/header/header';
 import Sider from './components/sider/sider';
 import Content from './components/content/content';
@@ -54,7 +54,9 @@ function App() {
                         onClose={() => setMenuVisible(false)}
                         className="drawer"
                         PaperProps={{ className: 'paper' }}
-                        BackdropProps={{ className: 'backdrop' }}
+                        slotProps={{
+                            backdrop: { className: 'backdrop' } 
+                        }}
                     >
                         <Sider onClose={() => setMenuVisible(false)} />
                     </Drawer>

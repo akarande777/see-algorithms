@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react';
-import { Button, Checkbox, TextField, FormControlLabel } from '@material-ui/core';
-import { PlayArrow, Pause } from '@material-ui/icons';
+import { Button, Checkbox, TextField, FormControlLabel } from '@mui/material';
+import { PlayArrow, Pause } from '@mui/icons-material';
 import { showToast } from '../toast/toast';
 import './draw-graph.scss';
 import Graph from '../../common/graph';

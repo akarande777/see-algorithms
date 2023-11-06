@@ -1,5 +1,5 @@
 import React from 'react';
-import { MenuOpen, GitHub } from '@material-ui/icons';
+import { MenuOpen, GitHub } from '@mui/icons-material';
 import './header.scss';
 
 function Header(props) {

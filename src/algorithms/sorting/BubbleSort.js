@@ -1,102 +1,78 @@
-import React, { useEffect } from 'react';
-import Numbers from '../../components/numbers/numbers';
-import { Colors } from '../../common/constants';
-import { createTable } from '../../common/utils';
+import React, { useState } from "react";
+import Numbers, { Numbox } from "../../components/numbers/numbers";
+import { Colors } from "../../common/constants";
+import { useAnimate } from "framer-motion";
+import { delay } from "../../common/utils";
 
-var a, n, cells;
-var i, j, swaps;
-var timer;
-var delay = 800;
+var numbers = [];
 
-function iloop() {
-    if (i < n - 1 && swaps > 0) {
-        swaps = 0;
-        j = 0;
-        timer = setTimeout(jloop, delay);
-    } else {
-        for (let k = 0; k < n; k++) {
-            cells[k + n].setAttribute('bgcolor', Colors.sorted);
-        }
-    }
-}
+export default function BubbleSort() {
+    const [_numbers, setNumbers] = useState([]);
+    const [scope, animate] = useAnimate();
 
-function jloop() {
-    if (j < n - i - 1) {
-        cells[j + n].setAttribute('bgcolor', Colors.compare);
-        cells[j + n + 1].setAttribute('bgcolor', Colors.compare);
-        cells[j + n - 1].removeAttribute('bgcolor');
-        if (a[j + 1] < a[j]) {
-            timer = setTimeout(swap, delay);
-            swaps++;
-        } else {
-            timer = setTimeout(jloop, delay);
-            j++;
-        }
-    } else {
-        cells[j + n - 1].removeAttribute('bgcolor');
-        cells[j + n].setAttribute('bgcolor', Colors.sorted);
-        i++;
-        iloop();
-    }
-}
-
-function BubbleSort() {
-    const start = (values) => {
-        a = [...values];
-        n = a.length;
-        createTable(3, n);
-        cells = document.querySelectorAll('.cell');
-        for (let k = 0; k < n; k++) {
-            cells[k + n].textContent = a[k];
-            cells[k + n].style.border = '2px solid';
-        }
-        i = 0;
-        j = 0;
-        swaps = 1;
-        iloop();
+    const swapNumbers = async (a, b) => {
+        await Promise.all([
+            animate(`#box${a}`, { x: 70 }, { duration: 1 }),
+            animate(`#box${b}`, { x: -70 }, { duration: 1 }),
+        ]);
+        await Promise.all([
+            animate(`#box${a}`, { x: 0 }, { duration: 0 }),
+            animate(`#box${b}`, { x: 0 }, { duration: 0 }),
+        ]);
+        const temp = numbers[a];
+        numbers[a] = numbers[b];
+        numbers[b] = temp;
+        setNumbers(numbers.slice());
     };
 
-    const stop = () => {
-        clearTimeout(timer);
-        document.getElementById('tbl').innerHTML = '';
+    const compare = (a, b) => {
+        return Promise.all([
+            animate(`#box${a}`, { backgroundColor: Colors.compare }),
+            animate(`#box${b}`, { backgroundColor: Colors.compare }),
+            a > 0
+                ? animate(`#box${a - 1}`, { backgroundColor: "white" })
+                : Promise.resolve(),
+        ]);
     };
 
-    useEffect(() => () => stop(), []);
+    const bubbleSort = async () => {
+        for (let i = 1; i < numbers.length; i++) {
+            for (let j = 0; j < numbers.length - i; j++) {
+                await compare(j, j + 1);
+                await delay(500);
+                if (numbers[j] > numbers[j + 1]) {
+                    await swapNumbers(j, j + 1);
+                    await delay(500);
+                }
+            }
+            let k = numbers.length - i;
+            await Promise.all([
+                animate(`#box${k - 1}`, { backgroundColor: "white" }),
+                animate(`#box${k}`, { backgroundColor: Colors.sorted }),
+            ]);
+            await delay(500);
+        }
+        animate(`#box${0}`, { backgroundColor: Colors.sorted });
+    };
+
+    const handleStart = (values) => {
+        setNumbers(values);
+        numbers = values.slice();
+        setTimeout(bubbleSort, 1000);
+    };
+
+    const handleStop = () => {
+        setNumbers([]);
+        numbers = [];
+    };
 
     return (
-        <div className="sortNumbers">
-            <Numbers start={start} stop={stop} />
-            <table id="tbl" />
-        </div>
+        <Numbers onStart={handleStart} onStop={handleStop}>
+            <div className="d-flex" ref={scope}>
+                {_numbers.map((num, i) => (
+                    <Numbox key={i} index={i} value={num} />
+                ))}
+            </div>
+        </Numbers>
     );
 }
-
-function swap() {
-    let t = a[j];
-    a[j] = a[j + 1];
-    a[j + 1] = t;
-    let npn = n + n;
-    timer = setTimeout(function () {
-        shift(j + 1, j + n + 1);
-        shift(j + npn, j + n);
-    }, 150);
-    timer = setTimeout(function () {
-        shift(j, j + 1);
-        shift(j + npn + 1, j + npn);
-    }, 300);
-    timer = setTimeout(function () {
-        shift(j + n, j);
-        shift(j + n + 1, j + npn + 1);
-        j++;
-    }, 450);
-    timer = setTimeout(jloop, delay);
-}
-
-function shift(u, v) {
-    cells[u].textContent = cells[v].textContent;
-    cells[u].setAttribute('bgcolor', Colors.compare);
-    cells[v].removeAttribute('bgcolor');
-    cells[v].textContent = '';
-}
-
-export default BubbleSort;

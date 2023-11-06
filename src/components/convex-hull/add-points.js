@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
-import { Button } from '@material-ui/core';
-import { PlayArrow, Pause } from '@material-ui/icons';
+import { Button } from '@mui/material';
+import { PlayArrow, Pause } from '@mui/icons-material';
 // import './draw-graph.scss';
 import Graph from '../../common/graph';
 import $ from 'jquery';

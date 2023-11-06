@@ -1,5 +1,5 @@
 import React from 'react';
-import { Backdrop, CircularProgress } from '@material-ui/core';
+import { Backdrop, CircularProgress } from '@mui/material';
 
 function Spinner({ spinning, className, children }) {
     return (

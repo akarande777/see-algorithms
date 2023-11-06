@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { showToast } from '../toast/toast';
-import { Input, Button } from '@material-ui/core';
+import { Input, Button } from '@mui/material';
 import './ds-input.scss';
 import { dataArrayVar } from '../../common/cache';
 import { randomInt } from '../../common/utils';

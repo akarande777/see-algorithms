@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { showToast } from '../toast/toast';
-import { Select, Input, Button, MenuItem } from '@material-ui/core';
-import './numbers.scss';
-import { dataArrayVar } from '../../common/cache';
-import { randomInt } from '../../common/utils';
+import React, { useState } from "react";
+import { showToast } from "../toast/toast";
+import { Select, Input, Button, MenuItem } from "@mui/material";
+import "./numbers.scss";
+import { randomInt } from "../../common/utils";
 
-function Numbers(props) {
+function InputNumbers(props) {
     const [values, setValues] = useState([]);
     const [status, setStatus] = useState(false);
     const { min = 7, max = 12 } = props;
-
-    useEffect(() => {
-        dataArrayVar([]);
-    }, []);
 
     const handleSelect = (e) => {
         const size = parseInt(e.target.value);
@@ -26,17 +21,17 @@ function Numbers(props) {
     const handleInput = (e, i) => {
         let val = e.target.value.trim().slice(0, 3);
         if (!isNaN(val)) {
-            values[i] = parseInt(val) || '';
+            values[i] = parseInt(val) || "";
             setValues([...values]);
         }
     };
 
     const validate = () => {
         for (let i = 0; i < values.length; i++) {
-            if (typeof values[i] !== 'number') {
+            if (typeof values[i] !== "number") {
                 showToast({
-                    message: 'Please enter valid numbers.',
-                    variant: 'error',
+                    message: "Please enter valid numbers.",
+                    variant: "error",
                 });
                 setStatus(false);
                 return false;
@@ -49,23 +44,29 @@ function Numbers(props) {
         if (!status) {
             if (validate()) {
                 setStatus(true);
-                props.start(values);
+                props.onStart(values);
             }
         } else {
-            props.stop();
+            props.onStop();
             setStatus(false);
             setValues([]);
         }
     };
 
     return (
-        <div className="input">
+        <div className="inputNumbers">
             <span className="label">
-                {!values.length ? 'Select number of elements: ' : 'Enter numbers: '}
+                {!values.length
+                    ? "Select number of elements: "
+                    : "Enter numbers: "}
                 &nbsp;
             </span>
             {!values.length ? (
-                <Select onChange={handleSelect} className="select">
+                <Select
+                    onChange={handleSelect}
+                    className="select"
+                    size="small"
+                >
                     <MenuItem></MenuItem>
                     {Array.from(Array(max - min + 1))
                         .map((_, i) => min + i)
@@ -90,7 +91,7 @@ function Numbers(props) {
             {values.length > 0 && (
                 <div>
                     <Button variant="contained" onClick={handleSubmit}>
-                        {!status ? 'Start' : 'Stop'}
+                        {!status ? "Start" : "Stop"}
                     </Button>
                 </div>
             )}
@@ -98,4 +99,19 @@ function Numbers(props) {
     );
 }
 
-export default Numbers;
+export default function Numbers(props) {
+    return (
+        <div className="sortNumbers">
+            <InputNumbers {...props} />
+            {props.children}
+        </div>
+    )
+}
+
+export function Numbox({ index, value, ...rest }) {
+    return (
+        <div className="numbox" id={`box${index}`} {...rest}>
+            {value}
+        </div>
+    );
+}
