@@ -1,7 +1,7 @@
 .inputNumbers {
     display: flex;
     align-items: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 80px;
 
     .label {
         font-size: 1rem;
@@ -13,4 +13,15 @@
     .select {
         width: 4rem;
     }
+}
+
+.numbox {
+    width: 62px;
+    height: 50px;
+    border: 2px solid;
+    border-radius: 4px;
+    margin: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

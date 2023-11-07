@@ -1,4 +1,5 @@
 export const Colors = {
+    white: '#FFFFFF',
     compare: '#ffc107',
     sorted: '#aed581',
     vertex: '#e5e5e5',

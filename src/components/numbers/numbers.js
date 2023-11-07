@@ -62,11 +62,7 @@ function InputNumbers(props) {
                 &nbsp;
             </span>
             {!values.length ? (
-                <Select
-                    onChange={handleSelect}
-                    className="select"
-                    size="small"
-                >
+                <Select onChange={handleSelect} className="select" size="small">
                     <MenuItem></MenuItem>
                     {Array.from(Array(max - min + 1))
                         .map((_, i) => min + i)
@@ -99,13 +95,15 @@ function InputNumbers(props) {
     );
 }
 
-export default function Numbers(props) {
+export default InputNumbers;
+
+export function SortNumbers(props) {
     return (
         <div className="sortNumbers">
             <InputNumbers {...props} />
             {props.children}
         </div>
-    )
+    );
 }
 
 export function Numbox({ index, value, ...rest }) {

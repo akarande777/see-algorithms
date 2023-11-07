@@ -1,95 +1,70 @@
-import React, { useEffect } from 'react';
-import Numbers from '../../components/numbers/numbers';
-import { Colors } from '../../common/constants';
-import { createTable } from '../../common/utils';
+import React, { useState } from "react";
+import { useAnimate } from "framer-motion";
+import { Numbox, SortNumbers } from "../../components/numbers/numbers";
+import { Colors } from "../../common/constants";
+import { animator, delay } from "../../common/utils";
 
-var a, n, cells;
-var i, j, temp;
-var timer;
-var delay = 800;
+var numbers = [];
 
-function InsertionSort() {
-    const start = (values) => {
-        a = [...values];
-        n = a.length;
-        createTable(2, n);
-        cells = document.querySelectorAll('.cell');
-        for (let k = 0; k < n; k++) {
-            cells[k + n].textContent = a[k];
-            cells[k + n].style.border = '2px solid';
+export default function InsertionSort() {
+    const [_numbers, setNumbers] = useState([]);
+    const [scope, _animate] = useAnimate();
+    const { bgcolor, tx, ty } = animator(_animate);
+
+    const pickNumber = async (i) => {
+        await bgcolor(`#box${i}`, Colors.compare);
+        await delay(500);
+        await ty(`#box${i}`, -60, 0.5);
+        await delay(500);
+    };
+
+    const sortNumbers = async () => {
+        await bgcolor(`#box${0}`, Colors.sorted);
+        await delay(500);
+        for (let i = 1; i < numbers.length; i++) {
+            await pickNumber(i);
+            let num = numbers[i];
+            let j = i - 1;
+            while (j >= 0 && numbers[j] > num) {
+                numbers[j + 1] = numbers[j];
+                await tx(`#box${j}`, 70, 0.5);
+                j--;
+            }
+            if (j < i - 1) {
+                numbers[j + 1] = num;
+                let k = i - (j + 1);
+                await tx(`#box${i}`, -k * 70, k * 0.2);
+                
+            }
+            await ty(`#box${i}`, 0, 0.5);
+            await bgcolor(`#box${i}`, Colors.sorted);
+            await delay(500);
+            for (let k = j + 1; k <= i; k++) {
+                tx(`#box${k}`, 0, 0);
+            }
+            setNumbers(numbers.slice());
+            await delay(500);
         }
-        i = 1;
-        timer = setTimeout(() => {
-            cells[n].setAttribute('bgcolor', Colors.sorted);
-            timer = setTimeout(pick, delay);
-        }, delay);
     };
 
-    const stop = () => {
-        clearTimeout(timer);
-        clearInterval(timer);
-        document.getElementById('tbl').innerHTML = '';
+    const handleStart = (values) => {
+        setNumbers(values);
+        numbers = values.slice();
+        setTimeout(sortNumbers, 1000);
     };
 
-    useEffect(() => () => stop(), []);
+    const handleStop = () => {
+        setNumbers([]);
+        numbers = [];
+    };
 
     return (
-        <div className="sortNumbers">
-            <Numbers start={start} stop={stop} />
-            <table id="tbl" />
-        </div>
+        <SortNumbers onStart={handleStart} onStop={handleStop}>
+            <div className="d-flex" ref={scope}>
+                {_numbers.map((num, i) => (
+                    <Numbox key={i} index={i} value={num} />
+                ))}
+            </div>
+        </SortNumbers>
     );
 }
-
-function pick() {
-    if (i < n) {
-        cells[i + n].setAttribute('bgcolor', Colors.compare);
-        timer = setTimeout(function () {
-            cells[i].textContent = cells[i + n].textContent;
-            cells[i + n].textContent = '';
-            cells[i + n].removeAttribute('bgcolor');
-            cells[i].setAttribute('bgcolor', Colors.compare);
-            temp = a[i];
-            j = i;
-            timer = setTimeout(function () {
-                timer = setInterval(shift, delay / 2);
-            }, delay / 2);
-        }, delay / 2);
-    }
-}
-
-function shift() {
-    if (temp < a[j - 1]) {
-        a[j] = a[j - 1];
-        cells[j + n].textContent = a[j];
-        cells[j + n].setAttribute('bgcolor', Colors.sorted);
-        cells[j + n - 1].textContent = '';
-        cells[j + n - 1].removeAttribute('bgcolor');
-        j--;
-    } else {
-        clearInterval(timer);
-        j = i;
-        timer = setInterval(insert, 100);
-    }
-}
-
-function insert() {
-    if (temp < a[j - 1]) {
-        cells[j - 1].textContent = cells[j].textContent;
-        cells[j - 1].setAttribute('bgcolor', Colors.compare);
-        cells[j].textContent = '';
-        cells[j].removeAttribute('bgcolor');
-        j--;
-    } else {
-        clearInterval(timer);
-        a[j] = temp;
-        cells[j + n].textContent = cells[j].textContent;
-        cells[j + n].setAttribute('bgcolor', Colors.sorted);
-        cells[j].textContent = '';
-        cells[j].removeAttribute('bgcolor');
-        i++;
-        timer = setTimeout(pick, delay);
-    }
-}
-
-export default InsertionSort;
