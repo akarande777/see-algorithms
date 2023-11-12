@@ -142,15 +142,3 @@ export const randomInt = () => Math.floor(Math.random() * 99) + 1;
 export const delay = (t) => {
     return new Promise((resolve) => setTimeout(resolve, t));
 };
-
-export const animator = (animate) => ({
-    bgcolor(arg, color) {
-        return animate(arg, { backgroundColor: color });
-    },
-    tx(arg, x, t) {
-        return animate(arg, { x }, { duration: t });
-    },
-    ty(arg, y, t) {
-        return animate(arg, { y }, { duration: t });
-    },
-});

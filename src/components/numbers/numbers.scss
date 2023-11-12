@@ -1,7 +1,7 @@
 .inputNumbers {
     display: flex;
     align-items: center;
-    margin-bottom: 80px;
+    margin-bottom: 2rem;
 
     .label {
         font-size: 1rem;
@@ -15,6 +15,11 @@
     }
 }
 
+.insertionSort,
+.selectionSort {
+    padding-top: 3.5rem;
+}
+
 .numbox {
     width: 62px;
     height: 50px;
@@ -24,4 +29,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.node {
+    width: 50px;
+    height: 40px;
+    margin: 0 5px;
+    position: absolute;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.edge {
+    height: 2px;
+    position: absolute;
+    transform-origin: 0 0;
 }

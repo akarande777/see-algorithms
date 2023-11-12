@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { useAnimate } from 'framer-motion';
-import { Numbox, SortNumbers } from '../../components/numbers/numbers';
+import useAnimator from '../../hooks/useAnimator';
+import { Numbox, SortNumbers } from '../../components/numbers';
 import { Colors } from '../../common/constants';
-import { animator, delay } from '../../common/utils';
+import { delay } from '../../common/utils';
 
 var numbers = [];
 
 export default function SelectionSort() {
     const [_numbers, setNumbers] = useState([]);
-    const [scope, _animate] = useAnimate();
-    const { bgcolor, tx, ty } = animator(_animate);
+    const [scope, { bgcolor, tx, ty }] = useAnimator();
 
     const pickNumber = async (i) => {
         await bgcolor(`#box${i}`, Colors.compare);
@@ -77,7 +76,7 @@ export default function SelectionSort() {
 
     return (
         <SortNumbers onStart={handleStart} onStop={handleStop}>
-            <div className="d-flex" ref={scope}>
+            <div className="d-flex selectionSort" ref={scope}>
                 {_numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}

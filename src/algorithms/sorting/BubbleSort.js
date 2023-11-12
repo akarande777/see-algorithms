@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
-import { useAnimate } from 'framer-motion';
-import { Numbox, SortNumbers } from '../../components/numbers/numbers';
+import useAnimator from '../../hooks/useAnimator';
+import { Numbox, SortNumbers } from '../../components/numbers';
 import { Colors } from '../../common/constants';
-import { animator, delay } from '../../common/utils';
+import { delay } from '../../common/utils';
 
 var numbers = [];
 
 export default function BubbleSort() {
     const [_numbers, setNumbers] = useState([]);
-    const [scope, _animate] = useAnimate();
-    const { bgcolor, tx } = animator(_animate);
+    const [scope, { bgcolor, tx }] = useAnimator();
 
     const swapNumbers = async (a, b) => {
-        await Promise.all([tx(`#box${a}`, 70, 1), tx(`#box${b}`, -70, 1)]);
+        await Promise.all([tx(`#box${a}`, 70, 0.5), tx(`#box${b}`, -70, 0.5)]);
         await Promise.all([tx(`#box${a}`, 0, 0), tx(`#box${b}`, 0, 0)]);
         let num = numbers[a];
         numbers[a] = numbers[b];
@@ -62,7 +61,7 @@ export default function BubbleSort() {
 
     return (
         <SortNumbers onStart={handleStart} onStop={handleStop}>
-            <div className="d-flex" ref={scope}>
+            <div className="d-flex pt-4" ref={scope}>
                 {_numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
