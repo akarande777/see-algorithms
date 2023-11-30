@@ -4,19 +4,19 @@ import { Numbox, SortNumbers } from '../../components/numbers';
 import { Colors } from '../../common/constants';
 import { delay } from '../../common/utils';
 
-var numbers = [];
+var arr = [];
 
 export default function BubbleSort() {
-    const [_numbers, setNumbers] = useState([]);
+    const [numbers, setNumbers] = useState([]);
     const [scope, { bgcolor, tx }] = useAnimator();
 
     const swapNumbers = async (a, b) => {
-        await Promise.all([tx(`#box${a}`, 70, 0.5), tx(`#box${b}`, -70, 0.5)]);
+        await Promise.all([tx(`#box${a}`, 60, 0.5), tx(`#box${b}`, -60, 0.5)]);
         await Promise.all([tx(`#box${a}`, 0, 0), tx(`#box${b}`, 0, 0)]);
-        let num = numbers[a];
-        numbers[a] = numbers[b];
-        numbers[b] = num;
-        setNumbers(numbers.slice());
+        let num = arr[a];
+        arr[a] = arr[b];
+        arr[b] = num;
+        setNumbers(arr.slice());
         await delay(500);
     };
 
@@ -30,11 +30,11 @@ export default function BubbleSort() {
     };
 
     const bubbleSort = async () => {
-        let n = numbers.length;
+        let n = arr.length;
         for (let i = 1; i < n; i++) {
             for (let j = 0; j < n - i; j++) {
                 await compare(j, j + 1);
-                if (numbers[j] > numbers[j + 1]) {
+                if (arr[j] > arr[j + 1]) {
                     await swapNumbers(j, j + 1);
                 }
             }
@@ -50,19 +50,19 @@ export default function BubbleSort() {
 
     const handleStart = (values) => {
         setNumbers(values);
-        numbers = values.slice();
+        arr = values.slice();
         setTimeout(bubbleSort, 1000);
     };
 
     const handleStop = () => {
         setNumbers([]);
-        numbers = [];
+        arr = [];
     };
 
     return (
         <SortNumbers onStart={handleStart} onStop={handleStop}>
             <div className="d-flex pt-4" ref={scope}>
-                {_numbers.map((num, i) => (
+                {numbers.map((num, i) => (
                     <Numbox key={i} index={i} value={num} />
                 ))}
             </div>

@@ -1,6 +1,6 @@
 import InputNumbers from './numbers';
 
-export function SortNumbers(props, ref) {
+export function SortNumbers(props) {
     return (
         <div className="sortNumbers">
             <InputNumbers {...props} />

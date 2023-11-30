@@ -5,6 +5,7 @@ export default function useAnimator() {
     const [scope, animate] = useAnimate();
 
     const animator = useMemo(() => ({
+        animate,
         bgcolor(id, color) {
             return animate(id, { backgroundColor: color });
         },
