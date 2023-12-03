@@ -16,12 +16,6 @@ export default function SelectionSort() {
         await delay(500);
     };
 
-    const nextNumber = async (j) => {
-        bgcolor(`#box${j}`, Colors.compare);
-        bgcolor(`#box${j - 1}`, Colors.white);
-        await delay(500);
-    };
-
     const swapNumbers = async (i, j) => {
         let k = j - i;
         await Promise.all([
@@ -42,7 +36,9 @@ export default function SelectionSort() {
             await pickNumber(i);
             let k = i;
             for (let j = i + 1; j < n; j++) {
-                await nextNumber(j);
+                bgcolor(`#box${j}`, Colors.compare);
+                bgcolor(`#box${j - 1}`, Colors.white);
+                await delay(500);
                 if (arr[j] < arr[k]) {
                     ty(`#box${k}`, 0, 0.5);
                     await pickNumber(j);

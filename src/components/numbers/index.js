@@ -1,4 +1,5 @@
 import InputNumbers from './numbers';
+import { motion } from 'framer-motion';
 
 export function SortNumbers(props) {
     return (
@@ -11,20 +12,20 @@ export function SortNumbers(props) {
 
 export function Numbox({ index, value, ...rest }) {
     return (
-        <div className="numbox" id={`box${index}`} {...rest}>
+        <motion.div className="numbox" id={`box${index}`} {...rest}>
             {value}
-        </div>
+        </motion.div>
     );
 }
 
 export function Node({ index, value, ...rest }) {
     return (
-        <div className="numbox node" id={`node${index}`} {...rest}>
+        <motion.div className="numbox node" id={`node${index}`} {...rest}>
             {value}
-        </div>
+        </motion.div>
     );
 }
 
 export function Edge({ index, value, ...rest }) {
-    return <div className="edge" id={`edge${index}`} {...rest} />;
+    return <motion.div className="edge" id={`edge${index}`} {...rest} />;
 }

@@ -10,43 +10,82 @@ var arr = [], Tree;
 export default function BubbleSort() {
     const [numbers, setNumbers] = useState([]);
     const [scope, animator] = useAnimator();
-    const { txy, bgcolor } = animator;
+    const { txy, bgcolor, animate } = animator;
 
-    const createHeap = async () => {
+    const heapSort = async () => {
         let n = arr.length;
         await Tree.insert(arr[0]);
         for (let i = 1; i < n; i++) {
             let j = Math.floor((i + 1) / 2) - 1;
             let parent = Tree.node(j);
-            await Tree.insert(arr[i], parent, i % 2 === 1);
+            Tree.insert(arr[i], parent, i % 2 === 1);
         }
-        await delay(500);
+        await delay(1000);
         let k = Math.floor(n / 2) - 1;
-        for (let i = k; i >= 0; i--) {
-            let left = i * 2 + 1;
-            let right = i * 2 + 2;
-            let max = i;
-            await bgcolor(`#node${i}`, Colors.compare);
-            if (arr[left] > arr[max]) max = left;
-            if (right < n && arr[right] > arr[max]) max = right;
-            if (max !== i) {
-                await bgcolor(`#node${max}`, Colors.compare);
-                await Tree.swapNodes(i, max);
-                let num = arr[i];
-                arr[i] = arr[max];
-                arr[max] = num;
-                setNumbers(arr.slice());
-                await bgcolor(`#node${max}`, Colors.white);
+        for (let i = k; i >= 0; i--) await heapify(i);
+        await delay(500);
+        for (let i = n - 1; i > 0; i--) {
+            if (arr[0] !== arr[i]) await swapNodes(0, i);
+            await delay(500);
+            await bgcolor(`#node${i}`, Colors.sorted);
+            await delay(500);
+            await heapify(0, i);
+            await delay(500);
+        }
+        await bgcolor(`#node${0}`, Colors.sorted);
+        await delay(1000);
+        for (let i = 0; i < n; i++) {
+            txy(`#node${i}`, i * 50, 0);
+            if (i < n - 1) {
+                animate(`#edge${i}`, { width: 0 }, 0);
             }
+        }
+    };
+
+    const heapify = async (i, _n) => {
+        let left = i * 2 + 1;
+        let right = i * 2 + 2;
+        let max = i;
+        let n = _n ? _n : arr.length;
+        if (left < n) {
+            if (arr[left] > arr[max]) max = left;
+        }
+        if (right < n) {
+            if (arr[right] > arr[max]) max = right;
+        }
+        await bgcolor(`#node${i}`, Colors.compare);
+        if (max !== i) {
+            await bgcolor(`#node${max}`, Colors.compare);
+            await swapNodes(i, max);
+            await bgcolor(`#node${i}`, Colors.white);
+            await heapify(max, n);
+        } else {
+            if (!_n) await delay(500);
             await bgcolor(`#node${i}`, Colors.white);
         }
     };
 
+    const swapNodes = async (i, j) => {
+        let a = Tree.node(i);
+        let b = Tree.node(j);
+        await Tree.swapNodes(a, b);
+        await Promise.all([
+            txy(`#node${i}`, a.x, a.y, 0),
+            txy(`#node${j}`, b.x, b.y, 0),
+        ]);
+        let tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+        setNumbers(arr.slice());
+    };
+
     const handleStart = (values) => {
-        setNumbers(values);
         arr = values.slice();
         Tree = binaryTree(animator);
-        setTimeout(createHeap, 100);
+        setTimeout(() => {
+            setNumbers(values);
+            setTimeout(heapSort, 1000);
+        }, 500);
     };
 
     const handleStop = () => {
@@ -55,9 +94,9 @@ export default function BubbleSort() {
     };
 
     return (
-        <SortNumbers onStart={handleStart} onStop={handleStop} ref={scope}>
+        <SortNumbers onStart={handleStart} onStop={handleStop}>
             <div className="heapSort" ref={scope}>
-                {numbers.slice(1).map((_, i) => (
+                {numbers.slice(0, -1).map((_, i) => (
                     <Edge key={i} index={i} />
                 ))}
                 {numbers.map((num, i) => (
@@ -65,7 +104,7 @@ export default function BubbleSort() {
                         key={i}
                         index={i}
                         value={num}
-                        style={{ opacity: 0 }}
+                        animate={{ x: i * 50 }}
                     />
                 ))}
             </div>

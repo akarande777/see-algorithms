@@ -15,7 +15,7 @@ const _findNode = (node, fn) => {
     return _findNode(node.left, fn) || _findNode(node.right, fn);
 };
 
-export function binaryTree({ tx, txy, width, bgcolor, rotate, animate }) {
+export function binaryTree({ tx, txy, bgcolor, animate }) {
     var root, onLeft;
     var arr = [];
 
@@ -36,7 +36,7 @@ export function binaryTree({ tx, txy, width, bgcolor, rotate, animate }) {
         return node;
     };
 
-    const shiftNode = async (node, d, isSubroot = false) => {
+    const shiftNode = (node, d, isSubroot = false) => {
         if (!node) return;
         const x2 = onLeft ? node.x - d : node.x + d;
         tx(`#node${node.index}`, x2);
@@ -44,16 +44,16 @@ export function binaryTree({ tx, txy, width, bgcolor, rotate, animate }) {
         tx(`#edge${ei}`, x2 + 25);
         node.x = x2;
         if (isSubroot) {
-            const [hypot, angle] = nodeAngle(node);
-            rotate(`#edge${ei}`, angle, 0);
-            width(`#edge${ei}`, hypot, 0);
+            const [width, rotate] = nodeAngle(node);
+            animate(`#edge${ei}`, { width }, { duration: 0 });
+            animate(`#edge${ei}`, { rotate }, { duration: 0 });
         }
         shiftNode(node.left, d);
         shiftNode(node.right, d);
         cleanup(node);
     };
 
-    const cleanup = async (node) => {
+    const cleanup = (node) => {
         const closer = findNode((nx) => {
             if (nx.parent !== node.parent) {
                 const d = Point.distance(node, nx);
@@ -65,7 +65,7 @@ export function binaryTree({ tx, txy, width, bgcolor, rotate, animate }) {
             const subroot = findSubroot(
                 closer.isLeft === onLeft ? node.parent : closer.parent
             );
-            await shiftNode(subroot, 60, true);
+            shiftNode(subroot, 60, true);
         }
     };
 
@@ -82,46 +82,39 @@ export function binaryTree({ tx, txy, width, bgcolor, rotate, animate }) {
         setNodePath(node.parent);
     };
 
-    const swapNodes = async (i, j) => {
-        const a = arr[i], b = arr[j];
-        const t = a.value;
-        a.value = b.value;
-        b.value = t;
-        await Promise.all([
-            txy(`#node${a.index}`, b.x, b.y, 1),
-            txy(`#node${b.index}`, a.x, a.y, 1),
-        ]);
-        await Promise.all([
-            txy(`#node${a.index}`, a.x, a.y, 0),
-            txy(`#node${b.index}`, b.x, b.y, 0),
-        ]);
-    }
-
     return Object.freeze({
         root: () => root,
         node: (i) => arr[i],
         findNode,
-        swapNodes,
-        async insert(value, parent, isLeft = true) {
+        swapNodes(a, b) {
+            const tmp = a.value;
+            a.value = b.value;
+            b.value = tmp;
+            return Promise.all([
+                txy(`#node${a.index}`, b.x, b.y, 1),
+                txy(`#node${b.index}`, a.x, a.y, 1),
+            ]);
+        },
+        insert(value, parent, isLeft = true) {
             if (!root) {
-                const [x, y] = [300, 40];
+                const [x, y] = [300, 60];
                 root = { value, index: 0, x, y };
-                await txy(`#node${0}`, x, y);
-                await animate(`#node${0}`, { opacity: 1 });
+                txy(`#node${0}`, x, y);
+                animate(`#node${0}`, { opacity: 1 });
                 arr.push(root);
                 return root;
             }
             const node = createNode({ value, parent, isLeft });
             setNodePath(node);
-            await cleanup(node);
+            cleanup(node);
             const ei = node.index - 1;
-            await txy(`#node${node.index}`, node.x, node.y, 0);
-            await txy(`#edge${ei}`, node.x + 25, node.y + 20, 0);
-            const [hypot, angle] = nodeAngle(node);
-            await width(`#edge${ei}`, hypot, 0);
-            await rotate(`#edge${ei}`, angle, 0);
-            await animate(`#node${node.index}`, { opacity: 1 });
-            await bgcolor(`#edge${ei}`, Colors.stroke);
+            txy(`#node${node.index}`, node.x, node.y);
+            txy(`#edge${ei}`, node.x + 25, node.y + 20);
+            const [width, rotate] = nodeAngle(node);
+            animate(`#edge${ei}`, { width }, { duration: 0 });
+            animate(`#edge${ei}`, { rotate }, { duration: 0 });
+            animate(`#node${node.index}`, { opacity: 1 });
+            bgcolor(`#edge${ei}`, Colors.stroke);
             return node;
         },
     });
