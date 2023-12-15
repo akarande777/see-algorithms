@@ -142,3 +142,5 @@ export const randomInt = () => Math.floor(Math.random() * 99) + 1;
 export const delay = (t) => {
     return new Promise((resolve) => setTimeout(resolve, t));
 };
+
+export const try_ = (fn) => () => fn().catch(() => {});

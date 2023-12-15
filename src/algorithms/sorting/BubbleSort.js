@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import useAnimator from '../../hooks/useAnimator';
 import { Numbox, SortNumbers } from '../../components/numbers';
 import { Colors } from '../../common/constants';
-import { delay } from '../../common/utils';
+import { delay, try_ } from '../../common/utils';
 
 var arr = [];
 
@@ -29,7 +29,7 @@ export default function BubbleSort() {
         await delay(500);
     };
 
-    const bubbleSort = async () => {
+    const bubbleSort = try_(async () => {
         let n = arr.length;
         for (let i = 1; i < n; i++) {
             for (let j = 0; j < n - i; j++) {
@@ -46,7 +46,7 @@ export default function BubbleSort() {
             await delay(500);
         }
         bgcolor(`#box${0}`, Colors.sorted);
-    };
+    });
 
     const handleStart = (values) => {
         setNumbers(values);

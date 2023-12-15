@@ -12,7 +12,7 @@ export default function (props) {
 
 var parent;
 var arr, mst, k;
-var delay = 800;
+var delay = 1000;
 
 function start() {
     arr = [];
@@ -56,12 +56,12 @@ function find() {
                 $('.vrtx').eq(arr[k].v).attr('fill', Colors.vertex);
                 mst.push(arr[k++]);
                 Timer.timeout(find, delay);
-            }, delay);
+            }, delay / 2);
         } else {
             $('.vrtx').eq(arr[k].u).attr('stroke', '#f44336');
             $('.vrtx').eq(arr[k].v).attr('stroke', '#f44336');
             $('.edge').eq(arr[k].i).attr('stroke', '#f44336');
-            Timer.timeout(reject, delay);
+            Timer.timeout(reject, delay / 2);
         }
     }
 }

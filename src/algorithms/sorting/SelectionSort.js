@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import useAnimator from '../../hooks/useAnimator';
 import { Numbox, SortNumbers } from '../../components/numbers';
 import { Colors } from '../../common/constants';
-import { delay } from '../../common/utils';
+import { delay, try_ } from '../../common/utils';
 
 var arr = [];
 
@@ -30,7 +30,7 @@ export default function SelectionSort() {
         setNumbers(arr.slice());
     };
 
-    const sortNumbers = async () => {
+    const sortNumbers = try_(async () => {
         let n = arr.length;
         for (let i = 0; i < n - 1; i++) {
             await pickNumber(i);
@@ -57,7 +57,7 @@ export default function SelectionSort() {
             await delay(1000);
         }
         bgcolor(`#box${n - 1}`, Colors.sorted);
-    };
+    });
 
     const handleStart = (values) => {
         setNumbers(values);

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Edge, Node, SortNumbers } from '../../components/numbers';
 import useAnimator from '../../hooks/useAnimator';
 import { binaryTree } from '../../helpers/binaryTree';
-import { delay } from '../../common/utils';
+import { delay, try_ } from '../../common/utils';
 import { Colors } from '../../common/constants';
 
 var arr = [], Tree;
@@ -12,7 +12,7 @@ export default function BubbleSort() {
     const [scope, animator] = useAnimator();
     const { txy, bgcolor, animate } = animator;
 
-    const heapSort = async () => {
+    const heapSort = try_(async () => {
         let n = arr.length;
         await Tree.insert(arr[0]);
         for (let i = 1; i < n; i++) {
@@ -40,7 +40,7 @@ export default function BubbleSort() {
                 animate(`#edge${i}`, { width: 0 }, 0);
             }
         }
-    };
+    });
 
     const heapify = async (i, _n) => {
         let left = i * 2 + 1;
@@ -82,10 +82,8 @@ export default function BubbleSort() {
     const handleStart = (values) => {
         arr = values.slice();
         Tree = binaryTree(animator);
-        setTimeout(() => {
-            setNumbers(values);
-            setTimeout(heapSort, 1000);
-        }, 500);
+        setNumbers(values);
+        setTimeout(heapSort, 1000);
     };
 
     const handleStop = () => {

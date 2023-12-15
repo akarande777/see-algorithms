@@ -22,14 +22,14 @@ function start(source) {
     d = [];
     for (let i = 0; i < n; i++) {
         if (i === source) d.push(0);
-        else {
-            d.push(Infinity);
-            $('.vlbl').eq(i).text('∞');
-        }
+        else d.push(Infinity);
     }
     queue = [source];
     prev = [];
     Timer.timeout(() => {
+        for (let i = 0; i < n; i++) {
+            if (i !== source) $('.vlbl').eq(i).text('∞');
+        }
         $('.vrtx').eq(source).attr('stroke', Colors.visited);
         $('.vrtx').eq(source).attr('fill', Colors.visited);
         Timer.timeout(dijkstra, delay, source);
