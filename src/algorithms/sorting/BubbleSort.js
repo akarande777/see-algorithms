@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import useAnimator from '../../hooks/useAnimator';
 import { Numbox, SortNumbers } from '../../components/numbers';
 import { Colors } from '../../common/constants';
-import { delay, try_ } from '../../common/utils';
+import { try_, wait } from '../../common/utils';
 
 var arr = [];
+var delay = 500;
 
 export default function BubbleSort() {
     const [numbers, setNumbers] = useState([]);
@@ -17,7 +18,7 @@ export default function BubbleSort() {
         arr[a] = arr[b];
         arr[b] = num;
         setNumbers(arr.slice());
-        await delay(500);
+        await wait(delay);
     };
 
     const compare = async (a, b) => {
@@ -26,7 +27,7 @@ export default function BubbleSort() {
             bgcolor(`#box${b}`, Colors.compare),
             a > 0 ? bgcolor(`#box${a - 1}`, Colors.white) : Promise.resolve(),
         ]);
-        await delay(500);
+        await wait(delay);
     };
 
     const bubbleSort = try_(async () => {
@@ -43,7 +44,7 @@ export default function BubbleSort() {
                 bgcolor(`#box${k - 1}`, Colors.white),
                 bgcolor(`#box${k}`, Colors.sorted),
             ]);
-            await delay(500);
+            await wait(delay);
         }
         bgcolor(`#box${0}`, Colors.sorted);
     });
@@ -54,10 +55,7 @@ export default function BubbleSort() {
         setTimeout(bubbleSort, 1000);
     };
 
-    const handleStop = () => {
-        setNumbers([]);
-        arr = [];
-    };
+    const handleStop = () => setNumbers([]);
 
     return (
         <SortNumbers onStart={handleStart} onStop={handleStop}>

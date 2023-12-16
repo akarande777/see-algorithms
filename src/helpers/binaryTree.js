@@ -32,6 +32,7 @@ export function binaryTree({ tx, txy, bgcolor, animate }) {
         }
         node.y = p.y + dy;
         node.index = arr.length;
+        node.key = arr.length;
         arr.push(node);
         return node;
     };
@@ -85,20 +86,24 @@ export function binaryTree({ tx, txy, bgcolor, animate }) {
     return Object.freeze({
         root: () => root,
         node: (i) => arr[i],
+        size: () => arr.length,
         findNode,
         swapNodes(a, b) {
-            const tmp = a.value;
+            let tmp = a.value;
             a.value = b.value;
             b.value = tmp;
+            tmp = a.index;
+            a.index = b.index;
+            b.index = tmp;
             return Promise.all([
-                txy(`#node${a.index}`, b.x, b.y, 1),
-                txy(`#node${b.index}`, a.x, a.y, 1),
+                txy(`#node${a.index}`, a.x, a.y, 1),
+                txy(`#node${b.index}`, b.x, b.y, 1),
             ]);
         },
         insert(value, parent, isLeft = true) {
             if (!root) {
                 const [x, y] = [300, 60];
-                root = { value, index: 0, x, y };
+                root = { value, index: 0, key: 0, x, y };
                 txy(`#node${0}`, x, y);
                 animate(`#node${0}`, { opacity: 1 });
                 arr.push(root);

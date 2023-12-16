@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import useAnimator from '../../hooks/useAnimator';
 import { Numbox, SortNumbers } from '../../components/numbers';
 import { Colors } from '../../common/constants';
-import { delay, try_ } from '../../common/utils';
+import { try_, wait } from '../../common/utils';
 
 var arr = [];
+var delay = 500;
 
 export default function InsertionSort() {
     const [numbers, setNumbers] = useState([]);
@@ -12,14 +13,14 @@ export default function InsertionSort() {
 
     const pickNumber = async (i) => {
         await bgcolor(`#box${i}`, Colors.compare);
-        await delay(500);
+        await wait(delay);
         await ty(`#box${i}`, -50, 0.5);
-        await delay(500);
+        await wait(delay);
     };
 
     const sortNumbers = try_(async () => {
         await bgcolor(`#box${0}`, Colors.sorted);
-        await delay(500);
+        await wait(delay);
         for (let i = 1; i < arr.length; i++) {
             await pickNumber(i);
             let num = arr[i];
@@ -36,12 +37,12 @@ export default function InsertionSort() {
             }
             await ty(`#box${i}`, 0, 0.5);
             await bgcolor(`#box${i}`, Colors.sorted);
-            await delay(500);
+            await wait(delay);
             for (let k = j + 1; k <= i; k++) {
                 tx(`#box${k}`, 0, 0);
             }
             setNumbers(arr.slice());
-            await delay(500);
+            await wait(delay);
         }
     });
 
@@ -51,10 +52,7 @@ export default function InsertionSort() {
         setTimeout(sortNumbers, 1000);
     };
 
-    const handleStop = () => {
-        setNumbers([]);
-        arr = [];
-    };
+    const handleStop = () => setNumbers([]);
 
     return (
         <SortNumbers onStart={handleStart} onStop={handleStop}>

@@ -1,64 +1,71 @@
-import React, { useEffect } from 'react';
-import $ from 'jquery';
+import React, { useState } from 'react';
 import DSInput from '../components/ds-input/ds-input';
-import Tree from '../common/tree';
+import { try_, wait } from '../common/utils';
 import { Colors } from '../common/constants';
-import { wait } from '../common/timer';
+import useAnimator from '../hooks/useAnimator';
+import { binaryTree } from '../helpers/binaryTree';
+import { Edge, Node } from '../components/numbers';
 
-const buttons = [
-    { text: 'Insert', onClick: input, validate: true },
-    { text: 'Clear', onClick: Tree.remove }
-];
-const delay = 500;
+var arr = [], Tree;
+var delay = 500;
 
-export default function (props) {
-    useEffect(() => Tree.remove(), []);
+export default function BinaryHeap(props) {
+    const [numbers, setNumbers] = useState([]);
+    const [scope, animator] = useAnimator();
+    const { bgcolor } = animator;
+
+    const input = async (num) => {
+        await wait(delay);
+        if (!numbers.length) {
+            arr = [num];
+            setNumbers(arr);
+            Tree = binaryTree(animator);
+            Tree.insert(num);
+        } else {
+            arr.push(num);
+            setNumbers(arr.slice());
+            await search(Tree.root(), num);
+        }
+    };
+
+    const search = async (node, num) => {
+        await bgcolor(`#node${node.index}`, Colors.compare);
+        await wait(delay);
+        const isLeft = num <= node.value;
+        const next = isLeft ? 'left' : 'right';
+        if (!node[next]) {
+            Tree.insert(num, node, isLeft);
+            await wait(delay);
+            await bgcolor(`#node${node.index}`, Colors.white);
+        } else {
+            await bgcolor(`#node${node.index}`, Colors.white);
+            await search(node[next], num);
+        }
+    };
+
+    const reset = () => setNumbers([]);
+
+    const buttons = [
+        { text: 'Insert', onClick: input, validate: true },
+        { text: 'Clear', onClick: reset },
+    ];
+
     return (
         <div className="dsInput">
             <DSInput {...props} buttons={buttons} />
-            <div className="resizable">
-                <svg id="plane" />
+            <div ref={scope}>
+                {numbers.slice(0, -1).map((_, i) => (
+                    <Edge key={i} index={i} />
+                ))}
+                {numbers.map((num, i) => (
+                    <Node
+                        key={i}
+                        index={i}
+                        value={num}
+                        style={{ opacity: 0 }}
+                    />
+                ))}
             </div>
         </div>
     );
-}
-
-async function input(key) {
-    if (!Tree.root()) {
-        Tree.insert(key);
-        return Promise.resolve();
-    } else {
-        $('.vrtx:first').attr('stroke', Colors.visited);
-        const root = Tree.root();
-        const { left, right } = root;
-        if (key <= root.key) {
-            Tree.flag = true;
-            return wait(delay).then(() => insert(key, left, root, true));
-        } else {
-            Tree.flag = false;
-            return wait(delay).then(() => insert(key, right, root, false));
-        }
-    }
-}
-
-function insert(key, node, parent, flag) {
-    if (!node) {
-        $('.vrtx').eq(parent.index).attr('stroke', Colors.stroke);
-        return Tree.insert(key, parent, flag);
-    }
-    const { index, left, right } = node;
-    span(index - 1, index, Colors.visited);
-    return wait(delay).then(() => {
-        span(index - 1, parent.index, Colors.stroke);
-        if (key <= node.key) {
-            return wait(delay).then(() => insert(key, left, node, true));
-        } else {
-            return wait(delay).then(() => insert(key, right, node, false));
-        }
-    });
-}
-
-function span(ei, vi, color) {
-    $('.edge').eq(ei).attr('stroke', color);
-    $('.vrtx').eq(vi).attr('stroke', color);
 }

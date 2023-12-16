@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import useAnimator from '../../hooks/useAnimator';
 import { Numbox, SortNumbers } from '../../components/numbers';
 import { Colors } from '../../common/constants';
-import { delay, try_ } from '../../common/utils';
+import { try_, wait } from '../../common/utils';
 
 var arr = [];
+var delay = 500;
 
 export default function SelectionSort() {
     const [numbers, setNumbers] = useState([]);
@@ -13,7 +14,7 @@ export default function SelectionSort() {
     const pickNumber = async (i) => {
         await bgcolor(`#box${i}`, Colors.compare);
         await ty(`#box${i}`, -50, 0.5);
-        await delay(500);
+        await wait(delay);
     };
 
     const swapNumbers = async (i, j) => {
@@ -38,7 +39,7 @@ export default function SelectionSort() {
             for (let j = i + 1; j < n; j++) {
                 bgcolor(`#box${j}`, Colors.compare);
                 bgcolor(`#box${j - 1}`, Colors.white);
-                await delay(500);
+                await wait(delay);
                 if (arr[j] < arr[k]) {
                     ty(`#box${k}`, 0, 0.5);
                     await pickNumber(j);
@@ -46,7 +47,7 @@ export default function SelectionSort() {
                 }
             }
             bgcolor(`#box${n - 1}`, Colors.white);
-            await delay(500);
+            await wait(delay);
             if (k > i) {
                 await ty(`#box${i}`, 50, 0.5);
                 await swapNumbers(i, k);
@@ -54,7 +55,7 @@ export default function SelectionSort() {
                 await ty(`#box${k}`, 0, 0.5);
             }
             bgcolor(`#box${i}`, Colors.sorted);
-            await delay(1000);
+            await wait(1000);
         }
         bgcolor(`#box${n - 1}`, Colors.sorted);
     });
@@ -65,10 +66,7 @@ export default function SelectionSort() {
         setTimeout(sortNumbers, 1000);
     };
 
-    const handleStop = () => {
-        setNumbers([]);
-        arr = [];
-    };
+    const handleStop = () => setNumbers([]);
 
     return (
         <SortNumbers onStart={handleStart} onStop={handleStop}>

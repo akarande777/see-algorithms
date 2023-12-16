@@ -28,15 +28,17 @@ function DSInput(props) {
             });
         } else {
             setStatus(true);
-            callback(number).then(() => {
-                setStatus(false);
-                setNumber(randomInt());
-            });
+            callback(number)
+                .then(() => {
+                    setStatus(false);
+                    setNumber(randomInt());
+                })
+                .catch(() => {});
         }
     };
 
     return (
-        <div className="input dsInput" style={{ marginBottom: 0 }}>
+        <div className="inputNumbers dsInput mb-0">
             <span className="label">Enter a number: &nbsp;</span>
             <Input value={number} onChange={handleInput} className="number" />
             <div>
@@ -45,7 +47,9 @@ function DSInput(props) {
                         key={i}
                         variant="contained"
                         onClick={() => {
-                            btn.validate ? validate(btn.onClick) : btn.onClick();
+                            btn.validate
+                                ? validate(btn.onClick)
+                                : btn.onClick();
                         }}
                         disabled={status}
                     >

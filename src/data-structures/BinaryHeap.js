@@ -1,82 +1,73 @@
-import React, { useEffect } from 'react';
-import $ from 'jquery';
+import React, { useState } from 'react';
 import DSInput from '../components/ds-input/ds-input';
-import { fromDistance, moveVertex } from '../common/utils';
-import Tree from '../common/tree';
-import { Point } from '../common/graph';
+import { try_, wait } from '../common/utils';
 import { Colors } from '../common/constants';
-import { wait } from '../common/timer';
+import useAnimator from '../hooks/useAnimator';
+import { binaryTree } from '../helpers/binaryTree';
+import { Edge, Node } from '../components/numbers';
 
-const buttons = [
-    { text: 'Insert', onClick: input, validate: true },
-    { text: 'Clear', onClick: Tree.remove }
-];
-const delay = 500;
+var arr = [], Tree;
+var delay = 500;
 
-export default function (props) {
-    useEffect(() => Tree.remove(), []);
+export default function BinaryHeap(props) {
+    const [numbers, setNumbers] = useState([]);
+    const [scope, animator] = useAnimator();
+    const { bgcolor } = animator;
+
+    const input = async (num) => {
+        if (!numbers.length) {
+            arr = [num];
+            setNumbers(arr);
+            await wait(delay);
+            Tree = binaryTree(animator);
+            Tree.insert(num);
+        } else {
+            arr.push(num);
+            setNumbers(arr.slice());
+            await wait(delay);
+            const size = Tree.size();
+            const parent = Tree.node(Math.floor((size - 1) / 2));
+            const node = Tree.insert(num, parent, size % 2 === 1);
+            await wait(delay);
+            await heapify(node);
+        }
+    };
+
+    const heapify = async (node) => {
+        const parent = node.parent;
+        if (parent && node.value > parent.value) {
+            await bgcolor(`#node${node.index}`, Colors.compare);
+            await bgcolor(`#node${parent.index}`, Colors.compare);
+            await Tree.swapNodes(node, parent);
+            await bgcolor(`#node${node.index}`, Colors.white);
+            await heapify(parent);
+        }
+        await bgcolor(`#node${node.index}`, Colors.white);
+    };
+
+    const reset = () => setNumbers([]);
+
+    const buttons = [
+        { text: 'Insert', onClick: input, validate: true },
+        { text: 'Clear', onClick: reset },
+    ];
+
     return (
         <div className="dsInput">
             <DSInput {...props} buttons={buttons} />
-            <div className="resizable">
-                <svg id="plane" />
+            <div ref={scope}>
+                {numbers.slice(0, -1).map((_, i) => (
+                    <Edge key={i} index={i} />
+                ))}
+                {numbers.map((num, i) => (
+                    <Node
+                        key={i}
+                        index={i}
+                        value={num}
+                        style={{ opacity: 0 }}
+                    />
+                ))}
             </div>
         </div>
     );
-}
-
-async function input(key) {
-    if (!Tree.root()) {
-        Tree.insert(key);
-        return Promise.resolve();
-    } else {
-        let size = Tree.size();
-        let parent = Tree.find((node) => {
-            return node.index === Math.floor((size - 1) / 2);
-        });
-        Tree.flag = [1, 3, 4, 7, 8, 9, 10].indexOf(size) > -1;
-        return Tree.insert(key, parent, size % 2 === 1).then((node) => {
-            return wait(delay).then(() => heapify(node, parent));
-        });
-    }
-}
-
-function heapify(child, parent) {
-    if (parent && child.key > parent.key) {
-        $('.vrtx').eq(child.index).attr('fill', Colors.compare);
-        let temp = parent.key;
-        parent.key = child.key;
-        child.key = temp;
-        return wait(delay).then(() => {
-            let { index, point } = parent;
-            $('.vrtx').eq(index).attr('fill', Colors.compare);
-            return wait(delay).then(() => {
-                let d = Point.distance(point, child.point);
-                return wait(5).then(() => swap(parent, child, d - 1));
-            });
-        });
-    }
-    return Promise.resolve();
-}
-
-function swap(parent, child, d) {
-    let p = parent.point;
-    let q = child.point;
-    if (d > 0) {
-        let r = fromDistance(p, q, d);
-        moveVertex(parent.index, r);
-        r = fromDistance(q, p, d);
-        moveVertex(child.index, r);
-        return wait(5).then(() => swap(parent, child, d - 1));
-    } else {
-        moveVertex(parent.index, p);
-        $('.vlbl').eq(parent.index).html(parent.key);
-        moveVertex(child.index, q);
-        $('.vlbl').eq(child.index).html(child.key);
-        return wait(delay).then(() => {
-            $('.vrtx').eq(child.index).attr('fill', Colors.vertex);
-            $('.vrtx').eq(parent.index).attr('fill', Colors.vertex);
-            return heapify(parent, parent.parent);
-        });
-    }
 }

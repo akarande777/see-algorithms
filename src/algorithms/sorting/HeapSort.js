@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Edge, Node, SortNumbers } from '../../components/numbers';
 import useAnimator from '../../hooks/useAnimator';
 import { binaryTree } from '../../helpers/binaryTree';
-import { delay, try_ } from '../../common/utils';
+import { try_, wait } from '../../common/utils';
 import { Colors } from '../../common/constants';
 
 var arr = [], Tree;
+var delay = 500;
 
 export default function BubbleSort() {
     const [numbers, setNumbers] = useState([]);
@@ -13,70 +14,62 @@ export default function BubbleSort() {
     const { txy, bgcolor, animate } = animator;
 
     const heapSort = try_(async () => {
-        let n = arr.length;
-        await Tree.insert(arr[0]);
+        const n = arr.length;
+        Tree.insert(arr[0]);
         for (let i = 1; i < n; i++) {
-            let j = Math.floor((i + 1) / 2) - 1;
-            let parent = Tree.node(j);
+            const j = Math.floor((i + 1) / 2) - 1;
+            const parent = Tree.node(j);
             Tree.insert(arr[i], parent, i % 2 === 1);
         }
-        await delay(1000);
-        let k = Math.floor(n / 2) - 1;
-        for (let i = k; i >= 0; i--) await heapify(i);
-        await delay(500);
-        for (let i = n - 1; i > 0; i--) {
-            if (arr[0] !== arr[i]) await swapNodes(0, i);
-            await delay(500);
-            await bgcolor(`#node${i}`, Colors.sorted);
-            await delay(500);
-            await heapify(0, i);
-            await delay(500);
+        await wait(1000);
+        const k = Math.floor(n / 2) - 1;
+        for (let i = k; i >= 0; i--) {
+            await heapify(Tree.node(i));
         }
-        await bgcolor(`#node${0}`, Colors.sorted);
-        await delay(1000);
+        await wait(delay);
+        for (let i = n - 1; i > 0; i--) {
+            const first = Tree.node(0);
+            const last = Tree.node(i);
+            if (first.value !== last.value) {
+                await Tree.swapNodes(first, last);
+            }
+            await wait(delay);
+            await bgcolor(`#node${last.index}`, Colors.sorted);
+            await wait(delay);
+            await heapify(Tree.node(0), i);
+            await wait(delay);
+        }
+        const head = Tree.node(0);
+        await bgcolor(`#node${head.index}`, Colors.sorted);
+        await wait(1000);
         for (let i = 0; i < n; i++) {
-            txy(`#node${i}`, i * 50, 0);
+            txy(`#node${Tree.node(i).index}`, i * 50, 0);
             if (i < n - 1) {
                 animate(`#edge${i}`, { width: 0 }, 0);
             }
         }
     });
 
-    const heapify = async (i, _n) => {
-        let left = i * 2 + 1;
-        let right = i * 2 + 2;
-        let max = i;
-        let n = _n ? _n : arr.length;
-        if (left < n) {
-            if (arr[left] > arr[max]) max = left;
+    const heapify = async (node, _n) => {
+        const n = _n ? _n : arr.length;
+        const { left, right } = node;
+        let max = node;
+        if (left && left.key < n) {
+            if (left.value > max.value) max = left;
         }
-        if (right < n) {
-            if (arr[right] > arr[max]) max = right;
+        if (right && right.key < n) {
+            if (right.value > max.value) max = right;
         }
-        await bgcolor(`#node${i}`, Colors.compare);
-        if (max !== i) {
-            await bgcolor(`#node${max}`, Colors.compare);
-            await swapNodes(i, max);
-            await bgcolor(`#node${i}`, Colors.white);
+        await bgcolor(`#node${node.index}`, Colors.compare);
+        if (max !== node) {
+            await bgcolor(`#node${max.index}`, Colors.compare);
+            await Tree.swapNodes(node, max);
+            await bgcolor(`#node${node.index}`, Colors.white);
             await heapify(max, n);
         } else {
-            if (!_n) await delay(500);
-            await bgcolor(`#node${i}`, Colors.white);
+            if (!_n) await wait(delay);
+            await bgcolor(`#node${node.index}`, Colors.white);
         }
-    };
-
-    const swapNodes = async (i, j) => {
-        let a = Tree.node(i);
-        let b = Tree.node(j);
-        await Tree.swapNodes(a, b);
-        await Promise.all([
-            txy(`#node${i}`, a.x, a.y, 0),
-            txy(`#node${j}`, b.x, b.y, 0),
-        ]);
-        let tmp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = tmp;
-        setNumbers(arr.slice());
     };
 
     const handleStart = (values) => {
@@ -86,10 +79,7 @@ export default function BubbleSort() {
         setTimeout(heapSort, 1000);
     };
 
-    const handleStop = () => {
-        setNumbers([]);
-        arr = [];
-    };
+    const handleStop = () => setNumbers([]);
 
     return (
         <SortNumbers onStart={handleStart} onStop={handleStop}>
