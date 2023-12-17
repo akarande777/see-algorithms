@@ -42,15 +42,17 @@ function bucket() {
         let j = Math.floor(a[k] / exp) % 10;
         b[j]++;
         cells[k].setAttribute('bgcolor', '#ffe57f');
-        Timer.timeout(function () {
+        Timer.timeout(() => {
             cells[k].removeAttribute('bgcolor');
-            cells[k].firstChild.setAttribute('style', `
+            cells[k].firstChild.setAttribute(
+                'style',
+                `margin-top:4px;
                 background-color:#ffe57f;
-                margin-top:4px;
                 border:thin solid;
-                border-radius:4px;
-            `);
-            cells[j + n].innerHTML = cells[k].innerHTML + cells[j + n].innerHTML;
+                border-radius:4px;`
+            );
+            cells[j + n].innerHTML =
+                cells[k].innerHTML + cells[j + n].innerHTML;
             cells[k++].innerHTML = '';
             Timer.timeout(bucket, delay);
         }, delay);
@@ -124,15 +126,17 @@ function RadixSort() {
 
     const stop = () => {
         Timer.clear();
-        document.getElementById('tbl').innerHTML = '';
-        document.getElementById('bkt').innerHTML = '';
+        try {
+            document.getElementById('tbl').innerHTML = '';
+            document.getElementById('bkt').innerHTML = '';
+        } catch (e) {}
     };
 
     useEffect(() => () => stop(), []);
 
     return (
         <div className="sortNumbers">
-            <Numbers start={start} stop={stop} />
+            <Numbers onStart={start} onStop={stop} />
             <table id="tbl" />
             <br />
             <br />

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import DSInput from '../components/ds-input/ds-input';
-import { try_, wait } from '../common/utils';
-import { Colors } from '../common/constants';
 import useAnimator from '../hooks/useAnimator';
 import { binaryTree } from '../helpers/binaryTree';
 import { Edge, Node } from '../components/numbers';
+import { Colors } from '../common/constants';
+import { wait } from '../common/utils';
 
 var arr = [], Tree;
 var delay = 500;

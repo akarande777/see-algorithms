@@ -73,9 +73,9 @@ export default function BubbleSort() {
     };
 
     const handleStart = (values) => {
+        setNumbers(values);
         arr = values.slice();
         Tree = binaryTree(animator);
-        setNumbers(values);
         setTimeout(heapSort, 1000);
     };
 

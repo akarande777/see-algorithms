@@ -41,11 +41,11 @@ export function binaryTree({ tx, txy, bgcolor, animate }) {
         if (!node) return;
         const x2 = onLeft ? node.x - d : node.x + d;
         tx(`#node${node.index}`, x2);
-        const ei = node.index - 1;
-        tx(`#edge${ei}`, x2 + 25);
+        tx(`#edge${node.key - 1}`, x2 + 25);
         node.x = x2;
         if (isSubroot) {
             const [width, rotate] = nodeAngle(node);
+            const ei = node.key - 1;
             animate(`#edge${ei}`, { width }, { duration: 0 });
             animate(`#edge${ei}`, { rotate }, { duration: 0 });
         }
